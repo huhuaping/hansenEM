@@ -1,9 +1,10 @@
 project:
   type: book
+  output-dir: docs
 
 book:
-  title: "hansenEM"
-  author: "Jane Doe"
+  title: "Hansen中高级计量体系"
+  author: "胡华平"
   date: "2022/9/16"
   chapters:
     - index.qmd

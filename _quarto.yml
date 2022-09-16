@@ -1,9 +1,6 @@
 project:
   type: book
   output-dir: _book
-  
-execute:
-  freeze: auto  
 
 book:
   title: "Hansen中高级计量体系"

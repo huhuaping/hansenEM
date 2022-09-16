@@ -17,6 +17,8 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    cover-image: cover.png
+    code-link: true
   pdf:
     documentclass: scrreprt
 

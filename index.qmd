@@ -1,9 +1,19 @@
-# Preface {.unnumbered}
+# 前言 {.unnumbered}
 
-This is a Quarto book.
+手稿未出版，盛名已远扬。计量泰斗Hansen Bruce[个人官网](https://www.ssc.wisc.edu/~bhansen)的传奇大作《Econometrics》，2022年终于横空出世，正式出版了。
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+> Hansen B.  Econometrics[M]. Princeton: Princeton University Press, 2022.
 
-```{r}
-1 + 1
-```
+
+作为硕士和博士的中高级计量讲义，如果能将之引入中国，传播给国内学子，绝对是大功一件。
+
+本项目志在如此，希望能与同道之士携手努力，大家共献绵薄，各展所长，日进寸功，添砖加瓦，展示其中的精奥！
+
+
+- 本项目的在线网址 <https://hansenem.netlify.app>.
+
+- 本项目完全开源，代码公开于两个托管平台（完全同步）：gihub仓库<https://github.com/huhuaping/hansenEM>，以及gitee仓库<https://gitee.com/kevinhhp/hansenEM>
+
+- 本项目将基于`R`编程语言生态，并使用全新的出版工具[Quarto](https://quarto.org/)进行书稿展示。
+
+如果有兴趣参与本项目，请联系`huhuaping01[at]qq.com`

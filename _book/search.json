@@ -4,12 +4,12 @@
     "href": "index.html",
     "title": "Hansen中高级计量体系",
     "section": "",
-    "text": "This is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2"
+    "text": "手稿未出版，盛名已远扬。计量泰斗Hansen Bruce个人官网的传奇大作《Econometrics》，2022年终于横空出世，正式出版了。\n\nHansen B. Econometrics[M]. Princeton: Princeton University Press, 2022.\n\n作为硕士和博士的中高级计量讲义，如果能将之引入中国，传播给国内学子，绝对是大功一件。\n本项目志在如此，希望能与同道之士携手努力，大家共献绵薄，各展所长，日进寸功，添砖加瓦，展示其中的精奥！\n\n本项目的在线网址 https://hansenem.netlify.app.\n本项目完全开源，代码公开于两个托管平台（完全同步）：gihub仓库https://github.com/huhuaping/hansenEM，以及gitee仓库https://gitee.com/kevinhhp/hansenEM\n本项目将基于R编程语言生态，并使用全新的出版工具Quarto进行书稿展示。\n\n如果有兴趣参与本项目，请联系huhuaping01[at]qq.com"
   },
   {
     "objectID": "intro.html",
     "href": "intro.html",
-    "title": "1  Introduction",
+    "title": "1  如何参与？",
     "section": "",
     "text": "See Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
   },
@@ -26,5 +26,12 @@
     "title": "References",
     "section": "",
     "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+  },
+  {
+    "objectID": "intro.html#sec-software",
+    "href": "intro.html#sec-software",
+    "title": "1  如何参与？",
+    "section": "1.2 软件环境",
+    "text": "1.2 软件环境\n\nR V4.2版本及以上\nRstudio V2022.07版本及以上\n\nThis is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
   }
 ]

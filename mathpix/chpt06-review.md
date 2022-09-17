@@ -1,0 +1,196 @@
+\title{
+Chapter 6
+}
+
+\section{A Review of Large Sample Asymptotics}
+
+\subsection{Introduction}
+
+The most widely-used tool in sampling theory is large sample asymptotics. By "asymptotics" we mean approximating a finite-sample sampling distribution by taking its limit as the sample size diverges to infinity. In this chapter we provide a brief review of the main results of large sample asymptotics. It is meant as a reference, not as a teaching guide. Asymptotic theory is covered in detail in Chapters 7-9 of Probability and Statistics for Economists. If you have not previous studied asymptotic theory in detail you should study these chapters before proceeding.
+
+\section{$6.2$ Modes of Convergence}
+
+Definition 6.1 A sequence of random vectors $Z_{n} \in \mathbb{R}^{k}$ converges in probability to $Z$ as $n \rightarrow \infty$, denoted $Z_{n} \underset{p}{\rightarrow} Z$ or alternatively $\operatorname{plim}_{n \rightarrow \infty} Z_{n}=Z$, if for all $\delta>0$
+
+$$
+\lim _{n \rightarrow \infty} \mathbb{P}\left[\left\|Z_{n}-Z\right\| \leq \delta\right]=1 .
+$$
+
+We call $Z$ the probability limit (or plim) of $Z_{n}$.
+
+The above definition treats random variables and random vectors simultaneously using the vector norm. It is useful to know that for a random vector, (6.1) holds if and only if each element in the vector converges in probability to its limit.
+
+Definition 6.2 Let $Z_{n}$ be a sequence of random vectors with distributions $F_{n}(u)=\mathbb{P}\left[Z_{n} \leq u\right]$. We say that $Z_{n}$ converges in distribution to $Z$ as $n \rightarrow \infty$, denoted $Z_{n} \underset{d}{\rightarrow} Z$, if for all $u$ at which $F(u)=\mathbb{P}[Z \leq u]$ is continuous, $F_{n}(u) \rightarrow$ $F(u)$ as $n \rightarrow \infty$. We refer to $Z$ and its distribution $F(u)$ as the asymptotic distribution, large sample distribution, or limit distribution of $Z_{n}$. 
+
+\subsection{Weak Law of Large Numbers}
+
+Theorem 6.1 Weak Law of Large Numbers (WLLN)
+
+If $Y_{i} \in \mathbb{R}^{k}$ are i.i.d. and $\mathbb{E}\|Y\|<\infty$, then as $n \rightarrow \infty$,
+
+$$
+\bar{Y}=\frac{1}{n} \sum_{i=1}^{n} Y_{i} \underset{p}{\longrightarrow}[Y] .
+$$
+
+The WLLN shows that the sample mean $\bar{Y}$ converges in probability to the true population expectation $\mu$. The result applies to any transformation of a random vector with a finite mean.
+
+Theorem 6.2 If $Y_{i} \in \mathbb{R}^{k}$ are i.i.d., $h(y): \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}$, and $\mathbb{E}\|h(Y)\|<\infty$, then $\widehat{\mu}=$ $\frac{1}{n} \sum_{i=1}^{n} h\left(Y_{i}\right) \underset{p}{\rightarrow} \mu=\mathbb{E}[h(Y)]$ as $n \rightarrow \infty$.
+
+An estimator which converges in probability to the population value is called consistent.
+
+Definition 6.3 An estimator $\widehat{\theta}$ of $\theta$ is consistent if $\widehat{\theta} \underset{p}{\longrightarrow} \theta$ as $n \rightarrow \infty$.
+
+\subsection{Central Limit Theorem}
+
+Theorem 6.3 Multivariate Lindeberg-Lévy Central Limit Theorem (CLT). If $Y_{i} \in \mathbb{R}^{k}$ are i.i.d. and $\mathbb{E}\|Y\|^{2}<\infty$, then as $n \rightarrow \infty$
+
+$$
+\sqrt{n}(\bar{Y}-\mu) \underset{d}{\longrightarrow} \mathrm{N}(0, \boldsymbol{V})
+$$
+
+where $\mu=\mathbb{E}[Y]$ and $\boldsymbol{V}=\mathbb{E}\left[(Y-\mu)(Y-\mu)^{\prime}\right]$.
+
+The central limit theorem shows that the distribution of the sample mean is approximately normal in large samples. For some applications it may be useful to notice that Theorem $6.3$ does not impose any restrictions on $\boldsymbol{V}$ other than that the elements are finite. Therefore this result allows for the possibility of singular $V$.
+
+The following two generalizations allow for heterogeneous random variables. Theorem 6.4 Multivariate Lindeberg CLT. Suppose that for all $n, Y_{n i} \in \mathbb{R}^{k}, i=$ $1, \ldots, r_{n}$, are independent but not necessarily identically distributed with expectations $\mathbb{E}\left[Y_{n i}\right]=0$ and variance matrices $\boldsymbol{V}_{n i}=\mathbb{E}\left[Y_{n i} Y_{n i}^{\prime}\right]$. Set $\overline{\boldsymbol{V}}_{n}=\sum_{i=1}^{n} \boldsymbol{V}_{n i}$. Suppose $v_{n}^{2}=\lambda_{\min }\left(\overline{\boldsymbol{V}}_{n}\right)>0$ and for all $\epsilon>0$
+
+$$
+\lim _{n \rightarrow \infty} \frac{1}{v_{n}^{2}} \sum_{i=1}^{r_{n}} \mathbb{E}\left[\left\|Y_{n i}\right\|^{2} \mathbb{1}\left\{\left\|Y_{n i}\right\|^{2} \geq \epsilon v_{n}^{2}\right\}\right]=0 .
+$$
+
+Then as $n \rightarrow \infty$
+
+$$
+\overline{\boldsymbol{V}}_{n}^{-1 / 2} \sum_{i=1}^{r_{n}} Y_{n i} \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{I}_{k}\right) .
+$$
+
+Theorem 6.5 Suppose $Y_{n i} \in \mathbb{R}^{k}$ are independent but not necessarily identically distributed with expectations $\mathbb{E}\left[Y_{n i}\right]=0$ and variance matrices $\boldsymbol{V}_{n i}=$ $\mathbb{E}\left[Y_{n i} Y_{n i}^{\prime}\right]$. Suppose
+
+$$
+\frac{1}{n} \sum_{i=1}^{n} \boldsymbol{V}_{n i} \rightarrow \boldsymbol{V}>0
+$$
+
+and for some $\delta>0$
+
+$$
+\sup _{n, i} \mathbb{E}\left\|Y_{n i}\right\|^{2+\delta}<\infty .
+$$
+
+Then as $n \rightarrow \infty$
+
+$$
+\sqrt{n} \bar{Y} \underset{d}{\longrightarrow} \mathrm{N}(0, \boldsymbol{V})
+$$
+
+\subsection{Continuous Mapping Theorem and Delta Method}
+
+Continuous functions are limit-preserving. There are two forms of the continuous mapping theorem, for convergence in probability and convergence in distribution.
+
+Theorem 6.6 Continuous Mapping Theorem (CMT). Let $Z_{n} \in \mathbb{R}^{k}$ and $g(u):$ $\mathbb{R}^{k} \rightarrow \mathbb{R}^{q}$. If $Z_{n} \underset{p}{\longrightarrow}$ as $n \rightarrow \infty$ and $g(u)$ is continuous at $c$ then $g\left(Z_{n}\right) \underset{p}{\longrightarrow} g(c)$ as $n \rightarrow \infty$
+
+Theorem 6.7 Continuous Mapping Theorem. If $Z_{n} \underset{d}{\longrightarrow} Z$ as $n \rightarrow \infty$ and $g:$ $\mathbb{R}^{m} \rightarrow \mathbb{R}^{k}$ has the set of discontinuity points $D_{g}$ such that $\mathbb{P}\left[Z \in D_{g}\right]=0$, then $g\left(Z_{n}\right) \underset{d}{\longrightarrow} g(Z)$ as $n \rightarrow \infty$ Differentiable functions of asymptotically normal random estimators are asymptotically normal.
+
+Theorem 6.8 Delta Method. Let $\mu \in \mathbb{R}^{k}$ and $g(u): \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}$. If $\sqrt{n}(\widehat{\mu}-\mu) \underset{d}{\rightarrow}$, where $g(u)$ is continuously differentiable in a neighborhood of $\mu$, then as $n \rightarrow$ $\infty$
+
+$$
+\sqrt{n}(g(\widehat{\mu})-g(\mu)) \underset{d}{\longrightarrow} \boldsymbol{G}^{\prime} \xi
+$$
+
+where $\boldsymbol{G}(u)=\frac{\partial}{\partial u} g(u)^{\prime}$ and $\boldsymbol{G}=\boldsymbol{G}(\mu)$. In particular, if $\xi \sim \mathrm{N}(0, \boldsymbol{V})$ then as $n \rightarrow \infty$
+
+$$
+\sqrt{n}(g(\widehat{\mu})-g(\mu)) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{G}^{\prime} \boldsymbol{V} \boldsymbol{G}\right) .
+$$
+
+\subsection{Smooth Function Model}
+
+The smooth function model is $\theta=g(\mu)$ where $\mu=\mathbb{E}[h(Y)]$ and $g(\mu)$ is smooth in a suitable sense.
+
+The parameter $\theta=g(\mu)$ is not a population moment so it does not have a direct moment estimator. Instead, it is common to use a plug-in estimator formed by replacing the unknown $\mu$ with its point estimator $\widehat{\mu}$ and then "plugging" this into the expression for $\theta$. The first step is the sample mean $\widehat{\mu}=n^{-1} \sum_{i=1}^{n} h\left(Y_{i}\right)$. The second step is the transformation $\widehat{\theta}=g(\widehat{\mu})$. The hat " $\wedge$ " indicates that $\widehat{\theta}$ is a sample estimator of $\theta$. The smooth function model includes a broad class of estimators including sample variances and the least squares estimator.
+
+Theorem 6.9 If $Y_{i} \in \mathbb{R}^{m}$ are i.i.d., $h(u): \mathbb{R}^{m} \rightarrow \mathbb{R}^{k}, \mathbb{E}\|h(Y)\|<\infty$, and $g(u):$ $\mathbb{R}^{k} \rightarrow \mathbb{R}^{q}$ is continuous at $\mu$, then $\widehat{\theta} \underset{p}{\longrightarrow} \theta$ as $n \rightarrow \infty$.
+
+Theorem 6.10 If $Y_{i} \in \mathbb{R}^{m}$ are i.i.d., $h(u): \mathbb{R}^{m} \rightarrow \mathbb{R}^{k}, \mathbb{E}\|h(Y)\|^{2}<\infty, g(u): \mathbb{R}^{k} \rightarrow$ $\mathbb{R}^{q}$, and $\boldsymbol{G}(u)=\frac{\partial}{\partial u} g(u)^{\prime}$ is continuous in a neighborhood of $\mu$, then as $n \rightarrow \infty$
+
+$$
+\sqrt{n}(\widehat{\theta}-\theta) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\theta}\right)
+$$
+
+where $\boldsymbol{V}_{\theta}=\boldsymbol{G}^{\prime} \boldsymbol{V} \boldsymbol{G}, \boldsymbol{V}=\mathbb{E}\left[(h(Y)-\mu)(h(Y)-\mu)^{\prime}\right]$, and $\boldsymbol{G}=\boldsymbol{G}(\mu)$.
+
+Theorem $6.9$ establishes the consistency of $\widehat{\theta}$ for $\theta$ and Theorem $6.10$ establishes its asymptotic normality. It is instructive to compare the conditions. Consistency requires that $h(Y)$ has a finite expectation; asymptotic normality requires that $h(Y)$ has a finite variance. Consistency requires that $g(u)$ be continuous; asymptotic normality requires that $g(u)$ is continuously differentiable. 
+
+\subsection{Stochastic Order Symbols}
+
+It is convenient to have simple symbols for random variables and vectors which converge in probability to zero or are stochastically bounded. In this section we introduce some of the most common notation.
+
+Let $Z_{n}$ and $a_{n}, n=1,2, \ldots$ be sequences of random variables and constants. The notation
+
+$$
+Z_{n}=o_{p}(1)
+$$
+
+("small oh-P-one") means that $Z_{n} \underset{p}{\longrightarrow} 0$ as $n \rightarrow \infty$. We also write
+
+$$
+Z_{n}=o_{p}\left(a_{n}\right)
+$$
+
+if $a_{n}^{-1} Z_{n}=o_{p}(1)$
+
+Similarly, the notation $Z_{n}=O_{p}$ (1) ("big oh-P-one") means that $Z_{n}$ is bounded in probability. Precisely, for any $\epsilon>0$ there is a constant $M_{\epsilon}<\infty$ such that
+
+$$
+\limsup _{n \rightarrow \infty} \mathbb{P}\left[\left|Z_{n}\right|>M_{\epsilon}\right] \leq \epsilon .
+$$
+
+Furthermore, we write
+
+$$
+Z_{n}=O_{p}\left(a_{n}\right)
+$$
+
+if $a_{n}^{-1} Z_{n}=O_{p}(1)$.
+
+$O_{p}(1)$ is weaker than $o_{p}(1)$ in the sense that $Z_{n}=o_{p}(1)$ implies $Z_{n}=O_{p}(1)$ but not the reverse. However, if $Z_{n}=O_{p}\left(a_{n}\right)$ then $Z_{n}=o_{p}\left(b_{n}\right)$ for any $b_{n}$ such that $a_{n} / b_{n} \rightarrow 0$.
+
+A random sequence with a bounded moment is stochastically bounded.
+
+Theorem 6.11 If $Z_{n}$ is a random vector which satisfies $\mathbb{E}\left\|Z_{n}\right\|^{\delta}=O\left(a_{n}\right)$ for some sequence $a_{n}$ and $\delta>0$, then $Z_{n}=O_{p}\left(a_{n}^{1 / \delta}\right)$. Similarly, $\mathbb{E}\left\|Z_{n}\right\|^{\delta}=o\left(a_{n}\right)$ implies $Z_{n}=o_{p}\left(a_{n}^{1 / \delta}\right)$.
+
+There are many simple rules for manipulating $o_{p}(1)$ and $O_{p}(1)$ sequences which can be deduced from the continuous mapping theorem. For example,
+
+$$
+\begin{aligned}
+o_{p}(1)+o_{p}(1) &=o_{p}(1) \\
+o_{p}(1)+O_{p}(1) &=O_{p}(1) \\
+O_{p}(1)+O_{p}(1) &=O_{p}(1) \\
+o_{p}(1) o_{p}(1) &=o_{p}(1) \\
+o_{p}(1) O_{p}(1) &=o_{p}(1) \\
+O_{p}(1) O_{p}(1) &=O_{p}(1) .
+\end{aligned}
+$$
+
+\subsection{Convergence of Moments}
+
+We give a sufficient condition for the existence of the mean of the asymptotic distribution, define uniform integrability, provide a primitive condition for uniform integrability, and show that uniform integrability is the key condition under which $\mathbb{E}\left[Z_{n}\right]$ converges to $\mathbb{E}[Z]$. Theorem 6.12 If $Z_{n} \underset{d}{\longrightarrow} Z$ and $\mathbb{E}\left\|Z_{n}\right\| \leq C$ then $\mathbb{E}\|Z\| \leq C$.
+
+Definition 6.4 The random vector $Z_{n}$ is uniformly integrable as $n \rightarrow \infty$ if
+
+$$
+\lim _{M \rightarrow \infty} \limsup _{n \rightarrow \infty} \mathbb{E}\left[\left\|Z_{n}\right\| \mathbb{1}\left\{\left\|Z_{n}\right\|>M\right\}\right]=0
+$$
+
+Theorem 6.13 If for some $\delta>0$, $\mathbb{E}\left\|Z_{n}\right\|^{1+\delta} \leq C<\infty$, then $Z_{n}$ is uniformly integrable.
+
+Theorem 6.14 If $Z_{n} \underset{d}{\longrightarrow} Z$ and $Z_{n}$ is uniformly integrable then $\mathbb{E}\left[Z_{n}\right] \longrightarrow \mathbb{E}[Z]$.
+
+The following is a uniform stochastic bound.
+
+Theorem 6.15 If $\left|Y_{i}\right|^{r}$ is uniformly integrable, then as $n \rightarrow \infty$
+
+$$
+n^{-1 / r} \max _{1 \leq i \leq n}\left|Y_{i}\right| \underset{p}{\longrightarrow} 0
+$$
+
+Equation (6.6) implies that if $Y$ has $r$ finite moments then the largest observation will diverge at a rate slower than $n^{1 / r}$. The higher the moments, the slower the rate of divergence.

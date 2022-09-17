@@ -1,4 +1,14 @@
-# Introduction
+# 如何参与？ {#sec-participate}
+
+
+## 硬件环境{#sec-hardware}
+
+
+## 软件环境{#sec-software}
+
+- `R` V4.2版本及以上
+
+- `Rstudio` V2022.07版本及以上
 
 This is a book created from markdown and executable code.
 

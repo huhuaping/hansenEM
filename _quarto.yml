@@ -17,7 +17,7 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-    cover-image: cover.png
+    cover-image: pic/cover-hansen.jpg
     code-link: true
   pdf:
     documentclass: scrreprt

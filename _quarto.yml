@@ -13,14 +13,14 @@ book:
     - references.qmd
 
 bibliography: references.bib
+number-sections: true
+number-depth: 4
 
 format:
   html:
     theme: cosmo
     cover-image: pic/cover-hansen.jpg
     code-link: true
-  pdf:
-    documentclass: scrreprt
 
 
 

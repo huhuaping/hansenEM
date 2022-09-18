@@ -1,19 +1,75 @@
 # 如何参与？ {#sec-participate}
 
 
-## 硬件环境{#sec-hardware}
+## 准备硬件环境 {#sec-hardware}
+
+- 建议使用Window操作系统
 
 
-## 软件环境{#sec-software}
+## 准备软件环境 {#sec-software}
 
-- `R` V4.2版本及以上
+### 必要软件 {#sec-software-base}
 
-- `Rstudio` V2022.07版本及以上
+以下为**必备**安装软件：
 
-This is a book created from markdown and executable code.
+- 安装R语言底层环境：`R` V4.2版本及以上（免费下载地址<https://cran.r-project.org/>）
 
-See @knuth84 for additional discussion of literate programming.
+- 安装R语言编译环境（IDE）：`Rstudio` V2022.07版本及以上（免费下载地址<https://www.rstudio.com/products/rstudio/download/>）
 
-```{r}
-1 + 1
-```
+### 推荐软件 {#sec-software-rec}
+
+以下为**建议**安装软件：
+
+- 使用**版本控制工具**：安装`gitbash`（Windows操作系统用户，免费下载地址<https://gitforwindows.org/>）。主要用于项目（project）的内容维护和成员工作协同。
+
+
+### 互联网服务 {#sec-internet-service}
+
+为了更好地团队协作和在线办公，建议使用如下相关互联网产品/服务：
+
+- 建议注册代码托管平台的账号服务：一是国际码农最大社区`github`（<https://github.com/>，国内访问速度慢，偶尔会抽风）；二是国内代码托管平台`gitee`（<https://gitee.com/>）。**提示**：注册账号时最好使用高校邮箱（形如`xxx\@xxx.edu.cn`），可以享受更多教育服务和优惠。本项目的所有代码和资料同步托管于上述两个平台，大家根据自身情况任意选用。
+
+## 主要参与方式
+
+首先需要声明的是：所有关注本项目的任何贡献和努力都是受到欢迎和支持的。
+
+当然，根据参与人个人知识和技能的差异，我们支持如下的**松散参与**和**紧密参与**两种方式，简单地：
+
+- **松散参与**：参与者仅需对项目工作感兴趣（中高级计量分析），并不要求具备其他太多的相关知识和技能（这里先略过不提）。只需一台电脑，自行独立工作，通过传统互动（面谈/Email/QQ/微信等）提交自己的任何工作贡献。
+
+- **紧密参与**：参与者对项目工作感兴趣（中高级计量分析），且具备其他初步相关知识和技能（一种或多种），例如：统计编程语言（`R`/`python`/`stata`等）、现代标记语言（`markdown`/`Rmarkdown`）、版本控制语言（`git`）等。需要在自己电脑上开展工作，与项目其他成员通过**代码托管平台**（见前面 @sec-internet-service）在线互动（`github`或`gitee`平台等），提交自己的任何工作贡献。
+
+
+### 松散参与：本地贡献
+
+主要过程如下：
+
+- 电脑安装基本的必要软件`R`和`Rstudio`（见前面 @sec-software-base ）。
+
+- 从**托管平台**（见前面 @sec-internet-service ）拷贝项目到自己的本地电脑，然后解压缩项目文件。本项目完全开源，代码公开于两个托管平台（完全同步）：
+
+    - `gihub`仓库<https://github.com/huhuaping/hansenEM>
+
+    - `gitee`仓库<https://gitee.com/kevinhhp/hansenEM>
+
+- 使用编译工具`Rstudio`软件，打开项目文件`hansenEM.Rproj`
+
+- 在编译工具`Rstudio`软件下开展相关工作（后面会详谈如何开展自己的工作）。
+
+- 自行独立工作，通过传统互动（面谈/Email/QQ/微信等）提交自己的任何工作贡献。
+
+### 紧密参与：在线协作
+
+- 电脑安装基本的必要软件`R`和`Rstudio`（见前面 @sec-software-base）以及版本控制软件`gitbash`（见前面 @sec-software-rec），同时注册代码托管平台账号（`github`或`gitee`平台，见前面 @sec-internet-service）。
+
+- 从**托管平台**（见前面 @sec-internet-service ）拷贝项目到自己的本地电脑，然后解压缩项目文件。本项目完全开源，代码公开于两个托管平台（完全同步）：
+
+    - `gihub`仓库<https://github.com/huhuaping/hansenEM>
+
+    - `gitee`仓库<https://gitee.com/kevinhhp/hansenEM>
+
+- 使用编译工具`Rstudio`软件，打开项目文件`hansenEM.Rproj`
+
+- 在编译工具`Rstudio`软件下开展相关工作（后面会详谈如何开展自己的工作）。
+
+- 在自己电脑上开展工作，并与项目其他成员通过**代码托管平台**（见前面 @sec-internet-service）在线互动（`github`或`gitee`平台），在线提交自己的任何工作贡献。

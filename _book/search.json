@@ -11,27 +11,34 @@
     "href": "intro.html",
     "title": "1  如何参与？",
     "section": "",
-    "text": "See Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "text": "建议使用Window操作系统"
+  },
+  {
+    "objectID": "intro.html#sec-software",
+    "href": "intro.html#sec-software",
+    "title": "1  如何参与？",
+    "section": "1.2 准备软件环境",
+    "text": "1.2 准备软件环境\n\n1.2.1 必要软件\n以下为必备安装软件：\n\n安装R语言底层环境：R V4.2版本及以上（免费下载地址https://cran.r-project.org/）\n安装R语言编译环境（IDE）：Rstudio V2022.07版本及以上（免费下载地址https://www.rstudio.com/products/rstudio/download/）\n\n\n\n1.2.2 推荐软件\n以下为建议安装软件：\n\n使用版本控制工具：安装gitbash（Windows操作系统用户，免费下载地址https://gitforwindows.org/）。主要用于项目（project）的内容维护和成员工作协同。\n\n\n\n1.2.3 互联网服务\n为了更好地团队协作和在线办公，建议使用如下相关互联网产品/服务：\n\n建议注册代码托管平台的账号服务：一是国际码农最大社区github（https://github.com/，国内访问速度慢，偶尔会抽风）；二是国内代码托管平台gitee（https://gitee.com/）。提示：注册账号时最好使用高校邮箱（形如xxx\\@xxx.edu.cn），可以享受更多教育服务和优惠。本项目的所有代码和资料同步托管于上述两个平台，大家根据自身情况任意选用。"
+  },
+  {
+    "objectID": "intro.html#主要参与方式",
+    "href": "intro.html#主要参与方式",
+    "title": "1  如何参与？",
+    "section": "1.3 主要参与方式",
+    "text": "1.3 主要参与方式\n首先需要声明的是：所有关注本项目的任何贡献和努力都是受到欢迎和支持的。\n当然，根据参与人个人知识和技能的差异，我们支持如下的松散参与和紧密参与两种方式，简单地：\n\n松散参与：参与者仅需对项目工作感兴趣（中高级计量分析），并不要求具备其他太多的相关知识和技能（这里先略过不提）。只需一台电脑，自行独立工作，通过传统互动（面谈/Email/QQ/微信等）提交自己的任何工作贡献。\n紧密参与：参与者对项目工作感兴趣（中高级计量分析），且具备其他初步相关知识和技能（一种或多种），例如：统计编程语言（R/python/stata等）、现代标记语言（markdown/Rmarkdown）、版本控制语言（git）等。需要在自己电脑上开展工作，与项目其他成员通过代码托管平台（见前面 Section 1.2.3）在线互动（github或gitee平台等），提交自己的任何工作贡献。\n\n\n1.3.1 松散参与：本地贡献\n主要过程如下：\n\n电脑安装基本的必要软件R和Rstudio（见前面 Section 1.2.1 ）。\n从托管平台（见前面 Section 1.2.3 ）拷贝项目到自己的本地电脑，然后解压缩项目文件。本项目完全开源，代码公开于两个托管平台（完全同步）：\n\ngihub仓库https://github.com/huhuaping/hansenEM\ngitee仓库https://gitee.com/kevinhhp/hansenEM\n\n使用编译工具Rstudio软件，打开项目文件hansenEM.Rproj\n在编译工具Rstudio软件下开展相关工作（后面会详谈如何开展自己的工作）。\n自行独立工作，通过传统互动（面谈/Email/QQ/微信等）提交自己的任何工作贡献。\n\n\n\n1.3.2 紧密参与：在线协作\n\n电脑安装基本的必要软件R和Rstudio（见前面 Section 1.2.1）以及版本控制软件gitbash（见前面 Section 1.2.2），同时注册代码托管平台账号（github或gitee平台，见前面 Section 1.2.3）。\n从托管平台（见前面 Section 1.2.3 ）拷贝项目到自己的本地电脑，然后解压缩项目文件。本项目完全开源，代码公开于两个托管平台（完全同步）：\n\ngihub仓库https://github.com/huhuaping/hansenEM\ngitee仓库https://gitee.com/kevinhhp/hansenEM\n\n使用编译工具Rstudio软件，打开项目文件hansenEM.Rproj\n在编译工具Rstudio软件下开展相关工作（后面会详谈如何开展自己的工作）。\n在自己电脑上开展工作，并与项目其他成员通过代码托管平台（见前面 Section 1.2.3）在线互动（github或gitee平台），在线提交自己的任何工作贡献。"
   },
   {
     "objectID": "summary.html",
     "href": "summary.html",
     "title": "2  Summary",
     "section": "",
-    "text": "1 + 1\n\n[1] 2"
+    "text": "In summary, this book has no content whatsoever."
   },
   {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
-  },
-  {
-    "objectID": "intro.html#sec-software",
-    "href": "intro.html#sec-software",
-    "title": "1  如何参与？",
-    "section": "1.2 软件环境",
-    "text": "1.2 软件环境\n\nR V4.2版本及以上\nRstudio V2022.07版本及以上\n\nThis is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97."
+    "objectID": "summary.html#section-depth2",
+    "href": "summary.html#section-depth2",
+    "title": "2  Summary",
+    "section": "2.1 section depth2",
+    "text": "2.1 section depth2"
   }
 ]

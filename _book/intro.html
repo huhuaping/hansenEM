@@ -15,88 +15,6 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
 </style>
 
 
@@ -199,8 +117,18 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-hardware" id="toc-sec-hardware" class="nav-link active" data-scroll-target="#sec-hardware"> <span class="header-section-number">1.1</span> 硬件环境</a></li>
-  <li><a href="#sec-software" id="toc-sec-software" class="nav-link" data-scroll-target="#sec-software"> <span class="header-section-number">1.2</span> 软件环境</a></li>
+  <li><a href="#sec-hardware" id="toc-sec-hardware" class="nav-link active" data-scroll-target="#sec-hardware"> <span class="header-section-number">1.1</span> 准备硬件环境</a></li>
+  <li><a href="#sec-software" id="toc-sec-software" class="nav-link" data-scroll-target="#sec-software"> <span class="header-section-number">1.2</span> 准备软件环境</a>
+  <ul class="collapse">
+  <li><a href="#sec-software-base" id="toc-sec-software-base" class="nav-link" data-scroll-target="#sec-software-base"> <span class="header-section-number">1.2.1</span> 必要软件</a></li>
+  <li><a href="#sec-software-rec" id="toc-sec-software-rec" class="nav-link" data-scroll-target="#sec-software-rec"> <span class="header-section-number">1.2.2</span> 推荐软件</a></li>
+  <li><a href="#sec-internet-service" id="toc-sec-internet-service" class="nav-link" data-scroll-target="#sec-internet-service"> <span class="header-section-number">1.2.3</span> 互联网服务</a></li>
+  </ul></li>
+  <li><a href="#主要参与方式" id="toc-主要参与方式" class="nav-link" data-scroll-target="#主要参与方式"> <span class="header-section-number">1.3</span> 主要参与方式</a>
+  <ul class="collapse">
+  <li><a href="#松散参与本地贡献" id="toc-松散参与本地贡献" class="nav-link" data-scroll-target="#松散参与本地贡献"> <span class="header-section-number">1.3.1</span> 松散参与：本地贡献</a></li>
+  <li><a href="#紧密参与在线协作" id="toc-紧密参与在线协作" class="nav-link" data-scroll-target="#紧密参与在线协作"> <span class="header-section-number">1.3.2</span> 紧密参与：在线协作</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -224,29 +152,75 @@ div.csl-indent {
 </header>
 
 <section id="sec-hardware" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="sec-hardware"><span class="header-section-number">1.1</span> 硬件环境</h2>
+<h2 data-number="1.1" class="anchored" data-anchor-id="sec-hardware"><span class="header-section-number">1.1</span> 准备硬件环境</h2>
+<ul>
+<li>建议使用Window操作系统</li>
+</ul>
 </section>
 <section id="sec-software" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-software"><span class="header-section-number">1.2</span> 软件环境</h2>
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-software"><span class="header-section-number">1.2</span> 准备软件环境</h2>
+<section id="sec-software-base" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="sec-software-base"><span class="header-section-number">1.2.1</span> 必要软件</h3>
+<p>以下为<strong>必备</strong>安装软件：</p>
 <ul>
-<li><p><code>R</code> V4.2版本及以上</p></li>
-<li><p><code>Rstudio</code> V2022.07版本及以上</p></li>
+<li><p>安装R语言底层环境：<code>R</code> V4.2版本及以上（免费下载地址<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>）</p></li>
+<li><p>安装R语言编译环境（IDE）：<code>Rstudio</code> V2022.07版本及以上（免费下载地址<a href="https://www.rstudio.com/products/rstudio/download/" class="uri">https://www.rstudio.com/products/rstudio/download/</a>）</p></li>
 </ul>
-<p>This is a book created from markdown and executable code.</p>
-<p>See <span class="citation" data-cites="knuth84">Knuth (<a href="references.html#ref-knuth84" role="doc-biblioref">1984</a>)</span> for additional discussion of literate programming.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+</section>
+<section id="sec-software-rec" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="sec-software-rec"><span class="header-section-number">1.2.2</span> 推荐软件</h3>
+<p>以下为<strong>建议</strong>安装软件：</p>
+<ul>
+<li>使用<strong>版本控制工具</strong>：安装<code>gitbash</code>（Windows操作系统用户，免费下载地址<a href="https://gitforwindows.org/" class="uri">https://gitforwindows.org/</a>）。主要用于项目（project）的内容维护和成员工作协同。</li>
+</ul>
+</section>
+<section id="sec-internet-service" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="sec-internet-service"><span class="header-section-number">1.2.3</span> 互联网服务</h3>
+<p>为了更好地团队协作和在线办公，建议使用如下相关互联网产品/服务：</p>
+<ul>
+<li>建议注册代码托管平台的账号服务：一是国际码农最大社区<code>github</code>（<a href="https://github.com/" class="uri">https://github.com/</a>，国内访问速度慢，偶尔会抽风）；二是国内代码托管平台<code>gitee</code>（<a href="https://gitee.com/" class="uri">https://gitee.com/</a>）。<strong>提示</strong>：注册账号时最好使用高校邮箱（形如<code>xxx\@xxx.edu.cn</code>），可以享受更多教育服务和优惠。本项目的所有代码和资料同步托管于上述两个平台，大家根据自身情况任意选用。</li>
+</ul>
+</section>
+</section>
+<section id="主要参与方式" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="主要参与方式"><span class="header-section-number">1.3</span> 主要参与方式</h2>
+<p>首先需要声明的是：所有关注本项目的任何贡献和努力都是受到欢迎和支持的。</p>
+<p>当然，根据参与人个人知识和技能的差异，我们支持如下的<strong>松散参与</strong>和<strong>紧密参与</strong>两种方式，简单地：</p>
+<ul>
+<li><p><strong>松散参与</strong>：参与者仅需对项目工作感兴趣（中高级计量分析），并不要求具备其他太多的相关知识和技能（这里先略过不提）。只需一台电脑，自行独立工作，通过传统互动（面谈/Email/QQ/微信等）提交自己的任何工作贡献。</p></li>
+<li><p><strong>紧密参与</strong>：参与者对项目工作感兴趣（中高级计量分析），且具备其他初步相关知识和技能（一种或多种），例如：统计编程语言（<code>R</code>/<code>python</code>/<code>stata</code>等）、现代标记语言（<code>markdown</code>/<code>Rmarkdown</code>）、版本控制语言（<code>git</code>）等。需要在自己电脑上开展工作，与项目其他成员通过<strong>代码托管平台</strong>（见前面 <a href="#sec-internet-service"><span>Section&nbsp;1.2.3</span></a>）在线互动（<code>github</code>或<code>gitee</code>平台等），提交自己的任何工作贡献。</p></li>
+</ul>
+<section id="松散参与本地贡献" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="松散参与本地贡献"><span class="header-section-number">1.3.1</span> 松散参与：本地贡献</h3>
+<p>主要过程如下：</p>
+<ul>
+<li><p>电脑安装基本的必要软件<code>R</code>和<code>Rstudio</code>（见前面 <a href="#sec-software-base"><span>Section&nbsp;1.2.1</span></a> ）。</p></li>
+<li><p>从<strong>托管平台</strong>（见前面 <a href="#sec-internet-service"><span>Section&nbsp;1.2.3</span></a> ）拷贝项目到自己的本地电脑，然后解压缩项目文件。本项目完全开源，代码公开于两个托管平台（完全同步）：</p>
+<ul>
+<li><p><code>gihub</code>仓库<a href="https://github.com/huhuaping/hansenEM" class="uri">https://github.com/huhuaping/hansenEM</a></p></li>
+<li><p><code>gitee</code>仓库<a href="https://gitee.com/kevinhhp/hansenEM" class="uri">https://gitee.com/kevinhhp/hansenEM</a></p></li>
+</ul></li>
+<li><p>使用编译工具<code>Rstudio</code>软件，打开项目文件<code>hansenEM.Rproj</code></p></li>
+<li><p>在编译工具<code>Rstudio</code>软件下开展相关工作（后面会详谈如何开展自己的工作）。</p></li>
+<li><p>自行独立工作，通过传统互动（面谈/Email/QQ/微信等）提交自己的任何工作贡献。</p></li>
+</ul>
+</section>
+<section id="紧密参与在线协作" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="紧密参与在线协作"><span class="header-section-number">1.3.2</span> 紧密参与：在线协作</h3>
+<ul>
+<li><p>电脑安装基本的必要软件<code>R</code>和<code>Rstudio</code>（见前面 <a href="#sec-software-base"><span>Section&nbsp;1.2.1</span></a>）以及版本控制软件<code>gitbash</code>（见前面 <a href="#sec-software-rec"><span>Section&nbsp;1.2.2</span></a>），同时注册代码托管平台账号（<code>github</code>或<code>gitee</code>平台，见前面 <a href="#sec-internet-service"><span>Section&nbsp;1.2.3</span></a>）。</p></li>
+<li><p>从<strong>托管平台</strong>（见前面 <a href="#sec-internet-service"><span>Section&nbsp;1.2.3</span></a> ）拷贝项目到自己的本地电脑，然后解压缩项目文件。本项目完全开源，代码公开于两个托管平台（完全同步）：</p>
+<ul>
+<li><p><code>gihub</code>仓库<a href="https://github.com/huhuaping/hansenEM" class="uri">https://github.com/huhuaping/hansenEM</a></p></li>
+<li><p><code>gitee</code>仓库<a href="https://gitee.com/kevinhhp/hansenEM" class="uri">https://gitee.com/kevinhhp/hansenEM</a></p></li>
+</ul></li>
+<li><p>使用编译工具<code>Rstudio</code>软件，打开项目文件<code>hansenEM.Rproj</code></p></li>
+<li><p>在编译工具<code>Rstudio</code>软件下开展相关工作（后面会详谈如何开展自己的工作）。</p></li>
+<li><p>在自己电脑上开展工作，并与项目其他成员通过<strong>代码托管平台</strong>（见前面 <a href="#sec-internet-service"><span>Section&nbsp;1.2.3</span></a>）在线互动（<code>github</code>或<code>gitee</code>平台），在线提交自己的任何工作贡献。</p></li>
+</ul>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
-<div id="ref-knuth84" class="csl-entry" role="doc-biblioentry">
-Knuth, Donald E. 1984. <span>“Literate Programming.”</span> <em>Comput. J.</em> 27 (2): 97–111. <a href="https://doi.org/10.1093/comjnl/27.2.97">https://doi.org/10.1093/comjnl/27.2.97</a>.
-</div>
-</div>
+</section>
 </section>
 
 </main> <!-- /main -->

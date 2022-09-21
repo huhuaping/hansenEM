@@ -6,12 +6,37 @@ book:
   title: "Hansen中高级计量体系"
   author: "胡华平"
   date: "2022/9/16"
+  site-url: https://hansenem.netlify.app/
+  repo-url: https://github.com/huhuaping/hansenEM/
+  repo-branch: master
+  repo-actions: [edit]
   chapters:
     - index.qmd
-    - intro.qmd
+    - participate.qmd
+    - chpt01-intro.qmd
+    - part: part01-reg.qmd
+      chapters: 
+        - chpt02-ce.qmd
+        - chpt03-algebra.qmd
+        - chpt04-lsr.qmd
+        - chpt05-normal-reg.qmd
+    - part: part02-LSM.qmd
+      chapters:
+        - chpt06-review.qmd
+        - chpt07-asymptotic-ls.qmd
+        - chpt08-restricted-est.qmd
+        - chpt09-hypothesit-test.qmd
+        - chpt10-resample-method.qmd
+    - part: part03-MEQ.qmd
+      chapters:
+        - chpt11-multi-reg.qmd
+        - chpt12-iv.qmd
+        - chpt13-gmm.qmd
     - summary.qmd
     - references.qmd
-
+  appendices:
+    - a1-notation.qmd
+    
 bibliography: references.bib
 number-sections: true
 number-depth: 4

@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 8&nbsp; Restricted Estimation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt09-hypothesit-test.html" rel="next">
+<link href="./chpt07-asymptotic-ls.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">8.1</span> Introduction</a></li>
+  <li><a href="#constrained-least-squares" id="toc-constrained-least-squares" class="nav-link" data-scroll-target="#constrained-least-squares"> <span class="header-section-number">8.2</span> Constrained Least Squares</a></li>
+  <li><a href="#exclusion-restriction" id="toc-exclusion-restriction" class="nav-link" data-scroll-target="#exclusion-restriction"> <span class="header-section-number">8.3</span> Exclusion Restriction</a></li>
+  <li><a href="#finite-sample-properties" id="toc-finite-sample-properties" class="nav-link" data-scroll-target="#finite-sample-properties"> <span class="header-section-number">8.4</span> Finite Sample Properties</a></li>
+  <li><a href="#minimum-distance" id="toc-minimum-distance" class="nav-link" data-scroll-target="#minimum-distance"> <span class="header-section-number">8.5</span> Minimum Distance</a></li>
+  <li><a href="#asymptotic-distribution" id="toc-asymptotic-distribution" class="nav-link" data-scroll-target="#asymptotic-distribution"> <span class="header-section-number">8.6</span> Asymptotic Distribution</a></li>
+  <li><a href="#variance-estimation-and-standard-errors" id="toc-variance-estimation-and-standard-errors" class="nav-link" data-scroll-target="#variance-estimation-and-standard-errors"> <span class="header-section-number">8.7</span> Variance Estimation and Standard Errors</a></li>
+  <li><a href="#efficient-minimum-distance-estimator" id="toc-efficient-minimum-distance-estimator" class="nav-link" data-scroll-target="#efficient-minimum-distance-estimator"> <span class="header-section-number">8.8</span> Efficient Minimum Distance Estimator</a></li>
+  <li><a href="#exclusion-restriction-revisited" id="toc-exclusion-restriction-revisited" class="nav-link" data-scroll-target="#exclusion-restriction-revisited"> <span class="header-section-number">8.9</span> Exclusion Restriction Revisited</a></li>
+  <li><a href="#variance-and-standard-error-estimation" id="toc-variance-and-standard-error-estimation" class="nav-link" data-scroll-target="#variance-and-standard-error-estimation"> <span class="header-section-number">8.10</span> Variance and Standard Error Estimation</a></li>
+  <li><a href="#hausman-equality" id="toc-hausman-equality" class="nav-link" data-scroll-target="#hausman-equality"> <span class="header-section-number">8.11</span> Hausman Equality</a></li>
+  <li><a href="#example-mankiw-romer-and-weil-1992" id="toc-example-mankiw-romer-and-weil-1992" class="nav-link" data-scroll-target="#example-mankiw-romer-and-weil-1992"> <span class="header-section-number">8.12</span> Example: Mankiw, Romer and Weil (1992)</a></li>
+  <li><a href="#misspecification" id="toc-misspecification" class="nav-link" data-scroll-target="#misspecification"> <span class="header-section-number">8.13</span> Misspecification</a></li>
+  <li><a href="#nonlinear-constraints" id="toc-nonlinear-constraints" class="nav-link" data-scroll-target="#nonlinear-constraints"> <span class="header-section-number">8.14</span> Nonlinear Constraints</a></li>
+  <li><a href="#inequality-restrictions" id="toc-inequality-restrictions" class="nav-link" data-scroll-target="#inequality-restrictions"> <span class="header-section-number">8.15</span> Inequality Restrictions</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"> <span class="header-section-number">8.16</span> Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">8.17</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt08-restricted-est.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
+<p>In the linear projection model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[X e] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>a common task is to impose a constraint on the coefficient vector <span class="math inline">\(\beta\)</span>. For example, partitioning <span class="math inline">\(X^{\prime}=\)</span> <span class="math inline">\(\left(X_{1}^{\prime}, X_{2}^{\prime}\right)\)</span> and <span class="math inline">\(\beta^{\prime}=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)\)</span> a typical constraint is an exclusion restriction of the form <span class="math inline">\(\beta_{2}=0\)</span>. In this case the constrained model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X_{1}^{\prime} \beta_{1}+e \\
+\mathbb{E}[X e] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>At first glance this appears the same as the linear projection model but there is one important difference: the error <span class="math inline">\(e\)</span> is uncorrelated with the entire regressor vector <span class="math inline">\(X^{\prime}=\left(X_{1}^{\prime}, X_{2}^{\prime}\right)\)</span> not just the included regressor <span class="math inline">\(X_{1}\)</span>.</p>
+<p>In general, a set of <span class="math inline">\(q\)</span> linear constraints on <span class="math inline">\(\beta\)</span> takes the form</p>
+<p><span class="math display">\[
+\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{R}\)</span> is <span class="math inline">\(k \times q, \operatorname{rank}(\boldsymbol{R})=q&lt;k\)</span>, and <span class="math inline">\(\boldsymbol{c}\)</span> is <span class="math inline">\(q \times 1\)</span>. The assumption that <span class="math inline">\(\boldsymbol{R}\)</span> is full rank means that the constraints are linearly independent (there are no redundant or contradictory constraints). We define the restricted parameter space <span class="math inline">\(B\)</span> as the set of values of <span class="math inline">\(\beta\)</span> which satisfy (8.1), that is</p>
+<p><span class="math display">\[
+B=\left\{\beta: \boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\right\} .
+\]</span></p>
+<p>Sometimes we will call (8.1) a constraint and sometimes a restriction. They are the same thing. Similarly sometimes we will call estimators which satisfy (8.1) constrained estimators and sometimes restricted estimators. They mean the same thing.</p>
+<p>The constraint <span class="math inline">\(\beta_{2}=0\)</span> discussed above is a special case of the constraint (8.1) with</p>
+<p><span class="math display">\[
+\boldsymbol{R}=\left(\begin{array}{c}
+0 \\
+\boldsymbol{I}_{k_{2}}
+\end{array}\right)
+\]</span></p>
+<p>a selector matrix, and <span class="math inline">\(\boldsymbol{c}=0 .\)</span> Another common restriction is that a set of coefficients sum to a known constant, i.e.&nbsp;<span class="math inline">\(\beta_{1}+\beta_{2}=1\)</span>. For example, this constraint arises in a constant-return-to-scale production function. Other common restrictions include the equality of coefficients <span class="math inline">\(\beta_{1}=\beta_{2}\)</span>, and equal and offsetting coefficients <span class="math inline">\(\beta_{1}=-\beta_{2}\)</span>.</p>
+<p>A typical reason to impose a constraint is that we believe (or have information) that the constraint is true. By imposing the constraint we hope to improve estimation efficiency. The goal is to obtain consistent estimates with reduced variance relative to the unconstrained estimator.</p>
+<p>The questions then arise: How should we estimate the coefficient vector <span class="math inline">\(\beta\)</span> imposing the linear restriction (8.1)? If we impose such constraints what is the sampling distribution of the resulting estimator? How should we calculate standard errors? These are the questions explored in this chapter.</p>
+</section>
+<section id="constrained-least-squares" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="constrained-least-squares"><span class="header-section-number">8.2</span> Constrained Least Squares</h2>
+<p>An intuitively appealing method to estimate a constrained linear projection is to minimize the least squares criterion subject to the constraint <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span>.</p>
+<p>The constrained least squares estimator is</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\mathrm{cls}}=\underset{\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}}{\operatorname{argmin}} \operatorname{SSE}(\beta)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}=\boldsymbol{Y}^{\prime} \boldsymbol{Y}-2 \boldsymbol{Y}^{\prime} \boldsymbol{X} \beta+\beta^{\prime} \boldsymbol{X}^{\prime} \boldsymbol{X} \beta
+\]</span></p>
+<p>The estimator <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> minimizes the sum of squared errors over all <span class="math inline">\(\beta \in B\)</span>, or equivalently such that the restriction (8.1) holds. We call <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> the constrained least squares (CLS) estimator. We use the convention of using a tilde ” <span class="math inline">\(\sim\)</span> ” rather than a hat ” <span class="math inline">\(\wedge\)</span> ” to indicate that <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> is a restricted estimator in contrast to the unrestricted least squares estimator <span class="math inline">\(\widehat{\beta}\)</span> and write it as <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> to be clear that the estimation method is CLS.</p>
+<p>One method to find the solution to (8.3) is the technique of Lagrange multipliers. The problem (8.3) is equivalent to finding the critical points of the Lagrangian</p>
+<p><span class="math display">\[
+\mathscr{L}(\beta, \lambda)=\frac{1}{2} \operatorname{SSE}(\beta)+\lambda^{\prime}\left(\boldsymbol{R}^{\prime} \beta-\boldsymbol{c}\right)
+\]</span></p>
+<p>over <span class="math inline">\((\beta, \lambda)\)</span> where <span class="math inline">\(\lambda\)</span> is an <span class="math inline">\(s \times 1\)</span> vector of Lagrange multipliers. The solution is a saddlepoint. The Lagrangian is minimized over <span class="math inline">\(\beta\)</span> while maximized over <span class="math inline">\(\lambda\)</span>. The first-order conditions for the solution of (8.5) are</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \beta} \mathscr{L}\left(\widetilde{\beta}_{\mathrm{cls}}, \widetilde{\lambda}_{\mathrm{cls}}\right)=-\boldsymbol{X}^{\prime} \boldsymbol{Y}+\boldsymbol{X}^{\prime} \boldsymbol{X} \widetilde{\beta}_{\mathrm{cls}}+\boldsymbol{R} \widetilde{\lambda}_{\mathrm{cls}}=0
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \lambda} \mathscr{L}\left(\widetilde{\beta}_{\mathrm{cls}}, \widetilde{\lambda}_{\mathrm{cls}}\right)=\boldsymbol{R}^{\prime} \widetilde{\beta}-\boldsymbol{c}=0
+\]</span></p>
+<p>Premultiplying (8.6) by <span class="math inline">\(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\)</span> we obtain</p>
+<p><span class="math display">\[
+-\boldsymbol{R}^{\prime} \widehat{\beta}+\boldsymbol{R}^{\prime} \widetilde{\beta}_{\mathrm{cls}}+\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R} \tilde{\lambda}_{\text {cls }}=0
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}\)</span> is the unrestricted least squares estimator. Imposing <span class="math inline">\(\boldsymbol{R}^{\prime} \widetilde{\beta}_{\text {cls }}-\boldsymbol{c}=0\)</span> from (8.7) and solving for <span class="math inline">\(\widetilde{\lambda}_{\text {cls we find }}\)</span></p>
+<p><span class="math display">\[
+\tilde{\lambda}_{\text {cls }}=\left[\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right]^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>Notice that <span class="math inline">\(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}&gt;0\)</span> and <span class="math inline">\(\boldsymbol{R}\)</span> full rank imply that <span class="math inline">\(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}&gt;0\)</span> and is hence invertible. (See Section A.10.) Substituting this expression into (8.6) and solving for <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> we find the solution to the constrained minimization problem (8.3)</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\text {cls }}=\widehat{\beta}_{\text {ols }}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left[\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right]^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\text {ols }}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>(See Exercise <span class="math inline">\(8.5\)</span> to verify that (8.8) satisfies (8.1).)</p>
+<p>This is a general formula for the CLS estimator. It also can be written as</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\mathrm{cls}}=\widehat{\beta}_{\mathrm{ols}}-\widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{ols}}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>The CLS residuals are <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widetilde{\beta}_{\text {cls }}\)</span> and are written in vector notation as <span class="math inline">\(\widetilde{\boldsymbol{e}}\)</span>.</p>
+<p>To illustrate we generated a random sample of 100 observations for the variables <span class="math inline">\(\left(Y, X_{1}, X_{2}\right)\)</span> and calculated the sum of squared errors function for the regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span>. Figure <span class="math inline">\(8.1\)</span> displays contour plots of the sum of squared errors function. The center of the contour plots is the least squares minimizer <span class="math inline">\(\widehat{\beta}_{\text {ols }}=(0.33,0.26)^{\prime}\)</span>. Suppose it is desired to estimate the coefficients subject to the constraint <span class="math inline">\(\beta_{1}+\beta_{2}=1\)</span>. This constraint is displayed in the figure by the straight line. The constrained least squares estimator is the point on this straight line which yields the smallest sum of squared errors. This is the point which intersects with the lowest contour plot. The solution is the point where a contour plot is tangent to the constraint line and is marked as <span class="math inline">\(\widetilde{\beta}_{\mathrm{cls}}=(0.52,0.48)^{\prime}\)</span>.</p>
+<p><img src="images//2022_09_17_fb390717b501da243396g-03.jpg" class="img-fluid"></p>
+<p>Figure 8.1: Constrained Least Squares Criterion</p>
+<p>In Stata constrained least squares is implemented using the cnsreg command.</p>
+</section>
+<section id="exclusion-restriction" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="exclusion-restriction"><span class="header-section-number">8.3</span> Exclusion Restriction</h2>
+<p>While (8.8) is a general formula for CLS, in most cases the estimator can be found by applying least squares to a reparameterized equation. To illustrate let us return to the first example presented at the beginning of the chapter - a simple exclusion restriction. Recall that the unconstrained model is</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e
+\]</span></p>
+<p>the exclusion restriction is <span class="math inline">\(\beta_{2}=0\)</span>, and the constrained equation is</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+e .
+\]</span></p>
+<p>In this setting the CLS estimator is OLS of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X_{1}\)</span>. (See Exercise 8.1.) We can write this as</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{1}=\left(\sum_{i=1}^{n} X_{1 i} X_{1 i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{1 i} Y_{i}\right) .
+\]</span></p>
+<p>The CLS estimator of the entire vector <span class="math inline">\(\beta^{\prime}=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)\)</span> is</p>
+<p><span class="math display">\[
+\widetilde{\beta}=\left(\begin{array}{c}
+\widetilde{\beta}_{1} \\
+0
+\end{array}\right) .
+\]</span></p>
+<p>It is not immediately obvious but (8.8) and (8.13) are algebraically identical. To see this the first component of (8.8) with (8.2) is</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{1}=\left(\begin{array}{ll}
+\boldsymbol{I}_{k_{2}} &amp; 0
+\end{array}\right)\left[\widehat{\beta}-\widehat{\boldsymbol{Q}}_{X X}^{-1}\left(\begin{array}{c}
+0 \\
+\boldsymbol{I}_{k_{2}}
+\end{array}\right)\left[\left(\begin{array}{ll}
+0 &amp; \boldsymbol{I}_{k_{2}}
+\end{array}\right) \widehat{\boldsymbol{Q}}_{X X}^{-1}\left(\begin{array}{c}
+0 \\
+\boldsymbol{I}_{k_{2}}
+\end{array}\right)\right]^{-1}\left(\begin{array}{cc}
+0 &amp; \boldsymbol{I}_{k_{2}}
+\end{array}\right) \widehat{\beta}\right] .
+\]</span></p>
+<p>Using (3.39) this equals</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \widetilde{\beta}_{1}=\widehat{\beta}_{1}-\widehat{\boldsymbol{Q}}^{12}\left(\widehat{\boldsymbol{Q}}^{22}\right)^{-1} \widehat{\beta}_{2} \\
+&amp; =\widehat{\beta}_{1}+\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{22 \cdot 1} \widehat{\beta}_{2} \\
+&amp; =\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1}\left(\widehat{\boldsymbol{Q}}_{1 Y}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{2 Y}\right) \\
+&amp; +\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{22 \cdot 1} \widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1}\left(\widehat{\boldsymbol{Q}}_{2 y}-\widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{1 Y}\right) \\
+&amp; =\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1}\left(\widehat{\boldsymbol{Q}}_{1 Y}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\mathbf{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{1 Y}\right) \\
+&amp; =\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1}\left(\widehat{\boldsymbol{Q}}_{11}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{21}\right) \widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{1 Y} \\
+&amp; =\widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{1 Y}
+\end{aligned}
+\]</span></p>
+<p>which is (8.13) as originally claimed.</p>
+</section>
+<section id="finite-sample-properties" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="finite-sample-properties"><span class="header-section-number">8.4</span> Finite Sample Properties</h2>
+<p>In this section we explore some of the properties of the CLS estimator in the linear regression model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>First, it is useful to write the estimator and the residuals as linear functions of the error vector. These are algebraic relationships and do not rely on the linear regression assumptions. Theorem 8.1 The CLS estimator satisfies</p>
+<ol type="1">
+<li><p><span class="math inline">\(\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}=\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{e}\)</span></p></li>
+<li><p><span class="math inline">\(\widetilde{\beta}_{\mathrm{cls}}-\beta=\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}-\boldsymbol{A} \boldsymbol{X}^{\prime}\right) \boldsymbol{e}\)</span></p></li>
+<li><p><span class="math inline">\(\widetilde{\boldsymbol{e}}=\left(\boldsymbol{I}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right) \boldsymbol{e}\)</span></p></li>
+<li><p><span class="math inline">\(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\)</span> is symmetric and idempotent</p></li>
+<li><p><span class="math inline">\(\operatorname{tr}\left(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right)=n-k+q\)</span></p></li>
+</ol>
+<p>where <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span> and <span class="math inline">\(\boldsymbol{A}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\)</span></p>
+<p>For a proof see Exercise 8.6.</p>
+<p>Given the linearity of Theorem 8.1.2 it is not hard to show that the CLS estimator is unbiased for <span class="math inline">\(\beta\)</span>.</p>
+<p>Theorem 8.2 In the linear regression model (8.14)-(8.15) under (8.1), <span class="math inline">\(\mathbb{E}\left[\widetilde{\beta}_{\mathrm{cls}} \mid \boldsymbol{X}\right]=\beta\)</span></p>
+<p>For a proof see Exercise 8.7.</p>
+<p>We can also calculate the covariance matrix of <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span>. First, for simplicity take the case of conditional homoskedasticity.</p>
+<p>Theorem 8.3 In the homoskedastic linear regression model (8.14)-(8.15) with <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span>, under (8.1),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V}_{\widetilde{\beta}}^{0} &amp;=\operatorname{var}\left[\widetilde{\beta}_{\mathrm{cls}} \mid \boldsymbol{X}\right] \\
+&amp;=\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) \sigma^{2}
+\end{aligned}
+\]</span></p>
+<p>For a proof see Exercise 8.8.</p>
+<p>We use the <span class="math inline">\(\boldsymbol{V}_{\tilde{\beta}}^{0}\)</span> notation to emphasize that this is the covariance matrix under the assumption of conditional homoskedasticity.</p>
+<p>For inference we need an estimate of <span class="math inline">\(\boldsymbol{V}_{\widetilde{\beta}}^{0}\)</span>. A natural estimator is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widetilde{\beta}}^{0}=\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) s_{\mathrm{cls}}^{2}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+s_{\mathrm{cls}}^{2}=\frac{1}{n-k+q} \sum_{i=1}^{n} \widetilde{e}_{i}^{2}
+\]</span></p>
+<p>is a biased-corrected estimator of <span class="math inline">\(\sigma^{2}\)</span>. Standard errors for the components of <span class="math inline">\(\beta\)</span> are then found by taking the squares roots of the diagonal elements of <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widetilde{\beta}}\)</span>, for example</p>
+<p><span class="math display">\[
+s\left(\widehat{\beta}_{j}\right)=\sqrt{\left[\widehat{\boldsymbol{V}}_{\widetilde{\beta}}^{0}\right]_{j j}} .
+\]</span></p>
+<p>The estimator (8.16) has the property that it is unbiased for <span class="math inline">\(\sigma^{2}\)</span> under conditional homoskedasticity. To see this, using the properties of Theorem 8.1,</p>
+<p><span class="math display">\[
+\begin{aligned}
+(n-k+q) s_{\mathrm{cls}}^{2} &amp;=\widetilde{\boldsymbol{e}}^{\prime} \widetilde{\boldsymbol{e}} \\
+&amp;=\boldsymbol{e}^{\prime}\left(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right)\left(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right) \boldsymbol{e} \\
+&amp;=\boldsymbol{e}^{\prime}\left(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right) \boldsymbol{e} .
+\end{aligned}
+\]</span></p>
+<p>We defer the remainder of the proof to Exercise 8.9.</p>
+<p>Theorem 8.4 In the homoskedastic linear regression model (8.14)-(8.15) with <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span>, under (8.1), <span class="math inline">\(\mathbb{E}\left[s_{\text {cls }}^{2} \mid \boldsymbol{X}\right]=\sigma^{2}\)</span> and <span class="math inline">\(\mathbb{E}\left[\widehat{\boldsymbol{V}}_{\widetilde{\beta}}^{0} \mid \boldsymbol{X}\right]=\boldsymbol{V}_{\widetilde{\beta}}^{0} .\)</span></p>
+<p>Now consider the distributional properties in the normal regression model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(e \sim\)</span> <span class="math inline">\(\mathrm{N}\left(0, \sigma^{2}\right)\)</span>. By the linearity of Theorem 8.1.2, conditional on <span class="math inline">\(\boldsymbol{X}, \widetilde{\beta}_{\text {cls }}-\beta\)</span> is normal. Given Theorems <span class="math inline">\(8.2\)</span> and <span class="math inline">\(8.3\)</span> we deduce that <span class="math inline">\(\widetilde{\beta}_{\mathrm{cls}} \sim \mathrm{N}\left(\beta, \boldsymbol{V}_{\widetilde{\beta}}^{0}\right)\)</span>.</p>
+<p>Similarly, from Exericise <span class="math inline">\(8.1\)</span> we know <span class="math inline">\(\widetilde{\boldsymbol{e}}=\left(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right) \boldsymbol{e}\)</span> is linear in <span class="math inline">\(\boldsymbol{e}\)</span> so is also conditionally normal. Furthermore, since <span class="math inline">\(\left(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\right)\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}-\boldsymbol{X} \boldsymbol{A}\right)=0, \widetilde{\boldsymbol{e}}\)</span> and <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> are uncorrelated and thus independent. Thus <span class="math inline">\(s_{\text {cls }}^{2}\)</span> and <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> are independent.</p>
+<p>From (8.17) and the fact that <span class="math inline">\(\boldsymbol{I}_{n}-\boldsymbol{P}+\boldsymbol{X} \boldsymbol{A} \boldsymbol{X}^{\prime}\)</span> is idempotent with rank <span class="math inline">\(n-k+q\)</span> it follows that</p>
+<p><span class="math display">\[
+s_{\text {cls }}^{2} \sim \sigma^{2} \chi_{n-k+q}^{2} /(n-k+q) .
+\]</span></p>
+<p>It follows that the <span class="math inline">\(\mathrm{t}\)</span>-statistic has the exact distribution</p>
+<p><span class="math display">\[
+T=\frac{\widehat{\beta}_{j}-\beta_{j}}{s\left(\widehat{\beta}_{j}\right)} \sim \frac{\mathrm{N}(0,1)}{\sqrt{\chi_{n-k+q}^{2} /(n-k+q)}} \sim t_{n-k+q}
+\]</span></p>
+<p>a student <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-k+q\)</span> degrees of freedom.</p>
+<p>The relevance of this calculation is that the “degrees of freedom” for CLS regression equal <span class="math inline">\(n-k+q\)</span> rather than <span class="math inline">\(n-k\)</span> as in OLS. Essentially the model has <span class="math inline">\(k-q\)</span> free parameters instead of <span class="math inline">\(k\)</span>. Another way of thinking about this is that estimation of a model with <span class="math inline">\(k\)</span> coefficients and <span class="math inline">\(q\)</span> restrictions is equivalent to estimation with <span class="math inline">\(k-q\)</span> coefficients.</p>
+<p>We summarize the properties of the normal regression model. Theorem 8.5 In the normal linear regression model (8.14)-(8.15) with constraint (8.1),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widetilde{\beta}_{\mathrm{cls}} \sim \mathrm{N}\left(\beta, \boldsymbol{V}_{\widetilde{\beta}}^{0}\right) \\
+\frac{(n-k+q) s_{\mathrm{cls}}^{2}}{\sigma^{2}} \sim \chi_{n-k+q}^{2} \\
+T &amp; \sim t_{n-k+q} .
+\end{aligned}
+\]</span></p>
+<p>An interesting relationship is that in the homoskedastic regression model</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{cov}\left(\widehat{\beta}_{\mathrm{ols}}-\widetilde{\beta}_{\mathrm{cls}}, \widetilde{\beta}_{\mathrm{cls}} \mid \boldsymbol{X}\right) &amp;=\mathbb{E}\left[\left(\widehat{\beta}_{\mathrm{ols}}-\widetilde{\beta}_{\mathrm{cls}}\right)\left(\widetilde{\beta}_{\mathrm{cls}}-\beta\right)^{\prime} \mid \boldsymbol{X}\right] \\
+&amp;=\mathbb{E}\left[\boldsymbol{A} \boldsymbol{X}^{\prime} \boldsymbol{e} \boldsymbol{e}^{\prime}\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}-\boldsymbol{X} \boldsymbol{A}\right) \mid \boldsymbol{X}\right] \\
+&amp;=\boldsymbol{A} \boldsymbol{X}^{\prime}\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}-\boldsymbol{X} \boldsymbol{A}\right) \sigma^{2}=0 .
+\end{aligned}
+\]</span></p>
+<p>This means that <span class="math inline">\(\widehat{\beta}_{\text {ols }}-\widetilde{\beta}_{\text {cls }}\)</span> and <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> are conditionally uncorrelated and hence independent. A corollary is</p>
+<p><span class="math display">\[
+\operatorname{cov}\left(\widehat{\beta}_{\text {ols }}, \widetilde{\beta}_{\text {cls }} \mid \boldsymbol{X}\right)=\operatorname{var}\left[\widetilde{\beta}_{\text {cls }} \mid \boldsymbol{X}\right] .
+\]</span></p>
+<p>A second corollary is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{var}\left[\widehat{\beta}_{\mathrm{ols}}-\widetilde{\beta}_{\mathrm{cls}} \mid \boldsymbol{X}\right] &amp;=\operatorname{var}\left[\widehat{\beta}_{\mathrm{ols}} \mid \boldsymbol{X}\right]-\operatorname{var}\left[\widetilde{\beta}_{\mathrm{cls}} \mid \boldsymbol{X}\right] \\
+&amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \sigma^{2}
+\end{aligned}
+\]</span></p>
+<p>This also shows that the difference between the CLS and OLS variances matrices equals</p>
+<p><span class="math display">\[
+\operatorname{var}\left[\widehat{\beta}_{\text {ols }} \mid \boldsymbol{X}\right]-\operatorname{var}\left[\widetilde{\beta}_{\mathrm{cls}} \mid \boldsymbol{X}\right]=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \sigma^{2} \geq 0
+\]</span></p>
+<p>the final equality meaning positive semi-definite. It follows that <span class="math inline">\(\operatorname{var}\left[\widehat{\beta}_{\text {ols }} \mid \boldsymbol{X}\right] \geq \operatorname{var}\left[\widetilde{\beta}_{\text {cls }} \mid \boldsymbol{X}\right]\)</span> in the positive definite sense, and thus CLS is more efficient than OLS. Both estimators are unbiased (in the linear regression model) and CLS has a lower covariance matrix (in the linear homoskedastic regression model).</p>
+<p>The relationship (8.18) is rather interesting and will appear again. The expression says that the variance of the difference between the estimators is equal to the difference between the variances. This is rather special. It occurs generically when we are comparing an efficient and an inefficient estimator. We call (8.18) the Hausman Equality as it was first pointed out in econometrics by Hausman (1978).</p>
+</section>
+<section id="minimum-distance" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="minimum-distance"><span class="header-section-number">8.5</span> Minimum Distance</h2>
+<p>The previous section explored the finite sample distribution theory under the assumptions of the linear regression model, homoskedastic regression model, and normal regression model. We now return to the general projection model where we do not impose linearity, homoskedasticity, nor normality. We are interested in the question: Can we do better than CLS in this setting?</p>
+<p>A minimum distance estimator tries to find a parameter value satisfying the constraint which is as close as possible to the unconstrained estimator. Let <span class="math inline">\(\widehat{\beta}\)</span> be the unconstrained least squares estimator, and for some <span class="math inline">\(k \times k\)</span> positive definite weight matrix <span class="math inline">\(\widehat{W}\)</span> define the quadratic criterion function</p>
+<p><span class="math display">\[
+J(\beta)=n(\widehat{\beta}-\beta)^{\prime} \widehat{\boldsymbol{W}}(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>This is a (squared) weighted Euclidean distance between <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(\beta . J(\beta)\)</span> is small if <span class="math inline">\(\beta\)</span> is close to <span class="math inline">\(\widehat{\beta}\)</span>, and is minimized at zero only if <span class="math inline">\(\beta=\widehat{\beta}\)</span>. A minimum distance estimator <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}\)</span> for <span class="math inline">\(\beta\)</span> minimizes <span class="math inline">\(J(\beta)\)</span> subject to the constraint (8.1), that is,</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\mathrm{md}}=\underset{\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}}{\operatorname{argmin}} J(\beta) .
+\]</span></p>
+<p>The CLS estimator is the special case when <span class="math inline">\(\widehat{\boldsymbol{W}}=\widehat{\boldsymbol{Q}}_{X X}\)</span> and we write this criterion function as</p>
+<p><span class="math display">\[
+J^{0}(\beta)=n(\widehat{\beta}-\beta)^{\prime} \widehat{\boldsymbol{Q}}_{X X}(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>To see the equality of CLS and minimum distance rewrite the least squares criterion as follows. Substitute the unconstrained least squares fitted equation <span class="math inline">\(Y_{i}=X_{i}^{\prime} \widehat{\beta}+\widehat{e}_{i}\)</span> into <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> to obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{SSE}(\beta) &amp;=\sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2} \\
+&amp;=\sum_{i=1}^{n}\left(X_{i}^{\prime} \widehat{\beta}+\widehat{e}_{i}-X_{i}^{\prime} \beta\right)^{2} \\
+&amp;=\sum_{i=1}^{n} \widehat{e}_{i}^{2}+(\widehat{\beta}-\beta)^{\prime}\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)(\widehat{\beta}-\beta) \\
+&amp;=n \widehat{\sigma}^{2}+J^{0}(\beta)
+\end{aligned}
+\]</span></p>
+<p>where the third equality uses the fact that <span class="math inline">\(\sum_{i=1}^{n} X_{i} \widehat{e}_{i}=0\)</span>, and the last line uses <span class="math inline">\(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}=n \widehat{\mathbf{Q}}_{X X}\)</span>. The expression (8.21) only depends on <span class="math inline">\(\beta\)</span> through <span class="math inline">\(J^{0}(\beta)\)</span>. Thus minimization of <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> and <span class="math inline">\(J^{0}(\beta)\)</span> are equivalent, and hence <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}=\widetilde{\widetilde{\beta}}_{\text {cls }}\)</span> when <span class="math inline">\(\widehat{\boldsymbol{W}}=\widehat{\boldsymbol{Q}}_{X X}\)</span>.</p>
+<p>We can solve for <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}\)</span> explicitly by the method of Lagrange multipliers. The Lagrangian is</p>
+<p><span class="math display">\[
+\mathscr{L}(\beta, \lambda)=\frac{1}{2} J(\beta, \widehat{\boldsymbol{W}})+\lambda^{\prime}\left(\boldsymbol{R}^{\prime} \beta-\boldsymbol{c}\right) .
+\]</span></p>
+<p>The solution to the pair of first order conditions is</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\widetilde{\lambda}_{\mathrm{md}}=n\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{\beta}}-\boldsymbol{c}\right) \\
+&amp;\widetilde{\beta}_{\mathrm{md}}=\widehat{\boldsymbol{\beta}}-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}\right) .
+\end{aligned}
+\]</span></p>
+<p>(See Exercise 8.10.) Comparing (8.23) with (8.9) we can see that <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}\)</span> specializes to <span class="math inline">\(\widetilde{\beta}_{\text {cls }}\)</span> when we set <span class="math inline">\(\widehat{\boldsymbol{W}}=\widehat{\boldsymbol{Q}}_{X X}\)</span></p>
+<p>An obvious question is which weight matrix <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> is best. We will address this question after we derive the asymptotic distribution for a general weight matrix.</p>
+</section>
+<section id="asymptotic-distribution" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="asymptotic-distribution"><span class="header-section-number">8.6</span> Asymptotic Distribution</h2>
+<p>We first show that the class of minimum distance estimators are consistent for the population parameters when the constraints are valid.</p>
+<p>Assumption 8.1 <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span> where <span class="math inline">\(\boldsymbol{R}\)</span> is <span class="math inline">\(k \times q\)</span> with <span class="math inline">\(\operatorname{rank}(\boldsymbol{R})=q\)</span>. Assumption 8.2 <span class="math inline">\(\widehat{W} \underset{p}{\longrightarrow} W&gt;0\)</span>.</p>
+<p>Theorem 8.6 Consistency Under Assumptions 7.1, 8.1, and 8.2, <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}} \underset{p}{\longrightarrow} \beta\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>For a proof see Exercise 8.11.</p>
+<p>Theorem <span class="math inline">\(8.6\)</span> shows that consistency holds for any weight matrix with a positive definite limit so includes the CLS estimator.</p>
+<p>Similarly, the constrained estimators are asymptotically normally distributed.</p>
+<p>Theorem 8.7 Asymptotic Normality Under Assumptions 7.2, 8.1, and 8.2,</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{md}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}(\boldsymbol{W})\right)
+\]</span></p>
+<p>as <span class="math inline">\(n \rightarrow \infty\)</span>, where</p>
+<p><span class="math display">\[
+\begin{gathered}
+\boldsymbol{V}_{\beta}(\boldsymbol{W})=\boldsymbol{V}_{\beta}-\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \\
+-\boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \\
++\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{W}^{-1}
+\end{gathered}
+\]</span></p>
+<p>and <span class="math inline">\(\boldsymbol{V}_{\beta}=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}\)</span></p>
+<p>For a proof see Exercise 8.12.</p>
+<p>Theorem <span class="math inline">\(8.7\)</span> shows that the minimum distance estimator is asymptotically normal for all positive definite weight matrices. The asymptotic variance depends on <span class="math inline">\(\boldsymbol{W}\)</span>. The theorem includes the CLS estimator as a special case by setting <span class="math inline">\(\boldsymbol{W}=\boldsymbol{Q}_{X X}\)</span>.</p>
+<p>Theorem 8.8 Asymptotic Distribution of CLS Estimator Under Assumptions <span class="math inline">\(7.2\)</span> and 8.1, as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{cls}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\mathrm{cls}}\right)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V}_{\mathrm{cls}} &amp;=\boldsymbol{V}_{\beta}-\boldsymbol{Q}_{X X}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{Q}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \\
+&amp;-\boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{Q}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{Q}_{X X}^{-1} \\
+&amp;+\boldsymbol{Q}_{X X}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{Q}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{Q}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{Q}_{X X}^{-1}
+\end{aligned}
+\]</span></p>
+<p>For a proof see Exercise 8.13.</p>
+</section>
+<section id="variance-estimation-and-standard-errors" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="variance-estimation-and-standard-errors"><span class="header-section-number">8.7</span> Variance Estimation and Standard Errors</h2>
+<p>Earlier we introduced the covariance matrix estimator under the assumption of conditional homoskedasticity. We now introduce an estimator which does not impose homoskedasticity.</p>
+<p>The asymptotic covariance matrix <span class="math inline">\(\boldsymbol{V}_{\text {cls }}\)</span> may be estimated by replacing <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> with a consistent estimator such as <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}\)</span>. A more efficient estimator can be obtained by using the restricted coefficient estimator which we now show. Given the constrained least squares squares residuals <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widetilde{\beta}_{\text {cls }}\)</span> we can estimate the matrix <span class="math inline">\(\Omega=\mathbb{E}\left[X X^{\prime} e^{2}\right]\)</span> by</p>
+<p><span class="math display">\[
+\widetilde{\Omega}=\frac{1}{n-k+q} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widetilde{e}_{i}^{2} .
+\]</span></p>
+<p>Notice that we have used an adjusted degrees of freedom. This is an <span class="math inline">\(a d\)</span> hoc adjustment designed to mimic that used for estimation of the error variance <span class="math inline">\(\sigma^{2}\)</span>. The moment estimator of <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> is</p>
+<p><span class="math display">\[
+\widetilde{\boldsymbol{V}}_{\beta}=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widetilde{\Omega} \widehat{\boldsymbol{Q}}_{X X}^{-1}
+\]</span></p>
+<p>and that for <span class="math inline">\(\boldsymbol{V}_{\mathrm{cls}}\)</span> is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widetilde{\boldsymbol{V}}_{\mathrm{cls}} &amp;=\widetilde{\boldsymbol{V}}_{\beta}-\widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \widetilde{\boldsymbol{V}}_{\beta} \\
+&amp;-\widetilde{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{\boldsymbol{x x}}^{-1} \\
+&amp;+\widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \widetilde{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1}
+\end{aligned}
+\]</span></p>
+<p>We can calculate standard errors for any linear combination <span class="math inline">\(h^{\prime} \widetilde{\beta}_{\text {cls }}\)</span> such that <span class="math inline">\(h\)</span> does not lie in the range space of <span class="math inline">\(\boldsymbol{R}\)</span>. A standard error for <span class="math inline">\(h^{\prime} \widetilde{\beta}\)</span> is</p>
+<p><span class="math display">\[
+s\left(h^{\prime} \widetilde{\boldsymbol{\beta}}_{\mathrm{cls}}\right)=\left(n^{-1} h^{\prime} \tilde{\boldsymbol{V}}_{\mathrm{cls}} h\right)^{1 / 2} .
+\]</span></p>
+</section>
+<section id="efficient-minimum-distance-estimator" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="efficient-minimum-distance-estimator"><span class="header-section-number">8.8</span> Efficient Minimum Distance Estimator</h2>
+<p>Theorem <span class="math inline">\(8.7\)</span> shows that minimum distance estimators, which include CLS as a special case, are asymptotically normal with an asymptotic covariance matrix which depends on the weight matrix <span class="math inline">\(\boldsymbol{W}\)</span>. The asymptotically optimal weight matrix is the one which minimizes the asymptotic variance <span class="math inline">\(\boldsymbol{V}_{\beta}(\boldsymbol{W})\)</span>. This turns out to be <span class="math inline">\(\boldsymbol{W}=\boldsymbol{V}_{\beta}^{-1}\)</span> as is shown in Theorem <span class="math inline">\(8.9\)</span> below. Since <span class="math inline">\(\boldsymbol{V}_{\beta}^{-1}\)</span> is unknown this weight matrix cannot be used for a feasible estimator but we can replace <span class="math inline">\(\boldsymbol{V}_{\beta}^{-1}\)</span> with a consistent estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{-1}\)</span> and the asymptotic distribution (and efficiency) are unchanged. We call the minimum distance estimator with <span class="math inline">\(\widehat{\boldsymbol{W}}=\widehat{\boldsymbol{V}}_{\beta}^{-1}\)</span> the efficient minimum distance estimator and takes the form</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\text {emd }}=\widehat{\beta}-\widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>The asymptotic distribution of (8.25) can be deduced from Theorem 8.7. (See Exercises <span class="math inline">\(8.14\)</span> and 8.15, and the proof in Section 8.16.)</p>
+<p>Theorem 8.9 Efficient Minimum Distance Estimator Under Assumptions <span class="math inline">\(7.2\)</span> and 8.1,</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{emd}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta, \mathrm{emd}}\right)
+\]</span></p>
+<p>as <span class="math inline">\(n \rightarrow \infty\)</span>, where</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta, \mathrm{emd}}=\boldsymbol{V}_{\beta}-\boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta}
+\]</span></p>
+<p>Since</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta, \mathrm{emd}} \leq \boldsymbol{V}_{\beta}
+\]</span></p>
+<p>the estimator (8.25) has lower asymptotic variance than the unrestricted estimator. Furthermore, for any <span class="math inline">\(\boldsymbol{W}\)</span>,</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta, \mathrm{emd}} \leq \boldsymbol{V}_{\beta}(\boldsymbol{W})
+\]</span></p>
+<p>so (8.25) is asymptotically efficient in the class of minimum distance estimators.</p>
+<p>Theorem <span class="math inline">\(8.9\)</span> shows that the minimum distance estimator with the smallest asymptotic variance is (8.25). One implication is that the constrained least squares estimator is generally inefficient. The interesting exception is the case of conditional homoskedasticity in which case the optimal weight matrix is <span class="math inline">\(\boldsymbol{W}=\left(\boldsymbol{V}_{\beta}^{0}\right)^{-1}\)</span> so in this case CLS is an efficient minimum distance estimator. Otherwise when the error is conditionally heteroskedastic there are asymptotic efficiency gains by using minimum distance rather than least squares.</p>
+<p>The fact that CLS is generally inefficient is counter-intuitive and requires some reflection. Standard intuition suggests to apply the same estimation method (least squares) to the unconstrained and constrained models and this is the common empirical practice. But Theorem <span class="math inline">\(8.9\)</span> shows that this is inefficient. Why? The reason is that the least squares estimator does not make use of the regressor <span class="math inline">\(X_{2}\)</span>. It ignores the information <span class="math inline">\(\mathbb{E}\left[X_{2} e\right]=0\)</span>. This information is relevant when the error is heteroskedastic and the excluded regressors are correlated with the included regressors.</p>
+<p>Inequality (8.27) shows that the efficient minimum distance estimator <span class="math inline">\(\widetilde{\beta}_{\text {emd }}\)</span> has a smaller asymptotic variance than the unrestricted least squares estimator <span class="math inline">\(\widehat{\beta}\)</span>. This means that efficient estimation is attained by imposing correct restrictions when we use the minimum distance method.</p>
+</section>
+<section id="exclusion-restriction-revisited" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="exclusion-restriction-revisited"><span class="header-section-number">8.9</span> Exclusion Restriction Revisited</h2>
+<p>We return to the example of estimation with a simple exclusion restriction. The model is</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e
+\]</span></p>
+<p>with the exclusion restriction <span class="math inline">\(\beta_{2}=0\)</span>. We have introduced three estimators of <span class="math inline">\(\beta_{1}\)</span>. The first is unconstrained least squares applied to (8.10) which can be written as <span class="math inline">\(\widehat{\beta}_{1}=\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{1 Y \cdot 2}\)</span>. From Theorem <span class="math inline">\(7.25\)</span> and equation (7.14) its asymptotic variance is</p>
+<p><span class="math display">\[
+\operatorname{avar}\left[\widehat{\beta}_{1}\right]=\boldsymbol{Q}_{11 \cdot 2}^{-1}\left(\Omega_{11}-\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \Omega_{21}-\Omega_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}+\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \Omega_{22} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}\right) \boldsymbol{Q}_{11 \cdot 2}^{-1}
+\]</span></p>
+<p>The second estimator of <span class="math inline">\(\beta_{1}\)</span> is CLS, which can be written as <span class="math inline">\(\widetilde{\beta}_{1}=\widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{1 Y}\)</span>. Its asymptotic variance can be deduced from Theorem 8.8, but it is simpler to apply the CLT directly to show that</p>
+<p><span class="math display">\[
+\operatorname{avar}\left[\widetilde{\beta}_{1}\right]=\boldsymbol{Q}_{11}^{-1} \Omega_{11} \boldsymbol{Q}_{11}^{-1} .
+\]</span></p>
+<p>The third estimator of <span class="math inline">\(\beta_{1}\)</span> is efficient minimum distance. Applying (8.25), it equals</p>
+<p><span class="math display">\[
+\bar{\beta}_{1}=\widehat{\beta}_{1}-\widehat{\boldsymbol{V}}_{12} \widehat{\boldsymbol{V}}_{22}^{-1} \widehat{\beta}_{2}
+\]</span></p>
+<p>where we have partitioned</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left[\begin{array}{ll}
+\widehat{\boldsymbol{V}}_{11} &amp; \widehat{\boldsymbol{V}}_{12} \\
+\widehat{\boldsymbol{V}}_{21} &amp; \widehat{\boldsymbol{V}}_{22}
+\end{array}\right]
+\]</span></p>
+<p>From Theorem <span class="math inline">\(8.9\)</span> its asymptotic variance is</p>
+<p><span class="math display">\[
+\operatorname{avar}\left[\bar{\beta}_{1}\right]=\boldsymbol{V}_{11}-\boldsymbol{V}_{12} \boldsymbol{V}_{22}^{-1} \boldsymbol{V}_{21}
+\]</span></p>
+<p>See Exercise <span class="math inline">\(8.16\)</span> to verify equations (8.29), (8.30), and (8.31).</p>
+<p>In general the three estimators are different and they have different asymptotic variances. It is instructive to compare the variances to assess whether or not the constrained estimator is more efficient than the unconstrained estimator.</p>
+<p>First, assume conditional homoskedasticity. In this case the two covariance matrices simplify to <span class="math inline">\(\operatorname{avar}\left[\widehat{\beta}_{1}\right]=\sigma^{2} \boldsymbol{Q}_{11 \cdot 2}^{-1}\)</span> and <span class="math inline">\(\operatorname{avar}\left[\widetilde{\beta}_{1}\right]=\sigma^{2} \boldsymbol{Q}_{11}^{-1}\)</span>. If <span class="math inline">\(\boldsymbol{Q}_{12}=0\)</span> (so <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> are uncorrelated) then these two variance matrices are equal and the two estimators have equal asymptotic efficiency. Otherwise, since <span class="math inline">\(\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21} \geq 0\)</span>, then <span class="math inline">\(\boldsymbol{Q}_{11} \geq \boldsymbol{Q}_{11}-\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}\)</span> and consequently</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_{11}^{-1} \sigma^{2} \leq\left(\boldsymbol{Q}_{11}-\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}\right)^{-1} \sigma^{2} .
+\]</span></p>
+<p>This means that under conditional homoskedasticity <span class="math inline">\(\widetilde{\beta}_{1}\)</span> has a lower asymptotic covariance matrix than <span class="math inline">\(\widehat{\beta}_{1}\)</span>. Therefore in this context constrained least squares is more efficient than unconstrained least squares. This is consistent with our intuition that imposing a correct restriction (excluding an irrelevant regressor) improves estimation efficiency.</p>
+<p>However, in the general case of conditional heteroskedasticity this ranking is not guaranteed. In fact what is really amazing is that the variance ranking can be reversed. The CLS estimator can have a larger asymptotic variance than the unconstrained least squares estimator.</p>
+<p>To see this let’s use the simple heteroskedastic example from Section 7.4. In that example, <span class="math inline">\(Q_{11}=\)</span> <span class="math inline">\(Q_{22}=1, Q_{12}=\frac{1}{2}, \Omega_{11}=\Omega_{22}=1\)</span>, and <span class="math inline">\(\Omega_{12}=\frac{7}{8}\)</span>. We can calculate (see Exercise 8.17) that <span class="math inline">\(Q_{11 \cdot 2}=\frac{3}{4}\)</span> and</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{avar}\left[\widehat{\beta}_{1}\right] &amp;=\frac{2}{3} \\
+\operatorname{avar}\left[\widetilde{\beta}_{1}\right] &amp;=1 \\
+\operatorname{avar}\left[\bar{\beta}_{1}\right] &amp;=\frac{5}{8} .
+\end{aligned}
+\]</span></p>
+<p>Thus the CLS estimator <span class="math inline">\(\widetilde{\beta}_{1}\)</span> has a larger variance than the unrestricted least squares estimator <span class="math inline">\(\widehat{\beta}_{1}\)</span> ! The minimum distance estimator has the smallest variance of the three, as expected.</p>
+<p>What we have found is that when the estimation method is least squares, deleting the irrelevant variable <span class="math inline">\(X_{2}\)</span> can actually increase estimation variance, or equivalently, adding an irrelevant variable can decrease the estimation variance. To repeat this unexpected finding, we have shown that it is possible for least squares applied to the short regression (8.11) to be less efficient for estimation of <span class="math inline">\(\beta_{1}\)</span> than least squares applied to the long regression (8.10) even though the constraint <span class="math inline">\(\beta_{2}=0\)</span> is valid! This result is strongly counter-intuitive. It seems to contradict our initial motivation for pursuing constrained estimation - to improve estimation efficiency.</p>
+<p>It turns out that a more refined answer is appropriate. Constrained estimation is desirable but not necessarily CLS. While least squares is asymptotically efficient for estimation of the unconstrained projection model it is not an efficient estimator of the constrained projection model.</p>
+</section>
+<section id="variance-and-standard-error-estimation" class="level2" data-number="8.10">
+<h2 data-number="8.10" class="anchored" data-anchor-id="variance-and-standard-error-estimation"><span class="header-section-number">8.10</span> Variance and Standard Error Estimation</h2>
+<p>We have discussed covariance matrix estimation for CLS but not yet for the EMD estimator.</p>
+<p>The asymptotic covariance matrix (8.26) may be estimated by replacing <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> with a consistent estimator. It is best to construct the variance estimate using <span class="math inline">\(\widetilde{\beta}_{\text {emd. }}\)</span>. The EMD residuals are <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widetilde{\beta}_{\text {emd }}\)</span>. Using these we can estimate the matrix <span class="math inline">\(\Omega=\mathbb{E}\left[X X^{\prime} e^{2}\right]\)</span> by</p>
+<p><span class="math display">\[
+\widetilde{\Omega}=\frac{1}{n-k+q} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widetilde{e}_{i}^{2} \text {. }
+\]</span></p>
+<p>Following the formula for CLS we recommend an adjusted degrees of freedom. Given <span class="math inline">\(\widetilde{\Omega}\)</span> the moment estimator of <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> is <span class="math inline">\(\widetilde{\boldsymbol{V}}_{\beta}=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widetilde{\Omega} \widehat{\boldsymbol{Q}}_{X X}^{-1}\)</span>. Given this, we construct the variance estimator</p>
+<p><span class="math display">\[
+\widetilde{\boldsymbol{V}}_{\beta, \mathrm{emd}}=\widetilde{\boldsymbol{V}}_{\beta}-\widetilde{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widetilde{\boldsymbol{V}}_{\beta} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \widetilde{\boldsymbol{V}}_{\beta} .
+\]</span></p>
+<p>A standard error for <span class="math inline">\(h^{\prime} \widetilde{\beta}\)</span> is then</p>
+<p><span class="math display">\[
+s\left(h^{\prime} \widetilde{\beta}\right)=\left(n^{-1} h^{\prime} \widetilde{\boldsymbol{V}}_{\beta, \text { emd }} h\right)^{1 / 2} .
+\]</span></p>
+</section>
+<section id="hausman-equality" class="level2" data-number="8.11">
+<h2 data-number="8.11" class="anchored" data-anchor-id="hausman-equality"><span class="header-section-number">8.11</span> Hausman Equality</h2>
+<p>Form (8.25) we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{n}\left(\widehat{\beta}_{\mathrm{ols}}-\widetilde{\beta}_{\mathrm{emd}}\right) &amp;=\widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\right)^{-1} \sqrt{n}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{ols}}-\boldsymbol{c}\right) \\
+&amp; \underset{d}{\mathrm{~N}}\left(0, \boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta}\right)
+\end{aligned}
+\]</span></p>
+<p>It follows that the asymptotic variances of the estimators satisfy the relationship</p>
+<p><span class="math display">\[
+\operatorname{avar}\left[\widehat{\beta}_{\mathrm{ols}}-\widetilde{\beta}_{\mathrm{emd}}\right]=\operatorname{avar}\left[\widehat{\beta}_{\mathrm{ols}}\right]-\operatorname{avar}\left[\widetilde{\beta}_{\mathrm{emd}}\right] .
+\]</span></p>
+<p>We call (8.37) the Hausman Equality: the asymptotic variance of the difference between an efficient and another estimator is the difference in the asymptotic variances.</p>
+</section>
+<section id="example-mankiw-romer-and-weil-1992" class="level2" data-number="8.12">
+<h2 data-number="8.12" class="anchored" data-anchor-id="example-mankiw-romer-and-weil-1992"><span class="header-section-number">8.12</span> Example: Mankiw, Romer and Weil (1992)</h2>
+<p>We illustrate the methods by replicating some of the estimates reported in a well-known paper by Mankiw, Romer, and Weil (1992). The paper investigates the implications of the Solow growth model using cross-country regressions. A key equation in their paper regresses the change between 1960 and 1985 in <span class="math inline">\(\log\)</span> GDP per capita on (1) <span class="math inline">\(\log\)</span> GDP in 1960, (2) the log of the ratio of aggregate investment to Table 8.1: Estimates of Solow Growth Model</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th><span class="math inline">\(\widehat{\beta}_{\text {ols }}\)</span></th>
+<th><span class="math inline">\(\widehat{\beta}_{\text {cls }}\)</span></th>
+<th><span class="math inline">\(\widehat{\beta}_{\mathrm{emd}}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\log G D P_{1960}\)</span></td>
+<td><span class="math inline">\(-0.29\)</span></td>
+<td><span class="math inline">\(-0.30\)</span></td>
+<td><span class="math inline">\(-0.30\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.05)\)</span></td>
+<td><span class="math inline">\((0.05)\)</span></td>
+<td><span class="math inline">\((0.05)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\log \frac{I}{\text { GDP }}\)</span></td>
+<td><span class="math inline">\(0.52\)</span></td>
+<td><span class="math inline">\(0.50\)</span></td>
+<td><span class="math inline">\(0.46\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.11)\)</span></td>
+<td><span class="math inline">\((0.09)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\log (n+g+\delta)\)</span></td>
+<td><span class="math inline">\(-0.51\)</span></td>
+<td><span class="math inline">\(-0.74\)</span></td>
+<td><span class="math inline">\(-0.71\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.24)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\log (\)</span> School <span class="math inline">\()\)</span></td>
+<td><span class="math inline">\(0.23\)</span></td>
+<td><span class="math inline">\(0.24\)</span></td>
+<td><span class="math inline">\(0.25\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.06)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Intercept</td>
+<td><span class="math inline">\(3.02\)</span></td>
+<td><span class="math inline">\(2.46\)</span></td>
+<td><span class="math inline">\(2.48\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.74)\)</span></td>
+<td><span class="math inline">\((0.44)\)</span></td>
+<td><span class="math inline">\((0.44)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Standard errors are heteroskedasticity-consistent</p>
+<p>GDP, (3) the log of the sum of the population growth rate <span class="math inline">\(n\)</span>, the technological growth rate <span class="math inline">\(g\)</span>, and the rate of depreciation <span class="math inline">\(\delta\)</span>, and (4) the log of the percentage of the working-age population that is in secondary school (School), the latter a proxy for human-capital accumulation.</p>
+<p>The data is available on the textbook webpage in the file MRW1992.</p>
+<p>The sample is 98 non-oil-producing countries and the data was reported in the published paper. As <span class="math inline">\(g\)</span> and <span class="math inline">\(\delta\)</span> were unknown the authors set <span class="math inline">\(g+\delta=0.05\)</span>. We report least squares estimates in the first column of Table 8.1. The estimates are consistent with the Solow theory due to the positive coefficients on investment and human capital and negative coefficient for population growth. The estimates are also consistent with the convergence hypothesis (that income levels tend towards a common mean over time) as the coefficient on intial GDP is negative.</p>
+<p>The authors show that in the Solow model the <span class="math inline">\(2^{n d}, 3^{r d}\)</span> and <span class="math inline">\(4^{t h}\)</span> coefficients sum to zero. They reestimated the equation imposing this constraint. We present constrained least squares estimates in the second column of Table <span class="math inline">\(8.1\)</span> and efficient minimum distance estimates in the third column. Most of the coefficients and standard errors only exhibit small changes by imposing the constraint. The one exception is the coefficient on log population growth which increases in magnitude and its standard error decreases substantially. The differences between the CLS and EMD estimates are modest.</p>
+<p>We now present Stata, R and MATLAB code which implements these estimates.</p>
+<p>You may notice that the Stata code has a section which uses the Mata matrix programming language. This is used because Stata does not implement the efficient minimum distance estimator, so needs to be separately programmed. As illustrated here, the Mata language allows a Stata user to implement methods using commands which are quite similar to MATLAB.</p>
+<p><img src="images//2022_09_17_fb390717b501da243396g-15.jpg" class="img-fluid"></p>
+<p><img src="images//2022_09_17_fb390717b501da243396g-16.jpg" class="img-fluid"></p>
+<p><img src="images//2022_09_17_fb390717b501da243396g-17.jpg" class="img-fluid"></p>
+</section>
+<section id="misspecification" class="level2" data-number="8.13">
+<h2 data-number="8.13" class="anchored" data-anchor-id="misspecification"><span class="header-section-number">8.13</span> Misspecification</h2>
+<p>What are the consequences for a constrained estimator <span class="math inline">\(\widetilde{\beta}\)</span> if the constraint (8.1) is incorrect? To be specific suppose that the truth is</p>
+<p><span class="math display">\[
+\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}^{*}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{c}^{*}\)</span> is not necessarily equal to <span class="math inline">\(\boldsymbol{c}\)</span>.</p>
+<p>This situation is a generalization of the analysis of “omitted variable bias” from Section <span class="math inline">\(2.24\)</span> where we found that the short regression (e.g.&nbsp;(8.12)) is estimating a different projection coefficient than the long regression (e.g.&nbsp;(8.10)).</p>
+<p>One answer is to apply formula (8.23) to find that</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\mathrm{md}} \underset{p}{\rightarrow} \beta_{\mathrm{md}}^{*}=\beta-\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{c}^{*}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>The second term, <span class="math inline">\(\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{c}^{*}-\boldsymbol{c}\right)\)</span>, shows that imposing an incorrect constraint leads to inconsistency - an asymptotic bias. We can call the limiting value <span class="math inline">\(\beta_{\mathrm{md}}^{*}\)</span> the minimum-distance projection coefficient or the pseudo-true value implied by the restriction.</p>
+<p>However, we can say more.</p>
+<p>For example, we can describe some characteristics of the approximating projections. The CLS estimator projection coefficient has the representation</p>
+<p><span class="math display">\[
+\beta_{\mathrm{cls}}^{*}=\underset{\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}}{\operatorname{argmin}} \mathbb{E}\left[\left(Y-X^{\prime} \beta\right)^{2}\right],
+\]</span></p>
+<p>the best linear predictor subject to the constraint (8.1). The minimum distance estimator converges in probability to</p>
+<p><span class="math display">\[
+\beta_{\mathrm{md}}^{*}=\underset{\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}}{\operatorname{argmin}}\left(\beta-\beta_{0}\right)^{\prime} \boldsymbol{W}\left(\beta-\beta_{0}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\beta_{0}\)</span> is the true coefficient. That is, <span class="math inline">\(\beta_{\mathrm{md}}^{*}\)</span> is the coefficient vector satisfying (8.1) closest to the true value in the weighted Euclidean norm. These calculations show that the constrained estimators are still reasonable in the sense that they produce good approximations to the true coefficient conditional on being required to satisfy the constraint.</p>
+<p>We can also show that <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}\)</span> has an asymptotic normal distribution. The trick is to define the pseudotrue value</p>
+<p><span class="math display">\[
+\beta_{n}^{*}=\beta-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{c}^{*}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>(Note that (8.38) and (8.39) are different!) Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{md}}-\beta_{n}^{*}\right)=&amp; \sqrt{n}(\widehat{\beta}-\beta)-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1} \sqrt{n}\left(\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}^{*}\right) \\
+&amp;=\left(\boldsymbol{I}_{k}-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) \sqrt{n}(\widehat{\beta}-\beta) \\
+&amp; \underset{d}{\longrightarrow}\left(\boldsymbol{I}_{k}-\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right) \\
+&amp;=\mathrm{N}\left(0, \boldsymbol{V}_{\beta}(\boldsymbol{W})\right)
+\end{aligned}
+\]</span></p>
+<p>In particular</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{emd}}-\beta_{n}^{*}\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}^{*}\right) .
+\]</span></p>
+<p>This means that even when the constraint (8.1) is misspecified the conventional covariance matrix estimator (8.35) and standard errors (8.36) are appropriate measures of the sampling variance though the distributions are centered at the pseudo-true values (projections) <span class="math inline">\(\beta_{n}^{*}\)</span> rather than <span class="math inline">\(\beta\)</span>. The fact that the estimators are biased is an unavoidable consequence of misspecification.</p>
+<p>An alternative approach to the asymptotic distribution theory under misspecification uses the concept of local alternatives. It is a technical device which might seem a bit artificial but it is a powerful method to derive useful distributional approximations in a wide variety of contexts. The idea is to index the true coefficient <span class="math inline">\(\beta_{n}\)</span> by <span class="math inline">\(n\)</span> via the relationship</p>
+<p><span class="math display">\[
+\boldsymbol{R}^{\prime} \beta_{n}=\boldsymbol{c}+\delta n^{-1 / 2} .
+\]</span></p>
+<p>for some <span class="math inline">\(\delta \in \mathbb{R}^{q}\)</span>. Equation (8.41) specifies that <span class="math inline">\(\beta_{n}\)</span> violates (8.1) and thus the constraint is misspecified. However, the constraint is “close” to correct as the difference <span class="math inline">\(\boldsymbol{R}^{\prime} \beta_{n}-\boldsymbol{c}=\delta n^{-1 / 2}\)</span> is “small” in the sense that it decreases with the sample size <span class="math inline">\(n\)</span>. We call (8.41) local misspecification.</p>
+<p>The asymptotic theory is derived as <span class="math inline">\(n \rightarrow \infty\)</span> under the sequence of probability distributions with the coefficients <span class="math inline">\(\beta_{n}\)</span>. The way to think about this is that the true value of the parameter is <span class="math inline">\(\beta_{n}\)</span> and it is “close” to satisfying (8.1). The reason why the deviation is proportional to <span class="math inline">\(n^{-1 / 2}\)</span> is because this is the only choice under which the localizing parameter <span class="math inline">\(\delta\)</span> appears in the asymptotic distribution but does not dominate it. The best way to see this is to work through the asymptotic approximation.</p>
+<p>Since <span class="math inline">\(\beta_{n}\)</span> is the true coefficient value, then <span class="math inline">\(Y=X^{\prime} \beta_{n}+e\)</span> and we have the standard representation for the unconstrained estimator, namely</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\beta}-\beta_{n}\right)=\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\frac{1}{\sqrt{n}} \sum_{i=1}^{n} X_{i} e_{i}\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right) .
+\]</span></p>
+<p>There is no difference under fixed (classical) or local asymptotics since the right-hand-side is independent of the coefficient <span class="math inline">\(\beta_{n}\)</span>.</p>
+<p>A difference arises for the constrained estimator. Using (8.41), <span class="math inline">\(\boldsymbol{c}=\boldsymbol{R}^{\prime} \beta_{n}-\delta n^{-1 / 2}\)</span> so</p>
+<p><span class="math display">\[
+\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}=\boldsymbol{R}^{\prime}\left(\widehat{\beta}-\beta_{n}\right)+\delta n^{-1 / 2}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widetilde{\beta}_{\mathrm{md}} &amp;=\widehat{\beta}-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}-\boldsymbol{c}\right) \\
+&amp;=\widehat{\beta}-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\widehat{\beta}-\beta_{n}\right)+\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1} \delta n^{-1 / 2} .
+\end{aligned}
+\]</span></p>
+<p>It follows that</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{md}}-\beta_{n}\right)=\left(\boldsymbol{I}_{k}-\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) \sqrt{n}\left(\widehat{\beta}-\beta_{n}\right)+\widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{W}}^{-1} \boldsymbol{R}\right)^{-1} \delta .
+\]</span></p>
+<p>The first term is asymptotically normal (from 8.42)). The second term converges in probability to a constant. This is because the <span class="math inline">\(n^{-1 / 2}\)</span> local scaling in (8.41) is exactly balanced by the <span class="math inline">\(\sqrt{n}\)</span> scaling of the estimator. No alternative rate would have produced this result.</p>
+<p>Consequently we find that the asymptotic distribution equals</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widetilde{\beta}_{\mathrm{md}}-\beta_{n}\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right)+\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \delta=\mathrm{N}\left(\delta^{*}, \boldsymbol{V}_{\beta}(\boldsymbol{W})\right)
+\]</span></p>
+<p>where <span class="math inline">\(\delta^{*}=\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \delta\)</span></p>
+<p>The asymptotic distribution (8.43) is an approximation of the sampling distribution of the restricted estimator under misspecification. The distribution (8.43) contains an asymptotic bias component <span class="math inline">\(\delta^{*}\)</span>. The approximation is not fundamentally different from (8.40) - they both have the same asymptotic variances and both reflect the bias due to misspecification. The difference is that (8.40) puts the bias on the left-side of the convergence arrow while (8.43) has the bias on the right-side. There is no substantive difference between the two. However, (8.43) is more convenient for some purposes such as the analysis of the power of tests as we will explore in the next chapter.</p>
+</section>
+<section id="nonlinear-constraints" class="level2" data-number="8.14">
+<h2 data-number="8.14" class="anchored" data-anchor-id="nonlinear-constraints"><span class="header-section-number">8.14</span> Nonlinear Constraints</h2>
+<p>In some cases it is desirable to impose nonlinear constraints on the parameter vector <span class="math inline">\(\beta\)</span>. They can be written as</p>
+<p><span class="math display">\[
+r(\beta)=0
+\]</span></p>
+<p>where <span class="math inline">\(r: \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}\)</span>. This includes the linear constraints (8.1) as a special case. An example of (8.44) which cannot be written as (8.1) is <span class="math inline">\(\beta_{1} \beta_{2}=1\)</span>, which is (8.44) with <span class="math inline">\(r(\beta)=\beta_{1} \beta_{2}-1\)</span>.</p>
+<p>The constrained least squares and minimum distance estimators of <span class="math inline">\(\beta\)</span> subject to (8.44) solve the minimization problems</p>
+<p><span class="math display">\[
+\begin{gathered}
+\widetilde{\beta}_{\mathrm{cls}}=\underset{r(\beta)=0}{\operatorname{argmin} \operatorname{SSE}(\beta)} \\
+\widetilde{\beta}_{\mathrm{md}}=\underset{r(\beta)=0}{\operatorname{argmin}} J(\beta)
+\end{gathered}
+\]</span></p>
+<p>where <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> and <span class="math inline">\(J(\beta)\)</span> are defined in (8.4) and (8.19), respectively. The solutions solve the Lagrangians</p>
+<p><span class="math display">\[
+\mathscr{L}(\beta, \lambda)=\frac{1}{2} \operatorname{SSE}(\beta)+\lambda^{\prime} r(\beta)
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+\mathscr{L}(\beta, \lambda)=\frac{1}{2} J(\beta)+\lambda^{\prime} r(\beta)
+\]</span></p>
+<p><span class="math inline">\(\operatorname{over}(\beta, \lambda)\)</span></p>
+<p>Computationally there is no general closed-form solution so they must be found numerically. Algorithms to numerically solve (8.45) and (8.46) are known as constrained optimization methods and are available in programming languages including MATLAB and R. See Chapter 12 of Probability and Statistics for Economists.</p>
+<p>Assumption 8.3</p>
+<ol type="1">
+<li><p><span class="math inline">\(r(\beta)=0\)</span>.</p></li>
+<li><p><span class="math inline">\(r(\beta)\)</span> is continuously differentiable at the true <span class="math inline">\(\beta\)</span>.</p></li>
+<li><p><span class="math inline">\(\operatorname{rank}(\boldsymbol{R})=q\)</span>, where <span class="math inline">\(\boldsymbol{R}=\frac{\partial}{\partial \beta} r(\beta)^{\prime}\)</span>.</p></li>
+</ol>
+<p>The asymptotic distribution is a simple generalization of the case of a linear constraint but the proof is more delicate. Theorem 8.10 Under Assumptions 7.2, 8.2, and 8.3, for <span class="math inline">\(\widetilde{\beta}=\widetilde{\beta}_{\mathrm{md}}\)</span> and <span class="math inline">\(\widetilde{\beta}=\widetilde{\beta}_{\text {cls }}\)</span> defined in (8.45) and (8.46),</p>
+<p><span class="math display">\[
+\sqrt{n}(\widetilde{\beta}-\beta) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}(\boldsymbol{W})\right)
+\]</span></p>
+<p>as <span class="math inline">\(n \rightarrow \infty\)</span> where <span class="math inline">\(\boldsymbol{V}_{\beta}(\boldsymbol{W})\)</span> is defined in (8.24). For <span class="math inline">\(\widetilde{\beta}_{\text {cls }}, \boldsymbol{W}=\boldsymbol{Q}_{X X}\)</span> and <span class="math inline">\(\boldsymbol{V}_{\beta}(\boldsymbol{W})=\)</span> <span class="math inline">\(\boldsymbol{V}_{\text {cls }}\)</span> as defined in Theorem 8.8. <span class="math inline">\(\boldsymbol{V}_{\beta}(\boldsymbol{W})\)</span> is minimized with <span class="math inline">\(\boldsymbol{W}=\boldsymbol{V}_{\beta}^{-1}\)</span> in which case the asymptotic variance is</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta}^{*}=\boldsymbol{V}_{\beta}-\boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} .
+\]</span></p>
+<p>The asymptotic covariance matrix for the efficient minimum distance estimator can be estimated by</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}^{*}=\widehat{\boldsymbol{V}}_{\beta}-\widehat{\boldsymbol{V}}_{\beta} \widehat{\boldsymbol{R}}\left(\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \widehat{\boldsymbol{R}}^{-1} \widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta}\right.
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{R}}=\frac{\partial}{\partial \beta} r\left(\widetilde{\beta}_{\mathrm{md}}\right)^{\prime} .
+\]</span></p>
+<p>Standard errors for the elements of <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}\)</span> are the square roots of the diagonal elements of <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widetilde{\beta}}^{*}=n^{-1} \widehat{\boldsymbol{V}}_{\beta}^{*}\)</span>.</p>
+</section>
+<section id="inequality-restrictions" class="level2" data-number="8.15">
+<h2 data-number="8.15" class="anchored" data-anchor-id="inequality-restrictions"><span class="header-section-number">8.15</span> Inequality Restrictions</h2>
+<p>Inequality constraints on the parameter vector <span class="math inline">\(\beta\)</span> take the form</p>
+<p><span class="math display">\[
+r(\beta) \geq 0
+\]</span></p>
+<p>for some function <span class="math inline">\(r: \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}\)</span>. The most common example is a non-negative constraint <span class="math inline">\(\beta_{1} \geq 0\)</span>.</p>
+<p>The constrained least squares and minimum distance estimators can be written as</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\mathrm{cls}}=\underset{r(\beta) \geq 0}{\operatorname{argmin}} \operatorname{SSE}(\beta)
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{\mathrm{md}}=\underset{r(\beta) \geq 0}{\operatorname{argmin}} J(\beta) .
+\]</span></p>
+<p>Except in special cases the constrained estimators do not have simple algebraic solutions. An important exception is when there is a single non-negativity constraint, e.g.&nbsp;<span class="math inline">\(\beta_{1} \geq 0\)</span> with <span class="math inline">\(q=1\)</span>. In this case the constrained estimator can be found by the following approach. Compute the uncontrained estimator <span class="math inline">\(\widehat{\beta}\)</span>. If <span class="math inline">\(\widehat{\beta}_{1} \geq 0\)</span> then <span class="math inline">\(\widetilde{\beta}=\widehat{\beta}\)</span>. Otherwise if <span class="math inline">\(\widehat{\beta}_{1}&lt;0\)</span> then impose <span class="math inline">\(\beta_{1}=0\)</span> (eliminate the regressor <span class="math inline">\(X_{1}\)</span> ) and re-estimate. This method yields the constrained least squares estimator. While this method works when there is a single non-negativity constraint, it does not immediately generalize to other contexts.</p>
+<p>The computation problems (8.50) and (8.51) are examples of quadratic programming. Quick computer algorithms are available in programming languages including MATLAB and R.</p>
+<p>Inference on inequality-constrained estimators is unfortunately quite challenging. The conventional asymptotic theory gives rise to the following dichotomy. If the true parameter satisfies the strict inequality <span class="math inline">\(r(\beta)&gt;0\)</span> then asymptotically the estimator is not subject to the constraint and the inequalityconstrained estimator has an asymptotic distribution equal to the unconstrained case. However if the true parameter is on the boundary, e.g., <span class="math inline">\(r(\beta)=0\)</span>, then the estimator has a truncated structure. This is easiest to see in the one-dimensional case. If we have an estimator <span class="math inline">\(\widehat{\beta}\)</span> which satisfies <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta) \underset{d}{\rightarrow} Z=\)</span> <span class="math inline">\(\mathrm{N}\left(0, V_{\beta}\right)\)</span> and <span class="math inline">\(\beta=0\)</span>, then the constrained estimator <span class="math inline">\(\widetilde{\beta}=\max [\widehat{\beta}, 0]\)</span> will have the asymptotic distribution <span class="math inline">\(\sqrt{n} \widetilde{\beta} \underset{d}{\longrightarrow} \max [Z, 0]\)</span>, a “half-normal” distribution.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="8.16">
+<h2 data-number="8.16" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">8.16</span> Technical Proofs*</h2>
+<p>Proof of Theorem 8.9, equation (8.28) Let <span class="math inline">\(\boldsymbol{R}_{\perp}\)</span> be a full rank <span class="math inline">\(k \times(k-q)\)</span> matrix satisfying <span class="math inline">\(\boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}=0\)</span> and then set <span class="math inline">\(\boldsymbol{C}=\left[\boldsymbol{R}, \boldsymbol{R}_{\perp}\right]\)</span> which is full rank and invertible. Then we can calculate that</p>
+<p><span class="math display">\[
+\boldsymbol{C}^{\prime} \boldsymbol{V}_{\beta}^{*} \boldsymbol{C}=\left[\begin{array}{cc}
+\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta}^{*} \boldsymbol{R} &amp; \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta}^{*} \boldsymbol{R}_{\perp} \\
+\boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta}^{*} \boldsymbol{R} &amp; \boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta}^{*} \boldsymbol{R}_{\perp}
+\end{array}\right]=\left[\begin{array}{cc}
+0 &amp; 0 \\
+0 &amp; \boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}_{\perp}
+\end{array}\right]
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{C}^{\prime} \boldsymbol{V}_{\beta}(\boldsymbol{W}) \boldsymbol{C} \\
+&amp;=\left[\begin{array}{cc}
+\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta}^{*}(\boldsymbol{W}) \boldsymbol{R} &amp; \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta}^{*}(\boldsymbol{W}) \boldsymbol{R}_{\perp} \\
+\boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta}^{*}(\boldsymbol{W}) \boldsymbol{R} &amp; \boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta}^{*}(\boldsymbol{W}) \boldsymbol{R}_{\perp}
+\end{array}\right] \\
+&amp;=\left[\begin{array}{cc}
+0 &amp; 0 \\
+0 &amp; \boldsymbol{R}_{\perp}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}_{\perp}+\boldsymbol{R}_{\perp}^{\prime} \boldsymbol{W} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{W} \boldsymbol{R}_{\perp}
+\end{array}\right] .
+\end{aligned}
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{C}^{\prime}\left(\boldsymbol{V}_{\beta}(\boldsymbol{W})-\boldsymbol{V}_{\beta}^{*}\right) \boldsymbol{C} \\
+&amp;=\boldsymbol{C}^{\prime} \boldsymbol{V}_{\beta}(\boldsymbol{W}) \boldsymbol{C}-\boldsymbol{C}^{\prime} \boldsymbol{V}_{\beta}^{*} \boldsymbol{C} \\
+&amp;=\left[\begin{array}{cc}
+0 &amp; 0 \\
+0 &amp; \boldsymbol{R}_{\perp}^{\prime} \boldsymbol{W} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W} \boldsymbol{R}\right)^{-\mathbf{1}} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W} \boldsymbol{R}\right)^{-\mathbf{1}} \boldsymbol{R}^{\prime} \boldsymbol{W} \boldsymbol{R}_{\perp}
+\end{array}\right] \\
+&amp;\geq 0
+\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(\boldsymbol{C}\)</span> is invertible it follows that <span class="math inline">\(\boldsymbol{V}_{\beta}(\boldsymbol{W})-\boldsymbol{V}_{\beta}^{*} \geq 0\)</span> which is (8.28).</p>
+<p>Proof of Theorem 8.10 We show the result for the minimum distance estimator <span class="math inline">\(\widetilde{\beta}=\widetilde{\beta}_{\mathrm{md}}\)</span> as the proof for the constrained least squares estimator is similar. For simplicity we assume that the constrained estimator is consistent <span class="math inline">\(\widetilde{\beta} \underset{p}{\vec{p}} \beta\)</span>. This can be shown with more effort, but requires a deeper treatment than appropriate for this textbook.</p>
+<p>For each element <span class="math inline">\(r_{j}(\beta)\)</span> of the <span class="math inline">\(q\)</span>-vector <span class="math inline">\(r(\beta)\)</span>, by the mean value theorem there exists a <span class="math inline">\(\beta_{j}^{*}\)</span> on the line segment joining <span class="math inline">\(\widetilde{\beta}\)</span> and <span class="math inline">\(\beta\)</span> such that</p>
+<p><span class="math display">\[
+r_{j}(\widetilde{\beta})=r_{j}(\beta)+\frac{\partial}{\partial \beta} r_{j}\left(\beta_{j}^{*}\right)^{\prime}(\widetilde{\beta}-\beta) .
+\]</span></p>
+<p>Let <span class="math inline">\(\boldsymbol{R}_{n}^{*}\)</span> be the <span class="math inline">\(k \times q\)</span> matrix</p>
+<p><span class="math display">\[
+\boldsymbol{R}^{*}=\left[\begin{array}{llll}
+\frac{\partial}{\partial \beta} r_{1}\left(\beta_{1}^{*}\right) &amp; \frac{\partial}{\partial \beta} r_{2}\left(\beta_{2}^{*}\right) &amp; \cdots &amp; \frac{\partial}{\partial \beta} r_{q}\left(\beta_{q}^{*}\right)
+\end{array}\right]
+\]</span></p>
+<p>Since <span class="math inline">\(\widetilde{\beta} \underset{p}{\vec{p}} \beta\)</span> it follows that <span class="math inline">\(\beta_{j}^{*} \vec{p} \beta\)</span>, and by the CMT, <span class="math inline">\(\boldsymbol{R}^{*} \underset{p}{\rightarrow} \boldsymbol{R}\)</span>. Stacking the (8.52), we obtain</p>
+<p><span class="math display">\[
+r(\widetilde{\beta})=r(\beta)+\boldsymbol{R}^{* \prime}(\widetilde{\beta}-\beta) .
+\]</span></p>
+<p>Since <span class="math inline">\(r(\widetilde{\beta})=0\)</span> by construction and <span class="math inline">\(r(\beta)=0\)</span> by Assumption <span class="math inline">\(8.1\)</span> this implies</p>
+<p><span class="math display">\[
+0=\boldsymbol{R}^{* \prime}(\widetilde{\beta}-\beta) .
+\]</span></p>
+<p>The first-order condition for (8.47) is <span class="math inline">\(\widehat{\boldsymbol{W}}(\widehat{\beta}-\widetilde{\beta})=\widehat{\boldsymbol{R}} \widetilde{\lambda}\)</span> where <span class="math inline">\(\widehat{\boldsymbol{R}}\)</span> is defined in (8.48). Premultiplying by <span class="math inline">\(\boldsymbol{R}^{* \prime} \widehat{\boldsymbol{W}}^{-1}\)</span>, inverting, and using (8.53), we find</p>
+<p><span class="math display">\[
+\tilde{\lambda}=\left(\boldsymbol{R}^{* \prime} \widehat{\boldsymbol{W}}^{-1} \widehat{\boldsymbol{R}}\right)^{-1} \boldsymbol{R}^{* \prime}(\widehat{\beta}-\widetilde{\beta})=\left(\boldsymbol{R}^{* \prime} \widehat{\boldsymbol{W}}^{-1} \widehat{\boldsymbol{R}}\right)^{-1} \boldsymbol{R}^{* \prime}(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\widetilde{\beta}-\beta=\left(\boldsymbol{I}_{k}-\widehat{\boldsymbol{W}}^{-1} \widehat{\boldsymbol{R}}\left(\boldsymbol{R}_{n}^{* \prime} \widehat{\boldsymbol{W}}^{-1} \widehat{\boldsymbol{R}}\right)^{-1} \boldsymbol{R}_{n}^{* \prime}\right)(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>From Theorem <span class="math inline">\(7.3\)</span> and Theorem <span class="math inline">\(7.6\)</span> we find</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{n}(\widetilde{\beta}-\beta) &amp;=\left(\boldsymbol{I}_{k}-\widehat{\boldsymbol{W}}^{-1} \widehat{\boldsymbol{R}}\left(\boldsymbol{R}_{n}^{* \prime} \widehat{\boldsymbol{W}}^{-1} \widetilde{\boldsymbol{R}}\right)^{-1} \boldsymbol{R}_{n}^{* \prime}\right) \sqrt{n}(\widehat{\beta}-\beta) \\
+&amp; \underset{d}{\longrightarrow}\left(\boldsymbol{I}_{k}-\boldsymbol{W}^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{W}^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right) \\
+&amp;=\mathrm{N}\left(0, \boldsymbol{V}_{\beta}(\boldsymbol{W})\right)
+\end{aligned}
+\]</span></p>
+</section>
+<section id="exercises" class="level2" data-number="8.17">
+<h2 data-number="8.17" class="anchored" data-anchor-id="exercises"><span class="header-section-number">8.17</span> Exercises</h2>
+<p>Exercise 8.1 In the model <span class="math inline">\(Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e\)</span>, show directly from definition (8.3) that the CLS estimator of <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span> subject to the constraint that <span class="math inline">\(\beta_{2}=0\)</span> is the OLS regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X_{1}\)</span>.</p>
+<p>Exercise 8.2 In the model <span class="math inline">\(Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e\)</span>, show directly from definition (8.3) that the CLS estimator of <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span> subject to the constraint <span class="math inline">\(\beta_{1}=\boldsymbol{c}\)</span> (where <span class="math inline">\(\boldsymbol{c}\)</span> is some given vector) is OLS of <span class="math inline">\(Y-X_{1}^{\prime} \boldsymbol{c}\)</span> on <span class="math inline">\(X_{2}\)</span>.</p>
+<p>Exercise 8.3 In the model <span class="math inline">\(Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e\)</span>, with <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> each <span class="math inline">\(k \times 1\)</span>, find the CLS estimator of <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span> subject to the constraint that <span class="math inline">\(\beta_{1}=-\beta_{2}\)</span>.</p>
+<p>Exercise 8.4 In the linear projection model <span class="math inline">\(Y=\alpha+X^{\prime} \beta+e\)</span> consider the restriction <span class="math inline">\(\beta=0\)</span>.</p>
+<ol type="a">
+<li><p>Find the CLS estimator of <span class="math inline">\(\alpha\)</span> under the restriction <span class="math inline">\(\beta=0\)</span>.</p></li>
+<li><p>Find an expression for the efficient minimum distance estimator of <span class="math inline">\(\alpha\)</span> under the restriction <span class="math inline">\(\beta=0\)</span>.</p></li>
+</ol>
+<p>Exercise 8.5 Verify that for <span class="math inline">\(\widetilde{\beta}_{\mathrm{cls}}\)</span> defined in (8.8) that <span class="math inline">\(\boldsymbol{R}^{\prime} \widetilde{\beta}_{\mathrm{cls}}=\boldsymbol{c}\)</span>.</p>
+<p>Exercise 8.6 Prove Theorem 8.1.</p>
+<p>Exercise 8.7 Prove Theorem 8.2, that is, <span class="math inline">\(\mathbb{E}\left[\widetilde{\beta}_{\text {cls }} \mid \boldsymbol{X}\right]=\beta\)</span>, under the assumptions of the linear regression regression model and (8.1). (Hint: Use Theorem 8.1.) Exercise 8.8 Prove Theorem 8.3.</p>
+<p>Exercise 8.9 Prove Theorem 8.4. That is, show <span class="math inline">\(\mathbb{E}\left[s_{\mathrm{cls}}^{2} \mid \boldsymbol{X}\right]=\sigma^{2}\)</span> under the assumptions of the homoskedastic regression model and (8.1).</p>
+<p>Exercise 8.10 Verify (8.22), (8.23), and that the minimum distance estimator <span class="math inline">\(\widetilde{\beta}_{\mathrm{md}}\)</span> with <span class="math inline">\(\widehat{\boldsymbol{W}}=\widehat{\boldsymbol{Q}}_{X X}\)</span> equals the CLS estimator.</p>
+<p>Exercise 8.11 Prove Theorem 8.6.</p>
+<p>Exercise 8.12 Prove Theorem 8.7.</p>
+<p>Exercise 8.13 Prove Theorem 8.8. (Hint: Use that CLS is a special case of Theorem 8.7.)</p>
+<p>Exercise 8.14 Verify that (8.26) is <span class="math inline">\(\boldsymbol{V}_{\beta}(\boldsymbol{W})\)</span> with <span class="math inline">\(\boldsymbol{W}=\boldsymbol{V}_{\beta}^{-1}\)</span>.</p>
+<p>Exercise 8.15 Prove (8.27). Hint: Use (8.26).</p>
+<p>Exercise 8.16 Verify (8.29), (8.30) and (8.31).</p>
+<p>Exercise 8.17 Verify (8.32), (8.33), and (8.34).</p>
+<p>Exercise 8.18 Suppose you have two independent samples each with <span class="math inline">\(n\)</span> observations which satisfy the models <span class="math inline">\(Y_{1}=X_{1}^{\prime} \beta_{1}+e_{1}\)</span> with <span class="math inline">\(\mathbb{E}\left[X_{1} e_{1}\right]=0\)</span> and <span class="math inline">\(Y_{2}=X_{2}^{\prime} \beta_{2}+e_{2}\)</span> with <span class="math inline">\(\mathbb{E}\left[X_{2} e_{2}\right]=0\)</span> where <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> are both <span class="math inline">\(k \times 1\)</span>. You estimate <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> by OLS on each sample, with consistent asymptotic covariance matrix estimators <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta_{1}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta_{2}}\)</span>. Consider efficient minimum distance estimation under the restriction <span class="math inline">\(\beta_{1}=\beta_{2}\)</span>.</p>
+<ol type="a">
+<li><p>Find the estimator <span class="math inline">\(\widetilde{\beta}\)</span> of <span class="math inline">\(\beta=\beta_{1}=\beta_{2}\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\widetilde{\beta}\)</span>.</p></li>
+<li><p>How would you approach the problem if the sample sizes are different, say <span class="math inline">\(n_{1}\)</span> and <span class="math inline">\(n_{2}\)</span> ?</p></li>
+</ol>
+<p>Exercise 8.19 Use the cps09mar dataset and the subsample of white male Hispanics.</p>
+<ol type="a">
+<li>Estimate the regression</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \widehat{\log (\text { wage })}=\beta_{1} \text { education }+\beta_{2} \text { experience }+\beta_{3} \text { experience }^{2} / 100+\beta_{4} \text { married }_{1} \\
+&amp; +\beta_{5} \text { married }_{2}+\beta_{6} \text { married }_{3}+\beta_{7} \text { widowed }+\beta_{8} \text { divorced }+\beta_{9} \text { separated }+\beta_{10}
+\end{aligned}
+\]</span></p>
+<p>where married <span class="math inline">\(_{1}\)</span>, married <span class="math inline">\(_{2}\)</span>, and married <span class="math inline">\(_{3}\)</span> are the first three marital codes listed in Section 3.22.</p>
+<ol start="2" type="a">
+<li><p>Estimate the equation by CLS imposing the constraints <span class="math inline">\(\beta_{4}=\beta_{7}\)</span> and <span class="math inline">\(\beta_{8}=\beta_{9}\)</span>. Report the estimates and standard errors.</p></li>
+<li><p>Estimate the equation using efficient minimum distance imposing the same constraints. Report the estimates and standard errors.</p></li>
+<li><p>Under what constraint on the coefficients is the wage equation non-decreasing in experience for experience up to 50 ?</p></li>
+<li><p>Estimate the equation imposing <span class="math inline">\(\beta_{4}=\beta_{7}, \beta_{8}=\beta_{9}\)</span>, and the inequality from part (d). Exercise 8.20 Take the model</p></li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=m(X)+e \\
+m(x) &amp;=\beta_{0}+\beta_{1} x+\beta_{2} x^{2}+\cdots+\beta_{p} x^{p} \\
+\mathbb{E}\left[X^{j} e\right] &amp;=0, \quad j=0, \ldots, p \\
+g(x) &amp;=\frac{d}{d x} m(x)
+\end{aligned}
+\]</span></p>
+<p>with i.i.d. observations <span class="math inline">\(\left(Y_{i}, X_{i}\right), i=1, \ldots, n\)</span>. The order of the polynomial <span class="math inline">\(p\)</span> is known.</p>
+<ol type="a">
+<li><p>How should we interpret the function <span class="math inline">\(m(x)\)</span> given the projection assumption? How should we interpret <span class="math inline">\(g(x)\)</span> ? (Briefly)</p></li>
+<li><p>Describe an estimator <span class="math inline">\(\widehat{g}(x)\)</span> of <span class="math inline">\(g(x)\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{g}(x)-g(x))\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+<li><p>Show how to construct an asymptotic 95% confidence interval for <span class="math inline">\(g(x)\)</span> (for a single <span class="math inline">\(x\)</span> ).</p></li>
+<li><p>Assume <span class="math inline">\(p=2\)</span>. Describe how to estimate <span class="math inline">\(g(x)\)</span> imposing the constraint that <span class="math inline">\(m(x)\)</span> is concave.</p></li>
+<li><p>Assume <span class="math inline">\(p=2\)</span>. Describe how to estimate <span class="math inline">\(g(x)\)</span> imposing the constraint that <span class="math inline">\(m(u)\)</span> is increasing on the region <span class="math inline">\(u \in\left[x_{L}, x_{U}\right]\)</span></p></li>
+</ol>
+<p>Exercise 8.21 Take the linear model with restrictions <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span> and <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span>. Consider three estimators for <span class="math inline">\(\beta\)</span> :</p>
+<ul>
+<li><p><span class="math inline">\(\widehat{\beta}\)</span> the unconstrained least squares estimator</p></li>
+<li><p><span class="math inline">\(\widetilde{\beta}\)</span> the constrained least squares estimator</p></li>
+<li><p><span class="math inline">\(\bar{\beta}\)</span> the constrained efficient minimum distance estimator</p></li>
+</ul>
+<p>For the three estimator define the residuals <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}, \widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widetilde{\beta}, \bar{e}_{i}=Y_{i}-X_{i}^{\prime} \bar{\beta}\)</span>, and variance estimators <span class="math inline">\(\widehat{\sigma}^{2}=n^{-1} \sum_{i=1}^{n} \widehat{e}_{i}^{2}, \widetilde{\sigma}^{2}=n^{-1} \sum_{i=1}^{n} \widetilde{e}_{i}^{2}\)</span>, and <span class="math inline">\(\bar{\sigma}^{2}=n^{-1} \sum_{i=1}^{n} \bar{e}_{i}^{2}\)</span>.</p>
+<ol type="a">
+<li><p>As <span class="math inline">\(\bar{\beta}\)</span> is the most efficient estimator and <span class="math inline">\(\widehat{\beta}\)</span> the least, do you expect <span class="math inline">\(\bar{\sigma}^{2}&lt;\widetilde{\sigma}^{2}&lt;\widehat{\sigma}^{2}\)</span> in large samples?</p></li>
+<li><p>Consider the statistic</p></li>
+</ol>
+<p><span class="math display">\[
+T_{n}=\widehat{\sigma}^{-2} \sum_{i=1}^{n}\left(\widehat{e}_{i}-\widetilde{e}_{i}\right)^{2} .
+\]</span></p>
+<p>Find the asymptotic distribution for <span class="math inline">\(T_{n}\)</span> when <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span> is true.</p>
+<ol start="3" type="a">
+<li>Does the result of the previous question simplify when the error <span class="math inline">\(e_{i}\)</span> is homoskedastic?</li>
+</ol>
+<p>Exercise 8.22 Take the linear model <span class="math inline">\(Y=X_{1} \beta_{1}+X_{2} \beta_{2}+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span>. Consider the restriction <span class="math inline">\(\frac{\beta_{1}}{\beta_{2}}=2\)</span>.</p>
+<ol type="a">
+<li><p>Find an explicit expression for the CLS estimator <span class="math inline">\(\widetilde{\beta}=\left(\widetilde{\beta}_{1}, \widetilde{\beta}_{2}\right)\)</span> of <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span> under the restriction. Your answer should be specific to the restriction. It should not be a generic formula for an abstract general restriction.</p></li>
+<li><p>Derive the asymptotic distribution of <span class="math inline">\(\widetilde{\beta}_{1}\)</span> under the assumption that the restriction is true.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt07-asymptotic-ls.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt09-hypothesit-test.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

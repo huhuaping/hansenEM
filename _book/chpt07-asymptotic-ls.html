@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 7&nbsp; Asymptotic Theory for Least Squares</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt08-restricted-est.html" rel="next">
+<link href="./chpt06-review.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">7.1</span> Introduction</a></li>
+  <li><a href="#consistency-of-least-squares-estimator" id="toc-consistency-of-least-squares-estimator" class="nav-link" data-scroll-target="#consistency-of-least-squares-estimator"> <span class="header-section-number">7.2</span> Consistency of Least Squares Estimator</a></li>
+  <li><a href="#asymptotic-normality" id="toc-asymptotic-normality" class="nav-link" data-scroll-target="#asymptotic-normality"> <span class="header-section-number">7.3</span> Asymptotic Normality</a></li>
+  <li><a href="#joint-distribution" id="toc-joint-distribution" class="nav-link" data-scroll-target="#joint-distribution"> <span class="header-section-number">7.4</span> Joint Distribution</a></li>
+  <li><a href="#consistency-of-error-variance-estimators" id="toc-consistency-of-error-variance-estimators" class="nav-link" data-scroll-target="#consistency-of-error-variance-estimators"> <span class="header-section-number">7.5</span> Consistency of Error Variance Estimators</a></li>
+  <li><a href="#homoskedastic-covariance-matrix-estimation" id="toc-homoskedastic-covariance-matrix-estimation" class="nav-link" data-scroll-target="#homoskedastic-covariance-matrix-estimation"> <span class="header-section-number">7.6</span> Homoskedastic Covariance Matrix Estimation</a></li>
+  <li><a href="#heteroskedastic-covariance-matrix-estimation" id="toc-heteroskedastic-covariance-matrix-estimation" class="nav-link" data-scroll-target="#heteroskedastic-covariance-matrix-estimation"> <span class="header-section-number">7.7</span> Heteroskedastic Covariance Matrix Estimation</a></li>
+  <li><a href="#summary-of-covariance-matrix-notation" id="toc-summary-of-covariance-matrix-notation" class="nav-link" data-scroll-target="#summary-of-covariance-matrix-notation"> <span class="header-section-number">7.8</span> Summary of Covariance Matrix Notation</a></li>
+  <li><a href="#alternative-covariance-matrix-estimators" id="toc-alternative-covariance-matrix-estimators" class="nav-link" data-scroll-target="#alternative-covariance-matrix-estimators"> <span class="header-section-number">7.9</span> Alternative Covariance Matrix Estimators*</a></li>
+  <li><a href="#functions-of-parameters" id="toc-functions-of-parameters" class="nav-link" data-scroll-target="#functions-of-parameters"> <span class="header-section-number">7.10</span> Functions of Parameters</a></li>
+  <li><a href="#asymptotic-standard-errors" id="toc-asymptotic-standard-errors" class="nav-link" data-scroll-target="#asymptotic-standard-errors"> <span class="header-section-number">7.11</span> Asymptotic Standard Errors</a></li>
+  <li><a href="#regression-intervals" id="toc-regression-intervals" class="nav-link" data-scroll-target="#regression-intervals"> <span class="header-section-number">7.12</span> Regression Intervals</a></li>
+  <li><a href="#forecast-intervals" id="toc-forecast-intervals" class="nav-link" data-scroll-target="#forecast-intervals"> <span class="header-section-number">7.13</span> Forecast Intervals</a></li>
+  <li><a href="#wald-statistic" id="toc-wald-statistic" class="nav-link" data-scroll-target="#wald-statistic"> <span class="header-section-number">7.14</span> Wald Statistic</a></li>
+  <li><a href="#homoskedastic-wald-statistic" id="toc-homoskedastic-wald-statistic" class="nav-link" data-scroll-target="#homoskedastic-wald-statistic"> <span class="header-section-number">7.15</span> Homoskedastic Wald Statistic</a></li>
+  <li><a href="#confidence-regions" id="toc-confidence-regions" class="nav-link" data-scroll-target="#confidence-regions"> <span class="header-section-number">7.16</span> Confidence Regions</a></li>
+  <li><a href="#edgeworth-expansion" id="toc-edgeworth-expansion" class="nav-link" data-scroll-target="#edgeworth-expansion"> <span class="header-section-number">7.17</span> Edgeworth Expansion*</a></li>
+  <li><a href="#uniformly-consistent-residuals" id="toc-uniformly-consistent-residuals" class="nav-link" data-scroll-target="#uniformly-consistent-residuals"> <span class="header-section-number">7.18</span> Uniformly Consistent Residuals*</a></li>
+  <li><a href="#asymptotic-leverage" id="toc-asymptotic-leverage" class="nav-link" data-scroll-target="#asymptotic-leverage"> <span class="header-section-number">7.19</span> Asymptotic Leverage*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">7.20</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt07-asymptotic-ls.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
+<p>It turns out that the asymptotic theory of least squares estimation applies equally to the projection model and the linear CEF model. Therefore the results in this chapter will be stated for the broader projection model described in Section 2.18. Recall that the model is <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with the linear projection coefficient <span class="math inline">\(\beta=\left(\mathbb{E}\left[X X^{\prime}\right]\right)^{-1} \mathbb{E}[X Y]\)</span>.</p>
+<p>Maintained assumptions in this chapter will be random sampling (Assumption 1.2) and finite second moments (Assumption 2.1). We restate these here for clarity.</p>
+<p>Assumption 7.1</p>
+<ol type="1">
+<li><p>The variables <span class="math inline">\(\left(Y_{i}, X_{i}\right), i=1, \ldots, n\)</span>, are i.i.d.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\left[Y^{2}\right]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\|X\|^{2}&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{Q}_{X X}=\mathbb{E}\left[X X^{\prime}\right]\)</span> is positive definite.</p></li>
+</ol>
+<p>The distributional results will require a strengthening of these assumptions to finite fourth moments. We discuss the specific conditions in Section 7.3.</p>
+</section>
+<section id="consistency-of-least-squares-estimator" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="consistency-of-least-squares-estimator"><span class="header-section-number">7.2</span> Consistency of Least Squares Estimator</h2>
+<p>In this section we use the weak law of large numbers (WLLN, Theorem 6.1 and Theorem 6.2) and continuous mapping theorem (CMT, Theorem 6.6) to show that the least squares estimator <span class="math inline">\(\widehat{\beta}\)</span> is consistent for the projection coefficient <span class="math inline">\(\beta\)</span>.</p>
+<p>This derivation is based on three key components. First, the OLS estimator can be written as a continuous function of a set of sample moments. Second, the WLLN shows that sample moments converge in probability to population moments. And third, the CMT states that continuous functions preserve convergence in probability. We now explain each step in brief and then in greater detail. First, observe that the OLS estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i}\right)=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{Q}}_{X Y}
+\]</span></p>
+<p>is a function of the sample moments <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X Y}=\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i}\)</span>.</p>
+<p>Second, by an application of the WLLN these sample moments converge in probability to their population expectations. Specifically, the fact that <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are mutually i.i.d. implies that any function of <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> is i.i.d., including <span class="math inline">\(X_{i} X_{i}^{\prime}\)</span> and <span class="math inline">\(X_{i} Y_{i}\)</span>. These variables also have finite expectations under Assumption 7.1. Under these conditions, the WLLN implies that as <span class="math inline">\(n \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X X}=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \underset{p}{\longrightarrow}\left[X X^{\prime}\right]=\boldsymbol{Q}_{X X}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X Y}=\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i} \underset{p}{\longrightarrow}[X Y]=\boldsymbol{Q}_{X Y}
+\]</span></p>
+<p>Third, the CMT allows us to combine these equations to show that <span class="math inline">\(\widehat{\beta}\)</span> converges in probability to <span class="math inline">\(\beta\)</span>. Specifically, as <span class="math inline">\(n \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+\widehat{\beta}=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{Q}}_{X Y} \underset{p}{\longrightarrow} \boldsymbol{Q}_{X X}^{-1} \boldsymbol{Q}_{X Y}=\beta .
+\]</span></p>
+<p>We have shown that <span class="math inline">\(\widehat{\beta} \underset{p}{\rightarrow} \beta\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>. In words, the OLS estimator converges in probability to the projection coefficient vector <span class="math inline">\(\beta\)</span> as the sample size <span class="math inline">\(n\)</span> gets large.</p>
+<p>To fully understand the application of the CMT we walk through it in detail. We can write</p>
+<p><span class="math display">\[
+\widehat{\beta}=g\left(\widehat{\boldsymbol{Q}}_{X X}, \widehat{\boldsymbol{Q}}_{X Y}\right)
+\]</span></p>
+<p>where <span class="math inline">\(g(\boldsymbol{A}, \boldsymbol{b})=\boldsymbol{A}^{-1} \boldsymbol{b}\)</span> is a function of <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span>. The function <span class="math inline">\(\boldsymbol{g}(\boldsymbol{A}, \boldsymbol{b})\)</span> is a continuous function of <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> at all values of the arguments such that <span class="math inline">\(A^{-1}\)</span> exists. Assumption <span class="math inline">\(7.1\)</span> specifies that <span class="math inline">\(\boldsymbol{Q}_{X X}\)</span> is positive definite, which means that <span class="math inline">\(\boldsymbol{Q}_{X X}^{-1}\)</span> exists. Thus <span class="math inline">\(\boldsymbol{g}(\boldsymbol{A}, \boldsymbol{b})\)</span> is continuous at <span class="math inline">\(\boldsymbol{A}=\boldsymbol{Q}_{X X}\)</span>. This justifies the application of the CMT in (7.2).</p>
+<p>For a slightly different demonstration of (7.2) recall that (4.6) implies that</p>
+<p><span class="math display">\[
+\widehat{\beta}-\beta=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{Q}}_{X e}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X e}=\frac{1}{n} \sum_{i=1}^{n} X_{i} e_{i} .
+\]</span></p>
+<p>The WLLN and (2.25) imply</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X e} \underset{p}{\longrightarrow} \mathbb{E}[X e]=0 .
+\]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[
+\widehat{\beta}-\beta=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{Q}}_{X e} \underset{p}{\longrightarrow} \boldsymbol{Q}_{X X}^{-1} 0=0
+\]</span></p>
+<p>which is the same as <span class="math inline">\(\widehat{\beta} \underset{p}{\vec{p}}\)</span>. Theorem 7.1 Consistency of Least Squares. Under Assumption 7.1, <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X} \vec{p}\)</span> <span class="math inline">\(\boldsymbol{Q}_{X X}, \widehat{\boldsymbol{Q}}_{X Y} \underset{p}{\boldsymbol{Q}_{X Y}}, \widehat{\boldsymbol{Q}}_{X X}^{-1} \vec{p} \boldsymbol{Q}_{X X}^{-1}, \widehat{\boldsymbol{Q}}_{X e} \underset{p}{\rightarrow} 0\)</span>, and <span class="math inline">\(\widehat{\beta} \underset{p}{\overrightarrow{3}} \beta\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p>Theorem <span class="math inline">\(7.1\)</span> states that the OLS estimator <span class="math inline">\(\widehat{\beta}\)</span> converges in probability to <span class="math inline">\(\beta\)</span> as <span class="math inline">\(n\)</span> increases and thus <span class="math inline">\(\widehat{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span>. In the stochastic order notation, Theorem <span class="math inline">\(7.1\)</span> can be equivalently written as</p>
+<p><span class="math display">\[
+\widehat{\beta}=\beta+o_{p}(1) .
+\]</span></p>
+<p>To illustrate the effect of sample size on the least squares estimator consider the least squares regression</p>
+<p><span class="math display">\[
+\log (\text { wage })=\beta_{1} \text { education }+\beta_{2} \text { experience }+\beta_{3} \text { experience }^{2}+\beta_{4}+e .
+\]</span></p>
+<p>We use the sample of 24,344 white men from the March 2009 CPS. We randomly sorted the observations and sequentially estimated the model by least squares starting with the first 5 observations and continuing until the full sample is used. The sequence of estimates are displayed in Figure 7.1. You can see how the least squares estimate changes with the sample size. As the number of observations increases it settles down to the full-sample estimate <span class="math inline">\(\widehat{\beta}_{1}=0.114\)</span>.</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-03.jpg" class="img-fluid"></p>
+<p>Figure 7.1: The Least-Squares Estimator as a Function of Sample Size</p>
+</section>
+<section id="asymptotic-normality" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="asymptotic-normality"><span class="header-section-number">7.3</span> Asymptotic Normality</h2>
+<p>We started this chapter discussing the need for an approximation to the distribution of the OLS estimator <span class="math inline">\(\widehat{\beta}\)</span>. In Section <span class="math inline">\(7.2\)</span> we showed that <span class="math inline">\(\widehat{\beta}\)</span> converges in probability to <span class="math inline">\(\beta\)</span>. Consistency is a good first step, but in itself does not describe the distribution of the estimator. In this section we derive an approximation typically called the asymptotic distribution.</p>
+<p>The derivation starts by writing the estimator as a function of sample moments. One of the moments must be written as a sum of zero-mean random vectors and normalized so that the central limit theorem can be applied. The steps are as follows.</p>
+<p>Take equation (7.3) and multiply it by <span class="math inline">\(\sqrt{n}\)</span>. This yields the expression</p>
+<p><span class="math display">\[
+\sqrt{n}(\widehat{\beta}-\beta)=\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\frac{1}{\sqrt{n}} \sum_{i=1}^{n} X_{i} e_{i}\right)
+\]</span></p>
+<p>This shows that the normalized and centered estimator <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> is a function of the sample average <span class="math inline">\(n^{-1} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\)</span> and the normalized sample average <span class="math inline">\(n^{-1 / 2} \sum_{i=1}^{n} X_{i} e_{i}\)</span>.</p>
+<p>The random pairs <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are i.i.d., meaning that they are independent across <span class="math inline">\(i\)</span> and identically distributed. Any function of <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> is also i.i.d. This includes <span class="math inline">\(e_{i}=Y_{i}-X_{i}^{\prime} \beta\)</span> and the product <span class="math inline">\(X_{i} e_{i}\)</span>. The latter is mean-zero <span class="math inline">\((\mathbb{E}[X e]=0)\)</span> and has <span class="math inline">\(k \times k\)</span> covariance matrix</p>
+<p><span class="math display">\[
+\Omega=\mathbb{E}\left[(X e)(X e)^{\prime}\right]=\mathbb{E}\left[X X^{\prime} e^{2}\right] .
+\]</span></p>
+<p>We show below that <span class="math inline">\(\Omega\)</span> has finite elements under a strengthening of Assumption 7.1. Since <span class="math inline">\(X_{i} e_{i}\)</span> is i.i.d., mean zero, and finite variance, the central limit theorem (Theorem 6.3) implies</p>
+<p><span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} X_{i} e_{i} \underset{d}{\longrightarrow} \mathrm{N}(0, \Omega)
+\]</span></p>
+<p>We state the required conditions here.</p>
+<p>Assumption 7.2</p>
+<ol type="1">
+<li><p>The variables <span class="math inline">\(\left(Y_{i}, X_{\boldsymbol{i}}\right), i=1, \ldots, n\)</span>, are i.i.d..</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\left[Y^{4}\right]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\|X\|^{4}&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{Q}_{X X}=\mathbb{E}\left[X X^{\prime}\right]\)</span> is positive definite.</p></li>
+</ol>
+<p>Assumption <span class="math inline">\(7.2\)</span> implies that <span class="math inline">\(\Omega&lt;\infty\)</span>. To see this, take its <span class="math inline">\(j \ell^{t h}\)</span> element, <span class="math inline">\(\mathbb{E}\left[X_{j} X_{\ell} e^{2}\right]\)</span>. Theorem 2.9.6 shows that <span class="math inline">\(\mathbb{E}\left[e^{4}\right]&lt;\infty\)</span>. By the expectation inequality (B.30), the <span class="math inline">\(j \ell^{t h}\)</span> element of <span class="math inline">\(\Omega\)</span> is bounded by</p>
+<p><span class="math display">\[
+\left|\mathbb{E}\left[X_{j} X_{\ell} e^{2}\right]\right| \leq \mathbb{E}\left|X_{j} X_{\ell} e^{2}\right|=\mathbb{E}\left[\left|X_{j}\right|\left|X_{\ell}\right| e^{2}\right] .
+\]</span></p>
+<p>By two applications of the Cauchy-Schwarz inequality (B.32), this is smaller than</p>
+<p><span class="math display">\[
+\left(\mathbb{E}\left[X_{j}^{2} X_{\ell}^{2}\right]\right)^{1 / 2}\left(\mathbb{E}\left[e^{4}\right]\right)^{1 / 2} \leq\left(\mathbb{E}\left[X_{j}^{4}\right]\right)^{1 / 4}\left(\mathbb{E}\left[X_{\ell}^{4}\right]\right)^{1 / 4}\left(\mathbb{E}\left[e^{4}\right]\right)^{1 / 2}&lt;\infty
+\]</span></p>
+<p>where the finiteness holds under Assumption 7.2.2 and 7.2.3. Thus <span class="math inline">\(\Omega&lt;\infty\)</span>.</p>
+<p>An alternative way to show that the elements of <span class="math inline">\(\Omega\)</span> are finite is by using a matrix norm <span class="math inline">\(\|\cdot\|\)</span> (See Appendix A.23). Then by the expectation inequality, the Cauchy-Schwarz inequality, Assumption 7.2.3, and <span class="math inline">\(\mathbb{E}\left[e^{4}\right]&lt;\infty\)</span>,</p>
+<p><span class="math display">\[
+\|\Omega\| \leq \mathbb{E}\left\|X X^{\prime} e^{2}\right\|=\mathbb{E}\left[\|X\|^{2} e^{2}\right] \leq\left(\mathbb{E}\|X\|^{4}\right)^{1 / 2}\left(\mathbb{E}\left[e^{4}\right]\right)^{1 / 2}&lt;\infty .
+\]</span></p>
+<p>This is a more compact argument (often described as more elegant) but such manipulations should not be done without understanding the notation and the applicability of each step of the argument.</p>
+<p>Regardless, the finiteness of the covariance matrix means that we can apply the multivariate CLT (Theorem 6.3).</p>
+<p>Theorem 7.2 Assumption <span class="math inline">\(7.2\)</span> implies that</p>
+<p><span class="math display">\[
+\Omega&lt;\infty
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\frac{1}{\sqrt{n}} \sum_{i=1}^{n} X_{i} e_{i} \underset{d}{\longrightarrow} \mathrm{N}(0, \Omega)
+\]</span></p>
+<p>as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p>Putting together (7.1), (7.5), and (7.7),</p>
+<p><span class="math display">\[
+\sqrt{n}(\widehat{\beta}-\beta) \underset{d}{\longrightarrow} \boldsymbol{Q}_{X X}^{-1} \mathrm{~N}(0, \Omega)=\mathrm{N}\left(0, \boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}\right)
+\]</span></p>
+<p>as <span class="math inline">\(n \rightarrow \infty\)</span>. The final equality follows from the property that linear combinations of normal vectors are also normal (Theorem 5.2).</p>
+<p>We have derived the asymptotic normal approximation to the distribution of the least squares estimator.</p>
+<p>Theorem 7.3 Asymptotic Normality of Least Squares Estimator Under Assumption 7.2, as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p><span class="math display">\[
+\sqrt{n}(\widehat{\beta}-\beta) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{Q}_{X X}=\mathbb{E}\left[X X^{\prime}\right], \Omega=\mathbb{E}\left[X X^{\prime} e^{2}\right]\)</span>, and</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta}=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1} .
+\]</span></p>
+<p>In the stochastic order notation, Theorem <span class="math inline">\(7.3\)</span> implies that <span class="math inline">\(\widehat{\beta}=\beta+O_{p}\left(n^{-1 / 2}\right)\)</span> which is stronger than (7.4).</p>
+<p>The matrix <span class="math inline">\(\boldsymbol{V}_{\beta}=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}\)</span> is the variance of the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span>. Consequently, <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> is often referred to as the asymptotic covariance matrix of <span class="math inline">\(\widehat{\beta}\)</span>. The expression <span class="math inline">\(\boldsymbol{V}_{\beta}=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}\)</span> is called a sandwich form as the matrix <span class="math inline">\(\Omega\)</span> is sandwiched between two copies of <span class="math inline">\(\boldsymbol{Q}_{X X}^{-1}\)</span>. It is useful to compare the variance of the asymptotic distribution given in (7.8) and the finite-sample conditional variance in the CEF model as given in (4.10):</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\widehat{\beta}}=\operatorname{var}[\widehat{\beta} \mid \boldsymbol{X}]=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} .
+\]</span></p>
+<p>Notice that <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}\)</span> is the exact conditional variance of <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> is the asymptotic variance of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span>. Thus <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> should be (roughly) <span class="math inline">\(n\)</span> times as large as <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}\)</span>, or <span class="math inline">\(\boldsymbol{V}_{\beta} \approx n \boldsymbol{V}_{\widehat{\beta}}\)</span>. Indeed, multiplying (7.9) by <span class="math inline">\(n\)</span> and distributing we find</p>
+<p><span class="math display">\[
+n \boldsymbol{V}_{\widehat{\beta}}=\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}
+\]</span></p>
+<p>which looks like an estimator of <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. Indeed, as <span class="math inline">\(n \rightarrow \infty, n \boldsymbol{V}_{\widehat{\beta}} \underset{p}{\rightarrow} \boldsymbol{V}_{\beta}\)</span>. The expression <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}\)</span> is useful for practical inference (such as computation of standard errors and tests) as it is the variance of the estimator <span class="math inline">\(\widehat{\beta}\)</span>, while <span class="math inline">\(V_{\beta}\)</span> is useful for asymptotic theory as it is well defined in the limit as <span class="math inline">\(n\)</span> goes to infinity. We will make use of both symbols and it will be advisable to adhere to this convention.</p>
+<p>There is a special case where <span class="math inline">\(\Omega\)</span> and <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> simplify. Suppose that</p>
+<p><span class="math display">\[
+\operatorname{cov}\left(X X^{\prime}, e^{2}\right)=0 .
+\]</span></p>
+<p>Condition (7.10) holds in the homoskedastic linear regression model but is somewhat broader. Under (7.10) the asymptotic variance formulae simplify as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\Omega &amp;=\mathbb{E}\left[X X^{\prime}\right] \mathbb{E}\left[e^{2}\right]=\boldsymbol{Q}_{X X} \sigma^{2} \\
+\boldsymbol{V}_{\beta} &amp;=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}=\boldsymbol{Q}_{X X}^{-1} \sigma^{2} \equiv \boldsymbol{V}_{\beta}^{0} .
+\end{aligned}
+\]</span></p>
+<p>In (7.11) we define <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}=\boldsymbol{Q}_{X X}^{-1} \sigma^{2}\)</span> whether (7.10) is true or false. When (7.10) is true then <span class="math inline">\(\boldsymbol{V}_{\beta}=\boldsymbol{V}_{\beta}^{0}\)</span>, otherwise <span class="math inline">\(\boldsymbol{V}_{\beta} \neq \boldsymbol{V}_{\beta}^{0}\)</span>. We call <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}\)</span> the homoskedastic asymptotic covariance matrix.</p>
+<p>Theorem <span class="math inline">\(7.3\)</span> states that the sampling distribution of the least squares estimator, after rescaling, is approximately normal when the sample size <span class="math inline">\(n\)</span> is sufficiently large. This holds true for all joint distributions of <span class="math inline">\((Y, X)\)</span> which satisfy the conditions of Assumption 7.2. Consequently, asymptotic normality is routinely used to approximate the finite sample distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span>.</p>
+<p>A difficulty is that for any fixed <span class="math inline">\(n\)</span> the sampling distribution of <span class="math inline">\(\widehat{\beta}\)</span> can be arbitrarily far from the normal distribution. The normal approximation improves as <span class="math inline">\(n\)</span> increases, but how large should <span class="math inline">\(n\)</span> be in order for the approximation to be useful? Unfortunately, there is no simple answer to this reasonable question. The trouble is that no matter how large is the sample size, the normal approximation is arbitrarily poor for some data distribution satisfying the assumptions. We illustrate this problem using a simulation. Let <span class="math inline">\(Y=\beta_{1} X+\beta_{2}+e\)</span> where <span class="math inline">\(X\)</span> is <span class="math inline">\(\mathrm{N}(0,1)\)</span> and <span class="math inline">\(e\)</span> is independent of <span class="math inline">\(X\)</span> with the Double Pareto density <span class="math inline">\(f(e)=\frac{\alpha}{2}|e|^{-\alpha-1},|e| \geq 1\)</span>. If <span class="math inline">\(\alpha&gt;2\)</span> the error <span class="math inline">\(e\)</span> has zero mean and variance <span class="math inline">\(\alpha /(\alpha-2)\)</span>. As <span class="math inline">\(\alpha\)</span> approaches 2 , however, its variance diverges to infinity. In this context the normalized least squares slope estimator <span class="math inline">\(\sqrt{n \frac{\alpha-2}{\alpha}}\left(\widehat{\beta}_{1}-\beta_{1}\right)\)</span> has the <span class="math inline">\(\mathrm{N}(0,1)\)</span> asymptotic distribution for any <span class="math inline">\(\alpha&gt;2\)</span>. In Figure <span class="math inline">\(7.2(\)</span> a) we display the finite sample densities of the normalized estimator <span class="math inline">\(\sqrt{n \frac{\alpha-2}{\alpha}}\left(\widehat{\beta}_{1}-\beta_{1}\right)\)</span>, setting <span class="math inline">\(n=100\)</span> and varying the parameter <span class="math inline">\(\alpha\)</span>. For <span class="math inline">\(\alpha=3.0\)</span> the density is very close to the <span class="math inline">\(\mathrm{N}(0,1)\)</span> density. As <span class="math inline">\(\alpha\)</span> diminishes the density changes significantly, concentrating most of the probability mass around zero.</p>
+<p>Another example is shown in Figure 7.2(b). Here the model is <span class="math inline">\(Y=\beta+e\)</span> where</p>
+<p><span class="math display">\[
+e=\frac{u^{r}-\mathbb{E}\left[u^{r}\right]}{\left(\mathbb{E}\left[u^{2 r}\right]-\left(\mathbb{E}\left[u^{r}\right]\right)^{2}\right)^{1 / 2}}
+\]</span></p>
+<p>and <span class="math inline">\(u \sim \mathrm{N}(0,1)\)</span>. We show the sampling distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> for <span class="math inline">\(n=100\)</span>, varying <span class="math inline">\(r=1,4,6\)</span> and 8 . As <span class="math inline">\(r\)</span> increases, the sampling distribution becomes highly skewed and non-normal. The lesson from Figure <span class="math inline">\(7.2\)</span> is that the <span class="math inline">\(\mathrm{N}(0,1)\)</span> asymptotic approximation is never guaranteed to be accurate.</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-07.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Double Pareto Error</li>
+</ol>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-07(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Error Process (7.12)</li>
+</ol>
+<p>Figure 7.2: Density of Normalized OLS Estimator</p>
+</section>
+<section id="joint-distribution" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="joint-distribution"><span class="header-section-number">7.4</span> Joint Distribution</h2>
+<p>Theorem <span class="math inline">\(7.3\)</span> gives the joint asymptotic distribution of the coefficient estimators. We can use the result to study the covariance between the coefficient estimators. For simplicity, take the case of two regressors, no intercept, and homoskedastic error. Assume the regressors are mean zero, variance one, with correlation <span class="math inline">\(\rho\)</span>. Then using the formula for inversion of a <span class="math inline">\(2 \times 2\)</span> matrix,</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta}^{0}=\sigma^{2} \boldsymbol{Q}_{X X}^{-1}=\frac{\sigma^{2}}{1-\rho^{2}}\left[\begin{array}{cc}
+1 &amp; -\rho \\
+-\rho &amp; 1
+\end{array}\right] .
+\]</span></p>
+<p>Thus if <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> are positively correlated <span class="math inline">\((\rho&gt;0)\)</span> then <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span> are negatively correlated (and viceversa).</p>
+<p>For illustration, Figure 7.3(a) displays the probability contours of the joint asymptotic distribution of <span class="math inline">\(\widehat{\beta}_{1}-\beta_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}-\beta_{2}\)</span> when <span class="math inline">\(\beta_{1}=\beta_{2}=0\)</span> and <span class="math inline">\(\rho=0.5\)</span>. The coefficient estimators are negatively correlated because the regressors are positively correlated. This means that if <span class="math inline">\(\widehat{\beta}_{1}\)</span> is unusually negative, it is likely that <span class="math inline">\(\widehat{\beta}_{2}\)</span> is unusually positive, or conversely. It is also unlikely that we will observe both <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span> unusually large and of the same sign.</p>
+<p>This finding that the correlation of the regressors is of opposite sign of the correlation of the coefficient estimates is sensitive to the assumption of homoskedasticity. If the errors are heteroskedastic then this relationship is not guaranteed.</p>
+<p>This can be seen through a simple constructed example. Suppose that <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> only take the values <span class="math inline">\(\{-1,+1\}\)</span>, symmetrically, with <span class="math inline">\(\mathbb{P}\left[X_{1}=X_{2}=1\right]=\mathbb{P}\left[X_{1}=X_{2}=-1\right]=3 / 8\)</span>, and <span class="math inline">\(\mathbb{P}\left[X_{1}=1, X_{2}=-1\right]=\)</span> <span class="math inline">\(\mathbb{P}\left[X_{1}=-1, X_{2}=1\right]=1 / 8\)</span>. You can check that the regressors are mean zero, unit variance and correlation <span class="math inline">\(0.5\)</span>, which is identical with the setting displayed in Figure 7.3(a).</p>
+<p>Now suppose that the error is heteroskedastic. Specifically, suppose that <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X_{1}=X_{2}\right]=5 / 4\)</span> and <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X_{1} \neq X_{2}\right]=1 / 4\)</span>. You can check that <span class="math inline">\(\mathbb{E}\left[e^{2}\right]=1\)</span>, <span class="math inline">\(\mathbb{E}\left[X_{1}^{2} e^{2}\right]=\mathbb{E}\left[X_{2}^{2} e^{2}\right]=1\)</span> and <span class="math inline">\(\mathbb{E}\left[X_{1} X_{2} e_{i}^{2}\right]=7 / 8\)</span>. There-</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-08.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Homoskedastic Case</li>
+</ol>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-08(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Heteroskedastic Case</li>
+</ol>
+<p>Figure 7.3: Contours of Joint Distribution of <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span></p>
+<p>fore</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V}_{\beta} &amp;=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1} \\
+&amp;=\frac{9}{16}\left[\begin{array}{cc}
+1 &amp; -\frac{1}{2} \\
+-\frac{1}{2} &amp; 1
+\end{array}\right]\left[\begin{array}{cc}
+1 &amp; \frac{7}{8} \\
+\frac{7}{8} &amp; 1
+\end{array}\right]\left[\begin{array}{cc}
+1 &amp; -\frac{1}{2} \\
+-\frac{1}{2} &amp; 1
+\end{array}\right] \\
+&amp;=\frac{4}{3}\left[\begin{array}{cc}
+1 &amp; \frac{1}{4} \\
+\frac{1}{4} &amp; 1
+\end{array}\right]
+\end{aligned}
+\]</span></p>
+<p>Thus the coefficient estimators <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span> are positively correlated (their correlation is <span class="math inline">\(1 / 4\)</span>.) The joint probability contours of their asymptotic distribution is displayed in Figure 7.3(b). We can see how the two estimators are positively associated.</p>
+<p>What we found through this example is that in the presence of heteroskedasticity there is no simple relationship between the correlation of the regressors and the correlation of the parameter estimators.</p>
+<p>We can extend the above analysis to study the covariance between coefficient sub-vectors. For example, partitioning <span class="math inline">\(X^{\prime}=\left(X_{1}^{\prime}, X_{2}^{\prime}\right)\)</span> and <span class="math inline">\(\beta^{\prime}=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)\)</span>, we can write the general model as</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e
+\]</span></p>
+<p>and the coefficient estimates as <span class="math inline">\(\widehat{\beta}^{\prime}=\left(\widehat{\beta}_{1}^{\prime}, \widehat{\beta}_{2}^{\prime}\right)\)</span>. Make the partitions</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_{X X}=\left[\begin{array}{ll}
+\boldsymbol{Q}_{11} &amp; \boldsymbol{Q}_{12} \\
+\boldsymbol{Q}_{21} &amp; \boldsymbol{Q}_{22}
+\end{array}\right], \quad \Omega=\left[\begin{array}{ll}
+\Omega_{11} &amp; \Omega_{12} \\
+\Omega_{21} &amp; \Omega_{22}
+\end{array}\right] .
+\]</span></p>
+<p>From (2.43)</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_{X X}^{-1}=\left[\begin{array}{cc}
+\boldsymbol{Q}_{11 \cdot 2}^{-1} &amp; -\boldsymbol{Q}_{11 \cdot 2}^{-1} \boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \\
+-\boldsymbol{Q}_{22 \cdot 1}^{-1} \boldsymbol{Q}_{21} \boldsymbol{Q}_{11}^{-1} &amp; \boldsymbol{Q}_{22 \cdot 1}^{-1}
+\end{array}\right]
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{Q}_{11 \cdot 2}=\boldsymbol{Q}_{11}-\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}\)</span> and <span class="math inline">\(\boldsymbol{Q}_{22 \cdot 1}=\boldsymbol{Q}_{22}-\boldsymbol{Q}_{21} \boldsymbol{Q}_{11}^{-1} \boldsymbol{Q}_{12}\)</span>. Thus when the error is homoskedastic</p>
+<p><span class="math display">\[
+\operatorname{cov}\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)=-\sigma^{2} \boldsymbol{Q}_{11 \cdot 2}^{-1} \boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1}
+\]</span></p>
+<p>which is a matrix generalization of the two-regressor case.</p>
+<p>In general you can show that (Exercise 7.5)</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\boldsymbol{\beta}}=\left[\begin{array}{ll}
+\boldsymbol{V}_{11} &amp; \boldsymbol{V}_{12} \\
+\boldsymbol{V}_{21} &amp; \boldsymbol{V}_{22}
+\end{array}\right]
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V}_{11} &amp;=\boldsymbol{Q}_{11 \cdot 2}^{-1}\left(\Omega_{11}-\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \Omega_{21}-\Omega_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}+\boldsymbol{Q}_{12} \boldsymbol{Q}_{22}^{-1} \Omega_{22} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}\right) \boldsymbol{Q}_{11 \cdot 2}^{-1} \\
+\boldsymbol{V}_{21} &amp;=\boldsymbol{Q}_{22 \cdot 1}^{-1}\left(\Omega_{21}-\boldsymbol{Q}_{21} \boldsymbol{Q}_{11}^{-1} \Omega_{11}-\Omega_{22} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}+\boldsymbol{Q}_{21} \boldsymbol{Q}_{11}^{-1} \Omega_{12} \boldsymbol{Q}_{22}^{-1} \boldsymbol{Q}_{21}\right) \boldsymbol{Q}_{11 \cdot 2}^{-1} \\
+\boldsymbol{V}_{22} &amp;=\boldsymbol{Q}_{22 \cdot 1}^{-1}\left(\Omega_{22}-\boldsymbol{Q}_{21} \boldsymbol{Q}_{11}^{-1} \Omega_{12}-\Omega_{21} \boldsymbol{Q}_{11}^{-1} \boldsymbol{Q}_{12}+\boldsymbol{Q}_{21} \boldsymbol{Q}_{11}^{-1} \Omega_{11} \boldsymbol{Q}_{11}^{-1} \boldsymbol{Q}_{12}\right) \boldsymbol{Q}_{22 \cdot 1}^{-1}
+\end{aligned}
+\]</span></p>
+<p>Unfortunately, these expressions are not easily interpretable.</p>
+</section>
+<section id="consistency-of-error-variance-estimators" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="consistency-of-error-variance-estimators"><span class="header-section-number">7.5</span> Consistency of Error Variance Estimators</h2>
+<p>Using the methods of Section <span class="math inline">\(7.2\)</span> we can show that the estimators <span class="math inline">\(\widehat{\sigma}^{2}=n^{-1} \sum_{i=1}^{n} \widehat{e}_{i}^{2}\)</span> and <span class="math inline">\(s^{2}=(n-k)^{-1} \sum_{i=1}^{n} \widehat{e}_{i}^{2}\)</span> are consistent for <span class="math inline">\(\sigma^{2}\)</span>.</p>
+<p>The trick is to write the residual <span class="math inline">\(\widehat{e}_{i}\)</span> as equal to the error <span class="math inline">\(e_{i}\)</span> plus a deviation</p>
+<p><span class="math display">\[
+\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}=e_{i}-X_{i}^{\prime}(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>Thus the squared residual equals the squared error plus a deviation</p>
+<p><span class="math display">\[
+\widehat{e}_{i}^{2}=e_{i}^{2}-2 e_{i} X_{i}^{\prime}(\widehat{\beta}-\beta)+(\widehat{\beta}-\beta)^{\prime} X_{i} X_{i}^{\prime}(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>So when we take the average of the squared residuals we obtain the average of the squared errors, plus two terms which are (hopefully) asymptotically negligible. This average is:</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} e_{i}^{2}-2\left(\frac{1}{n} \sum_{i=1}^{n} e_{i} X_{i}^{\prime}\right)(\widehat{\beta}-\beta)+(\widehat{\beta}-\beta)^{\prime}\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>The WLLN implies that</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\frac{1}{n} \sum_{i=1}^{n} e_{i}^{2} \underset{p}{\longrightarrow} \sigma^{2} \\
+&amp;\frac{1}{n} \sum_{i=1}^{n} e_{i} X_{i}^{\prime} \underset{p}{\longrightarrow} \mathbb{E}\left[e X^{\prime}\right]=0 \\
+&amp;\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \underset{p}{\longrightarrow}\left[X X^{\prime}\right]=\boldsymbol{Q}_{X X}
+\end{aligned}
+\]</span></p>
+<p>Theorem <span class="math inline">\(7.1\)</span> shows that <span class="math inline">\(\widehat{\beta} \underset{p}{\rightarrow} \beta\)</span>. Hence (7.18) converges in probability to <span class="math inline">\(\sigma^{2}\)</span> as desired.</p>
+<p>Finally, since <span class="math inline">\(n /(n-k) \rightarrow 1\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> it follows that <span class="math inline">\(s^{2}=\left(\frac{n}{n-k}\right) \widehat{\sigma}^{2} \underset{p}{\rightarrow} \sigma^{2}\)</span>. Thus both estimators are consistent. Theorem 7.4 Under Assumption 7.1, <span class="math inline">\(\widehat{\sigma}^{2} \underset{p}{\longrightarrow} \sigma^{2}\)</span> and <span class="math inline">\(s^{2} \underset{p}{\rightarrow} \sigma^{2}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+</section>
+<section id="homoskedastic-covariance-matrix-estimation" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="homoskedastic-covariance-matrix-estimation"><span class="header-section-number">7.6</span> Homoskedastic Covariance Matrix Estimation</h2>
+<p>Theorem <span class="math inline">\(7.3\)</span> shows that <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> is asymptotically normal with asymptotic covariance matrix <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. For asymptotic inference (confidence intervals and tests) we need a consistent estimator of <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. Under homoskedasticity <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> simplifies to <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}=\boldsymbol{Q}_{X X}^{-1} \sigma^{2}\)</span> and in this section we consider the simplified problem of estimating <span class="math inline">\(V_{\beta}^{0}\)</span>.</p>
+<p>The standard moment estimator of <span class="math inline">\(\boldsymbol{Q}_{X X}\)</span> is <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}\)</span> defined in (7.1) and thus an estimator for <span class="math inline">\(\boldsymbol{Q}_{X X}^{-1}\)</span> is <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}^{-1}\)</span>. The standard estimator of <span class="math inline">\(\sigma^{2}\)</span> is the unbiased estimator <span class="math inline">\(s^{2}\)</span> defined in (4.31). Thus a natural plug-in estimator for <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}=\boldsymbol{Q}_{X X}^{-1} \sigma^{2}\)</span> is <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{0}=\widehat{\boldsymbol{Q}}_{X X}^{-1} s^{2}\)</span>.</p>
+<p>Consistency of <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{0}\)</span> for <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}\)</span> follows from consistency of the moment estimators <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}\)</span> and <span class="math inline">\(s^{2}\)</span> and an application of the continuous mapping theorem. Specifically, Theorem <span class="math inline">\(7.1\)</span> established <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X} \underset{p}{\rightarrow} \boldsymbol{Q}_{X X}\)</span>, and Theorem <span class="math inline">\(7.4\)</span> established <span class="math inline">\(s^{2} \underset{p}{\rightarrow} \sigma^{2}\)</span>. The function <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}=\boldsymbol{Q}_{X X}^{-1} \sigma^{2}\)</span> is a continuous function of <span class="math inline">\(\boldsymbol{Q}_{X X}\)</span> and <span class="math inline">\(\sigma^{2}\)</span> so long as <span class="math inline">\(\boldsymbol{Q}_{X X}&gt;0\)</span>, which holds true under Assumption 7.1.4. It follows by the CMT that</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}^{0}=\widehat{\boldsymbol{Q}}_{X X}^{-1} s^{2} \underset{p}{\longrightarrow} \boldsymbol{Q}_{X X}^{-1} \sigma^{2}=\boldsymbol{V}_{\beta}^{0}
+\]</span></p>
+<p>so that <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{0}\)</span> is consistent for <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}\)</span>.</p>
+<p>Theorem 7.5 Under Assumption 7.1, <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{0} \underset{p}{\rightarrow} \boldsymbol{V}_{\beta}^{0}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p>It is instructive to notice that Theorem <span class="math inline">\(7.5\)</span> does not require the assumption of homoskedasticity. That is, <span class="math inline">\(\widehat{V}_{\beta}^{0}\)</span> is consistent for <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}\)</span> regardless if the regression is homoskedastic or heteroskedastic. However, <span class="math inline">\(\boldsymbol{V}_{\beta}^{0}=\boldsymbol{V}_{\beta}=\operatorname{avar}[\widehat{\beta}]\)</span> only under homoskedasticity. Thus, in the general case <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{0}\)</span> is consistent for a welldefined but non-useful object.</p>
+</section>
+<section id="heteroskedastic-covariance-matrix-estimation" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="heteroskedastic-covariance-matrix-estimation"><span class="header-section-number">7.7</span> Heteroskedastic Covariance Matrix Estimation</h2>
+<p>Theorems <span class="math inline">\(7.3\)</span> established that the asymptotic covariance matrix of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> is <span class="math inline">\(\boldsymbol{V}_{\beta}=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}\)</span>. We now consider estimation of this covariance matrix without imposing homoskedasticity. The standard approach is to use a plug-in estimator which replaces the unknowns with sample moments.</p>
+<p>As described in the previous section a natural estimator for <span class="math inline">\(\boldsymbol{Q}_{X X}^{-1}\)</span> is <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}^{-1}\)</span> where <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}\)</span> defined in (7.1). The moment estimator for <span class="math inline">\(\Omega\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\Omega}=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{e}_{i}^{2},
+\]</span></p>
+<p>leading to the plug-in covariance matrix estimator</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0}=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\Omega} \widehat{\boldsymbol{Q}}_{X X}^{-1} .
+\]</span></p>
+<p>You can check that <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 0}\)</span> where <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 0}\)</span> is the HC0 covariance matrix estimator from (4.36).</p>
+<p>As shown in Theorem 7.1, <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}^{-1} \underset{p}{\rightarrow} \boldsymbol{Q}_{X X}^{-1}\)</span>, so we just need to verify the consistency of <span class="math inline">\(\widehat{\Omega}\)</span>. The key is to replace the squared residual <span class="math inline">\(\widehat{e}_{i}^{2}\)</span> with the squared error <span class="math inline">\(e_{i}^{2}\)</span>, and then show that the difference is asymptotically negligible.</p>
+<p>Specifically, observe that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\Omega} &amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{e}_{i}^{2} \\
+&amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} e_{i}^{2}+\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\widehat{e}_{i}^{2}-e_{i}^{2}\right) .
+\end{aligned}
+\]</span></p>
+<p>The first term is an average of the i.i.d. random variables <span class="math inline">\(X_{i} X_{i}^{\prime} e_{i}^{2}\)</span>, and therefore by the WLLN converges in probability to its expectation, namely,</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} e_{i}^{2} \underset{p}{\longrightarrow}\left[X X^{\prime} e^{2}\right]=\Omega .
+\]</span></p>
+<p>Technically, this requires that <span class="math inline">\(\Omega\)</span> has finite elements, which was shown in (7.6).</p>
+<p>To establish that <span class="math inline">\(\widehat{\Omega}\)</span> is consistent for <span class="math inline">\(\Omega\)</span> it remains to show that</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\widehat{e}_{i}^{2}-e_{i}^{2}\right) \underset{p}{\longrightarrow} 0
+\]</span></p>
+<p>There are multiple ways to do this. A reasonably straightforward yet slightly tedious derivation is to start by applying the triangle inequality (B.16) using a matrix norm:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left\|\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\widehat{e}_{i}^{2}-e_{i}^{2}\right)\right\| &amp; \leq \frac{1}{n} \sum_{i=1}^{n}\left\|X_{i} X_{i}^{\prime}\left(\widehat{e}_{i}^{2}-e_{i}^{2}\right)\right\| \\
+&amp;=\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2}\left|\widehat{e}_{i}^{2}-e_{i}^{2}\right| .
+\end{aligned}
+\]</span></p>
+<p>Then recalling the expression for the squared residual (7.17), apply the triangle inequality (B.1) and then the Schwarz inequality (B.12) twice</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left|\widehat{e}_{i}^{2}-e_{i}^{2}\right| &amp; \leq 2\left|e_{i} X_{i}^{\prime}(\widehat{\beta}-\beta)\right|+(\widehat{\beta}-\beta)^{\prime} X_{i} X_{i}^{\prime}(\widehat{\beta}-\beta) \\
+&amp;=2\left|e_{i}\right|\left|X_{i}^{\prime}(\widehat{\beta}-\beta)\right|+\left|(\widehat{\beta}-\beta)^{\prime} X_{i}\right|^{2} \\
+&amp; \leq 2\left|e_{i}\right|\left\|X_{i}\right\|\|\widehat{\beta}-\beta\|+\left\|X_{i}\right\|^{2}\|\widehat{\beta}-\beta\|^{2}
+\end{aligned}
+\]</span></p>
+<p>Combining (7.21) and (7.22), we find</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left\|\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\widehat{e}_{i}^{2}-e_{i}^{2}\right)\right\| &amp; \leq 2\left(\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{3}\left|e_{i}\right|\right)\|\widehat{\beta}-\beta\|+\left(\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{4}\right)\|\widehat{\beta}-\beta\|^{2} \\
+&amp;=o_{p}(1) .
+\end{aligned}
+\]</span></p>
+<p>The expression is <span class="math inline">\(o_{p}(1)\)</span> because <span class="math inline">\(\|\widehat{\beta}-\beta\| \underset{p}{\longrightarrow} 0\)</span> and both averages in parenthesis are averages of random variables with finite expectation under Assumption <span class="math inline">\(7.2\)</span> (and are thus <span class="math inline">\(O_{p}(1)\)</span> ). Indeed, by Hölder’s inequality (B.31)</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\|X\|^{3}|e|\right] \leq\left(\mathbb{E}\left[\left(\|X\|^{3}\right)^{4 / 3}\right]\right)^{3 / 4}\left(\mathbb{E}\left[e^{4}\right]\right)^{1 / 4}=\left(\mathbb{E}\|X\|^{4}\right)^{3 / 4}\left(\mathbb{E}\left[e^{4}\right]\right)^{1 / 4}&lt;\infty .
+\]</span></p>
+<p>We have established (7.20) as desired. Theorem 7.6 Under Assumption 7.2, as <span class="math inline">\(n \rightarrow \infty, \widehat{\Omega} \underset{p}{\longrightarrow} \Omega\)</span> and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0} \underset{p}{\longrightarrow} \boldsymbol{V}_{\beta}\)</span></p>
+<p>For an alternative proof of this result, see Section 7.20.</p>
+</section>
+<section id="summary-of-covariance-matrix-notation" class="level2" data-number="7.8">
+<h2 data-number="7.8" class="anchored" data-anchor-id="summary-of-covariance-matrix-notation"><span class="header-section-number">7.8</span> Summary of Covariance Matrix Notation</h2>
+<p>The notation we have introduced may be somewhat confusing so it is helpful to write it down in one place.</p>
+<p>The exact variance of <span class="math inline">\(\widehat{\beta}\)</span> (under the assumptions of the linear regression model) and the asymptotic variance of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> (under the more general assumptions of the linear projection model) are</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{V}_{\widehat{\beta}}=\operatorname{var}[\widehat{\beta} \mid \boldsymbol{X}]=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \\
+&amp;\boldsymbol{V}_{\beta}=\operatorname{avar}[\sqrt{n}(\widehat{\beta}-\beta)]=\boldsymbol{Q}_{X X}^{-1} \Omega \boldsymbol{Q}_{X X}^{-1}
+\end{aligned}
+\]</span></p>
+<p>The HC0 estimators of these two covariance matrices are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 0} &amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{e}_{i}^{2}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \\
+\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0} &amp;=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\Omega} \widehat{\boldsymbol{Q}}_{X X}^{-1}
+\end{aligned}
+\]</span></p>
+<p>and satisfy the simple relationship <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC}}\)</span>.</p>
+<p>Similarly, under the assumption of homoskedasticity the exact and asymptotic variances simplify to</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V}_{\widehat{\beta}}^{0} &amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \sigma^{2} \\
+\boldsymbol{V}_{\beta}^{0} &amp;=\boldsymbol{Q}_{X X}^{-1} \sigma^{2} .
+\end{aligned}
+\]</span></p>
+<p>Their standard estimators are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{0} &amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} s^{2} \\
+\widehat{\boldsymbol{V}}_{\beta}^{0} &amp;=\widehat{\boldsymbol{Q}}_{X X}^{-1} s^{2}
+\end{aligned}
+\]</span></p>
+<p>which also satisfy the relationship <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{0}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{0}\)</span>.</p>
+<p>The exact formula and estimators are useful when constructing test statistics and standard errors. However, for theoretical purposes the asymptotic formula (variances and their estimates) are more useful as these retain non-generate limits as the sample sizes diverge. That is why both sets of notation are useful.</p>
+</section>
+<section id="alternative-covariance-matrix-estimators" class="level2" data-number="7.9">
+<h2 data-number="7.9" class="anchored" data-anchor-id="alternative-covariance-matrix-estimators"><span class="header-section-number">7.9</span> Alternative Covariance Matrix Estimators*</h2>
+<p>In Section <span class="math inline">\(7.7\)</span> we introduced <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0}\)</span> as an estimator of <span class="math inline">\(\boldsymbol{V}_{\beta} \cdot \widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0}\)</span> is a scaled version of <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 0}\)</span> from Section 4.14, where we also introduced the alternative HC1, HC2, and HC3 heteroskedasticity-robust covariance matrix estimators. We now discuss the consistency properties of these estimators.</p>
+<p>To do so we introduce their scaled versions, e.g.&nbsp;<span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 1}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 1}, \widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 2}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 2}\)</span>, and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 3}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 3}\)</span>. These are (alternative) estimators of the asymptotic covariance matrix <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. First, consider <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 1}\)</span>. Notice that <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 1}=n \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC1}}=\frac{n}{n-k} \widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0}\)</span> where <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC}}\)</span> was defined in (7.19) and shown consistent for <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> in Theorem 7.6. If <span class="math inline">\(k\)</span> is fixed as <span class="math inline">\(n \rightarrow \infty\)</span>, then <span class="math inline">\(\frac{n}{n-k} \rightarrow 1\)</span> and thus</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 1}=(1+o(1)) \widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 0} \underset{p}{\longrightarrow} \boldsymbol{V}_{\beta} .
+\]</span></p>
+<p>Thus <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 1}\)</span> is consistent for <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>.</p>
+<p>The alternative estimators <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 2}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 3}\)</span> take the form (7.19) but with <span class="math inline">\(\widehat{\Omega}\)</span> replaced by</p>
+<p><span class="math display">\[
+\widetilde{\Omega}=\frac{1}{n} \sum_{i=1}^{n}\left(1-h_{i i}\right)^{-2} X_{i} X_{i}^{\prime} \widehat{e}_{i}^{2}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\bar{\Omega}=\frac{1}{n} \sum_{i=1}^{n}\left(1-h_{i i}\right)^{-1} X_{i} X_{i}^{\prime} \hat{e}_{i}^{2},
+\]</span></p>
+<p>respectively. To show that these estimators also consistent for <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span> given <span class="math inline">\(\widehat{\Omega} \underset{p}{\vec{a}} \Omega\)</span> it is sufficient to show that the differences <span class="math inline">\(\widetilde{\Omega}-\widehat{\Omega}\)</span> and <span class="math inline">\(\bar{\Omega}-\widehat{\Omega}\)</span> converge in probability to zero as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>The trick is the fact that the leverage values are asymptotically negligible:</p>
+<p><span class="math display">\[
+h_{n}^{*}=\max _{1 \leq i \leq n} h_{i i}=o_{p}(1) .
+\]</span></p>
+<p>(See Theorem <span class="math inline">\(7.17\)</span> in Section 7.21.) Then using the triangle inequality (B.16)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\|\bar{\Omega}-\widehat{\Omega}\| &amp; \leq \frac{1}{n} \sum_{i=1}^{n}\left\|X_{i} X_{i}^{\prime}\right\| \widehat{e}_{i}^{2}\left|\left(1-h_{i i}\right)^{-1}-1\right| \\
+&amp; \leq\left(\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2} \widehat{e}_{i}^{2}\right)\left|\left(1-h_{n}^{*}\right)^{-1}-1\right| .
+\end{aligned}
+\]</span></p>
+<p>The sum in parenthesis can be shown to be <span class="math inline">\(O_{p}(1)\)</span> under Assumption <span class="math inline">\(7.2\)</span> by the same argument as in in the proof of Theorem 7.6. (In fact, it can be shown to converge in probability to <span class="math inline">\(\mathbb{E}\left[\|X\|^{2} e^{2}\right]\)</span>.) The term in absolute values is <span class="math inline">\(o_{p}(1)\)</span> by (7.24). Thus the product is <span class="math inline">\(o_{p}(1)\)</span> which means that <span class="math inline">\(\bar{\Omega}=\widehat{\Omega}+o_{p}(1) \underset{p}{\longrightarrow}\)</span>.</p>
+<p>Similarly,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\|\widetilde{\Omega}-\widehat{\Omega}\| &amp; \leq \frac{1}{n} \sum_{i=1}^{n}\left\|X_{i} X_{i}^{\prime}\right\| \widehat{e}_{i}^{2}\left|\left(1-h_{i i}\right)^{-2}-1\right| \\
+&amp; \leq\left(\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2} \widehat{e}_{i}^{2}\right)\left|\left(1-h_{n}^{*}\right)^{-2}-1\right| \\
+&amp;=o_{p}(1) .
+\end{aligned}
+\]</span></p>
+<p>Theorem 7.7 Under Assumption 7.2, as <span class="math inline">\(n \rightarrow \infty, \widetilde{\Omega} \underset{p}{\longrightarrow} \Omega, \bar{\Omega} \underset{p}{\longrightarrow} \Omega, \widehat{V}_{\beta}^{\mathrm{HC1}} \underset{p}{\longrightarrow}\)</span> <span class="math inline">\(\boldsymbol{V}_{\beta}, \widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 2} \underset{p}{\longrightarrow} \boldsymbol{V}_{\beta}\)</span>, and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}^{\mathrm{HC} 3} \underset{p}{\longrightarrow} \boldsymbol{V}_{\beta}\)</span></p>
+<p>Theorem <span class="math inline">\(7.7\)</span> shows that the alternative covariance matrix estimators are also consistent for the asymptotic covariance matrix.</p>
+<p>To simplify notation, for the remainder of the chapter we will use the notation <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}\)</span> to refer to any of the heteroskedasticity-consistent covariance matrix estimators <span class="math inline">\(\mathrm{HC}\)</span>, <span class="math inline">\(\mathrm{HC} 1\)</span>, HC2, and <span class="math inline">\(\mathrm{HC3}\)</span>, as they all have the same asymptotic limits.</p>
+</section>
+<section id="functions-of-parameters" class="level2" data-number="7.10">
+<h2 data-number="7.10" class="anchored" data-anchor-id="functions-of-parameters"><span class="header-section-number">7.10</span> Functions of Parameters</h2>
+<p>In most serious applications a researcher is actually interested in a specific transformation of the coefficient vector <span class="math inline">\(\beta=\left(\beta_{1}, \ldots, \beta_{k}\right)\)</span>. For example, the researcher may be interested in a single coefficient <span class="math inline">\(\beta_{j}\)</span> or a ratio <span class="math inline">\(\beta_{j} / \beta_{l}\)</span>. More generally, interest may focus on a quantity such as consumer surplus which could be a complicated function of the coefficients. In any of these cases we can write the parameter of interest <span class="math inline">\(\theta\)</span> as a function of the coefficients, e.g.&nbsp;<span class="math inline">\(\theta=r(\beta)\)</span> for some function <span class="math inline">\(r: \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}\)</span>. The estimate of <span class="math inline">\(\theta\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\theta}=r(\widehat{\beta}) .
+\]</span></p>
+<p>By the continuous mapping theorem (Theorem 6.6) and the fact <span class="math inline">\(\widehat{\beta} \underset{p}{\longrightarrow} \beta\)</span> we can deduce that <span class="math inline">\(\widehat{\theta}\)</span> is consistent for <span class="math inline">\(\theta\)</span> if the function <span class="math inline">\(r(\cdot)\)</span> is continuous.</p>
+<p>Theorem 7.8 Under Assumption 7.1, if <span class="math inline">\(r(\beta)\)</span> is continuous at the true value of <span class="math inline">\(\beta\)</span> then as <span class="math inline">\(n \rightarrow \infty, \widehat{\theta} \underset{p}{\longrightarrow} \theta\)</span></p>
+<p>Furthermore, if the transformation is sufficiently smooth, by the Delta Method (Theorem 6.8) we can show that <span class="math inline">\(\widehat{\theta}\)</span> is asymptotically normal.</p>
+<p>Assumption 7.3 <span class="math inline">\(r(\beta): \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}\)</span> is continuously differentiable at the true value of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\boldsymbol{R}=\frac{\partial}{\partial \beta} r(\beta)^{\prime}\)</span> has rank <span class="math inline">\(q\)</span>.</p>
+<p>Theorem 7.9 Asymptotic Distribution of Functions of Parameters Under Assumptions <span class="math inline">\(7.2\)</span> and 7.3, as <span class="math inline">\(n \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+\sqrt{n}(\widehat{\theta}-\theta) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\theta}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{V}_{\theta}=\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\)</span>.</p>
+<p>In many cases the function <span class="math inline">\(r(\beta)\)</span> is linear:</p>
+<p><span class="math display">\[
+r(\beta)=\boldsymbol{R}^{\prime} \beta
+\]</span></p>
+<p>for some <span class="math inline">\(k \times q\)</span> matrix <span class="math inline">\(\boldsymbol{R}\)</span>. In particular if <span class="math inline">\(\boldsymbol{R}\)</span> is a “selector matrix”</p>
+<p><span class="math display">\[
+\boldsymbol{R}=\left(\begin{array}{l}
+\boldsymbol{I} \\
+0
+\end{array}\right)
+\]</span></p>
+<p>then we can partition <span class="math inline">\(\beta=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)^{\prime}\)</span> so that <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\beta_{1}\)</span>. Then</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\boldsymbol{\theta}}=\left(\begin{array}{ll}
+\boldsymbol{I} &amp; 0
+\end{array}\right) \boldsymbol{V}_{\beta}\left(\begin{array}{l}
+\boldsymbol{I} \\
+0
+\end{array}\right)=\boldsymbol{V}_{11},
+\]</span></p>
+<p>the upper-left sub-matrix of <span class="math inline">\(V_{11}\)</span> given in (7.14). In this case (7.25) states that</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\beta}_{1}-\beta_{1}\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, V_{11}\right) .
+\]</span></p>
+<p>That is, subsets of <span class="math inline">\(\widehat{\beta}\)</span> are approximately normal with variances given by the conformable subcomponents of <span class="math inline">\(V\)</span>.</p>
+<p>To illustrate the case of a nonlinear transformation take the example <span class="math inline">\(\theta=\beta_{j} / \beta_{l}\)</span> for <span class="math inline">\(j \neq l\)</span>. Then</p>
+<p><span class="math display">\[
+\boldsymbol{R}=\frac{\partial}{\partial \beta} r(\beta)=\left(\begin{array}{c}
+\frac{\partial}{\partial \beta_{1}}\left(\beta_{j} / \beta_{l}\right) \\
+\vdots \\
+\frac{\partial}{\partial \beta_{j}}\left(\beta_{j} / \beta_{l}\right) \\
+\vdots \\
+\frac{\partial}{\partial \beta_{\ell}}\left(\beta_{j} / \beta_{l}\right) \\
+\vdots \\
+\frac{\partial}{\partial \beta_{k}}\left(\beta_{j} / \beta_{l}\right)
+\end{array}\right)=\left(\begin{array}{c}
+0 \\
+\vdots \\
+1 / \beta_{l} \\
+\vdots \\
+-\beta_{j} / \beta_{l}^{2} \\
+\vdots \\
+0
+\end{array}\right)
+\]</span></p>
+<p>so</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\theta}=\boldsymbol{V}_{j j} / \beta_{l}^{2}+\boldsymbol{V}_{l l} \beta_{j}^{2} / \beta_{l}^{4}-2 \boldsymbol{V}_{j l} \beta_{j} / \beta_{l}^{3}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{V}_{a b}\)</span> denotes the <span class="math inline">\(a b^{t h}\)</span> element of <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>.</p>
+<p>For inference we need an estimator of the asymptotic covariance matrix <span class="math inline">\(\boldsymbol{V}_{\theta}=\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\)</span>. For this it is typical to use the plug-in estimator</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{R}}=\frac{\partial}{\partial \beta} r(\widehat{\beta})^{\prime} .
+\]</span></p>
+<p>The derivative in (7.27) may be calculated analytically or numerically. By analytically, we mean working out the formula for the derivative and replacing the unknowns by point estimates. For example, if <span class="math inline">\(\theta=\)</span> <span class="math inline">\(\beta_{j} / \beta_{l}\)</span> then <span class="math inline">\(\frac{\partial}{\partial \beta} r(\beta)\)</span> is (7.26). However in some cases the function <span class="math inline">\(r(\beta)\)</span> may be extremely complicated and a formula for the analytic derivative may not be easily available. In this case numerical differentiation may be preferable. Let <span class="math inline">\(\delta_{l}=(0 \cdots 1 \cdots 0)^{\prime}\)</span> be the unit vector with the ” 1 ” in the <span class="math inline">\(l^{\text {th }}\)</span> place. The <span class="math inline">\(j l^{t h}\)</span> element of a numerical derivative <span class="math inline">\(\widehat{\boldsymbol{R}}\)</span> is</p>
+<p>for some small <span class="math inline">\(\epsilon\)</span>.</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{R}}_{j l}=\frac{r_{j}\left(\widehat{\beta}+\delta_{l} \epsilon\right)-r_{j}(\widehat{\beta})}{\epsilon}
+\]</span></p>
+<p>The estimator of <span class="math inline">\(\boldsymbol{V}_{\theta}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\theta}=\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \widehat{\boldsymbol{R}} \text {. }
+\]</span></p>
+<p>Alternatively, the homoskedastic covariance matrix estimator could be used leading to a homoskedastic covariance matrix estimator for <span class="math inline">\(\theta\)</span>.</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\theta}^{0}=\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta}^{0} \widehat{\boldsymbol{R}}=\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{R}} s^{2} .
+\]</span></p>
+<p>Given (7.27), (7.28) and (7.29) are simple to calculate using matrix operations.</p>
+<p>As the primary justification for <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}\)</span> is the asymptotic approximation (7.25), <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}\)</span> is often called an asymptotic covariance matrix estimator.</p>
+<p>The estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}\)</span> is consistent for <span class="math inline">\(\boldsymbol{V}_{\theta}\)</span> under the conditions of Theorem <span class="math inline">\(7.9\)</span> because <span class="math inline">\(\widehat{\boldsymbol{V}}_{\beta} \vec{p}_{\boldsymbol{V}}\)</span> by Theorem <span class="math inline">\(7.6\)</span> and</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{R}}=\frac{\partial}{\partial \beta} r(\widehat{\beta})^{\prime} \underset{p}{\Rightarrow} \frac{\partial}{\partial \beta} r(\beta)^{\prime}=\boldsymbol{R}
+\]</span></p>
+<p>because <span class="math inline">\(\widehat{\beta} \underset{p}{\longrightarrow} \beta\)</span> and the function <span class="math inline">\(\frac{\partial}{\partial \beta} r(\beta)^{\prime}\)</span> is continuous in <span class="math inline">\(\beta\)</span>. Theorem 7.10 Under Assumptions <span class="math inline">\(7.2\)</span> and 7.3, as <span class="math inline">\(n \rightarrow \infty, \widehat{\boldsymbol{V}}_{\theta} \underset{p}{\longrightarrow} \boldsymbol{V}_{\theta}\)</span></p>
+<p>Theorem 7.10 shows that <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}\)</span> is consistent for <span class="math inline">\(\boldsymbol{V}_{\theta}\)</span> and thus may be used for asymptotic inference. In practice we may set</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{\theta}}=\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\widehat{\beta}} \widehat{\boldsymbol{R}}=n^{-1} \widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \widehat{\boldsymbol{R}}
+\]</span></p>
+<p>as an estimator of the variance of <span class="math inline">\(\widehat{\theta}\)</span>.</p>
+</section>
+<section id="asymptotic-standard-errors" class="level2" data-number="7.11">
+<h2 data-number="7.11" class="anchored" data-anchor-id="asymptotic-standard-errors"><span class="header-section-number">7.11</span> Asymptotic Standard Errors</h2>
+<p>As described in Section 4.15, a standard error is an estimator of the standard deviation of the distribution of an estimator. Thus if <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}\)</span> is an estimator of the covariance matrix of <span class="math inline">\(\widehat{\beta}\)</span> then standard errors are the square roots of the diagonal elements of this matrix. These take the form</p>
+<p><span class="math display">\[
+s\left(\widehat{\beta}_{j}\right)=\sqrt{\widehat{\boldsymbol{V}}_{\widehat{\beta}_{j}}}=\sqrt{\left[\widehat{\boldsymbol{V}}_{\widehat{\beta}}\right]_{j j}} .
+\]</span></p>
+<p>Standard errors for <span class="math inline">\(\hat{\theta}\)</span> are constructed similarly. Supposing that <span class="math inline">\(\theta=h(\beta)\)</span> is real-valued then the standard error for <span class="math inline">\(\widehat{\theta}\)</span> is the square root of <span class="math inline">\((7.30)\)</span></p>
+<p><span class="math display">\[
+s(\widehat{\theta})=\sqrt{\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\widehat{\beta}} \widehat{\boldsymbol{R}}}=\sqrt{n^{-1} \widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \widehat{\boldsymbol{R}}}
+\]</span></p>
+<p>When the justification is based on asymptotic theory we call <span class="math inline">\(s\left(\widehat{\beta}_{j}\right)\)</span> or <span class="math inline">\(s(\widehat{\theta})\)</span> an asymptotic standard error for <span class="math inline">\(\widehat{\beta}_{j}\)</span> or <span class="math inline">\(\widehat{\theta}\)</span>. When reporting your results it is good practice to report standard errors for each reported estimate and this includes functions and transformations of your parameter estimates. This helps users of the work (including yourself) assess the estimation precision.</p>
+<p>We illustrate using the log wage regression</p>
+<p><span class="math display">\[
+\log (\text { wage })=\beta_{1} \text { education }+\beta_{2} \text { experience }+\beta_{3} \text { experience }^{2} / 100+\beta_{4}+e .
+\]</span></p>
+<p>Consider the following three parameters of interest.</p>
+<ol type="1">
+<li>Percentage return to education:</li>
+</ol>
+<p><span class="math display">\[
+\theta_{1}=100 \beta_{1}
+\]</span></p>
+<p>(100 times the partial derivative of the conditional expectation of <span class="math inline">\(\log (\)</span> wage) with respect to education.)</p>
+<p> 1. Percentage return to experience for individuals with 10 years of experience:</p>
+<p><span class="math display">\[
+\theta_{2}=100 \beta_{2}+20 \beta_{3}
+\]</span></p>
+<p>(100 times the partial derivative of the conditional expectation of log wages with respect to experience, evaluated at experience <span class="math inline">\(=10\)</span>.) 3. Experience level which maximizes expected log wages:</p>
+<p><span class="math display">\[
+\theta_{3}=-50 \beta_{2} / \beta_{3}
+\]</span></p>
+<p>(The level of experience at which the partial derivative of the conditional expectation of log(wage) with respect to experience equals 0 .)</p>
+<p>The <span class="math inline">\(4 \times 1\)</span> vector <span class="math inline">\(\boldsymbol{R}\)</span> for these three parameters is</p>
+<p><span class="math display">\[
+\boldsymbol{R}=\left(\begin{array}{c}
+100 \\
+0 \\
+0 \\
+0
+\end{array}\right), \quad\left(\begin{array}{c}
+0 \\
+100 \\
+20 \\
+0
+\end{array}\right), \quad\left(\begin{array}{c}
+0 \\
+-50 / \beta_{3} \\
+50 \beta_{2} / \beta_{3}^{2} \\
+0
+\end{array}\right),
+\]</span></p>
+<p>respectively.</p>
+<p>We use the subsample of married Black women (all experience levels) which has 982 observations. The point estimates and standard errors are</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-17.jpg" class="img-fluid"></p>
+<p>The standard errors are the square roots of the HC2 covariance matrix estimate</p>
+<p><span class="math display">\[
+\overline{\boldsymbol{V}}_{\widehat{\beta}}=\left(\begin{array}{cccc}
+0.632 &amp; 0.131 &amp; -0.143 &amp; -11.1 \\
+0.131 &amp; 0.390 &amp; -0.731 &amp; -6.25 \\
+-0.143 &amp; -0.731 &amp; 1.48 &amp; 9.43 \\
+-11.1 &amp; -6.25 &amp; 9.43 &amp; 246
+\end{array}\right) \times 10^{-4} .
+\]</span></p>
+<p>We calculate that</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; \widehat{\theta}_{1}=100 \widehat{\beta}_{1}=100 \times 0.118=11.8 \\
+&amp; s\left(\widehat{\theta}_{1}\right)=\sqrt{100^{2} \times 0.632 \times 10^{-4}}=0.8 \\
+&amp; \widehat{\theta}_{2}=100 \widehat{\beta}_{2}+20 \widehat{\beta}_{3}=100 \times 0.016-20 \times 0.022=1.16 \\
+&amp; s\left(\widehat{\theta}_{2}\right)=\sqrt{\left(\begin{array}{ll}100 &amp; 20\end{array}\right)\left(\begin{array}{cc}0.390 &amp; -0.731 \\-0.731 &amp; 1.48\end{array}\right)\left(\begin{array}{c}100 \\20\end{array}\right) \times 10^{-4}}=0.55 \\
+&amp; \widehat{\theta}_{3}=-50 \widehat{\beta}_{2} / \widehat{\beta}_{3}=50 \times 0.016 / 0.022=35.2
+\end{aligned}
+\]</span></p>
+<p>The calculations show that the estimate of the percentage return to education is <span class="math inline">\(12 %\)</span> per year with a standard error of 0.8. The estimate of the percentage return to experience for those with 10 years of experience is <span class="math inline">\(1.2 %\)</span> per year with a standard error of <span class="math inline">\(0.6\)</span>. The estimate of the experience level which maximizes expected log wages is 35 years with a standard error of 7 .</p>
+<p>In Stata the nlcom command can be used after estimation to perform the same calculations. To illustrate, after estimation of (7.31) use the commands given below. In each case, Stata reports the coefficient estimate, asymptotic standard error, and <span class="math inline">\(95 %\)</span> confidence interval.</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-17(1).jpg" class="img-fluid"></p>
+<p>Stata Commands\ nlcom 100<em>_b[education]\ nlcom 100</em>_b[experience]+20<em>_b[exp2]\ nlcom -50</em>_b[experience <span class="math inline">\(] / 0_{-} \mathrm{b}[\exp 2]\)</span>]. This is reasonably tight.</p>
+<p>Percentage return to experience (per year) for individuals with 10 years experience. A <span class="math inline">\(90 %\)</span> asymptotic confidence interval is <span class="math inline">\(1.1 \pm 1.645 \times 0.4=[0.5,1.8]\)</span>. The interval is positive but broad. This indicates that the return to experience is positive, but of uncertain magnitude. Experience level which maximizes expected log wages. An <span class="math inline">\(80 %\)</span> asymptotic confidence interval is <span class="math inline">\(35 \pm 1.28 \times 7=[26,44]\)</span>. This is rather imprecise, indicating that the estimates are not very informative regarding this parameter.</p>
+</section>
+<section id="regression-intervals" class="level2" data-number="7.12">
+<h2 data-number="7.12" class="anchored" data-anchor-id="regression-intervals"><span class="header-section-number">7.12</span> Regression Intervals</h2>
+<p>In the linear regression model the conditional expectation of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is</p>
+<p><span class="math display">\[
+m(x)=\mathbb{E}[Y \mid X=x]=x^{\prime} \beta .
+\]</span></p>
+<p>In some cases we want to estimate <span class="math inline">\(m(x)\)</span> at a particular point <span class="math inline">\(x\)</span>. Notice that this is a linear function of <span class="math inline">\(\beta\)</span>. Letting <span class="math inline">\(r(\beta)=x^{\prime} \beta\)</span> and <span class="math inline">\(\theta=r(\beta)\)</span> we see that <span class="math inline">\(\hat{m}(x)=\widehat{\theta}=x^{\prime} \widehat{\beta}\)</span> and <span class="math inline">\(\boldsymbol{R}=x\)</span> so <span class="math inline">\(s(\widehat{\theta})=\sqrt{x^{\prime} \widehat{\boldsymbol{V}}_{\widehat{\beta}} x}\)</span>. Thus an asymptotic <span class="math inline">\(95 %\)</span> confidence interval for <span class="math inline">\(m(x)\)</span> is</p>
+<p><span class="math display">\[
+\left[x^{\prime} \widehat{\beta} \pm 1.96 \sqrt{x^{\prime} \widehat{\boldsymbol{V}}_{\widehat{\beta}} x}\right] .
+\]</span></p>
+<p>It is interesting to observe that if this is viewed as a function of <span class="math inline">\(x\)</span> the width of the confidence interval is dependent on <span class="math inline">\(x\)</span>.</p>
+<p>To illustrate we return to the log wage regression (3.12) of Section 3.7. The estimated regression equation is</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=x^{\prime} \widehat{\beta}=0.155 x+0.698
+\]</span></p>
+<p>where <span class="math inline">\(x=e d u c a t i o n\)</span>. The covariance matrix estimate from (4.43) is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{\beta}}=\left(\begin{array}{cc}
+0.001 &amp; -0.015 \\
+-0.015 &amp; 0.243
+\end{array}\right) .
+\]</span></p>
+<p>Thus the <span class="math inline">\(95 %\)</span> confidence interval for the regression is</p>
+<p><span class="math display">\[
+0.155 x+0.698 \pm 1.96 \sqrt{0.001 x^{2}-0.030 x+0.243} .
+\]</span></p>
+<p>The estimated regression and 95% intervals are shown in Figure 7.4(a). Notice that the confidence bands take a hyperbolic shape. This means that the regression line is less precisely estimated for large and small values of education.</p>
+<p>Plots of the estimated regression line and confidence intervals are especially useful when the regression includes nonlinear terms. To illustrate consider the log wage regression (7.31) which includes experience and its square and covariance matrix estimate (7.32). We are interested in plotting the regression estimate and regression intervals as a function of experience. Since the regression also includes education, to plot the estimates in a simple graph we fix education at a specific value. We select education=12. This only affects the level of the estimated regression since education enters without an interaction. Define the points of evaluation</p>
+<p><span class="math display">\[
+z(x)=\left(\begin{array}{c}
+12 \\
+x \\
+x^{2} / 100 \\
+1
+\end{array}\right)
+\]</span></p>
+<p>where <span class="math inline">\(x=\)</span> experience.</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-22.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Wage on Education</li>
+</ol>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-22(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Wage on Experience</li>
+</ol>
+<p>Figure 7.4: Regression Intervals</p>
+<p>The <span class="math inline">\(95 %\)</span> regression interval for education <span class="math inline">\(=12\)</span> as a function of <span class="math inline">\(x=\)</span> experience is</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; 0.118 \times 12+0.016 x-0.022 x^{2} / 100+0.947 \\
+&amp; \pm 1.96 \sqrt{z(x)^{\prime}\left(\begin{array}{cccc}0.632 &amp; 0.131 &amp; -0.143 &amp; -11.1 \\0.131 &amp; 0.390 &amp; -0.731 &amp; -6.25 \\-0.143 &amp; -0.731 &amp; 1.48 &amp; 9.43 \\-11.1 &amp; -6.25 &amp; 9.43 &amp; 246\end{array}\right) z(x) \times 10^{-4}} \\
+&amp; =0.016 x-.00022 x^{2}+2.36 \\
+&amp; \pm 0.0196 \sqrt{70.608-9.356 x+0.54428 x^{2}-0.01462 x^{3}+0.000148 x^{4}} \text {. }
+\end{aligned}
+\]</span></p>
+<p>The estimated regression and 95% intervals are shown in Figure 7.4(b). The regression interval widens greatly for small and large values of experience indicating considerable uncertainty about the effect of experience on mean wages for this population. The confidence bands take a more complicated shape than in Figure 7.4(a) due to the nonlinear specification.</p>
+</section>
+<section id="forecast-intervals" class="level2" data-number="7.13">
+<h2 data-number="7.13" class="anchored" data-anchor-id="forecast-intervals"><span class="header-section-number">7.13</span> Forecast Intervals</h2>
+<p>Suppose we are given a value of the regressor vector <span class="math inline">\(X_{n+1}\)</span> for an individual outside the sample and we want to forecast (guess) <span class="math inline">\(Y_{n+1}\)</span> for this individual. This is equivalent to forecasting <span class="math inline">\(Y_{n+1}\)</span> given <span class="math inline">\(X_{n+1}=x\)</span> which will generally be a function of <span class="math inline">\(x\)</span>. A reasonable forecasting rule is the conditional expectation <span class="math inline">\(m(x)\)</span> as it is the mean-square minimizing forecast. A point forecast is the estimated conditional expectation <span class="math inline">\(\widehat{m}(x)=x^{\prime} \widehat{\beta}\)</span>. We would also like a measure of uncertainty for the forecast.</p>
+<p>The forecast error is <span class="math inline">\(\widehat{e}_{n+1}=Y_{n+1}-\widehat{m}(x)=e_{n+1}-x^{\prime}(\widehat{\beta}-\beta)\)</span>. As the out-of-sample error <span class="math inline">\(e_{n+1}\)</span> is inde- pendent of the in-sample estimator <span class="math inline">\(\widehat{\beta}\)</span> this has conditional variance</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left[\widehat{e}_{n+1}^{2} \mid X_{n+1}=x\right] &amp;=\mathbb{E}\left[e_{n+1}^{2}-2 x^{\prime}(\widehat{\beta}-\beta) e_{n+1}+x^{\prime}(\widehat{\beta}-\beta)(\widehat{\beta}-\beta)^{\prime} x \mid X_{n+1}=x\right] \\
+&amp;=\mathbb{E}\left[e_{n+1}^{2} \mid X_{n+1}=x\right]+x^{\prime} \mathbb{E}\left[(\widehat{\beta}-\beta)(\widehat{\beta}-\beta)^{\prime}\right] x \\
+&amp;=\sigma^{2}(x)+x^{\prime} \boldsymbol{V}_{\widehat{\beta}} x .
+\end{aligned}
+\]</span></p>
+<p>Under homoskedasticity, <span class="math inline">\(\mathbb{E}\left[e_{n+1}^{2} \mid X_{n+1}\right]=\sigma^{2}\)</span>. In this case a simple estimator of (7.36) is <span class="math inline">\(\widehat{\sigma}^{2}+x^{\prime} \boldsymbol{V}_{\widehat{\beta}} x\)</span> so a standard error for the forecast is <span class="math inline">\(\widehat{s}(x)=\sqrt{\widehat{\sigma}^{2}+x^{\prime} \boldsymbol{V}_{\widehat{\beta}} x}\)</span>. Notice that this is different from the standard error for the conditional expectation.</p>
+<p>The conventional 95% forecast interval for <span class="math inline">\(Y_{n+1}\)</span> uses a normal approximation and equals <span class="math inline">\(\left[x^{\prime} \widehat{\beta} \pm 2 \widehat{s}(x)\right]\)</span>. It is difficult, however, to fully justify this choice. It would be correct if we have a normal approximation to the ratio</p>
+<p><span class="math display">\[
+\frac{e_{n+1}-x^{\prime}(\widehat{\beta}-\beta)}{\widehat{s}(x)} .
+\]</span></p>
+<p>The difficulty is that the equation error <span class="math inline">\(e_{n+1}\)</span> is generally non-normal and asymptotic theory cannot be applied to a single observation. The only special exception is the case where <span class="math inline">\(e_{n+1}\)</span> has the exact distribution <span class="math inline">\(\mathrm{N}\left(0, \sigma^{2}\right)\)</span> which is generally invalid.</p>
+<p>An accurate forecast interval would use the conditional distribution of <span class="math inline">\(e_{n+1}\)</span> given <span class="math inline">\(X_{n+1}=x\)</span>, which is more challenging to estimate. Due to this difficulty many applied forecasters use the simple approximate interval <span class="math inline">\(\left[x^{\prime} \widehat{\beta} \pm 2 \widehat{s}(x)\right]\)</span> despite the lack of a convincing justification.</p>
+</section>
+<section id="wald-statistic" class="level2" data-number="7.14">
+<h2 data-number="7.14" class="anchored" data-anchor-id="wald-statistic"><span class="header-section-number">7.14</span> Wald Statistic</h2>
+<p>Let <span class="math inline">\(\theta=r(\beta): \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}\)</span> be any parameter vector of interest, <span class="math inline">\(\widehat{\theta}\)</span> its estimator, and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\theta}}\)</span> its covariance matrix estimator. Consider the quadratic form</p>
+<p><span class="math display">\[
+W(\theta)=(\widehat{\theta}-\theta)^{\prime} \widehat{\mathbf{V}}_{\widehat{\theta}}^{-1}(\widehat{\theta}-\theta)=n(\widehat{\theta}-\theta)^{\prime} \widehat{\boldsymbol{V}}_{\theta}^{-1}(\widehat{\theta}-\theta) .
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}=n \widehat{\boldsymbol{V}}_{\widehat{\theta}}\)</span>. When <span class="math inline">\(q=1\)</span>, then <span class="math inline">\(W(\theta)=T(\theta)^{2}\)</span> is the square of the t-ratio. When <span class="math inline">\(q&gt;1, W(\theta)\)</span> is typically called a Wald statistic as it was proposed by Wald (1943). We are interested in its sampling distribution.</p>
+<p>The asymptotic distribution of <span class="math inline">\(W(\theta)\)</span> is simple to derive given Theorem <span class="math inline">\(7.9\)</span> and Theorem 7.10. They show that <span class="math inline">\(\sqrt{n}(\widehat{\theta}-\theta) \underset{d}{\longrightarrow} Z \sim \mathrm{N}\left(0, \boldsymbol{V}_{\theta}\right)\)</span> and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta} \underset{p}{\longrightarrow} \boldsymbol{V}_{\theta}\)</span>. It follows that</p>
+<p><span class="math display">\[
+W(\theta)=\sqrt{n}(\widehat{\theta}-\theta)^{\prime} \widehat{\boldsymbol{V}}_{\theta}^{-1} \sqrt{n}(\widehat{\theta}-\theta) \underset{d}{\longrightarrow} Z^{\prime} \boldsymbol{V}_{\theta}^{-1} Z
+\]</span></p>
+<p>a quadratic in the normal random vector <span class="math inline">\(Z\)</span>. As shown in Theorem <span class="math inline">\(5.3 .5\)</span> the distribution of this quadratic form is <span class="math inline">\(\chi_{q}^{2}\)</span>, a chi-square random variable with <span class="math inline">\(q\)</span> degrees of freedom.</p>
+<p>Theorem 7.13 Under Assumptions 7.2, <span class="math inline">\(7.3\)</span> and 7.4, as <span class="math inline">\(n \rightarrow \infty, W(\theta) \underset{d}{\longrightarrow} \chi_{q}^{2}\)</span>.</p>
+<p>Theorem <span class="math inline">\(7.13\)</span> is used to justify multivariate confidence regions and multivariate hypothesis tests.</p>
+</section>
+<section id="homoskedastic-wald-statistic" class="level2" data-number="7.15">
+<h2 data-number="7.15" class="anchored" data-anchor-id="homoskedastic-wald-statistic"><span class="header-section-number">7.15</span> Homoskedastic Wald Statistic</h2>
+<p>Under the conditional homoskedasticity assumption <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span> we can construct the Wald statistic using the homoskedastic covariance matrix estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}^{0}\)</span> defined in (7.29). This yields a homoskedastic Wald statistic</p>
+<p><span class="math display">\[
+W^{0}(\theta)=(\widehat{\theta}-\theta)^{\prime}\left(\widehat{\boldsymbol{V}}_{\widehat{\theta}}^{0}\right)^{-1}(\widehat{\theta}-\theta)=n(\widehat{\theta}-\theta)^{\prime}\left(\widehat{\boldsymbol{V}}_{\theta}^{0}\right)^{-1}(\widehat{\theta}-\theta) .
+\]</span></p>
+<p>Under the assumption of conditional homoskedasticity it has the same asymptotic distribution as <span class="math inline">\(W(\theta)\)</span></p>
+<p>Theorem 7.14 Under Assumptions 7.2, 7.3, and <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}&gt;0\)</span>, as <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(W^{0}(\theta) \underset{d}{\longrightarrow} \chi_{q}^{2}\)</span></p>
+</section>
+<section id="confidence-regions" class="level2" data-number="7.16">
+<h2 data-number="7.16" class="anchored" data-anchor-id="confidence-regions"><span class="header-section-number">7.16</span> Confidence Regions</h2>
+<p>A confidence region <span class="math inline">\(\widehat{C}\)</span> is a set estimator for <span class="math inline">\(\theta \in \mathbb{R}^{q}\)</span> when <span class="math inline">\(q&gt;1\)</span>. A confidence region <span class="math inline">\(\widehat{C}\)</span> is a set in <span class="math inline">\(\mathbb{R}^{q}\)</span> intended to cover the true parameter value with a pre-selected probability <span class="math inline">\(1-\alpha\)</span>. Thus an ideal confidence region has the coverage probability <span class="math inline">\(\mathbb{P}[\theta \in \widehat{C}]=1-\alpha\)</span>. In practice it is typically not possible to construct a region with exact coverage but we can calculate its asymptotic coverage.</p>
+<p>When the parameter estimator satisfies the conditions of Theorem <span class="math inline">\(7.13\)</span> a good choice for a confidence region is the ellipse</p>
+<p><span class="math display">\[
+\widehat{C}=\left\{\theta: W(\theta) \leq c_{1-\alpha}\right\}
+\]</span></p>
+<p>with <span class="math inline">\(c_{1-\alpha}\)</span> the <span class="math inline">\(1-\alpha\)</span> quantile of the <span class="math inline">\(\chi_{q}^{2}\)</span> distribution. (Thus <span class="math inline">\(F_{q}\left(c_{1-\alpha}\right)=1-\alpha\)</span>.) It can be computed by, for example, chi2inv <span class="math inline">\((1-\alpha, q)\)</span> in MATLAB.</p>
+<p>Theorem <span class="math inline">\(7.13\)</span> implies</p>
+<p><span class="math display">\[
+\mathbb{P}[\theta \in \widehat{C}] \rightarrow \mathbb{P}\left[\chi_{q}^{2} \leq c_{1-\alpha}\right]=1-\alpha
+\]</span></p>
+<p>which shows that <span class="math inline">\(\widehat{C}\)</span> has asymptotic coverage <span class="math inline">\(1-\alpha\)</span>.</p>
+<p>To illustrate the construction of a confidence region, consider the estimated regression (7.31) of</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-24.jpg" class="img-fluid"></p>
+<p>Suppose that the two parameters of interest are the percentage return to education <span class="math inline">\(\theta_{1}=100 \beta_{1}\)</span> and the percentage return to experience for individuals with 10 years experience <span class="math inline">\(\theta_{2}=100 \beta_{2}+20 \beta_{3}\)</span>. These two parameters are a linear transformation of the regression parameters with point estimates</p>
+<p><span class="math display">\[
+\widehat{\theta}=\left(\begin{array}{cccc}
+100 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 100 &amp; 20 &amp; 0
+\end{array}\right) \widehat{\beta}=\left(\begin{array}{c}
+11.8 \\
+1.2
+\end{array}\right),
+\]</span></p>
+<p>and have the covariance matrix estimate</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{\theta}}=\left(\begin{array}{cccc}
+0 &amp; 100 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 100 &amp; 20
+\end{array}\right) \widehat{\boldsymbol{V}}_{\widehat{\beta}}\left(\begin{array}{cc}
+0 &amp; 0 \\
+100 &amp; 0 \\
+0 &amp; 100 \\
+0 &amp; 20
+\end{array}\right)=\left(\begin{array}{cc}
+0.632 &amp; 0.103 \\
+0.103 &amp; 0.157
+\end{array}\right)
+\]</span></p>
+<p>with inverse</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{\theta}}^{-1}=\left(\begin{array}{cc}
+1.77 &amp; -1.16 \\
+-1.16 &amp; 7.13
+\end{array}\right) .
+\]</span></p>
+<p>Thus the Wald statistic is</p>
+<p><span class="math display">\[
+\begin{aligned}
+W(\theta) &amp;=(\widehat{\theta}-\theta)^{\prime} \widehat{\boldsymbol{V}}_{\widehat{\theta}}^{-1}(\widehat{\theta}-\theta) \\
+&amp;=\left(\begin{array}{c}
+11.8-\theta_{1} \\
+1.2-\theta_{2}
+\end{array}\right)^{\prime}\left(\begin{array}{cc}
+1.77 &amp; -1.16 \\
+-1.16 &amp; 7.13
+\end{array}\right)\left(\begin{array}{c}
+11.8-\theta_{1} \\
+1.2-\theta_{2}
+\end{array}\right) \\
+&amp;=1.77\left(11.8-\theta_{1}\right)^{2}-2.32\left(11.8-\theta_{1}\right)\left(1.2-\theta_{2}\right)+7.13\left(1.2-\theta_{2}\right)^{2} .
+\end{aligned}
+\]</span></p>
+<p>The <span class="math inline">\(90 %\)</span> quantile of the <span class="math inline">\(\chi_{2}^{2}\)</span> distribution is <span class="math inline">\(4.605\)</span> (we use the <span class="math inline">\(\chi_{2}^{2}\)</span> distribution as the dimension of <span class="math inline">\(\theta\)</span> is two) so an asymptotic <span class="math inline">\(90 %\)</span> confidence region for the two parameters is the interior of the ellipse <span class="math inline">\(W(\theta)=\)</span> <span class="math inline">\(4.605\)</span> which is displayed in Figure 7.5. Since the estimated correlation of the two coefficient estimates is modest (about <span class="math inline">\(0.3\)</span> ) the region is modestly elliptical.</p>
+<p><img src="images//2022_09_17_4fdd33cd9a12f3020189g-25.jpg" class="img-fluid"></p>
+<p>Figure 7.5: Confidence Region for Return to Experience and Return to Education</p>
+</section>
+<section id="edgeworth-expansion" class="level2" data-number="7.17">
+<h2 data-number="7.17" class="anchored" data-anchor-id="edgeworth-expansion"><span class="header-section-number">7.17</span> Edgeworth Expansion*</h2>
+<p>Theorem <span class="math inline">\(7.11\)</span> showed that the t-ratio <span class="math inline">\(T(\theta)\)</span> is asymptotically normal. In practice this means that we use the normal distribution to approximate the finite sample distribution of <span class="math inline">\(T\)</span>. How good is this approximation? Some insight into the accuracy of the normal approximation can be obtained by an Edgeworth expansion which is a higher-order approximation to the distribution of <span class="math inline">\(T\)</span>. The following result is an application of Theorem <span class="math inline">\(9.11\)</span> of Probability and Statistics for Economists.</p>
+<p>Theorem 7.15 Under Assumptions 7.2, 7.3, <span class="math inline">\(\Omega&gt;0, \mathbb{E}\|e\|^{16}&lt;\infty, \mathbb{E}\|X\|^{16}&lt;\)</span> <span class="math inline">\(\infty, g(\beta)\)</span> has five continuous derivatives in a neighborhood of <span class="math inline">\(\beta\)</span>, and <span class="math inline">\(\mathbb{E}\left[\exp \left(t\left(\|e\|^{4}+\|X\|^{4}\right)\right)\right] \leq B&lt;1\)</span>, as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p><span class="math display">\[
+\mathbb{P}[T(\theta) \leq x]=\Phi(x)+n^{-1 / 2} p_{1}(x) \phi(x)+n^{-1} p_{2}(x) \phi(x)+o\left(n^{-1}\right)
+\]</span></p>
+<p>uniformly in <span class="math inline">\(x\)</span>, where <span class="math inline">\(p_{1}(x)\)</span> is an even polynomial of order 2 and <span class="math inline">\(p_{2}(x)\)</span> is an odd polynomial of degree 5 with coefficients depending on the moments of <span class="math inline">\(e\)</span> and <span class="math inline">\(X\)</span> up to order <span class="math inline">\(16 .\)</span></p>
+<p>Theorem <span class="math inline">\(7.15\)</span> shows that the finite sample distribution of the t-ratio can be approximated up to <span class="math inline">\(o\left(n^{-1}\right)\)</span> by the sum of three terms, the first being the standard normal distribution, the second a <span class="math inline">\(O\left(n^{-1 / 2}\right)\)</span> adjustment, and the third a <span class="math inline">\(O\left(n^{-1}\right)\)</span> adjustment.</p>
+<p>Consider a one-sided confidence interval <span class="math inline">\(\widehat{C}=\left[\widehat{\theta}-z_{1-\alpha} s(\widehat{\theta}), \infty\right)\)</span> where <span class="math inline">\(z_{1-\alpha}\)</span> is the <span class="math inline">\(1-\alpha^{t h}\)</span> quantile of <span class="math inline">\(Z \sim \mathrm{N}(0,1)\)</span>, thus <span class="math inline">\(\Phi\left(z_{1-\alpha}\right)-1-\alpha\)</span>. Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}[\theta \in \widehat{C}] &amp;=\mathbb{P}\left[T(\theta) \leq z_{1-\alpha}\right] \\
+&amp;=\Phi\left(z_{1-\alpha}\right)+n^{-1 / 2} p_{1}\left(z_{1-\alpha}\right) \phi\left(z_{1-\alpha}\right)+O\left(n^{-1}\right) \\
+&amp;=1-\alpha+O\left(n^{-1 / 2}\right) .
+\end{aligned}
+\]</span></p>
+<p>This means that the actual coverage is within <span class="math inline">\(O\left(n^{-1 / 2}\right)\)</span> of the desired <span class="math inline">\(1-\alpha\)</span> level.</p>
+<p>Now consider a two-sided interval <span class="math inline">\(\widehat{C}=\left[\widehat{\theta}-z_{1-\alpha / 2} s(\widehat{\theta}), \widehat{\theta}+z_{1-\alpha / 2} s(\widehat{\theta})\right]\)</span>. It has coverage</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}[\theta \in \widehat{C}] &amp;=\mathbb{P}\left[|T(\theta)| \leq z_{1-\alpha / 2}\right] \\
+&amp;=2 \Phi\left(z_{1-\alpha / 2}\right)-1+n^{-1} 2 p_{2}\left(z_{1-\alpha / 2}\right) \phi\left(z_{1-\alpha / 2}\right)+o\left(n^{-1}\right) \\
+&amp;=1-\alpha+O\left(n^{-1}\right) .
+\end{aligned}
+\]</span></p>
+<p>This means that the actual coverage is within <span class="math inline">\(O\left(n^{-1}\right)\)</span> of the desired <span class="math inline">\(1-\alpha\)</span> level. The accuracy is better than the one-sided interval because the <span class="math inline">\(O\left(n^{-1 / 2}\right)\)</span> term in the Edgeworth expansion has offsetting effects in the two tails of the distribution.</p>
+</section>
+<section id="uniformly-consistent-residuals" class="level2" data-number="7.18">
+<h2 data-number="7.18" class="anchored" data-anchor-id="uniformly-consistent-residuals"><span class="header-section-number">7.18</span> Uniformly Consistent Residuals*</h2>
+<p>It seems natural to view the residuals <span class="math inline">\(\widehat{e}_{i}\)</span> as estimators of the unknown errors <span class="math inline">\(e_{i}\)</span>. Are they consistent? In this section we develop a convergence result.</p>
+<p>We can write the residual as</p>
+<p><span class="math display">\[
+\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}=e_{i}-X_{i}^{\prime}(\widehat{\beta}-\beta) .
+\]</span></p>
+<p>Since <span class="math inline">\(\widehat{\beta}-\beta \underset{p}{\longrightarrow} 0\)</span> it seems reasonable to guess that <span class="math inline">\(\widehat{e}_{i}\)</span> will be close to <span class="math inline">\(e_{i}\)</span> if <span class="math inline">\(n\)</span> is large.</p>
+<p>We can bound the difference in (7.39) using the Schwarz inequality (B.12) to find</p>
+<p><span class="math display">\[
+\left|\widehat{e}_{i}-e_{i}\right|=\left|X_{i}^{\prime}(\widehat{\beta}-\beta)\right| \leq\left\|X_{i}\right\|\|\widehat{\beta}-\beta\| .
+\]</span></p>
+<p>To bound (7.40) we can use <span class="math inline">\(\|\widehat{\beta}-\beta\|=O_{p}\left(n^{-1 / 2}\right)\)</span> from Theorem 7.3. We also need to bound the random variable <span class="math inline">\(\left\|X_{i}\right\|\)</span>. If the regressor is bounded, that is, <span class="math inline">\(\left\|X_{i}\right\| \leq B&lt;\infty\)</span>, then <span class="math inline">\(\left|\widehat{e}_{i}-e_{i}\right| \leq B\|\widehat{\beta}-\beta\|=O_{p}\left(n^{-1 / 2}\right)\)</span>. However if the regressor does not have bounded support then we have to be more careful.</p>
+<p>The key is Theorem <span class="math inline">\(6.15\)</span> which shows that <span class="math inline">\(\mathbb{E}\|X\|^{r}&lt;\infty\)</span> implies <span class="math inline">\(X_{i}=o_{p}\left(n^{1 / r}\right)\)</span> uniformly in <span class="math inline">\(i\)</span>, or</p>
+<p><span class="math display">\[
+n^{-1 / r} \max _{1 \leq i \leq n}\left\|X_{i}\right\| \underset{p}{\longrightarrow} 0 .
+\]</span></p>
+<p>Applied to (7.40) we obtain</p>
+<p><span class="math display">\[
+\max _{1 \leq i \leq n}\left|\widehat{e}_{i}-e_{i}\right| \leq \max _{1 \leq i \leq n}\left\|X_{i}\right\|\|\widehat{\beta}-\beta\|=o_{p}\left(n^{-1 / 2+1 / r}\right) .
+\]</span></p>
+<p>We have shown the following.</p>
+<p>Theorem 7.16 Under Assumption <span class="math inline">\(7.2\)</span> and <span class="math inline">\(\mathbb{E}\|X\|^{r}&lt;\infty\)</span>, then</p>
+<p><span class="math display">\[
+\max _{1 \leq i \leq n}\left|\widehat{e}_{i}-e_{i}\right|=o_{p}\left(n^{-1 / 2+1 / r}\right) .
+\]</span></p>
+<p>The rate of convergence in (7.41) depends on <span class="math inline">\(r\)</span>. Assumption <span class="math inline">\(7.2\)</span> requires <span class="math inline">\(r \geq 4\)</span> so the rate of convergence is at least <span class="math inline">\(o_{p}\left(n^{-1 / 4}\right)\)</span>. As <span class="math inline">\(r\)</span> increases the rate improves.</p>
+<p>We mentioned in Section <span class="math inline">\(7.7\)</span> that there are multiple ways to prove the consistency of the covariance matrix estimator <span class="math inline">\(\widehat{\Omega}\)</span>. We now show that Theorem <span class="math inline">\(7.16\)</span> provides one simple method to establish (7.23) and thus Theorem 7.6. Let <span class="math inline">\(q_{n}=\max _{1 \leq i \leq n}\left|\widehat{e}_{i}-e_{i}\right|=o_{p}\left(n^{-1 / 4}\right)\)</span>. Since <span class="math inline">\(\widehat{e}_{i}^{2}-e_{i}^{2}=2 e_{i}\left(\widehat{e}_{i}-e_{i}\right)+\left(\widehat{e}_{i}-e_{i}\right)^{2}\)</span>, then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left\|\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\widehat{e}_{i}^{2}-e_{i}^{2}\right)\right\| &amp; \leq \frac{1}{n} \sum_{i=1}^{n}\left\|X_{i} X_{i}^{\prime}\right\|\left|\widehat{e}_{i}^{2}-e_{i}^{2}\right| \\
+&amp; \leq \frac{2}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2}\left|e _ { i } \left\|\widehat{e}_{i}-e_{i}\left|+\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2}\right| \widehat{e}_{i}-\left.e_{i}\right|^{2}\right.\right.\\
+&amp; \leq \frac{2}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2}\left|e_{i}\right| q_{n}+\frac{1}{n} \sum_{i=1}^{n}\left\|X_{i}\right\|^{2} q_{n}^{2} \\
+&amp; \leq o_{p}\left(n^{-1 / 4}\right) .
+\end{aligned}
+\]</span></p>
+</section>
+<section id="asymptotic-leverage" class="level2" data-number="7.19">
+<h2 data-number="7.19" class="anchored" data-anchor-id="asymptotic-leverage"><span class="header-section-number">7.19</span> Asymptotic Leverage*</h2>
+<p>Recall the definition of leverage from (3.40) <span class="math inline">\(h_{i i}=X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i}\)</span>. These are the diagonal elements of the projection matrix <span class="math inline">\(\boldsymbol{P}\)</span> and appear in the formula for leave-one-out prediction errors and <span class="math inline">\(\mathrm{HC} 2\)</span> and HC3 covariance matrix estimators. We can show that under i.i.d. sampling the leverage values are uniformly asymptotically small.</p>
+<p>Let <span class="math inline">\(\lambda_{\min }(\boldsymbol{A})\)</span> and <span class="math inline">\(\lambda_{\max }(\boldsymbol{A})\)</span> denote the smallest and largest eigenvalues of a symmetric square matrix <span class="math inline">\(\boldsymbol{A}\)</span> and note that <span class="math inline">\(\lambda_{\max }\left(\boldsymbol{A}^{-1}\right)=\left(\lambda_{\min }(\boldsymbol{A})\right)^{-1}\)</span>. Since <span class="math inline">\(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{X} \underset{p}{\rightarrow} \boldsymbol{Q}_{X X}&gt;0\)</span>, by the CMT <span class="math inline">\(\lambda_{\min }\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{X}\right) \underset{p}{\rightarrow} \lambda_{\min }\left(\boldsymbol{Q}_{X X}\right)&gt;0\)</span>. (The latter is positive since <span class="math inline">\(\boldsymbol{Q}_{X X}\)</span> is positive definite and thus all its eigenvalues are positive.) Then by the Quadratic Inequality (B.18)</p>
+<p><span class="math display">\[
+\begin{aligned}
+h_{i i} &amp;=X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \\
+&amp; \leq \lambda_{\max }\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right)\left(X_{i}^{\prime} X_{i}\right) \\
+&amp;=\left(\lambda_{\min }\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{X}\right)\right)^{-1} \frac{1}{n}\left\|X_{i}\right\|^{2} \\
+&amp; \leq\left(\lambda_{\min }\left(\boldsymbol{Q}_{X X}\right)+o_{p}(1)\right)^{-1} \frac{1}{n} \max _{1 \leq i \leq n}\left\|X_{i}\right\|^{2} .
+\end{aligned}
+\]</span></p>
+<p>Theorem <span class="math inline">\(6.15\)</span> shows that <span class="math inline">\(\mathbb{E}\|X\|^{r}&lt;\infty\)</span> implies <span class="math inline">\(\max _{1 \leq i \leq n}\left\|X_{i}\right\|^{2}=\left(\max _{1 \leq i \leq n}\left\|X_{i}\right\|\right)^{2}=o_{p}\left(n^{2 / r}\right)\)</span> and thus (7.42) is <span class="math inline">\(o_{p}\left(n^{2 / r-1}\right)\)</span></p>
+<p>Theorem 7.17 If <span class="math inline">\(X_{i}\)</span> is i.i.d., <span class="math inline">\(\boldsymbol{Q}_{X X}&gt;0\)</span>, and <span class="math inline">\(\mathbb{E}\|X\|^{r}&lt;\infty\)</span> for some <span class="math inline">\(r \geq 2\)</span>, then <span class="math inline">\(\max _{1 \leq i \leq n} h_{i i}=o_{p}\left(n^{2 / r-1}\right)\)</span>.</p>
+<p>For any <span class="math inline">\(r \geq 2\)</span> then <span class="math inline">\(h_{i i}=o_{p}\)</span> (1) (uniformly in <span class="math inline">\(i \leq n\)</span> ). Larger <span class="math inline">\(r\)</span> implies a faster rate of convergence. For example <span class="math inline">\(r=4\)</span> implies <span class="math inline">\(h_{i i}=o_{p}\left(n^{-1 / 2}\right)\)</span>.</p>
+<p>Theorem (7.17) implies that under random sampling with finite variances and large samples no individual observation should have a large leverage value. Consequently, individual observations should not be influential unless one of these conditions is violated.</p>
+</section>
+<section id="exercises" class="level2" data-number="7.20">
+<h2 data-number="7.20" class="anchored" data-anchor-id="exercises"><span class="header-section-number">7.20</span> Exercises</h2>
+<p>Exercise 7.1 Take the model <span class="math inline">\(Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span>. Suppose that <span class="math inline">\(\beta_{1}\)</span> is estimated by regressing <span class="math inline">\(Y\)</span> on <span class="math inline">\(X_{1}\)</span> only. Find the probability limit of this estimator. In general, is it consistent for <span class="math inline">\(\beta_{1}\)</span> ? If not, under what conditions is this estimator consistent for <span class="math inline">\(\beta_{1}\)</span> ?</p>
+<p>Exercise 7.2 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span>. Define the ridge regression estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}+\lambda \boldsymbol{I}_{k}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right)
+\]</span></p>
+<p>here <span class="math inline">\(\lambda&gt;0\)</span> is a fixed constant. Find the probability limit of <span class="math inline">\(\widehat{\beta}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>. Is <span class="math inline">\(\widehat{\beta}\)</span> consistent for <span class="math inline">\(\beta\)</span> ?</p>
+<p>Exercise 7.3 For the ridge regression estimator (7.43), set <span class="math inline">\(\lambda=c n\)</span> where <span class="math inline">\(c&gt;0\)</span> is fixed as <span class="math inline">\(n \rightarrow \infty\)</span>. Find the probability limit of <span class="math inline">\(\widehat{\beta}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>. Exercise 7.4 Verify some of the calculations reported in Section 7.4. Specifically, suppose that <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> only take the values <span class="math inline">\(\{-1,+1\}\)</span>, symmetrically, with</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}\left[X_{1}=X_{2}=1\right] &amp;=\mathbb{P}\left[X_{1}=X_{2}=-1\right]=3 / 8 \\
+\mathbb{P}\left[X_{1}=1, X_{2}=-1\right] &amp;=\mathbb{P}\left[X_{1}=-1, X_{2 i}=1\right]=1 / 8 \\
+\mathbb{E}\left[e_{i}^{2} \mid X_{1}=X_{2}\right] &amp;=\frac{5}{4} \\
+\mathbb{E}\left[e_{i}^{2} \mid X_{1} \neq X_{2}\right] &amp;=\frac{1}{4} .
+\end{aligned}
+\]</span></p>
+<p>Verify the following:\ (a) <span class="math inline">\(\mathbb{E}\left[X_{1}\right]=0\)</span>\ (b) <span class="math inline">\(\mathbb{E}\left[X_{1}^{2}\right]=1\)</span>\ (c) <span class="math inline">\(\mathbb{E}\left[X_{1} X_{2}\right]=\frac{1}{2}\)</span>\ (d) <span class="math inline">\(\mathbb{E}\left[e^{2}\right]=1\)</span>\ (e) <span class="math inline">\(\mathbb{E}\left[X_{1}^{2} e^{2}\right]=1\)</span>\ (f) <span class="math inline">\(\mathbb{E}\left[X_{1} X_{2} e^{2}\right]=\frac{7}{8}\)</span>.</p>
+<p>Exercise 7.5 Show (7.13)-(7.16).</p>
+<p>Exercise <span class="math inline">\(7.6\)</span> The model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[X e] &amp;=0 \\
+\Omega &amp;=\mathbb{E}\left[X X^{\prime} e^{2}\right] .
+\end{aligned}
+\]</span></p>
+<p>Find the method of moments estimators <span class="math inline">\((\widehat{\beta}, \widehat{\Omega})\)</span> for <span class="math inline">\((\beta, \Omega)\)</span>.</p>
+<p>Exercise 7.7 Of the variables <span class="math inline">\(\left(Y^{*}, Y, X\right)\)</span> only the pair <span class="math inline">\((Y, X)\)</span> are observed. In this case we say that <span class="math inline">\(Y^{*}\)</span> is a latent variable. Suppose</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y^{*} &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[X e] &amp;=0 \\
+Y &amp;=Y^{*}+u
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(u\)</span> is a measurement error satisfying</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}[X u] &amp;=0 \\
+\mathbb{E}\left[Y^{*} u\right] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>Let <span class="math inline">\(\widehat{\beta}\)</span> denote the OLS coefficient from the regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>.</p>
+<ol type="a">
+<li><p>Is <span class="math inline">\(\beta\)</span> the coefficient from the linear projection of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> ? (b) Is <span class="math inline">\(\widehat{\beta}\)</span> consistent for <span class="math inline">\(\beta\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> ?</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+</ol>
+<p>Exercise 7.8 Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}\left(\widehat{\sigma}^{2}-\sigma^{2}\right)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Exercise 7.9 The model is <span class="math inline">\(Y=X \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span> and <span class="math inline">\(X \in \mathbb{R}\)</span>. Consider the two estimators</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\widehat{\beta}=\frac{\sum_{i=1}^{n} X_{i} Y_{i}}{\sum_{i=1}^{n} X_{i}^{2}} \\
+&amp;\widetilde{\beta}=\frac{1}{n} \sum_{i=1}^{n} \frac{Y_{i}}{X_{i}} .
+\end{aligned}
+\]</span></p>
+<ol type="a">
+<li><p>Under the stated assumptions are both estimators consistent for <span class="math inline">\(\beta\)</span> ?</p></li>
+<li><p>Are there conditions under which either estimator is efficient?</p></li>
+</ol>
+<p>Exercise 7.10 In the homoskedastic regression model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid x]=0\)</span> and <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span> suppose <span class="math inline">\(\widehat{\beta}\)</span> is the OLS estimator of <span class="math inline">\(\beta\)</span> with covariance matrix estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}\)</span> based on a sample of size <span class="math inline">\(n\)</span>. Let <span class="math inline">\(\widehat{\sigma}^{2}\)</span> be the estimator of <span class="math inline">\(\sigma^{2}\)</span>. You wish to forecast an out-of-sample value of <span class="math inline">\(Y_{n+1}\)</span> given that <span class="math inline">\(X_{n+1}=x\)</span>. Thus the available information is the sample, the estimates <span class="math inline">\(\left(\widehat{\beta}, \widehat{\boldsymbol{V}}_{\widehat{\beta}}, \widehat{\sigma}^{2}\right)\)</span>, the residuals <span class="math inline">\(\widehat{e}_{i}\)</span>, and the out-of-sample value of the regressors <span class="math inline">\(X_{n+1}\)</span>.</p>
+<ol type="a">
+<li><p>Find a point forecast of <span class="math inline">\(Y_{n+1}\)</span>.</p></li>
+<li><p>Find an estimator of the variance of this forecast.</p></li>
+</ol>
+<p>Exercise 7.11 Take a regression model with i.i.d. observations <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> with <span class="math inline">\(X \in \mathbb{R}\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X \beta+e \\
+\mathbb{E}[e \mid X] &amp;=0 \\
+\Omega &amp;=\mathbb{E}\left[X^{2} e^{2}\right] .
+\end{aligned}
+\]</span></p>
+<p>Let <span class="math inline">\(\widehat{\beta}\)</span> be the OLS estimator of <span class="math inline">\(\beta\)</span> with residuals <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i} \widehat{\beta}\)</span>. Consider the estimators of <span class="math inline">\(\Omega\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\widetilde{\Omega}=\frac{1}{n} \sum_{i=1}^{n} X_{i}^{2} e_{i}^{2} \\
+&amp;\widehat{\Omega}=\frac{1}{n} \sum_{i=1}^{n} X_{i}^{2} \widehat{e}_{i}^{2} .
+\end{aligned}
+\]</span></p>
+<ol type="a">
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widetilde{\Omega}-\Omega)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{\Omega}-\Omega)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+<li><p>How do you use the regression assumption <span class="math inline">\(\mathbb{E}\left[e_{i} \mid X_{i}\right]=0\)</span> in your answer to (b)?</p></li>
+</ol>
+<p>Exercise 7.12 Consider the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=\alpha+\beta X+e \\
+\mathbb{E}[e] &amp;=0 \\
+\mathbb{E}[X e] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>with both <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> scalar. Assuming <span class="math inline">\(\alpha&gt;0\)</span> and <span class="math inline">\(\beta&lt;0\)</span> suppose the parameter of interest is the area under the regression curve (e.g.&nbsp;consumer surplus), which is <span class="math inline">\(A=-\alpha^{2} / 2 \beta\)</span>.</p>
+<p>Let <span class="math inline">\(\widehat{\theta}=(\widehat{\alpha}, \widehat{\beta})^{\prime}\)</span> be the least squares estimators of <span class="math inline">\(\theta=(\alpha, \beta)^{\prime}\)</span> so that <span class="math inline">\(\sqrt{n}(\widehat{\theta}-\theta) \rightarrow{ }_{d} N\left(0, \boldsymbol{V}_{\theta}\right)\)</span> and let <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}\)</span> be a standard estimator for <span class="math inline">\(\boldsymbol{V}_{\theta}\)</span>.</p>
+<ol type="a">
+<li><p>Given the above, describe an estimator of <span class="math inline">\(A\)</span>.</p></li>
+<li><p>Construct an asymptotic <span class="math inline">\(1-\eta\)</span> confidence interval for <span class="math inline">\(A\)</span>.</p></li>
+</ol>
+<p>Exercise 7.13 Consider an i.i.d. sample <span class="math inline">\(\left\{Y_{i}, X_{i}\right\} i=1, \ldots, n\)</span> where <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are scalar. Consider the reverse projection model <span class="math inline">\(X=Y \gamma+u\)</span> with <span class="math inline">\(\mathbb{E}[Y u]=0\)</span> and define the parameter of interest as <span class="math inline">\(\theta=1 / \gamma\)</span>.</p>
+<ol type="a">
+<li><p>Propose an estimator <span class="math inline">\(\widehat{\gamma}\)</span> of <span class="math inline">\(\gamma\)</span>.</p></li>
+<li><p>Propose an estimator <span class="math inline">\(\widehat{\theta}\)</span> of <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\widehat{\theta}\)</span>.</p></li>
+<li><p>Find an asymptotic standard error for <span class="math inline">\(\widehat{\theta}\)</span>.</p></li>
+</ol>
+<p>Exercise 7.14 Take the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X_{1} \beta_{1}+X_{2} \beta_{2}+e \\
+\mathbb{E}[X e] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>with both <span class="math inline">\(\beta_{1} \in \mathbb{R}\)</span> and <span class="math inline">\(\beta_{2} \in \mathbb{R}\)</span>, and define the parameter <span class="math inline">\(\theta=\beta_{1} \beta_{2}\)</span>.</p>
+<ol type="a">
+<li><p>What is the appropriate estimator <span class="math inline">\(\widehat{\theta}\)</span> for <span class="math inline">\(\theta\)</span> ?</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\widehat{\theta}\)</span> under standard regularity conditions.</p></li>
+<li><p>Show how to calculate an asymptotic <span class="math inline">\(95 %\)</span> confidence interval for <span class="math inline">\(\theta\)</span>.</p></li>
+</ol>
+<p>Exercise 7.15 Take the linear model <span class="math inline">\(Y=X \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span> and <span class="math inline">\(X \in \mathbb{R}\)</span>. Consider the estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}=\frac{\sum_{i=1}^{n} X_{i}^{3} Y_{i}}{\sum_{i=1}^{n} X_{i}^{4}}
+\]</span></p>
+<p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Exercise 7.16 From an i.i.d. sample <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> of size <span class="math inline">\(n\)</span> you randomly take half the observations. You estimate a least squares regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> using only this sub-sample. Is the estimated slope coefficient <span class="math inline">\(\widehat{\beta}\)</span> consistent for the population projection coefficient? Explain your reasoning.</p>
+<p>Exercise 7.17 An economist reports a set of parameter estimates, including the coefficient estimates <span class="math inline">\(\widehat{\beta}_{1}=1.0, \widehat{\beta}_{2}=0.8\)</span>, and standard errors <span class="math inline">\(s\left(\widehat{\beta}_{1}\right)=0.07\)</span> and <span class="math inline">\(s\left(\widehat{\beta}_{2}\right)=0.07\)</span>. The author writes “The estimates show that <span class="math inline">\(\beta_{1}\)</span> is larger than <span class="math inline">\(\beta_{2} . "\)</span></p>
+<ol type="a">
+<li><p>Write down the formula for an asymptotic 95% confidence interval for <span class="math inline">\(\theta=\beta_{1}-\beta_{2}\)</span>, expressed as a function of <span class="math inline">\(\widehat{\beta}_{1}, \widehat{\beta}_{2}, s\left(\widehat{\beta}_{1}\right), s\left(\widehat{\beta}_{2}\right)\)</span> and <span class="math inline">\(\widehat{\rho}\)</span>, where <span class="math inline">\(\widehat{\rho}\)</span> is the estimated correlation between <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span>.</p></li>
+<li><p>Can <span class="math inline">\(\widehat{\rho}\)</span> be calculated from the reported information? (c) Is the author correct? Does the reported information support the author’s claim?</p></li>
+</ol>
+<p>Exercise 7.18 Suppose an economic model suggests</p>
+<p><span class="math display">\[
+m(x)=\mathbb{E}[Y \mid X=x]=\beta_{0}+\beta_{1} x+\beta_{2} x^{2}
+\]</span></p>
+<p>where <span class="math inline">\(X \in \mathbb{R}\)</span>. You have a random sample <span class="math inline">\(\left(Y_{i}, X_{i}\right), i=1, \ldots, n\)</span>.</p>
+<ol type="a">
+<li><p>Describe how to estimate <span class="math inline">\(m(x)\)</span> at a given value <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Describe (be specific) an appropriate confidence interval for <span class="math inline">\(m(x)\)</span>.</p></li>
+</ol>
+<p>Exercise 7.19 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span> and suppose you have observations <span class="math inline">\(i=1, \ldots, 2 n\)</span>. (The number of observations is <span class="math inline">\(2 n\)</span>.) You randomly split the sample in half, (each has <span class="math inline">\(n\)</span> observations), calculate <span class="math inline">\(\widehat{\beta}_{1}\)</span> by least squares on the first sample, and <span class="math inline">\(\widehat{\beta}_{2}\)</span> by least squares on the second sample. What is the asymptotic distribution of <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{1}-\widehat{\beta}_{2}\right)\)</span> ?</p>
+<p>Exercise 7.20 The variables <span class="math inline">\(\left\{Y_{i}, X_{i}, W_{i}\right\}\)</span> are a random sample. The parameter <span class="math inline">\(\beta\)</span> is estimated by minimizing the criterion function</p>
+<p><span class="math display">\[
+S(\beta)=\sum_{i=1}^{n} W_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}
+\]</span></p>
+<p>That is <span class="math inline">\(\widehat{\beta}=\operatorname{argmin}_{\beta} S(\beta)\)</span>.</p>
+<ol type="a">
+<li><p>Find an explicit expression for <span class="math inline">\(\widehat{\beta}\)</span>.</p></li>
+<li><p>What population parameter <span class="math inline">\(\beta\)</span> is <span class="math inline">\(\widehat{\beta}\)</span> estimating? Be explicit about any assumptions you need to impose. Do not make more assumptions than necessary.</p></li>
+<li><p>Find the probability limit for <span class="math inline">\(\widehat{\beta}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+</ol>
+<p>Exercise 7.21 Take the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[e \mid X] &amp;=0 \\
+\mathbb{E}\left[e^{2} \mid X\right] &amp;=Z^{\prime} \gamma
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(Z\)</span> is a (vector) function of <span class="math inline">\(X\)</span>. The sample is <span class="math inline">\(i=1, \ldots, n\)</span> with i.i.d. observations. Assume that <span class="math inline">\(Z^{\prime} \gamma&gt;0\)</span> for all <span class="math inline">\(Z\)</span>. Suppose you want to forecast <span class="math inline">\(Y_{n+1}\)</span> given <span class="math inline">\(X_{n+1}=x\)</span> and <span class="math inline">\(Z_{n+1}=z\)</span> for an out-of-sample observation <span class="math inline">\(n+1\)</span>. Describe how you would construct a point forecast and a forecast interval for <span class="math inline">\(Y_{n+1}\)</span>.</p>
+<p>Exercise 7.22 Take the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[e \mid X] &amp;=0 \\
+Z &amp;=X^{\prime} \beta \gamma+u \\
+\mathbb{E}[u \mid X] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(X\)</span> is a <span class="math inline">\(k\)</span> vector and <span class="math inline">\(Z\)</span> is scalar. Your goal is to estimate the scalar parameter <span class="math inline">\(\gamma\)</span>. You use a two-step estimator: - Estimate <span class="math inline">\(\widehat{\beta}\)</span> by least squares of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>.</p>
+<ul>
+<li>Estimate <span class="math inline">\(\widehat{\gamma}\)</span> by least squares of <span class="math inline">\(Z\)</span> on <span class="math inline">\(X^{\prime} \widehat{\beta}\)</span>.</li>
+</ul>
+<ol type="a">
+<li><p>Show that <span class="math inline">\(\widehat{\gamma}\)</span> is consistent for <span class="math inline">\(\gamma\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\widehat{\gamma}\)</span> when <span class="math inline">\(\gamma=0\)</span></p></li>
+</ol>
+<p>Exercise 7.23 The model is <span class="math inline">\(Y=X+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span> and <span class="math inline">\(X \in \mathbb{R}\)</span>. Consider the estimator</p>
+<p><span class="math display">\[
+\widetilde{\beta}=\frac{1}{n} \sum_{i=1}^{n} \frac{Y_{i}}{X_{i}} .
+\]</span></p>
+<p>Find conditions under which <span class="math inline">\(\widetilde{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>Exercise 7.24 The parameter <span class="math inline">\(\beta\)</span> is defined in the model <span class="math inline">\(Y=X^{*} \beta+e\)</span> where <span class="math inline">\(e\)</span> is independent of <span class="math inline">\(X^{*} \geq 0\)</span>, <span class="math inline">\(\mathbb{E}[e]=0, \mathbb{E}\left[e^{2}\right]=\sigma^{2}\)</span>. The observables are <span class="math inline">\((Y, X)\)</span> where <span class="math inline">\(X=X^{*} v\)</span> and <span class="math inline">\(v&gt;0\)</span> is random scale measurement error, independent of <span class="math inline">\(X^{*}\)</span> and <span class="math inline">\(e\)</span>. Consider the least squares estimator <span class="math inline">\(\widehat{\beta}\)</span> for <span class="math inline">\(\beta\)</span>.</p>
+<ol type="a">
+<li><p>Find the plim of <span class="math inline">\(\widehat{\beta}\)</span> expressed in terms of <span class="math inline">\(\beta\)</span> and moments of <span class="math inline">\((X, v, e)\)</span>.</p></li>
+<li><p>Can you find a non-trivial condition under which <span class="math inline">\(\widehat{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> ? (By non-trivial we mean something other than <span class="math inline">\(v=1\)</span>.)</p></li>
+</ol>
+<p>Exercise 7.25 Take the projection model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span>. For a positive function <span class="math inline">\(w(x)\)</span> let <span class="math inline">\(W_{i}=w\left(X_{i}\right)\)</span>. Consider the estimator</p>
+<p><span class="math display">\[
+\widetilde{\beta}=\left(\sum_{i=1}^{n} W_{i} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} W_{i} X_{i} Y_{i}\right) .
+\]</span></p>
+<p>Find the probability limit (as <span class="math inline">\(n \rightarrow \infty\)</span> ) of <span class="math inline">\(\widetilde{\beta}\)</span>. Do you need to add an assumption? Is <span class="math inline">\(\widetilde{\beta}\)</span> consistent for <span class="math inline">\(\widetilde{\beta}\)</span> ? If not, under what assumption is <span class="math inline">\(\widetilde{\beta}\)</span> consistent for <span class="math inline">\(\beta\)</span> ?</p>
+<p>Exercise 7.26 Take the regression model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[e \mid X] &amp;=0 \\
+\mathbb{E}\left[e^{2} \mid X=x\right] &amp;=\sigma^{2}(x)
+\end{aligned}
+\]</span></p>
+<p>with <span class="math inline">\(X \in \mathbb{R}^{k}\)</span>. Assume that <span class="math inline">\(\mathbb{P}[e=0]=0\)</span>. Consider the infeasible estimator</p>
+<p><span class="math display">\[
+\widetilde{\beta}=\left(\sum_{i=1}^{n} e_{i}^{-2} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} e_{i}^{-2} X_{i} Y_{i}\right) .
+\]</span></p>
+<p>This is a WLS estimator using the weights <span class="math inline">\(e_{i}^{-2}\)</span>.</p>
+<ol type="a">
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\widetilde{\beta}\)</span>.</p></li>
+<li><p>Contrast your result with the asymptotic distribution of infeasible GLS. Exercise 7.27 The model is <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span>. An econometrician is worried about the impact of some unusually large values of the regressors. The model is thus estimated on the subsample for which <span class="math inline">\(\left|X_{i}\right| \leq c\)</span> for some fixed <span class="math inline">\(c\)</span>. Let <span class="math inline">\(\widetilde{\beta}\)</span> denote the OLS estimator on this subsample. It equals</p></li>
+</ol>
+<p><span class="math display">\[
+\widetilde{\beta}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \mathbb{1}\left\{\left|X_{i}\right| \leq c\right\}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i} \mathbb{1}\left\{\left|X_{i}\right| \leq c\right\}\right) .
+\]</span></p>
+<ol type="a">
+<li><p>Show that <span class="math inline">\(\widetilde{\beta} \underset{p}{\longrightarrow} \beta\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widetilde{\beta}-\beta)\)</span>.</p></li>
+</ol>
+<p>Exercise 7.28 As in Exercise 3.26, use the cps09mar dataset and the subsample of white male Hispanics. Estimate the regression</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=\beta_{1} \text { education }+\beta_{2} \text { experience }+\beta_{3} \text { experience }^{2} / 100+\beta_{4} .
+\]</span></p>
+<ol type="a">
+<li><p>Report the coefficient estimates and robust standard errors.</p></li>
+<li><p>Let <span class="math inline">\(\theta\)</span> be the ratio of the return to one year of education to the return to one year of experience for experience <span class="math inline">\(=10\)</span>. Write <span class="math inline">\(\theta\)</span> as a function of the regression coefficients and variables. Compute <span class="math inline">\(\widehat{\theta}\)</span> from the estimated model.</p></li>
+<li><p>Write out the formula for the asymptotic standard error for <span class="math inline">\(\hat{\theta}\)</span> as a function of the covariance matrix for <span class="math inline">\(\widehat{\beta}\)</span>. Compute <span class="math inline">\(s(\widehat{\theta})\)</span> from the estimated model.</p></li>
+<li><p>Construct a <span class="math inline">\(90 %\)</span> asymptotic confidence interval for <span class="math inline">\(\theta\)</span> from the estimated model.</p></li>
+<li><p>Compute the regression function at education <span class="math inline">\(=12\)</span> and experience <span class="math inline">\(=20\)</span>. Compute a 95% confidence interval for the regression function at this point.</p></li>
+<li><p>Consider an out-of-sample individual with 16 years of education and 5 years experience. Construct an <span class="math inline">\(80 %\)</span> forecast interval for their log wage and wage. [To obtain the forecast interval for the wage, apply the exponential function to both endpoints.]</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt06-review.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt08-restricted-est.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

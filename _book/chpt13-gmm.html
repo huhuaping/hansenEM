@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 13&nbsp; Generalized Method of Moments</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="next">
+<link href="./chpt12-iv.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">13.1</span> Introduction</a></li>
+  <li><a href="#moment-equation-models" id="toc-moment-equation-models" class="nav-link" data-scroll-target="#moment-equation-models"> <span class="header-section-number">13.2</span> Moment Equation Models</a></li>
+  <li><a href="#method-of-moments-estimators" id="toc-method-of-moments-estimators" class="nav-link" data-scroll-target="#method-of-moments-estimators"> <span class="header-section-number">13.3</span> Method of Moments Estimators</a></li>
+  <li><a href="#overidentified-moment-equations" id="toc-overidentified-moment-equations" class="nav-link" data-scroll-target="#overidentified-moment-equations"> <span class="header-section-number">13.4</span> Overidentified Moment Equations</a></li>
+  <li><a href="#linear-moment-models" id="toc-linear-moment-models" class="nav-link" data-scroll-target="#linear-moment-models"> <span class="header-section-number">13.5</span> Linear Moment Models</a></li>
+  <li><a href="#gmm-estimator" id="toc-gmm-estimator" class="nav-link" data-scroll-target="#gmm-estimator"> <span class="header-section-number">13.6</span> GMM Estimator</a></li>
+  <li><a href="#distribution-of-gmm-estimator" id="toc-distribution-of-gmm-estimator" class="nav-link" data-scroll-target="#distribution-of-gmm-estimator"> <span class="header-section-number">13.7</span> Distribution of GMM Estimator</a></li>
+  <li><a href="#efficient-gmm" id="toc-efficient-gmm" class="nav-link" data-scroll-target="#efficient-gmm"> <span class="header-section-number">13.8</span> Efficient GMM</a></li>
+  <li><a href="#efficient-gmm-versus-2sls" id="toc-efficient-gmm-versus-2sls" class="nav-link" data-scroll-target="#efficient-gmm-versus-2sls"> <span class="header-section-number">13.9</span> Efficient GMM versus 2SLS</a></li>
+  <li><a href="#estimation-of-the-efficient-weight-matrix" id="toc-estimation-of-the-efficient-weight-matrix" class="nav-link" data-scroll-target="#estimation-of-the-efficient-weight-matrix"> <span class="header-section-number">13.10</span> Estimation of the Efficient Weight Matrix</a></li>
+  <li><a href="#iterated-gmm" id="toc-iterated-gmm" class="nav-link" data-scroll-target="#iterated-gmm"> <span class="header-section-number">13.11</span> Iterated GMM</a></li>
+  <li><a href="#covariance-matrix-estimation" id="toc-covariance-matrix-estimation" class="nav-link" data-scroll-target="#covariance-matrix-estimation"> <span class="header-section-number">13.12</span> Covariance Matrix Estimation</a></li>
+  <li><a href="#clustered-dependence" id="toc-clustered-dependence" class="nav-link" data-scroll-target="#clustered-dependence"> <span class="header-section-number">13.13</span> Clustered Dependence</a></li>
+  <li><a href="#wald-test" id="toc-wald-test" class="nav-link" data-scroll-target="#wald-test"> <span class="header-section-number">13.14</span> Wald Test</a></li>
+  <li><a href="#restricted-gmm" id="toc-restricted-gmm" class="nav-link" data-scroll-target="#restricted-gmm"> <span class="header-section-number">13.15</span> Restricted GMM</a></li>
+  <li><a href="#nonlinear-restricted-gmm" id="toc-nonlinear-restricted-gmm" class="nav-link" data-scroll-target="#nonlinear-restricted-gmm"> <span class="header-section-number">13.16</span> Nonlinear Restricted GMM</a></li>
+  <li><a href="#constrained-regression" id="toc-constrained-regression" class="nav-link" data-scroll-target="#constrained-regression"> <span class="header-section-number">13.17</span> Constrained Regression</a></li>
+  <li><a href="#multivariate-regression" id="toc-multivariate-regression" class="nav-link" data-scroll-target="#multivariate-regression"> <span class="header-section-number">13.18</span> Multivariate Regression</a></li>
+  <li><a href="#distance-test" id="toc-distance-test" class="nav-link" data-scroll-target="#distance-test"> <span class="header-section-number">13.19</span> Distance Test</a></li>
+  <li><a href="#continuously-updated-gmm" id="toc-continuously-updated-gmm" class="nav-link" data-scroll-target="#continuously-updated-gmm"> <span class="header-section-number">13.20</span> Continuously-Updated GMM</a></li>
+  <li><a href="#overidentification-test" id="toc-overidentification-test" class="nav-link" data-scroll-target="#overidentification-test"> <span class="header-section-number">13.21</span> OverIdentification Test</a></li>
+  <li><a href="#subset-overidentification-tests" id="toc-subset-overidentification-tests" class="nav-link" data-scroll-target="#subset-overidentification-tests"> <span class="header-section-number">13.22</span> Subset OverIdentification Tests</a></li>
+  <li><a href="#endogeneity-test" id="toc-endogeneity-test" class="nav-link" data-scroll-target="#endogeneity-test"> <span class="header-section-number">13.23</span> Endogeneity Test</a></li>
+  <li><a href="#subset-endogeneity-test" id="toc-subset-endogeneity-test" class="nav-link" data-scroll-target="#subset-endogeneity-test"> <span class="header-section-number">13.24</span> Subset Endogeneity Test</a></li>
+  <li><a href="#nonlinear-gmm" id="toc-nonlinear-gmm" class="nav-link" data-scroll-target="#nonlinear-gmm"> <span class="header-section-number">13.25</span> Nonlinear GMM</a></li>
+  <li><a href="#bootstrap-for-gmm" id="toc-bootstrap-for-gmm" class="nav-link" data-scroll-target="#bootstrap-for-gmm"> <span class="header-section-number">13.26</span> Bootstrap for GMM</a></li>
+  <li><a href="#conditional-moment-equation-models" id="toc-conditional-moment-equation-models" class="nav-link" data-scroll-target="#conditional-moment-equation-models"> <span class="header-section-number">13.27</span> Conditional Moment Equation Models</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"> <span class="header-section-number">13.28</span> Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">13.29</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt13-gmm.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">13.1</span> Introduction</h2>
+<p>One of the most popular estimation methods in applied econometrics is the Generalized Method of Moments (GMM). GMM generalizes classical method of moments by allowing for more equations than unknown parameters (so are overidentified) and by allowing general nonlinear functions of the observations and parameters. Together this allows for a fairly rich and flexible estimation framework. GMM includes as special cases OLS, IV, multivariate regression, and 2SLS. It includes both linear and nonlinear models. In this chapter we focus primarily on linear models.</p>
+<p>The GMM label and methods were introduced to econometrics in a seminal paper by Lars Hansen (1982). The ideas and methods build on the work of Amemiya <span class="math inline">\((1974,1977)\)</span>, Gallant (1977), and Gallant and Jorgenson (1979). The ideas are closely related to the contemporeneous work of Halbert White (1980, 1982) and White and Domowitz (1984). The methods are also related to what are called estimating equations in the statistics literature. For a review of the latter see Godambe (1991).</p>
+</section>
+<section id="moment-equation-models" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="moment-equation-models"><span class="header-section-number">13.2</span> Moment Equation Models</h2>
+<p>All of the models that have been introduced so far can be written as moment equation models where the population parameters solve a system of moment equations. Moment equation models are broader than the models so far considered and understanding their common structure opens up straightforward techniques to handle new econometric models.</p>
+<p>Moment equation models take the following form. Let <span class="math inline">\(g_{i}(\beta)\)</span> be a known <span class="math inline">\(\ell \times 1\)</span> function of the <span class="math inline">\(i^{\text {th }}\)</span> observation and a <span class="math inline">\(k \times 1\)</span> parameter <span class="math inline">\(\beta\)</span>. A moment equation model is summarized by the moment equations</p>
+<p><span class="math display">\[
+\mathbb{E}\left[g_{i}(\beta)\right]=0
+\]</span></p>
+<p>and a parameter space <span class="math inline">\(\beta \in B\)</span>. For example, in the instrumental variables model <span class="math inline">\(g_{i}(\beta)=Z_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)\)</span>.</p>
+<p>In general, we say that a parameter <span class="math inline">\(\beta\)</span> is identified if there is a unique mapping from the data distribution to <span class="math inline">\(\beta\)</span>. In the context of the model (13.1) this means that there is a unique <span class="math inline">\(\beta\)</span> satisfying (13.1). Since (13.1) is a system of <span class="math inline">\(\ell\)</span> equations with <span class="math inline">\(k\)</span> unknowns, then it is necessary that <span class="math inline">\(\ell \geq k\)</span> for there to be a unique solution. If <span class="math inline">\(\ell=k\)</span> we say that the model is just identified, meaning that there is just enough information to identify the parameters. If <span class="math inline">\(\ell&gt;k\)</span> we say that the model is overidentified, meaning that there is excess information. If <span class="math inline">\(\ell&lt;k\)</span> we say that the model is underidentified, meaning that there is insufficient information to identify the parameters. In general, we assume that <span class="math inline">\(\ell \geq k\)</span> so the model is either just identified or overidentified.</p>
+</section>
+<section id="method-of-moments-estimators" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="method-of-moments-estimators"><span class="header-section-number">13.3</span> Method of Moments Estimators</h2>
+<p>In this section we consider the just-identified case <span class="math inline">\(\ell=k\)</span>.</p>
+<p>Define the sample analog of (13.5)</p>
+<p><span class="math display">\[
+\bar{g}_{n}(\beta)=\frac{1}{n} \sum_{i=1}^{n} g_{i}(\beta) .
+\]</span></p>
+<p>The method of moments estimator (MME) <span class="math inline">\(\widehat{\beta}_{\mathrm{mm}}\)</span> is the parameter value which sets <span class="math inline">\(\bar{g}_{n}(\beta)=0\)</span>. Thus</p>
+<p><span class="math display">\[
+\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{mm}}\right)=\frac{1}{n} \sum_{i=1}^{n} g_{i}\left(\widehat{\beta}_{\mathrm{mm}}\right)=0 .
+\]</span></p>
+<p>The equations (13.3) are known as the estimating equations as they are the equations which determine the estimator <span class="math inline">\(\widehat{\beta}_{\mathrm{mm}}\)</span>.</p>
+<p>In some contexts (such as those discussed in the examples below) there is an explicit solution for <span class="math inline">\(\widehat{\beta}_{\mathrm{mm}}\)</span>. In other cases the solution must be found numerically.</p>
+<p>We now show how most of the estimators discussed so far in the textbook can be written as method of moments estimators.</p>
+<p>Mean: Set <span class="math inline">\(g_{i}(\mu)=Y_{i}-\mu\)</span>. The MME is <span class="math inline">\(\widehat{\mu}=\frac{1}{n} \sum_{i=1}^{n} Y_{i}\)</span>.</p>
+<p>Mean and Variance: Set</p>
+<p><span class="math display">\[
+g_{i}\left(\mu, \sigma^{2}\right)=\left(\begin{array}{c}
+Y_{i}-\mu \\
+\left(Y_{i}-\mu\right)^{2}-\sigma^{2}
+\end{array}\right) .
+\]</span></p>
+<p>The MME are <span class="math inline">\(\widehat{\mu}=\frac{1}{n} \sum_{i=1}^{n} Y_{i}\)</span> and <span class="math inline">\(\widehat{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-\widehat{\mu}\right)^{2}\)</span>.</p>
+<p>OLS: Set <span class="math inline">\(g_{i}(\beta)=X_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)\)</span>. The MME is <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right)\)</span>.</p>
+<p>OLS and Variance: Set</p>
+<p><span class="math display">\[
+g_{i}\left(\beta, \sigma^{2}\right)=\left(\begin{array}{c}
+X_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right) \\
+\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}-\sigma^{2}
+\end{array}\right) \text {. }
+\]</span></p>
+<p>The MME is <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right)\)</span> and <span class="math inline">\(\widehat{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}\right)^{2}\)</span>.</p>
+<p>Multivariate Least Squares, vector form: <span class="math inline">\(\operatorname{Set} g_{i}(\beta)=\bar{X}_{i}^{\prime}\left(Y_{i}-\bar{X}_{i} \beta\right)\)</span>. The MME is <span class="math inline">\(\widehat{\beta}=\left(\sum_{i=1}^{n} \bar{X}_{i}^{\prime} \bar{X}_{i}\right)^{-1}\left(\sum_{i=1}^{n} \bar{X}_{i} Y_{i}\right)\)</span> which is (11.4).</p>
+<p>Multivariate Least Squares, matrix form: Set <span class="math inline">\(g_{i}(\boldsymbol{B})=\operatorname{vec}\left(X_{i}\left(Y_{i}^{\prime}-X_{i}^{\prime} \boldsymbol{B}\right)\right)\)</span>. The MME is <span class="math inline">\(\widehat{\boldsymbol{B}}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}^{\prime}\right)\)</span> which is (11.6).</p>
+<p>Seemingly Unrelated Regression: Set</p>
+<p><span class="math display">\[
+g_{i}(\beta, \Sigma)=\left(\begin{array}{c}
+\bar{X}_{i} \Sigma^{-1}\left(Y_{i}-\bar{X}_{i}^{\prime} \beta\right) \\
+\operatorname{vec}\left(\Sigma-\left(Y_{i}-\bar{X}_{i}^{\prime} \beta\right)\left(Y_{i}-\bar{X}_{i}^{\prime} \beta\right)^{\prime}\right)
+\end{array}\right)
+\]</span></p>
+<p>The MME is <span class="math inline">\(\widehat{\beta}=\left(\sum_{i=1}^{n} \bar{X}_{i} \widehat{\Sigma}^{-1} \bar{X}_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} \bar{X}_{i} \widehat{\Sigma}^{-1} Y_{i}\right)\)</span> and <span class="math inline">\(\widehat{\Sigma}=n^{-1} \sum_{i=1}^{n}\left(Y_{i}-\bar{X}_{i}^{\prime} \widehat{\beta}\right)\left(Y_{i}-\bar{X}_{i}^{\prime} \widehat{\beta}\right)^{\prime}\)</span>.</p>
+<p>IV: Set <span class="math inline">\(g_{i}(\beta)=Z_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)\)</span>. The MME is <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{Z}^{\prime} \boldsymbol{Y}\right)\)</span>. Generated Regressors: Set</p>
+<p><span class="math display">\[
+g_{i}(\beta, \boldsymbol{A})=\left(\begin{array}{c}
+\boldsymbol{A}^{\prime} Z_{i}\left(Y_{i}-Z_{i}^{\prime} \boldsymbol{A} \beta\right) \\
+\operatorname{vec}\left(Z_{i}\left(X_{i}^{\prime}-Z_{i}^{\prime} \boldsymbol{A}\right)\right)
+\end{array}\right)
+\]</span></p>
+<p>The MME is <span class="math inline">\(\widehat{\boldsymbol{A}}=\left(\sum_{i=1}^{n} Z_{i} Z_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} Z_{i} X_{i}^{\prime}\right)\)</span> and <span class="math inline">\(\widehat{\beta}=\left(\widehat{\boldsymbol{A}}^{\prime} \boldsymbol{Z}^{\prime} \boldsymbol{Z} \widehat{\boldsymbol{A}}\right)^{-1}\left(\widehat{\boldsymbol{A}}^{\prime} \boldsymbol{Z}^{\prime} \boldsymbol{Y}\right)\)</span>.</p>
+<p>A common feature of these examples is that the estimator can be written as the solution to a set of estimating equations (13.3). This provides a common framework which enables a convenient development of a unified distribution theory.</p>
+</section>
+<section id="overidentified-moment-equations" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="overidentified-moment-equations"><span class="header-section-number">13.4</span> Overidentified Moment Equations</h2>
+<p>In the instrumental variables model <span class="math inline">\(g_{i}(\beta)=Z_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)\)</span>. Thus (13.2) is</p>
+<p><span class="math display">\[
+\bar{g}_{n}(\beta)=\frac{1}{n} \sum_{i=1}^{n} g_{i}(\beta)=\frac{1}{n} \sum_{i=1}^{n} Z_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)=\frac{1}{n}\left(\boldsymbol{Z}^{\prime} \boldsymbol{Y}-\boldsymbol{Z}^{\prime} \boldsymbol{X} \beta\right) .
+\]</span></p>
+<p>We have defined the method of moments estimator for <span class="math inline">\(\beta\)</span> as the parameter value which sets <span class="math inline">\(\bar{g}_{n}(\beta)=\)</span> 0 . However, when the model is overidentified (if <span class="math inline">\(\ell&gt;k\)</span> ) this is generally impossible as there are more equations than free parameters. Equivalently, there is no choice of <span class="math inline">\(\beta\)</span> which sets (13.4) to zero. Thus the method of moments estimator is not defined for the overidentified case.</p>
+<p>While we cannot find an estimator which sets <span class="math inline">\(\bar{g}_{n}(\beta)\)</span> equal to zero we can try to find an estimator which makes <span class="math inline">\(\bar{g}_{n}(\beta)\)</span> as close to zero as possible.</p>
+<p>One way to think about this is to define the vector <span class="math inline">\(\mu=\boldsymbol{Z}^{\prime} \boldsymbol{Y}\)</span>, the matrix <span class="math inline">\(\boldsymbol{G}=\boldsymbol{Z}^{\prime} \boldsymbol{X}\)</span> and the “error” <span class="math inline">\(\eta=\mu-\boldsymbol{G} \beta\)</span>. Then we can write (13.4) as <span class="math inline">\(\mu=\boldsymbol{G} \beta+\eta\)</span>. This looks like a regression equation with the <span class="math inline">\(\ell \times 1\)</span> dependent variable <span class="math inline">\(\mu\)</span>, the <span class="math inline">\(\ell \times k\)</span> regressor matrix <span class="math inline">\(\boldsymbol{G}\)</span>, and the <span class="math inline">\(\ell \times 1\)</span> error vector <span class="math inline">\(\eta\)</span>. The goal is to make the error vector <span class="math inline">\(\eta\)</span> as small as possible. Recalling our knowledge about least squares we deduct that a simple method is to regress <span class="math inline">\(\mu\)</span> on <span class="math inline">\(\boldsymbol{G}\)</span>, obtaining <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{G}^{\prime} \boldsymbol{G}\right)^{-1}\left(\boldsymbol{G}^{\prime} \mu\right)\)</span>. This minimizes the sum-of-squares <span class="math inline">\(\eta^{\prime} \eta\)</span>. This is certainly one way to make <span class="math inline">\(\eta\)</span> “small”.</p>
+<p>More generally we know that when errors are non-homogeneous it can be more efficient to estimate by weighted least squares. Thus for some weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> consider the estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\boldsymbol{G}^{\prime} \boldsymbol{W} \boldsymbol{G}\right)^{-1}\left(\boldsymbol{G}^{\prime} \boldsymbol{W} \boldsymbol{\mu}\right)=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{Y}\right) .
+\]</span></p>
+<p>This minimizes the weighted sum of squares <span class="math inline">\(\eta^{\prime} \boldsymbol{W} \eta\)</span>. This solution is known as the generalized method of moments (GMM).</p>
+<p>The estimator is typically defined as follows. Given a set of moment equations (13.2) and an <span class="math inline">\(\ell \times \ell\)</span> weight matrix <span class="math inline">\(\boldsymbol{W}&gt;0\)</span> the GMM criterion function is defined as</p>
+<p><span class="math display">\[
+J(\beta)=n \bar{g}_{n}(\beta)^{\prime} \boldsymbol{W} \bar{g}_{n}(\beta) .
+\]</span></p>
+<p>The factor ” <span class="math inline">\(n\)</span> ” is not important for the definition of the estimator but is convenient for the distribution theory. The criterion <span class="math inline">\(J(\beta)\)</span> is the weighted sum of squared moment equation errors. When <span class="math inline">\(\boldsymbol{W}=\boldsymbol{I}_{\ell}\)</span> then <span class="math inline">\(J(\beta)=n \bar{g}_{n}(\beta)^{\prime} \bar{g}_{n}(\beta)=n\left\|\bar{g}_{n}(\beta)\right\|^{2}\)</span>, the square of the Euclidean length. Since we restrict attention to positive definite weight matrices <span class="math inline">\(\boldsymbol{W}\)</span> the criterion <span class="math inline">\(J(\beta)\)</span> is non-negative.</p>
+<p>Definition 13.1 The Generalized Method of Moments (GMM) estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\underset{\beta}{\operatorname{argmin}} J(\beta) .
+\]</span></p>
+<p>Recall that in the just-identified case <span class="math inline">\(k=\ell\)</span> the method of moments estimator <span class="math inline">\(\widehat{\beta}_{\mathrm{mm}}\)</span> solves <span class="math inline">\(\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{mm}}\right)=\)</span> 0 . Hence in this case <span class="math inline">\(J\left(\widehat{\beta}_{\mathrm{mm}}\right)=0\)</span> which means that <span class="math inline">\(\widehat{\beta}_{\mathrm{mm}}\)</span> minimizes <span class="math inline">\(J(\beta)\)</span> and equals <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}=\widehat{\beta}_{\mathrm{mm}}\)</span>. This means that GMM includes MME as a special case. This implies that all of our results for GMM apply to any method of moments estimator.</p>
+<p>In the over-identified case the GMM estimator depends on the choice of weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> and so this is an important focus of the theory. In the just-identified case the GMM estimator simplifies to the MME which does not depend on <span class="math inline">\(\boldsymbol{W}\)</span>.</p>
+<p>The method and theory of the generalized method of moments was developed in an influential paper by Lars Hansen (1982). This paper introduced the method, its asymptotic distribution, the form of the efficient weight matrix, and tests for overidentification.</p>
+</section>
+<section id="linear-moment-models" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="linear-moment-models"><span class="header-section-number">13.5</span> Linear Moment Models</h2>
+<p>One of the great advantages of the moment equation framework is that it allows both linear and nonlinear models. However, when the moment equations are linear in the parameters then we have explicit solutions for the estimates and a straightforward asymptotic distribution theory. Hence we start by confining attention to linear moment equations and return to nonlinear moment equations later. In the examples listed earlier the estimators which have linear moment equations include the sample mean, OLS, multivariate least squares, IV, and 2SLS. The estimates which have nonlinear moment equations include the sample variance, SUR, and generated regressors.</p>
+<p>In particular, we focus on the overidentified IV model with moment equations</p>
+<p><span class="math display">\[
+g_{i}(\beta)=Z_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)
+\]</span></p>
+<p>where <span class="math inline">\(Z_{i}\)</span> is <span class="math inline">\(\ell \times 1\)</span> and <span class="math inline">\(X_{i}\)</span> is <span class="math inline">\(k \times 1\)</span>.</p>
+</section>
+<section id="gmm-estimator" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="gmm-estimator"><span class="header-section-number">13.6</span> GMM Estimator</h2>
+<p>Given (13.5) the sample moment equations are (13.4). The GMM criterion can be written as</p>
+<p><span class="math display">\[
+J(\beta)=n\left(\boldsymbol{Z}^{\prime} \boldsymbol{Y}-\boldsymbol{Z}^{\prime} \boldsymbol{X} \beta\right)^{\prime} \boldsymbol{W}\left(\boldsymbol{Z}^{\prime} \boldsymbol{Y}-\boldsymbol{Z}^{\prime} \boldsymbol{X} \beta\right) .
+\]</span></p>
+<p>The GMM estimator minimizes <span class="math inline">\(J(\beta)\)</span>. The first order conditions are</p>
+<p><span class="math display">\[
+\begin{aligned}
+0 &amp;=\frac{\partial}{\partial \beta} J(\widehat{\beta}) \\
+&amp;=2 \frac{\partial}{\partial \beta} \bar{g}_{n}(\widehat{\beta})^{\prime} \boldsymbol{W} \bar{g}_{n}(\widehat{\beta}) \\
+&amp;=-2\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \boldsymbol{W}\left(\frac{1}{n} \boldsymbol{Z}^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta})\right) .
+\end{aligned}
+\]</span></p>
+<p>The solution is given as follows.</p>
+<p>Theorem 13.1 For the overidentified IV model</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{Y}\right) .
+\]</span></p>
+<p>While the estimator depends on <span class="math inline">\(\boldsymbol{W}\)</span> the dependence is only up to scale. This is because if <span class="math inline">\(\boldsymbol{W}\)</span> is replaced by <span class="math inline">\(c W\)</span> for some <span class="math inline">\(c&gt;0, \widehat{\beta}_{\text {gmm }}\)</span> does not change. When <span class="math inline">\(W\)</span> is fixed by the user we call <span class="math inline">\(\widehat{\beta}_{\text {gmm }}\)</span> ane-step GMM estimator. The formula (13.6) applies for the over-identified <span class="math inline">\((\ell&gt;k)\)</span> and the just-identified <span class="math inline">\((\ell=k)\)</span> case. When the model is just-identified then <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{Z}\)</span> is <span class="math inline">\(k \times k\)</span> so expression (13.6) simplifies to</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\left(\boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{W}^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{Y}\right)=\left(\boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{Z}^{\prime} \boldsymbol{Y}\right)=\widehat{\beta}_{\mathrm{iv}}
+\]</span></p>
+<p>the IV estimator.</p>
+<p>The GMM estimator (13.6) resembles the 2SLS estimator (12.29). In fact they are equal when <span class="math inline">\(\boldsymbol{W}=\)</span> <span class="math inline">\(\left(\boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span>. This means that the 2SLS estimator is a one-step GMM estimator for the linear model.</p>
+<p>Theorem 13.2 If <span class="math inline">\(\boldsymbol{W}=\left(\boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span> then <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}=\widehat{\beta}_{2 \text { sls. }}\)</span> Furthermore, if <span class="math inline">\(k=\ell\)</span> then <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}=\widehat{\beta}_{\mathrm{iv}}\)</span></p>
+</section>
+<section id="distribution-of-gmm-estimator" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="distribution-of-gmm-estimator"><span class="header-section-number">13.7</span> Distribution of GMM Estimator</h2>
+<p>Let <span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[Z X^{\prime}\right]\)</span> and <span class="math inline">\(\Omega=\mathbb{E}\left[Z Z^{\prime} e^{2}\right]\)</span>. Then</p>
+<p><span class="math display">\[
+\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \boldsymbol{W}\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right) \underset{p}{\longrightarrow} \boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \boldsymbol{W}\left(\frac{1}{\sqrt{n}} \boldsymbol{Z}^{\prime} \boldsymbol{e}\right) \underset{d}{\longrightarrow} \boldsymbol{Q}^{\prime} \boldsymbol{W} \mathrm{N}(0, \Omega)
+\]</span></p>
+<p>We conclude:</p>
+<p>Theorem 13.3 Asymptotic Distribution of GMM Estimator. Under Assumption 12.2, as <span class="math inline">\(n \rightarrow \infty, \sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right)\)</span> where</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\boldsymbol{\beta}}=\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \Omega \boldsymbol{W} \boldsymbol{Q}\right)\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} .
+\]</span></p>
+<p>The GMM estimator is asymptotically normal with a “sandwich form” asymptotic variance.</p>
+<p>Our derivation treated the weight matrix <span class="math inline">\(W\)</span> as if it is non-random but Theorem <span class="math inline">\(13.3\)</span> applies to the random weight matrix case so long as <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> converges in probability to a positive definite limit <span class="math inline">\(\boldsymbol{W}\)</span>. This may require scaling the weight matrix, for example replacing <span class="math inline">\(\widehat{\boldsymbol{W}}=\left(\boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span> with <span class="math inline">\(\widehat{\boldsymbol{W}}=\left(n^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span>. Since rescaling the weight matrix does not affect the estimator this is ignored in implementation.</p>
+</section>
+<section id="efficient-gmm" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="efficient-gmm"><span class="header-section-number">13.8</span> Efficient GMM</h2>
+<p>The asymptotic distribution of the GMM estimator <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> depends on the weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> through the asymptotic variance <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. The asymptotically optimal weight matrix <span class="math inline">\(\boldsymbol{W}_{0}\)</span> is that which minimizes <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. This turns out to be <span class="math inline">\(\boldsymbol{W}_{0}=\Omega^{-1}\)</span>. The proof is left to Exercise 13.4.</p>
+<p>When the GMM estimator <span class="math inline">\(\widehat{\beta}\)</span> is constructed with <span class="math inline">\(\boldsymbol{W}=\boldsymbol{W}_{0}=\Omega^{-1}\)</span> (or a weight matrix which is a consistent estimator of <span class="math inline">\(\boldsymbol{W}_{0}\)</span> ) we call it the Efficient GMM estimator:</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \Omega^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \Omega^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{Y}\right) .
+\]</span></p>
+<p>Its asymptotic distribution takes a simpler form than in Theorem 13.3. By substituting <span class="math inline">\(\boldsymbol{W}=\boldsymbol{W}_{0}=\Omega^{-1}\)</span> into (13.7) we find</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta}=\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1}\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \Omega \Omega^{-1} \boldsymbol{Q}\right)\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1}=\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1} .
+\]</span></p>
+<p>This is the asymptotic variance of the efficient GMM estimator.</p>
+<p>Theorem 13.4 Asymptotic Distribution of GMM with Efficient Weight Ma-\ trix. Under Assumption <span class="math inline">\(12.2\)</span> and <span class="math inline">\(\boldsymbol{W}=\Omega^{-1}\)</span>, as <span class="math inline">\(n \rightarrow \infty, \sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right) \underset{d}{\mathrm{~d}}\)</span>\ <span class="math inline">\(\mathrm{~N}\left(0, \boldsymbol{V}_{\beta}\right)\)</span> where <span class="math inline">\(\boldsymbol{V}_{\beta}=\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1}\)</span>.</p>
+<p>Theorem 13.5 Efficient GMM. Under Assumption 12.2, for any <span class="math inline">\(\boldsymbol{W}&gt;0\)</span>,</p>
+<p><span class="math display">\[
+\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \Omega \boldsymbol{W} \boldsymbol{Q}\right)\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}-\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1} \geq 0
+\]</span></p>
+<p>The inequality ” <span class="math inline">\(\geq\)</span> ” can be replaced with ” <span class="math inline">\(&gt;\)</span> ” if <span class="math inline">\(W \neq \Omega^{-1}\)</span>. Thus if <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> is the efficient GMM estimator and <span class="math inline">\(\widetilde{\beta}_{\text {gmm }}\)</span> is another GMM estimator, then</p>
+<p><span class="math display">\[
+\operatorname{avar}\left[\widehat{\beta}_{\mathrm{gmm}}\right] \leq \operatorname{avar}\left[\widetilde{\beta}_{\mathrm{gmm}}\right] .
+\]</span></p>
+<p>For a proof see Exercise 13.4.</p>
+<p>This means that the smallest possible GMM covariance matrix (in the positive definite sense) is achieved by the efficient GMM weight matrix.</p>
+<p><span class="math inline">\(\boldsymbol{W}_{0}=\Omega^{-1}\)</span> is not known in practice but it can be estimated consistently as we discuss in Section <span class="math inline">\(13.10 .\)</span> For any <span class="math inline">\(\widehat{\boldsymbol{W}} \underset{p}{\rightarrow} \boldsymbol{W}_{0}\)</span> the asymptotic distribution in Theorem <span class="math inline">\(13.4\)</span> is unaffected. Consequently we call any <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> constructed with an estimate of the efficient weight matrix an efficient GMM estimator.</p>
+<p>By “efficient” we mean that this estimator has the smallest asymptotic variance in the class of GMM estimators with this set of moment conditions. This is a weak concept of optimality as we are only considering alternative weight matrices <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span>. However, it turns out that the GMM estimator is semiparametrically efficient as shown by Gary Chamberlain (1987). If it is known that <span class="math inline">\(\mathbb{E}\left[g_{i}(\beta)\right]=0\)</span> and this is all that is known this is a semi-parametric problem as the distribution of the data is unknown. Chamberlain showed that in this context no semiparametric estimator (one which is consistent globally for the class of models considered) can have a smaller asymptotic variance than <span class="math inline">\(\left(\boldsymbol{G}^{\prime} \Omega^{-1} \boldsymbol{G}\right)^{-1}\)</span> where <span class="math inline">\(\boldsymbol{G}=\mathbb{E}\left[\frac{\partial}{\partial \beta^{\prime}} g_{i}(\beta)\right]\)</span>. Since the GMM estimator has this asymptotic variance it is semiparametrically efficient.</p>
+<p>The results in this section show that in the linear model no estimator has better asymptotic efficiency than the efficient linear GMM estimator. No estimator can do better (in this first-order asymptotic sense) without imposing additional assumptions.</p>
+</section>
+<section id="efficient-gmm-versus-2sls" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="efficient-gmm-versus-2sls"><span class="header-section-number">13.9</span> Efficient GMM versus 2SLS</h2>
+<p>For the linear model we introduced 2SLS as a standard estimator for <span class="math inline">\(\beta\)</span>. Now we have introduced GMM which includes 2SLS as a special case. Is there a context where 2SLS is efficient?</p>
+<p>To answer this question recall that 2SLS is GMM given the weight matrix <span class="math inline">\(\widehat{\boldsymbol{W}}=\left(\boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span> or equivalently <span class="math inline">\(\widehat{\boldsymbol{W}}=\left(n^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span> since scaling doesn’t matter. Since <span class="math inline">\(\widehat{\boldsymbol{W}} \underset{p}{\longrightarrow}\left(\mathbb{E}\left[Z Z^{\prime}\right]\right)^{-1}\)</span> this is asymptotically equivalent to the weight matrix <span class="math inline">\(\boldsymbol{W}=\left(\mathbb{E}\left[Z Z^{\prime}\right]\right)^{-1}\)</span>. In contrast, the efficient weight matrix takes the form <span class="math inline">\(\left(\mathbb{E}\left[Z Z^{\prime} e^{2}\right]\right)^{-1}\)</span>. Now suppose that the structural equation error <span class="math inline">\(e\)</span> is conditionally homoskedastic in the sense that <span class="math inline">\(\mathbb{E}\left[e^{2} \mid Z\right]=\sigma^{2}\)</span>. Then the efficient weight matrix equals <span class="math inline">\(\boldsymbol{W}=\left(\mathbb{E}\left[Z Z^{\prime}\right]\right)^{-1} \sigma^{-2}\)</span> or equivalently <span class="math inline">\(W=\left(\mathbb{E}\left[Z Z^{\prime}\right]\right)^{-1}\)</span> since scaling doesn’t matter. The latter weight matrix is the same as the 2SLS asymptotic weight matrix. This shows that the 2SLS weight matrix is the efficient weight matrix under conditional homoskedasticity.</p>
+<p>Theorem 13.6 Under Assumption <span class="math inline">\(12.2\)</span> and <span class="math inline">\(\mathbb{E}\left[e^{2} \mid Z\right]=\sigma^{2}, \widehat{\beta}_{2 \text { sls }}\)</span> is efficient GMM.</p>
+<p>This shows that 2SLS is efficient under homoskedasticity. When homoskedasticity holds there is no reason to use efficient GMM over 2SLS. More broadly, when homoskedasticity is a reasonable approximation then 2SLS will be a reasonable estimator. However, this result also shows that in the general case where the error is conditionally heteroskedastic, 2SLS is inefficient relative to efficient GMM.</p>
+</section>
+<section id="estimation-of-the-efficient-weight-matrix" class="level2" data-number="13.10">
+<h2 data-number="13.10" class="anchored" data-anchor-id="estimation-of-the-efficient-weight-matrix"><span class="header-section-number">13.10</span> Estimation of the Efficient Weight Matrix</h2>
+<p>To construct the efficient GMM estimator we need a consistent estimator <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> of <span class="math inline">\(\boldsymbol{W}_{0}=\Omega^{-1}\)</span>. The convention is to form an estimator <span class="math inline">\(\widehat{\Omega}\)</span> of <span class="math inline">\(\Omega\)</span> and then set <span class="math inline">\(\widehat{\boldsymbol{W}}=\widehat{\Omega}^{-1}\)</span>.</p>
+<p>The two-step GMM estimator proceeds by using a one-step consistent estimator of <span class="math inline">\(\beta\)</span> to construct the weight matrix estimator <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span>. In the linear model the natural one-step estimator for <span class="math inline">\(\beta\)</span> is 2 SLS. Set <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{2 s l s}, \widetilde{g}_{i}=g_{i}(\widetilde{\beta})=Z_{i} \widetilde{e}_{i}\)</span>, and <span class="math inline">\(\bar{g}_{n}=n^{-1} \sum_{i=1}^{n} \widetilde{g}_{i}\)</span>. Two moment estimators of <span class="math inline">\(\Omega\)</span> are</p>
+<p><span class="math display">\[
+\widehat{\Omega}=\frac{1}{n} \sum_{i=1}^{n} \widetilde{g}_{i} \widetilde{g}_{i}^{\prime}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\widehat{\Omega}^{*}=\frac{1}{n} \sum_{i=1}^{n}\left(\widetilde{g}_{i}-\bar{g}_{n}\right)\left(\widetilde{g}_{i}-\bar{g}_{n}\right)^{\prime} .
+\]</span></p>
+<p>The estimator (13.8) is an uncentered covariance matrix estimator while the estimator (13.9) is a centered version. Either is consistent when <span class="math inline">\(\mathbb{E}[Z e]=0\)</span> which holds under correct specification. However under misspecification we may have <span class="math inline">\(\mathbb{E}[Z e] \neq 0\)</span>. In the latter context <span class="math inline">\(\widehat{\Omega}^{*}\)</span> remains an estimator of var <span class="math inline">\([Z e]\)</span> while <span class="math inline">\(\widehat{\Omega}\)</span> is an estimator of <span class="math inline">\(\mathbb{E}\left[Z Z^{\prime} e^{2}\right]\)</span>. In this sense <span class="math inline">\(\widehat{\Omega}^{*}\)</span> is a robust variance estimator. For some testing problems it turns out to be preferable to use a covariance matrix estimator which is robust to the alternative hypothesis. For these reasons estimator (13.9) is generally preferred. The uncentered estimator (13.8) is more commonly seen in practice since it is the default choice by most packages. It is also worth observing that when the model is just identified then <span class="math inline">\(\bar{g}_{n}=0\)</span> so the two are algebraically identical. The choice of weight matrix may also impact covariance matrix estimation as discussed in Section 13.12.</p>
+<p>Given the choice of covariance matrix estimator we set <span class="math inline">\(\widehat{W}=\widehat{\Omega}^{-1}\)</span> or <span class="math inline">\(\widehat{W}=\widehat{\Omega}^{*-1}\)</span>. Given this weight matrix we construct the two-step GMM estimator as (13.6) using the weight matrix <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span>.</p>
+<p>Since the 2SLS estimator is consistent for <span class="math inline">\(\beta\)</span>, by arguments nearly identical to those used for covariance matrix estimation we can show that <span class="math inline">\(\widehat{\Omega}\)</span> and <span class="math inline">\(\widehat{\Omega}^{*}\)</span> are consistent for <span class="math inline">\(\Omega\)</span> and thus <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> is consistent for <span class="math inline">\(\Omega^{-1}\)</span>. See Exercise 13.3.</p>
+<p>This also means that the two-step GMM estimator satisfies the conditions for Theorem 13.4.</p>
+<p>Theorem <span class="math inline">\(13.7\)</span> Under Assumption <span class="math inline">\(12.2\)</span> and <span class="math inline">\(\Omega&gt;0\)</span>, if <span class="math inline">\(\widehat{W}=\widehat{\Omega}^{-1}\)</span> or <span class="math inline">\(\widehat{W}=\)</span> <span class="math inline">\(\widehat{\Omega}^{*-1}\)</span> where the latter are defined in (13.8) and (13.9) then as <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right)\)</span> where <span class="math inline">\(\boldsymbol{V}_{\beta}=\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1}\)</span>.</p>
+<p>This shows that the two-step GMM estimator is asymptotically efficient.</p>
+<p>The two-step GMM estimator of the IV regression equation can be computed in Stata using the ivregress gmm command. By default it uses formula (13.8). The centered version (13.9) may be selected using the center option.</p>
+</section>
+<section id="iterated-gmm" class="level2" data-number="13.11">
+<h2 data-number="13.11" class="anchored" data-anchor-id="iterated-gmm"><span class="header-section-number">13.11</span> Iterated GMM</h2>
+<p>The asymptotic distribution of the two-step GMM estimator does not depend on the choice of the preliminary one-step estimator. However, the actual value of the estimator depends on this choice and so will the finite sample distribution. This is undesirable and likely inefficient. To remove this dependence we can iterate the estimation sequence. Specifically, given <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> we can construct an updated weight matrix estimate <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> and then re-estimate <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span>. This updating can be iterated until convergence <span class="math inline">\({ }^{1}\)</span>. The result is called the iterated GMM estimator and is a common implementation of efficient GMM.</p>
+<p>Interestingly, B. E. Hansen and Lee (2021) show that the iterated GMM estimator is unaffected if the weight matrix is computed with or without centering. Standard errors and test statistics, however, will be affected by the choice.</p>
+<p>The iterated GMM estimator of the IV regression equation can be computed in Stata using the ivregress gmm command using the igmm option.</p>
+</section>
+<section id="covariance-matrix-estimation" class="level2" data-number="13.12">
+<h2 data-number="13.12" class="anchored" data-anchor-id="covariance-matrix-estimation"><span class="header-section-number">13.12</span> Covariance Matrix Estimation</h2>
+<p>An estimator of the asymptotic variance of <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> can be obtained by replacing the matrices in the asymptotic variance formula by consistent estimators.</p>
+<p><span class="math inline">\({ }^{1}\)</span> In practice, “convergence” obtains when the difference between the estimates at subsequent steps is smaller than a prespecified tolerance. A sufficient condition for convergence is that the sequence is a contraction mapping. Indeed, B. Hansen and Lee (2021) have shown that the iterated GMM estimator generally satisfies this condition in large samples. For the one-step or two-step GMM estimator the covariance matrix estimator is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\boldsymbol{W}} \widehat{\boldsymbol{Q}}\right)^{-1}\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\boldsymbol{W}} \widehat{\Omega} \widehat{\boldsymbol{W}} \widehat{\boldsymbol{Q}}\right)\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\boldsymbol{W}} \widehat{\boldsymbol{Q}}\right)^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\boldsymbol{Q}}=\frac{1}{n} \sum_{i=1}^{n} Z_{i} X_{i}^{\prime}\)</span>. The weight matrix is constructed using either the uncentered estimator (13.8) or centered estimator (13.9) with the residuals <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{gmm}}\)</span>.</p>
+<p>For the efficient iterated GMM estimator the covariance matrix estimator is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\Omega}^{-1} \widehat{\boldsymbol{Q}}\right)^{-1}=\left(\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \widehat{\Omega}^{-1}\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)\right)^{-1} .
+\]</span></p>
+<p><span class="math inline">\(\widehat{\Omega}\)</span> can be computed using either the uncentered estimator (13.8) or centered estimator (13.9). Based on the asymptotic approximation the estimator (13.11) can be used as well for the two-step estimator but should use the final residuals <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{gmm}}\)</span>.</p>
+<p>Asymptotic standard errors are given by the square roots of the diagonal elements of <span class="math inline">\(n^{-1} \widehat{\boldsymbol{V}}_{\beta}\)</span>.</p>
+<p>It is unclear if it is preferred to use the covariance matrix estimator based on the centered or uncentered estimator of <span class="math inline">\(\Omega\)</span> to construct the covariance matrix estimator. Using the centered estimator results in a smaller covariance matrix and standard errors and thus more “significant” tests based on asymptotic critical values. In contrast the uncentered estimator of <span class="math inline">\(\Omega\)</span> will result in larger standard errors and will thus be more “conservative”.</p>
+<p>In Stata, the default covariance matrix estimation method is determined by the choice of weight matrix. Thus if the centered estimator (13.9) is used for the weight matrix it is also used for the covariance matrix estimator.</p>
+</section>
+<section id="clustered-dependence" class="level2" data-number="13.13">
+<h2 data-number="13.13" class="anchored" data-anchor-id="clustered-dependence"><span class="header-section-number">13.13</span> Clustered Dependence</h2>
+<p>In Section <span class="math inline">\(4.21\)</span> we introduced clustered dependence and in Section <span class="math inline">\(12.25\)</span> described covariance matrix estimation for 2SLS. The methods extend naturally to GMM but with the additional complication of potentially altering weight matrix calculation.</p>
+<p>The structural equation for the <span class="math inline">\(g^{t h}\)</span> cluster can be written as the matrix system <span class="math inline">\(\boldsymbol{Y}_{g}=\boldsymbol{X}_{g} \beta+\boldsymbol{e}_{g}\)</span>. Using this notation the centered GMM estimator with weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> can be written as</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}-\beta=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W}\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}^{\prime} \boldsymbol{e}_{g}\right)
+\]</span></p>
+<p>The cluster-robust covariance matrix estimator for <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \widehat{\boldsymbol{S}} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}
+\]</span></p>
+<p>with</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{S}}=\sum_{g=1}^{G} \boldsymbol{Z}_{g}^{\prime} \widehat{\boldsymbol{e}}_{g} \widehat{\boldsymbol{e}}_{g}^{\prime} \boldsymbol{Z}_{g}
+\]</span></p>
+<p>and the clustered residuals</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{e}}_{g}=\boldsymbol{Y}_{g}-\boldsymbol{X}_{g} \widehat{\beta}_{\mathrm{gmm}} .
+\]</span></p>
+<p>The cluster-robust estimator (13.12) is appropriate for the one-step or two-step GMM estimator. It is also appropriate for the iterated estimator when the latter uses a conventional (non-clustered) efficient weight matrix. However in the clustering context it is more natural to use a cluster-robust weight matrix such as <span class="math inline">\(\boldsymbol{W}=\widehat{\boldsymbol{S}}^{-1}\)</span> where <span class="math inline">\(\widehat{\boldsymbol{S}}\)</span> is a cluster-robust covariance estimator as in (13.13) based on a one-step or iterated residual. This gives rise to the cluster-robust GMM estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\boldsymbol{S}}^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\boldsymbol{S}}^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{Y}
+\]</span></p>
+<p>An appropriate cluster-robust covariance matrix estimator is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\boldsymbol{S}}^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{S}\)</span> is calculated using the final residuals.</p>
+<p>To implement a cluster-robust weight matrix use the 2SLS estimator for first step. Compute the cluster residuals (13.14) and covariance matrix (13.13). Then (13.15) is the two-step GMM estimator. Iterating the residuals and covariance matrix until convergence we obtain the iterated GMM estimator.</p>
+<p>In Stata, using the ivregress gmm command with the cluster option implements the two-step GMM estimator using the cluster-robust weight matrix and cluster-robust covariance matrix estimator. To use the centered covariance matrix use the center option and to implement the iterated GMM estimator use the igmm option. Alternatively, you can use the wmatrix and vce options to separately specify the weight matrix and covariance matrix estimation methods.</p>
+</section>
+<section id="wald-test" class="level2" data-number="13.14">
+<h2 data-number="13.14" class="anchored" data-anchor-id="wald-test"><span class="header-section-number">13.14</span> Wald Test</h2>
+<p>For a given function <span class="math inline">\(r(\beta): \mathbb{R}^{k} \rightarrow \Theta \subset \mathbb{R}^{q}\)</span> we define the parameter <span class="math inline">\(\theta=r(\beta)\)</span>. The GMM estimator of <span class="math inline">\(\theta\)</span> is <span class="math inline">\(\widehat{\theta}_{\mathrm{gmm}}=r\left(\widehat{\beta}_{\mathrm{gmm}}\right)\)</span>. By the delta method it is asymptotically normal with covariance matrix <span class="math inline">\(\boldsymbol{V}_{\theta}=\)</span> <span class="math inline">\(\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\)</span> where <span class="math inline">\(\boldsymbol{R}=\frac{\partial}{\partial \beta} r(\beta)^{\prime}\)</span>. An estimator of the asymptotic covariance matrix is <span class="math inline">\(\widehat{\boldsymbol{V}}_{\theta}=\widehat{\boldsymbol{R}}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \widehat{\boldsymbol{R}}^{\text {where }}\)</span> <span class="math inline">\(\widehat{\boldsymbol{R}}=\frac{\partial}{\partial \beta} r\left(\widehat{\beta}_{\mathrm{gmm}}\right)^{\prime}\)</span>. When <span class="math inline">\(\theta\)</span> is scalar then an asymptotic standard error for <span class="math inline">\(\widehat{\theta}_{\mathrm{gmm}}\)</span> is formed as <span class="math inline">\(\sqrt{n^{-1} \widehat{\boldsymbol{V}}_{\theta}} .\)</span></p>
+<p>A standard test of the hypothesis <span class="math inline">\(\mathbb{M}_{0}: \theta=\theta_{0}\)</span> against <span class="math inline">\(\mathbb{M}_{1}: \theta \neq \theta_{0}\)</span> is based on the Wald statistic</p>
+<p><span class="math display">\[
+W=n\left(\widehat{\theta}-\theta_{0}\right)^{\prime} \widehat{\boldsymbol{V}}_{\widehat{\theta}}^{-1}\left(\widehat{\theta}-\theta_{0}\right) .
+\]</span></p>
+<p>Let <span class="math inline">\(G_{q}(u)\)</span> denote the <span class="math inline">\(\chi_{q}^{2}\)</span> distribution function.</p>
+<p>Theorem <span class="math inline">\(13.8\)</span> Under Assumption 12.2, Assumption 7.3, and <span class="math inline">\(\mathbb{H}_{0}\)</span>, as <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(W \underset{d}{\longrightarrow} \chi_{q}^{2}\)</span>. For <span class="math inline">\(c\)</span> satisfying <span class="math inline">\(\alpha=1-G_{q}(c), \mathbb{P}\left[W&gt;c \mid \mathbb{H}_{0}\right] \longrightarrow \alpha\)</span> so the test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(W&gt;c\)</span>” has asymptotic size <span class="math inline">\(\alpha\)</span>.</p>
+<p>For a proof see Exercise 13.5.</p>
+<p>In Stata, the commands test and testparm can be used after ivregress gmm to implement Wald tests of linear hypotheses. The commands nlcom and testnl can be used after ivregress gmm to implement Wald tests of nonlinear hypotheses.</p>
+</section>
+<section id="restricted-gmm" class="level2" data-number="13.15">
+<h2 data-number="13.15" class="anchored" data-anchor-id="restricted-gmm"><span class="header-section-number">13.15</span> Restricted GMM</h2>
+<p>It is often desirable to impose restrictions on the coefficients. In this section we consider estimation subject to the linear constraints <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span>. In the following section we consider nonlinear constraints.</p>
+<p>The constrained GMM estimator minimizes the GMM criterion subject to the constraint. It is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{cgmm}}=\underset{\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}}{\operatorname{argmin}} J(\beta) .
+\]</span></p>
+<p>This is the parameter vector which makes the estimating equations as close to zero as possible with respect to the weighted quadratic distance while imposing the restriction on the parameters.</p>
+<p>Suppose the weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> is fixed. Using the methods of Chapter 8 it is straightforward to derive that the constrained GMM estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{cgmm}}=\widehat{\beta}_{\mathrm{gmm}}-\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{gmm}}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>(For details, see Exercise 13.6.)</p>
+<p>We derive the asymptotic distribution under the assumption that the restriction is true. Make the substitution <span class="math inline">\(\boldsymbol{c}=\boldsymbol{R}^{\prime} \beta\)</span> in (13.16) and reorganize to find</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\beta\right)=\left(\boldsymbol{I}_{k}-\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) \sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right)
+\]</span></p>
+<p>This is a linear function of <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right)\)</span>. Since the asymptotic distribution of the latter is known the asymptotic distribution of <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\beta\right)\)</span> is a linear function of the former.</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\text { Theorem 13.9 Under Assumptions } 12.2 \text { and 8.3, for the constrained GMM es- } \\
+&amp;\text { timator (13.16), } \sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\mathrm{cgmm}}\right) \text { as } n \rightarrow \infty \text {, where } \\
+&amp;\boldsymbol{V}_{\mathrm{cgmm}}=\boldsymbol{V}_{\beta}-\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \\
+&amp;\quad-\boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \\
+&amp; \\
+&amp;+\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}
+\end{aligned}
+\]</span></p>
+<p>For a proof, see Exercise 13.8. Unfortunately the asymptotic covariance matrix formula (13.18) is quite tedious!</p>
+<p>Now suppose that the the weight matrix is set as <span class="math inline">\(W=\widehat{\Omega}^{-1}\)</span>, the efficient weight matrix from unconstrained estimation. In this case the constrained GMM estimator can be written as</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{cgmm}}=\widehat{\beta}_{\mathrm{gmm}}-\widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{V}}_{\boldsymbol{\beta}} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{gmm}}-\boldsymbol{c}\right)
+\]</span></p>
+<p>which is the same formula (8.25) as efficient minimum distance. (For details, see Exercise 13.7.) We find that the asymptotic covariance matrix simplifies considerably. Theorem 13.10 Under Assumptions <span class="math inline">\(12.2\)</span> and 8.3, for the efficient constrained GMM estimator (13.19), <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\mathrm{cgmm}}\right)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>, where</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\mathrm{cgmm}}=\boldsymbol{V}_{\beta}-\boldsymbol{V}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{V}_{\beta} .
+\]</span></p>
+<p>For a proof, see Exercise 13.9.</p>
+<p>The asymptotic covariance matrix (13.20) can be estimated by</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{\mathrm{cgmm}} &amp;=\widetilde{\boldsymbol{V}}_{\beta}-\widetilde{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widetilde{\boldsymbol{V}}_{\beta} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \widetilde{\boldsymbol{V}}_{\beta} . \\
+\widetilde{\boldsymbol{V}}_{\beta} &amp;=\left(\widehat{\boldsymbol{Q}}^{\prime} \widetilde{\Omega}^{-1} \widehat{\boldsymbol{Q}}\right)^{-1} \\
+\widetilde{\Omega} &amp;=\frac{1}{n} \sum_{i=1}^{n} Z_{i} Z_{i}^{\prime} \widetilde{e}_{i}^{2} \\
+\widetilde{e}_{i} &amp;=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{cgmm}} .
+\end{aligned}
+\]</span></p>
+<p>The covariance matrix (13.18) can be estimated similarly, though using (13.10) to estimate <span class="math inline">\(\boldsymbol{V}_{\beta}\)</span>. The covariance matrix estimator <span class="math inline">\(\widetilde{\Omega}\)</span> can also be replaced with a centered version.</p>
+<p>A constrained iterated GMM estimator can be implemented by setting <span class="math inline">\(\boldsymbol{W}=\widetilde{\Omega}^{-1}\)</span> where <span class="math inline">\(\widetilde{\Omega}\)</span> is defined in (13.22) and then iterating until convergence. This is a natural estimator as it is the appropriate implementation of iterated GMM.</p>
+<p>Since both <span class="math inline">\(\widehat{\Omega}\)</span> and <span class="math inline">\(\widetilde{\Omega}\)</span> converge to the same limit <span class="math inline">\(\Omega\)</span> under the assumption that the constraint is true the constrained iterated GMM estimator has the asymptotic distribution given in Theorem 13.10.</p>
+</section>
+<section id="nonlinear-restricted-gmm" class="level2" data-number="13.16">
+<h2 data-number="13.16" class="anchored" data-anchor-id="nonlinear-restricted-gmm"><span class="header-section-number">13.16</span> Nonlinear Restricted GMM</h2>
+<p>Nonlinear constraints on the parameters can be written as <span class="math inline">\(r(\beta)=0\)</span> for some function <span class="math inline">\(r: \mathbb{R}^{k} \rightarrow \mathbb{R}^{q}\)</span>. The constraint is nonlinear if <span class="math inline">\(r(\beta)\)</span> cannot be written as a linear function of <span class="math inline">\(\beta\)</span>. Least squares estimation subject to nonlinear constraints was explored in Section 8.14. In this section we introduce GMM estimation subject to nonlinear constraints.</p>
+<p>The constrained GMM estimator minimizes the GMM criterion subject to the constraint. It is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{cgmm}}=\underset{r(\beta)=0}{\operatorname{argmin}} J(\beta) .
+\]</span></p>
+<p>This is the parameter vector which makes the estimating equations as close to zero as possible with respect to the weighted quadratic distance while imposing the restriction on the parameters.</p>
+<p>In general there is no explicit solution for <span class="math inline">\(\widehat{\beta}_{\mathrm{cgmm}}\)</span>. Instead the solution is found numerically. Fortunately there are excellent nonlinear constrained optimization solvers implemented in standard software packages.</p>
+<p>For the asymptotic distribution assume that the restriction <span class="math inline">\(r(\beta)=0\)</span> is true. Using the same methods as in the proof of Theorem <span class="math inline">\(8.10\)</span> we can show that (13.17) approximately holds in the sense that</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\beta\right)=\left(\boldsymbol{I}_{k}-\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{W} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) \sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right)+o_{p}(1)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{R}=\frac{\partial}{\partial \beta} r(\beta)^{\prime}\)</span>. Thus the asymptotic distribution of the constrained estimator takes the same form as in the linear case. Theorem <span class="math inline">\(13.11\)</span> Under Assumptions <span class="math inline">\(12.2\)</span> and 8.3, for the constrained GMM estimator (13.23), <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, V_{\mathrm{cgmm}}\right)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>, where <span class="math inline">\(\boldsymbol{V}_{\mathrm{cgmm}}\)</span> equals (13.18). If <span class="math inline">\(W=\widehat{\Omega}^{-1}\)</span>, then <span class="math inline">\(V_{\text {cgmm }}\)</span> equals (13.20).</p>
+<p>The asymptotic covariance matrix in the efficient case is estimated by (13.21) with <span class="math inline">\(\boldsymbol{R}\)</span> replaced with <span class="math inline">\(\widehat{\boldsymbol{R}}=\frac{\partial}{\partial \beta} r\left(\widehat{\beta}_{\text {cgmm }}\right)^{\prime}\)</span>. The asymptotic covariance matrix (13.18) in the general case is estimated similarly.</p>
+<p>To implement an iterated restricted GMM estimator the weight matrix may be set as <span class="math inline">\(\boldsymbol{W}=\widetilde{\Omega}^{-1}\)</span> where <span class="math inline">\(\widetilde{\Omega}\)</span> is defined in (13.22), and then iterated until convergence.</p>
+</section>
+<section id="constrained-regression" class="level2" data-number="13.17">
+<h2 data-number="13.17" class="anchored" data-anchor-id="constrained-regression"><span class="header-section-number">13.17</span> Constrained Regression</h2>
+<p>Take the conventional projection model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span>. This is a special case of GMM as it is model (13.5) with <span class="math inline">\(Z=X\)</span>. The just-identified GMM estimator equals least squares <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}=\widehat{\beta}_{\mathrm{ols}}\)</span>.</p>
+<p>In Chapter 8 we discussed estimation of the projection model subject to linear constraints <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span>, which includes exclusion restrictions. Since the projection model is a special case of GMM the constrained projection model is also constrained GMM. From the results of Section <span class="math inline">\(13.15\)</span> we find that the efficient constrained GMM estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{cgmm}}=\widehat{\beta}_{\mathrm{ols}}-\widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \widehat{\boldsymbol{V}}_{\beta} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{ols}}-\boldsymbol{c}\right)=\widehat{\beta}_{\mathrm{emd}},
+\]</span></p>
+<p>the efficient minimum distance estimator. Thus for linear constraints on the linear projection model efficient GMM equals efficient minimum distance. Thus one convenient method to implement efficient minimum distance is GMM.</p>
+</section>
+<section id="multivariate-regression" class="level2" data-number="13.18">
+<h2 data-number="13.18" class="anchored" data-anchor-id="multivariate-regression"><span class="header-section-number">13.18</span> Multivariate Regression</h2>
+<p>GMM methods can simplify estimation and inference for multivariate regressions such as those introduced in Chapter <span class="math inline">\(11 .\)</span></p>
+<p>The general multivariate regression (projection) model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_{j} &amp;=X_{j}^{\prime} \beta_{j}+e_{j} \\
+\mathbb{E}\left[X_{j} e_{j}\right] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>for <span class="math inline">\(j=1, \ldots, m\)</span>. Using the notation from Section <span class="math inline">\(11.2\)</span> the equations can be written jointly as <span class="math inline">\(Y=\bar{X} \beta+e\)</span> and for the full sample as <span class="math inline">\(\boldsymbol{Y}=\overline{\boldsymbol{X}} \beta+\boldsymbol{e}\)</span>. The <span class="math inline">\(\bar{k}\)</span> moment conditions are</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\bar{X}^{\prime}(Y-\bar{X} \beta)\right]=0 .
+\]</span></p>
+<p>Given a <span class="math inline">\(\bar{k} \times \bar{k}\)</span> weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> the GMM criterion is</p>
+<p><span class="math display">\[
+J(\beta)=n(\boldsymbol{Y}-\overline{\boldsymbol{X}} \beta)^{\prime} \overline{\boldsymbol{X}} \boldsymbol{W} \overline{\boldsymbol{X}}^{\prime}(\boldsymbol{Y}-\overline{\boldsymbol{X}} \beta) .
+\]</span></p>
+<p>The GMM estimator <span class="math inline">\(\widehat{\beta}_{\text {gmm }}\)</span> minimizes <span class="math inline">\(J(\beta)\)</span>. Since this is a just-identified model the estimator solves the sample equations</p>
+<p><span class="math display">\[
+\overline{\boldsymbol{X}}^{\prime}\left(\boldsymbol{Y}-\overline{\boldsymbol{X}} \widehat{\beta}_{\mathrm{gmm}}\right)=0
+\]</span></p>
+<p>The solution is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\left(\sum_{i=1}^{n} \bar{X}_{i}^{\prime} \bar{X}_{i}\right)^{-1}\left(\sum_{i=1}^{n} \bar{X}_{i}^{\prime} Y_{i}\right)=\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1}\left(\overline{\boldsymbol{X}}^{\prime} \boldsymbol{Y}\right)=\widehat{\beta}_{\mathrm{ols}}
+\]</span></p>
+<p>the multivariate least squares estimator.</p>
+<p>Thus the unconstrained GMM estimator of the multivariate regression model is least squares. The estimator does not depend on the weight matrix since the model is just-identified.</p>
+<p>A important advantage of the GMM framework is the ability to incorporate cross-equation constraints. Consider the class of restrictions <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=\boldsymbol{c}\)</span>. Minimization of the GMM criterion subject to this restriction has solutions as described in (13.15). The restricted GMM estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\widehat{\beta}_{\mathrm{ols}}-\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}} \boldsymbol{W} \overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}} \boldsymbol{W} \overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{ols}}-\boldsymbol{c}\right)
+\]</span></p>
+<p>This estimator depends on the weight matrix because it is over-identified.</p>
+<p>A simple choice for weight matrix is <span class="math inline">\(\boldsymbol{W}=\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\)</span>. This leads to the one-step estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}_{1}=\widehat{\beta}_{\mathrm{ols}}-\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{ols}}-\boldsymbol{c}\right) .
+\]</span></p>
+<p>The asymptotically efficient choice sets <span class="math inline">\(\boldsymbol{W}=\widehat{\Omega}^{-1}\)</span> where <span class="math inline">\(\widehat{\Omega}=n^{-1} \sum_{i=1}^{n} \bar{X}_{i}^{\prime} \widehat{e}_{i} \widehat{e}_{i}^{\prime} \bar{X}_{i}\)</span> and <span class="math inline">\(\widehat{e}_{i}=Y_{i}-\bar{X}_{i} \widehat{\beta}_{1}\)</span>. This leads to the two-step estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}_{2}=\widehat{\beta}_{\text {ols }}-\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}} \widehat{\Omega}^{-1} \overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}} \widehat{\Omega}^{-1} \overline{\boldsymbol{X}}^{\prime} \overline{\boldsymbol{X}}\right)^{-1} \boldsymbol{R}\right)^{-1}\left(\boldsymbol{R}^{\prime} \widehat{\beta}_{\mathrm{ols}}-\boldsymbol{c}\right)
+\]</span></p>
+<p>When the regressors <span class="math inline">\(X\)</span> are common across all equations the multivariate regression model can be written conveniently as in (11.3): <span class="math inline">\(Y=\boldsymbol{B}^{\prime} X+e\)</span> with <span class="math inline">\(\mathbb{E}\left[X e^{\prime}\right]=0\)</span>. The moment restrictions can be written as the matrix system <span class="math inline">\(\mathbb{E}\left[X\left(Y^{\prime}-X^{\prime} \boldsymbol{B}\right)\right]=0\)</span>. Written as a vector system this is (13.24) and leads to the same restricted GMM estimators.</p>
+<p>These are general formula for imposing restrictions. In specific cases (such as an exclusion restriction) direct methods may be more convenient. In all cases the solution is found by minimization of the GMM criterion <span class="math inline">\(J(\beta)\)</span> subject to the restriction.</p>
+</section>
+<section id="distance-test" class="level2" data-number="13.19">
+<h2 data-number="13.19" class="anchored" data-anchor-id="distance-test"><span class="header-section-number">13.19</span> Distance Test</h2>
+<p>In Section <span class="math inline">\(13.14\)</span> we introduced Wald tests of the hypothesis <span class="math inline">\(\mathbb{M}_{0}: \theta=\theta_{0}\)</span> where <span class="math inline">\(\theta=r(\beta)\)</span> for a given function <span class="math inline">\(r(\beta): \mathbb{R}^{k} \rightarrow \Theta \subset \mathbb{R}^{q}\)</span>. When <span class="math inline">\(r(\beta)\)</span> is nonlinear an alternative is to use a criterion-based statistic. This is sometimes called the GMM Distance statistic and sometimes called a LR-like statistic (the LR is for likelihood-ratio). The idea was first put forward by Newey and West (1987a).</p>
+<p>The idea is to compare the unrestricted and restricted estimators by contrasting the criterion functions. The unrestricted estimator takes the form</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}=\underset{\beta}{\operatorname{argmin}} \widehat{J}(\beta)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\widehat{J}(\beta)=n \bar{g}_{n}(\beta)^{\prime} \widehat{\Omega}^{-1} \bar{g}_{n}(\beta)
+\]</span></p>
+<p>is the unrestricted GMM criterion with an efficient weight matrix estimate <span class="math inline">\(\widehat{\Omega}\)</span>. The minimized value of the criterion is <span class="math inline">\(\widehat{J}=\widehat{J}\left(\widehat{\beta}_{\mathrm{gmm}}\right)\)</span>. As in Section 13.15, the estimator subject to <span class="math inline">\(r(\beta)=\theta_{0}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{cgmm}}=\underset{r(\beta)=\theta_{0}}{\operatorname{argmin}} \widetilde{J}(\beta)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\widetilde{J}(\beta)=n \bar{g}_{n}(\beta)^{\prime} \widetilde{\Omega}^{-1} \bar{g}_{n}(\beta)
+\]</span></p>
+<p>which depends on an efficient weight matrix estimator, either <span class="math inline">\(\widehat{\Omega}\)</span> (the same as the unrestricted estimator) or <span class="math inline">\(\widetilde{\Omega}\)</span> (the iterated weight matrix from constrained estimation). The minimized value of the criterion is <span class="math inline">\(\widetilde{J}=\widetilde{J}\left(\widehat{\beta}_{\operatorname{cgmm}}\right)\)</span></p>
+<p>The GMM distance (or LR-like) statistic is the difference in the criterion functions: <span class="math inline">\(D=\widetilde{J}-\widehat{J}\)</span>. The distance test shares the useful feature of LR tests in that it is a natural by-product of the computation of alternative models.</p>
+<p>The test has the following large sample distribution.</p>
+<p>Theorem <span class="math inline">\(13.12\)</span> Under Assumption 12.2, Assumption 7.3, and <span class="math inline">\(\mathbb{H}_{0}\)</span>, then as <span class="math inline">\(n \rightarrow\)</span> <span class="math inline">\(\infty, D \longrightarrow \chi_{q}^{2}\)</span>. For <span class="math inline">\(c\)</span> satisfying <span class="math inline">\(\alpha=1-G_{q}(c), \mathbb{P}\left[D&gt;c \mid \mathbb{H}_{0}\right] \longrightarrow \alpha\)</span>. The test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(D&gt;c\)</span>” has asymptotic size <span class="math inline">\(\alpha\)</span>.</p>
+<p>The proof is given in Section 13.28.</p>
+<p>Theorem <span class="math inline">\(13.12\)</span> shows that the distance statistic has the same asymptotic distribution as Wald and likelihood ratio statistics and can be interpreted similarly. Small values of <span class="math inline">\(D\)</span> mean that imposing the restriction does not result in a large value of the moment equations. Hence the restriction appears to be compatible with the data. On the other hand, large values of <span class="math inline">\(D\)</span> mean that imposing the restriction results in a much larger value of the moment equations, implying that the restriction is not compatible with the data. The finding that the asymptotic distribution is chi-squared allows the calculation of asymptotic critical values and p-values.</p>
+<p>We now discuss the choice of weight matrix. As mentioned above one simple choice is to set <span class="math inline">\(\widetilde{\Omega}=\widehat{\Omega}\)</span>. In this case we have the following result.</p>
+<p>Theorem 13.13 If <span class="math inline">\(\widetilde{\Omega}=\widehat{\Omega}\)</span> then <span class="math inline">\(D \geq 0\)</span>. Furthermore, if <span class="math inline">\(r\)</span> is linear in <span class="math inline">\(\beta\)</span> then <span class="math inline">\(D\)</span> equals the Wald statistic.</p>
+<p>The statement that <span class="math inline">\(\widetilde{\Omega}=\widehat{\Omega}\)</span> implies <span class="math inline">\(D \geq 0\)</span> follows from the fact that in this case the criterion functions <span class="math inline">\(\widehat{J}(\beta)=\widetilde{J}(\beta)\)</span> are identical so the constrained minimum cannot be smaller than the unconstrained. The statement that linear hypotheses and <span class="math inline">\(\widetilde{\Omega}=\widehat{\Omega}\)</span> implies <span class="math inline">\(D=W\)</span> follows from applying the expression for the constrained GMM estimator (13.19) and using the covariance matrix formula (13.11).</p>
+<p>The fact that <span class="math inline">\(D \geq 0\)</span> when <span class="math inline">\(\widetilde{\Omega}=\widehat{\Omega}\)</span> motivated Newey and West (1987a) to recommend this choice. However, <span class="math inline">\(\widetilde{\Omega}=\widehat{\Omega}\)</span> is not necessary. Instead, setting <span class="math inline">\(\widetilde{\Omega}\)</span> to equal the constrained efficient weight matrix is natural for efficient estimation of <span class="math inline">\(\widehat{\beta}_{\mathrm{cgmm}}\)</span>. In the event that <span class="math inline">\(D&lt;0\)</span> the test simply fails to reject <span class="math inline">\(\mathbb{H}_{0}\)</span> at any significance level.</p>
+<p>As discussed in Section <span class="math inline">\(9.17\)</span> for tests of nonlinear hypotheses the Wald statistic can work quite poorly. In particular, the Wald statistic is affected by how the hypothesis <span class="math inline">\(r(\beta)\)</span> is formulated. In contrast, the distance statistic <span class="math inline">\(D\)</span> is not affected by the algebraic formulation of the hypothesis. Current evidence suggests that the <span class="math inline">\(D\)</span> statistic appears to have good sampling properties, and is a preferred test statistic relative to the Wald statistic for nonlinear hypotheses. (See B. E. Hansen (2006).)</p>
+<p>In Stata the command estat overid after ivregress gmm can be used to report the value of the GMM criterion <span class="math inline">\(J\)</span>. By estimating the two nested GMM regressions the values <span class="math inline">\(\widehat{J}\)</span> and <span class="math inline">\(\widetilde{J}\)</span> can be obtained and <span class="math inline">\(D\)</span> computed.</p>
+</section>
+<section id="continuously-updated-gmm" class="level2" data-number="13.20">
+<h2 data-number="13.20" class="anchored" data-anchor-id="continuously-updated-gmm"><span class="header-section-number">13.20</span> Continuously-Updated GMM</h2>
+<p>An alternative to the two-step GMM estimator can be constructed by letting the weight matrix be an explicit function of <span class="math inline">\(\beta\)</span>. These leads to the criterion function</p>
+<p><span class="math display">\[
+J(\beta)=n \bar{g}_{n}(\beta)^{\prime}\left(\frac{1}{n} \sum_{i=1}^{n} g_{i}(\beta) g_{i}(\beta)^{\prime}\right)^{-1} \bar{g}_{n}(\beta) .
+\]</span></p>
+<p>The <span class="math inline">\(\widehat{\beta}\)</span> which minimizes this function is called the continuously-updated GMM (CU-GMM) estimator and was introduced by L. Hansen, Heaton and Yaron (1996).</p>
+<p>A complication is that the continuously-updated criterion <span class="math inline">\(J(\beta)\)</span> is not quadratic in <span class="math inline">\(\beta\)</span>. This means that minimization requires numerical methods. It may appear that the CU-GMM estimator is the same as the iterated GMM estimator but this is not the case at all. They solve distinct first-order conditions and can be quite different in applications.</p>
+<p>Relative to traditional GMM the CU-GMM estimator has lower bias but thicker distributional tails. While it has received considerable theoretical attention it is not used commonly in applications.</p>
+</section>
+<section id="overidentification-test" class="level2" data-number="13.21">
+<h2 data-number="13.21" class="anchored" data-anchor-id="overidentification-test"><span class="header-section-number">13.21</span> OverIdentification Test</h2>
+<p>In Section <span class="math inline">\(12.31\)</span> we introduced the Sargan (1958) overidentification test for the 2SLS estimator under the assumption of homoskedasticity. L. Hansen (1982) generalized the test to cover the GMM estimator allowing for general heteroskedasticity.</p>
+<p>Recall, overidentified models <span class="math inline">\((\ell&gt;k)\)</span> are special in the sense that there may not be a parameter value <span class="math inline">\(\beta\)</span> such that the moment condition <span class="math inline">\(\mathbb{H}_{0}: \mathbb{E}[Z e]=0\)</span> holds. Thus the model-the overidentifying restrictions - are testable.</p>
+<p>For example, take the linear model <span class="math inline">\(Y=\beta_{1}^{\prime} X_{1}+\beta_{2}^{\prime} X_{2}+e\)</span> with <span class="math inline">\(\mathbb{E}\left[X_{1} e\right]=0\)</span> and <span class="math inline">\(\mathbb{E}\left[X_{2} e\right]=0\)</span>. It is possible that <span class="math inline">\(\beta_{2}=0\)</span> so that the linear equation may be written as <span class="math inline">\(Y=\beta_{1}^{\prime} X_{1}+e\)</span>. However, it is possible that <span class="math inline">\(\beta_{2} \neq 0\)</span>. In this case it is impossible to find a value of <span class="math inline">\(\beta_{1}\)</span> such that both <span class="math inline">\(\mathbb{E}\left[X_{1}\left(Y-X_{1}^{\prime} \beta_{1}\right)\right]=0\)</span> and <span class="math inline">\(\mathbb{E}\left[X_{2}\left(Y-X_{1}^{\prime} \beta_{1}\right)\right]=0\)</span> hold simultaneously. In this sense an exclusion restriction can be seen as an overidentifying restriction.</p>
+<p>Note that <span class="math inline">\(\bar{g}_{n} \underset{p}{\mathbb{E}}[Z e]\)</span> and thus <span class="math inline">\(\bar{g}_{n}\)</span> can be used to assess the hypothesis <span class="math inline">\(\mathbb{E}[Z e]=0\)</span>. Assuming that an efficient weight matrix estimator is used the criterion function at the parameter estimator is <span class="math inline">\(J=\)</span> <span class="math inline">\(J\left(\widehat{\beta}_{\mathrm{gmm}}\right)=n \bar{g}_{n}^{\prime} \widehat{\Omega}^{-1} \bar{g}_{n}\)</span>. This is a quadratic form in <span class="math inline">\(\bar{g}_{n}\)</span> and is thus a natural test statistic for <span class="math inline">\(\mathbb{H}_{0}: \mathbb{E}[Z e]=0\)</span>. Note that we assume that the criterion function is constructed with an efficient weight matrix estimator. This is important for the distribution theory.</p>
+<p>Theorem 13.14 Under Assumption <span class="math inline">\(12.2\)</span> then as <span class="math inline">\(n \rightarrow \infty, J=J\left(\widehat{\beta}_{\mathrm{gmm}}\right) \underset{d}{\rightarrow} \chi_{\ell-k}^{2} \cdot\)</span> For <span class="math inline">\(c\)</span> satisfying <span class="math inline">\(\alpha=1-G_{\ell-k}(c), \mathbb{P}\left[J&gt;c \mid \mathbb{M}_{0}\right] \longrightarrow \alpha\)</span> so the test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(J&gt;c\)</span>” has asymptotic size <span class="math inline">\(\alpha\)</span>. The proof of the theorem is left to Exercise 13.13.</p>
+<p>The degrees of freedom of the asymptotic distribution are the number of overidentifying restrictions. If the statistic <span class="math inline">\(J\)</span> exceeds the chi-square critical value we can reject the model. Based on this information alone it is unclear what is wrong but it is typically cause for concern. The GMM overidentification test is a useful by-product of the GMM methodology and it is advisable to report the statistic <span class="math inline">\(J\)</span> whenever GMM is the estimation method. When over-identified models are estimated by GMM it is customary to report the <span class="math inline">\(J\)</span> statistic as a general test of model adequacy.</p>
+<p>In Stata the command estat overid afer ivregress gmm can be used to implement the overidentification test. The GMM criterion <span class="math inline">\(J\)</span> and its asymptotic <span class="math inline">\(\mathrm{p}\)</span>-value using the <span class="math inline">\(\chi_{\ell-k}^{2}\)</span> distribution are reported.</p>
+</section>
+<section id="subset-overidentification-tests" class="level2" data-number="13.22">
+<h2 data-number="13.22" class="anchored" data-anchor-id="subset-overidentification-tests"><span class="header-section-number">13.22</span> Subset OverIdentification Tests</h2>
+<p>In Section <span class="math inline">\(12.32\)</span> we introduced subset overidentification tests for the 2SLS estimator under the assumption of homoskedasticity. In this section we describe how to construct analogous tests for the GMM estimator under general heteroskedasticity.</p>
+<p>Recall, subset overidentification tests are used when it is desired to focus attention on a subset of instruments whose validity is questioned. Partition <span class="math inline">\(Z=\left(Z_{a}, Z_{b}\right)\)</span> with dimensions <span class="math inline">\(\ell_{a}\)</span> and <span class="math inline">\(\ell_{b}\)</span>, respectively, where <span class="math inline">\(Z_{a}\)</span> contains the instruments which are believed to be uncorrelated with <span class="math inline">\(e\)</span> and <span class="math inline">\(Z_{b}\)</span> contains the instruments which may be correlated with <span class="math inline">\(e\)</span>. It is necessary to select this partition so that <span class="math inline">\(\ell_{a}&gt;k\)</span>, so that the instruments <span class="math inline">\(Z_{a}\)</span> alone identify the parameters.</p>
+<p>Given this partition the maintained hypothesis is <span class="math inline">\(\mathbb{E}\left[Z_{a} e\right]=0\)</span>. The null and alternative hypotheses are <span class="math inline">\(\mathbb{H}_{0}: \mathbb{E}\left[Z_{b} e\right]=0\)</span> and <span class="math inline">\(\mathbb{M}_{1}: \mathbb{E}\left[Z_{b} e\right] \neq 0\)</span>. The GMM test is constructed as follows. First, estimate the model by efficient GMM with only the smaller set <span class="math inline">\(Z_{a}\)</span> of instruments. Let <span class="math inline">\(\widetilde{J}\)</span> denote the resulting GMM criterion. Second, estimate the model by efficient GMM with the full set <span class="math inline">\(Z=\left(Z_{a}, Z_{b}\right)\)</span> of instruments. Let <span class="math inline">\(\widehat{J}\)</span> denote the resulting GMM criterion. The test statistic is the difference in the criterion functions: <span class="math inline">\(C=\widehat{J}-\widetilde{J}\)</span>. This is similar to the GMM distance statistic presented in Section 13.19. The difference is that the distance statistic compares models which differ based on the parameter restrictions while the <span class="math inline">\(C\)</span> statistic compares models based on different instrument sets.</p>
+<p>Typically <span class="math inline">\(C \geq 0\)</span>. However, this is not necessary and <span class="math inline">\(C&lt;0\)</span> can arise. If this occurs it leads to a nonrejection of <span class="math inline">\(\mathbb{H}_{0}\)</span>.</p>
+<p>If the smaller instrument set <span class="math inline">\(Z_{a}\)</span> is just-identified so that <span class="math inline">\(\ell_{a}=k\)</span> then <span class="math inline">\(\widetilde{J}=0\)</span> so <span class="math inline">\(C=\widehat{J}\)</span> is simply the standard overidentification test. This is why we have restricted attention to the case <span class="math inline">\(\ell_{a}&gt;k\)</span>.</p>
+<p>The test has the following large sample distribution.</p>
+<p>Theorem 13.15 Under Assumption <span class="math inline">\(12.2\)</span> and <span class="math inline">\(\mathbb{E}\left[Z_{a} X^{\prime}\right]\)</span> has full rank <span class="math inline">\(k\)</span>, then as <span class="math inline">\(n \rightarrow \infty, C \rightarrow \underset{d}{\rightarrow} \chi_{\ell_{b}}^{2} .\)</span> For <span class="math inline">\(c\)</span> satisfying <span class="math inline">\(\alpha=1-G_{\ell_{b}}(c), \mathbb{P}\left[C&gt;c \mid \mathbb{H}_{0}\right] \longrightarrow \alpha .\)</span> The test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(C&gt;c\)</span>” has asymptotic size <span class="math inline">\(\alpha\)</span>.</p>
+<p>The proof of Theorem <span class="math inline">\(13.15\)</span> is presented in Section 13.28.</p>
+<p>In Stata the command estat overid zb afer ivregress gmm can be used to implement a subset overidentification test where <span class="math inline">\(\mathrm{zb}\)</span> is the name(s) of the instruments(s) tested for validity. The statistic <span class="math inline">\(C\)</span> and its asymptotic <span class="math inline">\(p\)</span>-value using the <span class="math inline">\(\chi_{\ell_{2}}^{2}\)</span> distribution are reported.</p>
+</section>
+<section id="endogeneity-test" class="level2" data-number="13.23">
+<h2 data-number="13.23" class="anchored" data-anchor-id="endogeneity-test"><span class="header-section-number">13.23</span> Endogeneity Test</h2>
+<p>In Section <span class="math inline">\(12.29\)</span> we introduced tests for endogeneity in the context of 2SLS estimation. Endogeneity tests are simple to implement in the GMM framework as a subset overidentification test. The model is <span class="math inline">\(Y=Z_{1}^{\prime} \beta_{1}+Y_{2}^{\prime} \beta_{2}+e\)</span> where the maintained assumption is that the regressors <span class="math inline">\(Z_{1}\)</span> and excluded instruments <span class="math inline">\(Z_{2}\)</span> are exogenous so that <span class="math inline">\(\mathbb{E}\left[Z_{1} e\right]=0\)</span> and <span class="math inline">\(\mathbb{E}\left[Z_{2} e\right]=0\)</span>. The question is whether or not <span class="math inline">\(Y_{2}\)</span> is endogenous. The null hypothesis is <span class="math inline">\(\mathbb{M}_{0}: \mathbb{E}\left[Y_{2} e\right]=0\)</span> with the alternative <span class="math inline">\(\mathbb{H}_{1}: \mathbb{E}\left[Y_{2} e\right] \neq 0\)</span>.</p>
+<p>The GMM test is constructed as follows. First, estimate the model by efficient GMM using <span class="math inline">\(\left(Z_{1}, Z_{2}\right)\)</span> as instruments for <span class="math inline">\(\left(Z_{1}, Y_{2}\right)\)</span>. Let <span class="math inline">\(\widetilde{J}\)</span> denote the resulting GMM criterion. Second, estimate the model by efficient <span class="math inline">\(\mathrm{GMM}^{2}\)</span> using <span class="math inline">\(\left(Z_{1}, Z_{2}, Y_{2}\right)\)</span> as instruments for <span class="math inline">\(\left(Z_{1}, Y_{2}\right)\)</span>. Let <span class="math inline">\(\widehat{J}\)</span> denote the resulting GMM criterion. The test statistic is the difference in the criterion functions: <span class="math inline">\(C=\widehat{J}-\widetilde{J}\)</span>.</p>
+<p>The distribution theory for the test is a special case of overidentification testing.</p>
+<p>Theorem <span class="math inline">\(13.16\)</span> Under Assumption <span class="math inline">\(12.2\)</span> and <span class="math inline">\(\mathbb{E}\left[Z_{2} Y_{2}^{\prime}\right]\)</span> has full rank <span class="math inline">\(k_{2}\)</span>, then as <span class="math inline">\(n \rightarrow \infty, C \underset{d}{\rightarrow} \chi_{k_{2}}^{2}\)</span>. For <span class="math inline">\(c\)</span> satisfying <span class="math inline">\(\alpha=1-G_{k_{2}}(c), \mathbb{P}\left[C&gt;c \mid \mathbb{H}_{0}\right] \rightarrow \alpha\)</span>. The test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(C&gt;c\)</span>” has asymptotic size <span class="math inline">\(\alpha\)</span>.</p>
+<p>In Stata the command estat endogenous afer ivregress gmm can be used to implement the test for endogeneity. The statistic <span class="math inline">\(C\)</span> and its asymptotic <span class="math inline">\(p\)</span>-value using the <span class="math inline">\(\chi_{k_{2}}^{2}\)</span> distribution are reported.</p>
+</section>
+<section id="subset-endogeneity-test" class="level2" data-number="13.24">
+<h2 data-number="13.24" class="anchored" data-anchor-id="subset-endogeneity-test"><span class="header-section-number">13.24</span> Subset Endogeneity Test</h2>
+<p>In Section <span class="math inline">\(12.30\)</span> we introduced subset endogeneity tests for 2SLS estimation. GMM tests are simple to implement as subset overidentification tests. The model is <span class="math inline">\(Y=Z_{1}^{\prime} \beta_{1}+Y_{2}^{\prime} \beta_{2}+Y_{3}^{\prime} \beta_{3}+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span> where the instrument vector is <span class="math inline">\(Z=\left(Z_{1}, Z_{2}\right)\)</span>. The <span class="math inline">\(k_{3} \times 1\)</span> variables <span class="math inline">\(Y_{3}\)</span> are treated as endogenous and the <span class="math inline">\(k_{2} \times 1\)</span> variables <span class="math inline">\(Y_{2}\)</span> are treated as potentially endogenous. The hypothesis to test is that <span class="math inline">\(Y_{2}\)</span> is exogenous, or <span class="math inline">\(\mathbb{M}_{0}: \mathbb{E}\left[Y_{2} e\right]=0\)</span> against <span class="math inline">\(\mathbb{H}_{1}: \mathbb{E}\left[Y_{2} e\right] \neq 0\)</span>. The test requires that <span class="math inline">\(\ell_{2} \geq\left(k_{2}+k_{3}\right)\)</span> so that the model can be estimated under <span class="math inline">\(\mathbb{H}_{1}\)</span>.</p>
+<p>The GMM test is constructed as follows. First, estimate the model by efficient GMM using <span class="math inline">\(\left(Z_{1}, Z_{2}\right.\)</span> ) as instruments for <span class="math inline">\(\left(Z_{1}, Y_{2}, Y_{3}\right)\)</span>. Let <span class="math inline">\(\widetilde{J}\)</span> denote the resulting GMM criterion. Second, estimate the model by efficient GMM using <span class="math inline">\(\left(Z_{1}, Z_{2}, Y_{2}\right)\)</span> as instruments for <span class="math inline">\(\left(Z_{1}, Y_{2}, Y_{3}\right)\)</span>. Let <span class="math inline">\(\widehat{J}\)</span> denote the resulting GMM criterion. The test statistic is the difference in the criterion functions: <span class="math inline">\(C=\widehat{J}-\widetilde{J}\)</span>.</p>
+<p>The distribution theory for the test is a special case of the theory of overidentification testing.</p>
+<p>Theorem <span class="math inline">\(13.17\)</span> Under Assumption <span class="math inline">\(12.2\)</span> and <span class="math inline">\(\mathbb{E}\left[Z_{2}\left(Y_{2}^{\prime}, Y_{3}^{\prime}\right)\right]\)</span> has full rank <span class="math inline">\(k_{2}+k_{3}\)</span>, then as <span class="math inline">\(n \rightarrow \infty, C \underset{d}{\longrightarrow} \chi_{k_{2}}^{2}\)</span>. For <span class="math inline">\(c\)</span> satisfying <span class="math inline">\(\alpha=1-G_{k_{2}}(c), \mathbb{P}\left[C&gt;c \mid \mathbb{H}_{0}\right] \longrightarrow \alpha\)</span>. The test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(C&gt;c\)</span>” has asymptotic size <span class="math inline">\(\alpha\)</span>.</p>
+<p>In Stata, the command estat endogenous <span class="math inline">\(\mathrm{x} 2\)</span> afer ivregress gmm can be used to implement the test for endogeneity where <span class="math inline">\(\mathrm{x} 2\)</span> is the name(s) of the variable(s) tested for endogeneity. The statistic <span class="math inline">\(C\)</span> and its asymptotic <span class="math inline">\(\mathrm{p}\)</span>-value using the <span class="math inline">\(\chi_{k_{2}}^{2}\)</span> distribution are reported.</p>
+<p><span class="math inline">\({ }^{2}\)</span> If the homoskedastic weight matrix is used this GMM estimator equals least squares, but when the weight matrix allows for heteroskedasticity the efficient GMM estimator does not equal least squares as the model is overidentified.</p>
+</section>
+<section id="nonlinear-gmm" class="level2" data-number="13.25">
+<h2 data-number="13.25" class="anchored" data-anchor-id="nonlinear-gmm"><span class="header-section-number">13.25</span> Nonlinear GMM</h2>
+<p>GMM applies whenever an economic or statistical model implies the <span class="math inline">\(\ell \times 1\)</span> moment condition</p>
+<p><span class="math display">\[
+\mathbb{E}\left[g_{i}(\beta)\right]=0 .
+\]</span></p>
+<p>where <span class="math inline">\(g_{i}(\beta)\)</span> is a possibly nonlinear function of the parameters <span class="math inline">\(\beta\)</span>. Often, this is all that is known. Identification requires <span class="math inline">\(\ell \geq k=\operatorname{dim}(\beta)\)</span>. The GMM estimator minimizes</p>
+<p><span class="math display">\[
+J(\beta)=n \bar{g}_{n}(\beta)^{\prime} \widehat{\boldsymbol{W}} \bar{g}_{n}(\beta)
+\]</span></p>
+<p>for some weight matrix <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> where</p>
+<p><span class="math display">\[
+\bar{g}_{n}(\beta)=\frac{1}{n} \sum_{i=1}^{n} g_{i}(\beta) .
+\]</span></p>
+<p>The efficient GMM estimator can be constructed by setting</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{W}}=\left(\frac{1}{n} \sum_{i=1}^{n} \widehat{g}_{i} \widehat{g}_{i}^{\prime}-\bar{g}_{n} \bar{g}_{n}^{\prime}\right)^{-1},
+\]</span></p>
+<p>with <span class="math inline">\(\widehat{g}_{i}=g_{i}(\widetilde{\beta})\)</span> constructed using a preliminary consistent estimator <span class="math inline">\(\widetilde{\beta}\)</span>, perhaps obtained with <span class="math inline">\(\widehat{\boldsymbol{W}}=\boldsymbol{I}_{\ell}\)</span>. As in the case of the linear model the weight matrix can be iterated until convergence to obtain the iterated GMM estimator.</p>
+<p>Proposition 13.1 Distribution of Nonlinear GMM Estimator Under general regularity conditions, <span class="math inline">\(\sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\beta}\right)\)</span> where</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\beta}=\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \Omega \boldsymbol{W} \boldsymbol{Q}\right)\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}
+\]</span></p>
+<p>with <span class="math inline">\(\Omega=\mathbb{E}\left[g_{i} g_{i}^{\prime}\right]\)</span> and</p>
+<p><span class="math display">\[
+\boldsymbol{Q}=\mathbb{E}\left[\frac{\partial}{\partial \beta^{\prime}} g_{i}(\beta)\right]
+\]</span></p>
+<p>If the efficient weight matrix is used then <span class="math inline">\(\boldsymbol{V}_{\beta}=\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1}\)</span>.</p>
+<p>The proof of this result is omitted as it uses more advanced techniques.</p>
+<p>The asymptotic covariance matrices can be estimated by sample counterparts of the population matrices. For the case of a general weight matrix,</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\boldsymbol{W}} \widehat{\boldsymbol{Q}}\right)^{-1}\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\boldsymbol{W}} \widehat{\Omega} \widehat{\boldsymbol{W}} \widehat{\boldsymbol{Q}}\right)\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\boldsymbol{W}} \widehat{\boldsymbol{Q}}\right)^{-1}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{gathered}
+\widehat{\Omega}=\frac{1}{n} \sum_{i=1}^{n}\left(g_{i}(\widehat{\beta})-\bar{g}\right)\left(g_{i}(\widehat{\beta})-\bar{g}\right)^{\prime} \\
+\bar{g}=n^{-1} \sum_{i=1}^{n} g_{i}(\widehat{\beta})
+\end{gathered}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}=\frac{1}{n} \sum_{i=1}^{n} \frac{\partial}{\partial \beta^{\prime}} g_{i}(\widehat{\beta}) .
+\]</span></p>
+<p>For the case of the iterated efficient weight matrix,</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\beta}=\left(\widehat{\boldsymbol{Q}}^{\prime} \widehat{\Omega}^{-1} \widehat{\boldsymbol{Q}}\right)^{-1} .
+\]</span></p>
+<p>All of the methods discussed in this chapter - Wald tests, constrained estimation, distance tests, overidentification tests, endogeneity tests - apply similarly to the nonlinear GMM estimator.</p>
+</section>
+<section id="bootstrap-for-gmm" class="level2" data-number="13.26">
+<h2 data-number="13.26" class="anchored" data-anchor-id="bootstrap-for-gmm"><span class="header-section-number">13.26</span> Bootstrap for GMM</h2>
+<p>The bootstrap for 2SLS (Section 12.23) can be used for GMM estimation. The standard bootstrap algorithm generates bootstrap samples by sampling the triplets <span class="math inline">\(\left(Y_{i}^{*}, X_{i}^{*}, Z_{i}^{*}\right)\)</span> independently and with replacement from the original sample. The GMM estimator is applied to the bootstrap sample to obtain the bootstrap estimates <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}^{*}\)</span>. This is repeated <span class="math inline">\(B\)</span> times to create a sample of <span class="math inline">\(B\)</span> bootstrap draws. Given these draws, bootstrap confidence intervals, including percentile, <span class="math inline">\(\mathrm{BC}\)</span> percentile, <span class="math inline">\(\mathrm{BC}_{a}\)</span> and percentile-t, are calculated conventionally.</p>
+<p>For variance and standard error estimation the same cautions apply as for 2SLS. It is difficult to know if the GMM estimator has a finite variance in a given application. It is best to avoid using the bootstrap to calculate standard errors. Instead, use the bootstrap for percentile and percentile-t confidence intervals.</p>
+<p>When the model is overidentified, as discussed for 2SLS, bootstrap GMM inference will not achieve an asymptotic refinement unless the bootstrap estimator is recentered to satisfy the orthogonality condition. We now describe the recentering recommended by Hall and Horowitz (1996).</p>
+<p>For linear GMM wth weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> the recentered GMM bootstrap estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}^{* *}=\left(\boldsymbol{X}^{* \prime} \boldsymbol{Z}^{*} \boldsymbol{W}^{*} \boldsymbol{Z}^{* \prime} \boldsymbol{X}^{*}\right)^{-1}\left(\boldsymbol{X}^{* \prime} \boldsymbol{Z}^{*} \boldsymbol{W}^{*}\left(\boldsymbol{Z}^{* \prime} \boldsymbol{Y}^{*}-\boldsymbol{Z}^{\prime} \widehat{\boldsymbol{e}}\right)\right)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{W}^{*}\)</span> is the bootstrap version of <span class="math inline">\(\boldsymbol{W}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta}_{\mathrm{gmm}}\)</span>. For efficient GMM,</p>
+<p><span class="math display">\[
+\boldsymbol{W}^{*}=\left(\frac{1}{n} \sum_{i=1}^{n} Z_{i}^{*} Z_{i}^{* \prime}\left(Y_{i}^{*}-X_{i}^{* \prime} \widetilde{\beta}^{*}\right)^{2}\right)^{-1}
+\]</span></p>
+<p>for preliminary estimator <span class="math inline">\(\widetilde{\beta}^{*}\)</span>.</p>
+<p>For nonlinear GMM (Section 13.25) the bootstrap criterion function is modified. The recentered bootstrap criterion is</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;J^{* *}(\beta)=n\left(\bar{g}_{n}^{*}(\beta)-\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right)\right)^{\prime} \boldsymbol{W}^{*}\left(\bar{g}_{n}^{*}(\beta)-\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right)\right) \\
+&amp;\bar{g}_{n}^{*}(\beta)=\frac{1}{n} \sum_{i=1}^{n} g_{i}^{*}(\beta)
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right)\)</span> is from the sample not from the bootstrap data. The bootstrap estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{gmm}}^{* *}=\operatorname{argmin} J^{* *}(\beta) .
+\]</span></p>
+<p>The bootstrap can be used to calculate the p-value of the GMM overidentification test. For the GMM estimator with an efficient weight matrix the standard overidentification test is the Hansen <span class="math inline">\(J\)</span> statistic</p>
+<p><span class="math display">\[
+J=n \bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right)^{\prime} \widehat{\Omega}^{-1} \bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right) .
+\]</span></p>
+<p>The recentered bootstrap analog is</p>
+<p><span class="math display">\[
+J^{* *}=n\left(\bar{g}_{n}^{*}\left(\widehat{\beta}_{\mathrm{gmm}}^{* *}\right)-\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right)\right)^{\prime} \widehat{\Omega}^{*-1}\left(\bar{g}_{n}^{*}\left(\widehat{\beta}_{\mathrm{gmm}}^{* *}\right)-\bar{g}_{n}\left(\widehat{\beta}_{\mathrm{gmm}}\right)\right)
+\]</span></p>
+<p>On each bootstrap sample <span class="math inline">\(J^{* *}(b)\)</span> is calculated and stored. The bootstrap p-value is</p>
+<p><span class="math display">\[
+p^{*}=\frac{1}{B} \sum_{b=1}^{B} \mathbb{1}\left\{J^{* *}(b)&gt;S\right\} .
+\]</span></p>
+<p>This bootstrap p-value is asymptotically valid since <span class="math inline">\(J^{* *}\)</span> satisfies the overidentified moment conditions.</p>
+</section>
+<section id="conditional-moment-equation-models" class="level2" data-number="13.27">
+<h2 data-number="13.27" class="anchored" data-anchor-id="conditional-moment-equation-models"><span class="header-section-number">13.27</span> Conditional Moment Equation Models</h2>
+<p>In many contexts, an economic model implies conditional moment restriction of the form</p>
+<p><span class="math display">\[
+\mathbb{E}\left[e_{i}(\beta) \mid Z_{i}\right]=0
+\]</span></p>
+<p>where <span class="math inline">\(e_{i}(\beta)\)</span> is some <span class="math inline">\(s \times 1\)</span> function of the observation and the parameters. In many cases <span class="math inline">\(s=1\)</span>. It turns out that this conditional moment restriction is more powerful than the unconditional moment equation model discussed throughout this chapter.</p>
+<p>For example, the linear model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with instruments <span class="math inline">\(Z\)</span> falls into this class under the assumption <span class="math inline">\(\mathbb{E}[e \mid Z]=0\)</span>. In this case <span class="math inline">\(e_{i}(\beta)=Y_{i}-X_{i}^{\prime} \beta\)</span>.</p>
+<p>It is also helpful to realize that conventional regression models also fall into this class except that in this case <span class="math inline">\(X=Z\)</span>. For example, in linear regression <span class="math inline">\(e_{i}(\beta)=Y_{i}-X_{i}^{\prime} \beta\)</span>, while in a nonlinear regression model <span class="math inline">\(e_{i}(\beta)=Y_{i}-m\left(X_{i}, \beta\right)\)</span>. In a joint model of the conditional expectation <span class="math inline">\(\mathbb{E}[Y \mid X=x]=x^{\prime} \beta\)</span> and variance <span class="math inline">\(\operatorname{var}[Y \mid X=x]=f(x)^{\prime} \gamma\)</span>, then</p>
+<p><span class="math display">\[
+e_{i}(\beta, \gamma)=\left\{\begin{array}{c}
+Y_{i}-X_{i}^{\prime} \beta \\
+\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}-f\left(X_{i}\right)^{\prime} \gamma
+\end{array} .\right.
+\]</span></p>
+<p>Here <span class="math inline">\(s=2\)</span>.</p>
+<p>Given a conditional moment restriction an unconditional moment restriction can always be constructed. That is for any <span class="math inline">\(\ell \times 1\)</span> function <span class="math inline">\(\phi(Z, \beta)\)</span> we can set <span class="math inline">\(g_{i}(\beta)=\phi\left(Z_{i}, \beta\right) e_{i}(\beta)\)</span> which satisfies <span class="math inline">\(\mathbb{E}\left[g_{i}(\beta)\right]=\)</span> 0 and hence defines an unconditional moment equation model. The obvious problem is that the class of functions <span class="math inline">\(\phi\)</span> is infinite. Which should be selected?</p>
+<p>This is equivalent to the problem of selection of the best instruments. If <span class="math inline">\(Z \in \mathbb{R}\)</span> is a valid instrument satisfying <span class="math inline">\(\mathbb{E}[e \mid Z]=0\)</span>, then <span class="math inline">\(Z, Z^{2}, Z^{3}\)</span>,…, etc., are all valid instruments. Which should be used?</p>
+<p>One solution is to construct an infinite list of potent instruments and then use the first <span class="math inline">\(\ell\)</span>. How is <span class="math inline">\(\ell\)</span> to be determined? This is an area of theory still under development. One study of this problem is Donald and Newey (2001).</p>
+<p>Another approach is to construct the optimal instrument which minimizes the asymptotic variance. The form was uncovered by Chamberlain (1987). Take the case <span class="math inline">\(s=1\)</span>. Let</p>
+<p><span class="math display">\[
+R_{i}=\mathbb{E}\left[\frac{\partial}{\partial \beta} e_{i}(\beta) \mid Z_{i}\right]
+\]</span></p>
+<p>and <span class="math inline">\(\sigma_{i}^{2}=\mathbb{E}\left[e_{i}(\beta)^{2} \mid Z_{i}\right]\)</span>. Then the optimal instrument is <span class="math inline">\(A_{i}=-\sigma_{i}^{-2} R_{i}\)</span>. The optimal moment is <span class="math inline">\(g_{i}(\beta)=\)</span> <span class="math inline">\(A_{i} e_{i}(\beta)\)</span>. Setting <span class="math inline">\(g_{i}(\beta)\)</span> to be this choice (which is <span class="math inline">\(k \times 1\)</span>, so is just-identified) yields the GMM estimator with lowest asymptotic variance. In practice <span class="math inline">\(A_{i}\)</span> is unknown, but its form helps us think about construction of good instruments. In the linear model <span class="math inline">\(e_{i}(\beta)=Y_{i}-X_{i}^{\prime} \beta\)</span> note that <span class="math inline">\(R_{i}=-\mathbb{E}\left[X_{i} \mid Z_{i}\right]\)</span> and <span class="math inline">\(\sigma_{i}^{2}=\mathbb{E}\left[e_{i}^{2} \mid Z_{i}\right]\)</span>. This means the optimal instrument is <span class="math inline">\(A_{i}=\sigma_{i}^{-2} \mathbb{E}\left[X_{i} \mid Z_{i}\right]\)</span>. In the case of linear regression <span class="math inline">\(X_{i}=Z_{i}\)</span> so <span class="math inline">\(A_{i}=\sigma_{i}^{-2} Z_{i}\)</span>. Hence efficient GMM is equivalent to GLS!</p>
+<p>In the case of endogenous variables note that the efficient instrument <span class="math inline">\(A_{i}\)</span> involves the estimation of the conditional mean of <span class="math inline">\(X\)</span> given <span class="math inline">\(Z\)</span>. In other words, to get the best instrument for <span class="math inline">\(X\)</span> we need the best conditional mean model for <span class="math inline">\(X\)</span> given <span class="math inline">\(Z\)</span> not just an arbitrary linear projection. The efficient instrument is also inversely proportional to the conditional variance of <span class="math inline">\(e\)</span>. This is the same as the GLS estimator; namely that improved efficiency can be obtained if the observations are weighted inversely to the conditional variance of the errors.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="13.28">
+<h2 data-number="13.28" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">13.28</span> Technical Proofs*</h2>
+<p>Proof of Theorem 13.12 Set <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{cgmm}}\)</span> and <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{gmm}}\)</span>. By standard covariance matrix analysis <span class="math inline">\(\widehat{\Omega} \vec{p} \Omega\)</span> and <span class="math inline">\(\widetilde{\Omega} \vec{p} \Omega\)</span>. Thus we can replace <span class="math inline">\(\widehat{\Omega}\)</span> and <span class="math inline">\(\widetilde{\Omega}\)</span> in the criteria without affecting the asymptotic distribution. In particular</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widetilde{J}\left(\widehat{\beta}_{\mathrm{cgmm}}\right) &amp;=\frac{1}{n} \widetilde{\boldsymbol{e}}^{\prime} \boldsymbol{Z} \widetilde{\Omega}^{-1} \boldsymbol{Z}^{\prime} \widetilde{\boldsymbol{e}} \\
+&amp;=\frac{1}{n} \widetilde{\boldsymbol{e}}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \boldsymbol{Z}^{\prime} \widetilde{\boldsymbol{e}}+o_{p}(1) .
+\end{aligned}
+\]</span></p>
+<p>Now observe that</p>
+<p><span class="math display">\[
+\boldsymbol{Z}^{\prime} \widetilde{\boldsymbol{e}}=\boldsymbol{Z}^{\prime} \widehat{\boldsymbol{e}}-\boldsymbol{Z}^{\prime} \boldsymbol{X}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right) .
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{n} \widetilde{\boldsymbol{e}}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \boldsymbol{Z}^{\prime} \widetilde{\boldsymbol{e}} &amp;=\frac{1}{n} \widehat{\boldsymbol{e}}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \boldsymbol{Z}^{\prime} \widehat{\boldsymbol{e}}-\frac{2}{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right)^{\prime} \boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \boldsymbol{Z}^{\prime} \widehat{\boldsymbol{e}} \\
+&amp;+\frac{1}{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right)^{\prime} \boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right) \\
+&amp;=\widehat{J}\left(\widehat{\beta}_{\mathrm{gmm}}\right)+\frac{1}{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right)^{\prime} \boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right)
+\end{aligned}
+\]</span></p>
+<p>where the second equality holds because <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} Z^{\prime} \widehat{\boldsymbol{e}}=0\)</span> is the first-order condition for <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span>. By (13.16) and Theorem 13.4, under <span class="math inline">\(\mathbb{M}_{0}\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right) &amp;=-\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \Omega^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\left(\boldsymbol{R}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{Z} \Omega^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \sqrt{n}\left(\widehat{\beta}_{\mathrm{gmm}}-\beta\right)+o_{p}(1) \\
+&amp; \underset{d}{\longrightarrow}\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1} \boldsymbol{R} Z
+\end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+Z &amp; \sim \mathrm{N}\left(0, \boldsymbol{V}_{\boldsymbol{R}}\right) \\
+\boldsymbol{V}_{\boldsymbol{R}} &amp;=\left(\boldsymbol{R} \boldsymbol{V}^{\prime}\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1} \boldsymbol{R}\right)^{-1} .
+\end{aligned}
+\]</span></p>
+<p>Putting together (13.25), (13.26), (13.27) and (13.28),</p>
+<p><span class="math display">\[
+\begin{aligned}
+D &amp;=\widetilde{J}\left(\widehat{\beta}_{\mathrm{cgmm}}\right)-\widehat{J}\left(\widehat{\beta}_{\mathrm{gmm}}\right) \\
+&amp;=\sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right)^{\prime} \frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X} \sqrt{n}\left(\widehat{\beta}_{\mathrm{cgmm}}-\widehat{\beta}_{\mathrm{gmm}}\right) \\
+&amp; \underset{d}{\longrightarrow} Z^{\prime} \boldsymbol{V}_{\boldsymbol{R}}^{-1} Z \sim \chi_{q}^{2}
+\end{aligned}
+\]</span></p>
+<p>because <span class="math inline">\(V_{R}&gt;0\)</span> and <span class="math inline">\(\mathrm{Z}\)</span> is <span class="math inline">\(q \times 1\)</span>.</p>
+<p>Proof of Theorem 13.15 Let <span class="math inline">\(\widetilde{\beta}\)</span> denote the GMM estimator obtained with the instrument set <span class="math inline">\(Z_{a}\)</span> and let <span class="math inline">\(\widehat{\beta}\)</span> denote the GMM estimator obtained with the instrument set <span class="math inline">\(Z\)</span>. Set <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widetilde{\beta}, \widehat{e}{ }_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\widetilde{\Omega}=n^{-1} \sum_{i=1}^{n} Z_{a i} Z_{a i}^{\prime} \widetilde{e}_{i}^{2} \\
+&amp;\widehat{\Omega}=n^{-1} \sum_{i=1}^{n} Z_{i} Z_{i}^{\prime} \widehat{e}_{i}^{2}
+\end{aligned}
+\]</span></p>
+<p>Let <span class="math inline">\(\boldsymbol{R}\)</span> be the <span class="math inline">\(\ell \times \ell_{a}\)</span> selector matrix so that <span class="math inline">\(Z_{a}=\boldsymbol{R}^{\prime} Z\)</span>. Note that</p>
+<p><span class="math display">\[
+\widetilde{\Omega}=\boldsymbol{R}^{\prime} n^{-1} \sum_{i=1}^{n} Z_{i} Z_{i}^{\prime} \widetilde{e}_{i}^{2} \boldsymbol{R} .
+\]</span></p>
+<p>By standard covariance matrix analysis, <span class="math inline">\(\widehat{\Omega} \underset{p}{\rightarrow} \Omega\)</span> and <span class="math inline">\(\widetilde{\Omega} \underset{p}{\rightarrow} \boldsymbol{R}^{\prime} \Omega \boldsymbol{R}\)</span>. Also, <span class="math inline">\(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X} \underset{p}{\rightarrow} \boldsymbol{Q}\)</span>, say. By the CLT, <span class="math inline">\(n^{-1 / 2} \boldsymbol{Z}^{\prime} \boldsymbol{e} \underset{d}{\longrightarrow} Z\)</span> where <span class="math inline">\(Z \sim \mathrm{N}(0, \Omega)\)</span>. Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+n^{-1 / 2} \boldsymbol{Z}^{\prime} \widehat{\boldsymbol{e}} &amp;=\left(\boldsymbol{I}_{\ell}-\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z} \widehat{\Omega}^{-1} \frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \widehat{\Omega}^{-1}\right) n^{-1 / 2} \boldsymbol{Z}^{\prime} \boldsymbol{e} \\
+&amp; \rightarrow\left(\boldsymbol{I}_{\ell}-\boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime} \Omega^{-1}\right) Z
+\end{aligned}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\begin{aligned}
+n^{-1 / 2} \boldsymbol{Z}_{a}^{\prime} \widetilde{\boldsymbol{e}} &amp;=\boldsymbol{R}^{\prime}\left(\boldsymbol{I}_{\ell}-\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z} \boldsymbol{R}^{-1} \boldsymbol{R}^{\prime} \frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)^{-1}\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \boldsymbol{R}^{-1} \boldsymbol{R}^{\prime}\right) n^{-1 / 2} \boldsymbol{Z}^{\prime} \boldsymbol{e} \\
+&amp; \underset{d}{\longrightarrow} \boldsymbol{R}^{\prime}\left(\boldsymbol{I}_{\ell}-\boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \Omega \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime} \boldsymbol{R}\left(\boldsymbol{R}^{\prime} \Omega \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) Z
+\end{aligned}
+\]</span></p>
+<p>jointly.</p>
+<p>By linear rotations of <span class="math inline">\(Z\)</span> and <span class="math inline">\(\boldsymbol{R}\)</span> we can set <span class="math inline">\(\Omega=\boldsymbol{I}_{\ell}\)</span> to simplify the notation. Thus setting <span class="math inline">\(\boldsymbol{P}_{\boldsymbol{Q}}=\boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime}\)</span>, <span class="math inline">\(\boldsymbol{P}_{\boldsymbol{R}}=\boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\)</span> and <span class="math inline">\(Z \sim \mathrm{N}\left(0, \boldsymbol{I}_{\ell}\right)\)</span> we have</p>
+<p><span class="math display">\[
+\widehat{J} \underset{d}{\longrightarrow} Z^{\prime}\left(I_{\ell}-\boldsymbol{P}_{\mathbf{Q}}\right) Z
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\widetilde{J} \underset{d}{\rightarrow} Z^{\prime}\left(\boldsymbol{P}_{\boldsymbol{R}}-\boldsymbol{P}_{\boldsymbol{R}} \boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \boldsymbol{P}_{R} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime} \boldsymbol{P}_{\boldsymbol{R}}\right) Z
+\]</span></p>
+<p>It follows that</p>
+<p><span class="math display">\[
+C=\widehat{J}-\widetilde{J} \underset{d}{\longrightarrow} \mathrm{Z}^{\prime} A \mathrm{Z}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{A}=\left(\boldsymbol{I}_{\ell}-\boldsymbol{P}_{Q}-\boldsymbol{P}_{\boldsymbol{R}}+\boldsymbol{P}_{R} \boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \boldsymbol{P}_{R} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime} \boldsymbol{P}_{R}\right) .
+\]</span></p>
+<p>This is a quadratic form in a standard normal vector and the matrix <span class="math inline">\(\boldsymbol{A}\)</span> is idempotent (this is straightforward to check). <span class="math inline">\(Z^{\prime} A Z\)</span> is thus distributed <span class="math inline">\(\chi_{d}^{2}\)</span> with degrees of freedom <span class="math inline">\(d\)</span> equal to</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{rank}(\boldsymbol{A}) &amp;=\operatorname{tr}\left(\boldsymbol{I}_{\ell}-\boldsymbol{P}_{\boldsymbol{Q}}-\boldsymbol{P}_{\boldsymbol{R}}+\boldsymbol{P}_{\boldsymbol{R}} \boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \boldsymbol{P}_{\boldsymbol{R}} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime} \boldsymbol{P}_{\boldsymbol{R}}\right) \\
+&amp;=\ell-k-\ell_{a}+k=\ell_{b}
+\end{aligned}
+\]</span></p>
+<p>Thus the asymptotic distribution of <span class="math inline">\(C\)</span> is <span class="math inline">\(\chi_{\ell_{b}}^{2}\)</span> as claimed.</p>
+</section>
+<section id="exercises" class="level2" data-number="13.29">
+<h2 data-number="13.29" class="anchored" data-anchor-id="exercises"><span class="header-section-number">13.29</span> Exercises</h2>
+<p>Exercise 13.1 Take the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[X e] &amp;=0 \\
+e^{2} &amp;=Z^{\prime} \gamma+\eta \\
+\mathbb{E}[Z \eta] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>Find the method of moments estimators <span class="math inline">\((\widehat{\beta}, \widehat{\gamma})\)</span> for <span class="math inline">\((\beta, \gamma)\)</span></p>
+<p>Exercise 13.2 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid Z]=0\)</span>. Let <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> be the GMM estimator using the weight matrix <span class="math inline">\(\boldsymbol{W}_{n}=\left(\boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)^{-1}\)</span>. Under the assumption <span class="math inline">\(\mathbb{E}\left[e^{2} \mid Z\right]=\sigma^{2}\)</span> show that</p>
+<p><span class="math display">\[
+\sqrt{n}(\widehat{\beta}-\beta) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \sigma^{2}\left(\boldsymbol{Q}^{\prime} \boldsymbol{M}^{-1} \boldsymbol{Q}\right)^{-1}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[Z X^{\prime}\right]\)</span> and <span class="math inline">\(\boldsymbol{M}=\mathbb{E}\left[Z Z^{\prime}\right]\)</span></p>
+<p>Exercise 13.3 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span>. Let <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widetilde{\beta}\)</span> where <span class="math inline">\(\widetilde{\beta}\)</span> is consistent for <span class="math inline">\(\beta\)</span> (e.g.&nbsp;a GMM estimator with some weight matrix). An estimator of the optimal GMM weight matrix is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{W}}=\left(\frac{1}{n} \sum_{i=1}^{n} Z_{i} Z_{i}^{\prime} \widetilde{e}_{i}^{2}\right)^{-1} .
+\]</span></p>
+<p>Show that <span class="math inline">\(\widehat{\boldsymbol{W}} \underset{p}{\longrightarrow} \Omega^{-1}\)</span> where <span class="math inline">\(\Omega=\mathbb{E}\left[Z Z^{\prime} e^{2}\right]\)</span>.</p>
+<p>Exercise <span class="math inline">\(13.4\)</span> In the linear model estimated by GMM with general weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> the asymptotic variance of <span class="math inline">\(\widehat{\beta}_{\mathrm{gmm}}\)</span> is</p>
+<p><span class="math display">\[
+\boldsymbol{V}=\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1} \boldsymbol{Q}^{\prime} \boldsymbol{W} \Omega \boldsymbol{W} \boldsymbol{Q}\left(\boldsymbol{Q}^{\prime} \boldsymbol{W} \boldsymbol{Q}\right)^{-1}
+\]</span></p>
+<ol type="a">
+<li><p>Let <span class="math inline">\(\boldsymbol{V}_{0}\)</span> be this matrix when <span class="math inline">\(\boldsymbol{W}=\Omega^{-1}\)</span>. Show that <span class="math inline">\(\boldsymbol{V}_{0}=\left(\boldsymbol{Q}^{\prime} \Omega^{-1} \boldsymbol{Q}\right)^{-1}\)</span>.</p></li>
+<li><p>We want to show that for any <span class="math inline">\(\boldsymbol{W}, \boldsymbol{V}-\boldsymbol{V}_{0}\)</span> is positive semi-definite (for then <span class="math inline">\(\boldsymbol{V}_{0}\)</span> is the smaller possible covariance matrix and <span class="math inline">\(W=\Omega^{-1}\)</span> is the efficient weight matrix). To do this start by finding matrices <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{B}\)</span> such that <span class="math inline">\(\boldsymbol{V}=\boldsymbol{A}^{\prime} \Omega \boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{V}_{0}=\boldsymbol{B}^{\prime} \Omega \boldsymbol{B}\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(\boldsymbol{B}^{\prime} \Omega \boldsymbol{A}=\boldsymbol{B}^{\prime} \Omega \boldsymbol{B}\)</span> and therefore that <span class="math inline">\(\boldsymbol{B}^{\prime} \Omega(\boldsymbol{A}-\boldsymbol{B})=0\)</span>.</p></li>
+<li><p>Use the expressions <span class="math inline">\(\boldsymbol{V}=\boldsymbol{A}^{\prime} \mathbf{\Omega} \boldsymbol{A}, \boldsymbol{A}=\boldsymbol{B}+(\boldsymbol{A}-\boldsymbol{B})\)</span>, and <span class="math inline">\(\boldsymbol{B}^{\prime} \boldsymbol{\Omega}(\boldsymbol{A}-\boldsymbol{B})=0\)</span> to show that <span class="math inline">\(\boldsymbol{V} \geq \boldsymbol{V}_{0}\)</span>.</p></li>
+</ol>
+<p>Exercise <span class="math inline">\(13.5\)</span> Prove Theorem 13.8.</p>
+<p>Exercise 13.6 Derive the constrained GMM estimator (13.16).</p>
+<p>Exercise 13.7 Show that the constrained GMM estimator (13.16) with the efficient weight matrix is (13.19).</p>
+<p>Exercise <span class="math inline">\(13.8\)</span> Prove Theorem 13.9.</p>
+<p>Exercise 13.9 Prove Theorem 13.10. Exercise <span class="math inline">\(13.10\)</span> The equation of interest is <span class="math inline">\(Y=m(X, \beta)+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span> where <span class="math inline">\(m(x, \beta)\)</span> is a known function, <span class="math inline">\(\beta\)</span> is <span class="math inline">\(k \times 1\)</span> and <span class="math inline">\(Z\)</span> is <span class="math inline">\(\ell \times 1\)</span>. Show how to construct an efficient GMM estimator for <span class="math inline">\(\beta\)</span>.</p>
+<p>Exercise 13.11 As a continuation of Exercise <span class="math inline">\(12.7\)</span> derive the efficient GMM estimator using the instrument <span class="math inline">\(Z=\left(\begin{array}{ll}X &amp; X^{2}\end{array}\right)^{\prime}\)</span>. Does this differ from 2SLS and/or OLS?</p>
+<p>Exercise 13.12 In the linear model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span> the GMM criterion function for <span class="math inline">\(\beta\)</span> is</p>
+<p><span class="math display">\[
+J(\beta)=\frac{1}{n}(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime} \boldsymbol{X} \widehat{\Omega}^{-1} \boldsymbol{X}^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\Omega}=n^{-1} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{e}_{i}^{2}, \widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}\)</span> are the OLS residuals, and <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}\)</span> is least squares. The GMM estimator of <span class="math inline">\(\beta\)</span> subject to the restriction <span class="math inline">\(r(\beta)=0\)</span> is</p>
+<p><span class="math display">\[
+\widetilde{\beta}=\underset{r(\beta)=0}{\operatorname{argmin}} J_{n}(\beta) .
+\]</span></p>
+<p>The GMM test statistic (the distance statistic) of the hypothesis <span class="math inline">\(r(\beta)=0\)</span> is</p>
+<p><span class="math display">\[
+D=J(\tilde{\beta})=\min _{r(\beta)=0} J(\beta) .
+\]</span></p>
+<ol type="a">
+<li>Show that you can rewrite <span class="math inline">\(J(\beta)\)</span> in (13.29) as</li>
+</ol>
+<p><span class="math display">\[
+J(\beta)=n(\beta-\widehat{\beta})^{\prime} \widehat{\boldsymbol{V}}_{\beta}^{-1}(\beta-\widehat{\beta})
+\]</span></p>
+<p>and thus <span class="math inline">\(\widetilde{\beta}\)</span> is the same as the minimum distance estimator.</p>
+<ol start="2" type="a">
+<li>Show that under linear hypotheses the distance statistic <span class="math inline">\(D\)</span> in (13.30) equals the Wald statistic.</li>
+</ol>
+<p>Exercise 13.13 Take the linear model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span>. Consider the GMM estimator <span class="math inline">\(\widehat{\beta}\)</span> of <span class="math inline">\(\beta\)</span>. Let <span class="math inline">\(J=n \bar{g}_{n}(\widehat{\beta})^{\prime} \widehat{\Omega}^{-1} \bar{g}_{n}(\widehat{\beta})\)</span> denote the test of overidentifying restrictions. Show that <span class="math inline">\(J \underset{d}{\longrightarrow} \chi_{\ell-k}^{2}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> by demonstrating each of the following.</p>
+<ol type="a">
+<li><p>Since <span class="math inline">\(\Omega&gt;0\)</span>, we can write <span class="math inline">\(\Omega^{-1}=\boldsymbol{C} \boldsymbol{C}^{\prime}\)</span> and <span class="math inline">\(\Omega=\boldsymbol{C}^{\prime-1} \boldsymbol{C}^{-1}\)</span> for some matrix <span class="math inline">\(\boldsymbol{C}\)</span>.</p></li>
+<li><p><span class="math inline">\(J=n\left(\boldsymbol{C}^{\prime} \bar{g}_{n}(\widehat{\beta})\right)^{\prime}\left(\boldsymbol{C}^{\prime} \widehat{\Omega} \boldsymbol{C}\right)^{-1} \boldsymbol{C}^{\prime} \bar{g}_{n}(\widehat{\beta})\)</span>.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{C}^{\prime} \bar{g}_{n}(\widehat{\beta})=\boldsymbol{D}_{n} \boldsymbol{C}^{\prime} \bar{g}_{n}(\beta)\)</span> where <span class="math inline">\(\bar{g}_{n}(\beta)=\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{e}\)</span> and</p></li>
+</ol>
+<p><span class="math display">\[
+\boldsymbol{D}_{n}=\boldsymbol{I}_{\ell}-\boldsymbol{C}^{\prime}\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)\left(\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \widehat{\Omega}^{-1}\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{X}\right)\right)^{-1}\left(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{Z}\right) \widehat{\Omega}^{-1} \boldsymbol{C}^{\prime-1}
+\]</span></p>
+<ol start="4" type="a">
+<li><p><span class="math inline">\(\boldsymbol{D}_{n} \underset{p}{\longrightarrow} \boldsymbol{I}_{\ell}-\boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\)</span> where <span class="math inline">\(\boldsymbol{R}=\boldsymbol{C}^{\prime} \mathbb{E}\left[Z X^{\prime}\right]\)</span>.</p></li>
+<li><p><span class="math inline">\(n^{1 / 2} \boldsymbol{C}^{\prime} \bar{g}_{n}(\beta) \underset{d}{\longrightarrow} u \sim \mathrm{N}\left(0, \boldsymbol{I}_{\ell}\right)\)</span>.</p></li>
+<li><p><span class="math inline">\(J \underset{d}{\longrightarrow} u^{\prime}\left(I_{\ell}-\boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) u\)</span>.</p></li>
+<li><p><span class="math inline">\(u^{\prime}\left(\boldsymbol{I}_{\ell}-\boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\right) u \sim \chi_{\ell-k}^{2}\)</span>.</p></li>
+</ol>
+<p>Hint: <span class="math inline">\(\boldsymbol{I}_{\ell}-\boldsymbol{R}\left(\boldsymbol{R}^{\prime} \boldsymbol{R}\right)^{-1} \boldsymbol{R}^{\prime}\)</span> is a projection matrix. Exercise 13.14 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0, Y \in \mathbb{R}, X \in \mathbb{R}^{k}, Z \in \mathbb{R}^{\ell}, \ell \geq k\)</span>. Consider the statistic</p>
+<p><span class="math display">\[
+\begin{aligned}
+J(\beta) &amp;=n \bar{m}_{n}(\beta)^{\prime} \boldsymbol{W} \bar{m}_{n}(\beta) \\
+\bar{m}_{n}(\beta) &amp;=\frac{1}{n} \sum_{i=1}^{n} Z_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)
+\end{aligned}
+\]</span></p>
+<p>for some weight matrix <span class="math inline">\(W&gt;0\)</span>.</p>
+<ol type="a">
+<li><p>Take the hypothesis <span class="math inline">\(\mathbb{I}_{0}: \beta=\beta_{0}\)</span>. Derive the asymptotic distribution of <span class="math inline">\(J\left(\beta_{0}\right)\)</span> under <span class="math inline">\(\mathbb{H}_{0}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p></li>
+<li><p>What choice for <span class="math inline">\(W\)</span> yields a known asymptotic distribution in part (a)? (Be specific about degrees of freedom.)</p></li>
+<li><p>Write down an appropriate estimator <span class="math inline">\(\widehat{\boldsymbol{W}}\)</span> for <span class="math inline">\(W\)</span> which takes advantage of <span class="math inline">\(\mathbb{M}_{0}\)</span>. (You do not need to demonstrate consistency or unbiasedness.)</p></li>
+<li><p>Describe an asymptotic test of <span class="math inline">\(\mathbb{H}_{0}\)</span> against <span class="math inline">\(\mathbb{M}_{1}: \beta \neq \beta_{0}\)</span> based on this statistic.</p></li>
+<li><p>Use the result in part (d) to construct a confidence region for <span class="math inline">\(\beta\)</span>. What can you say about the form of this region? For example, does the confidence region take the form of an ellipse, similar to conventional confidence regions?</p></li>
+</ol>
+<p>Exercise 13.15 Consider the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span> and</p>
+<p><span class="math display">\[
+\boldsymbol{R}^{\prime} \beta=0
+\]</span></p>
+<p>with <span class="math inline">\(Y \in \mathbb{R}, X \in \mathbb{R}^{k}, Z \in \mathbb{R}^{\ell}, \ell&gt;k\)</span>. The matrix <span class="math inline">\(\boldsymbol{R}\)</span> is <span class="math inline">\(k \times q\)</span> with <span class="math inline">\(1 \leq q&lt;k\)</span>. You have a random sample <span class="math inline">\(\left(Y_{i}, X_{i}, Z_{i}: i=1, \ldots, n\right)\)</span>.</p>
+<p>For simplicity, assume the efficient weight matrix <span class="math inline">\(\boldsymbol{W}=\left(\mathbb{E}\left[Z Z^{\prime} e^{2}\right]\right)^{-1}\)</span> is known.</p>
+<ol type="a">
+<li><p>Write out the GMM estimator <span class="math inline">\(\widehat{\beta}\)</span> ignoring constraint (13.31).</p></li>
+<li><p>Write out the GMM estimator <span class="math inline">\(\widetilde{\beta}\)</span> adding the constraint (13.31).</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widetilde{\beta}-\beta)\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> under Assumption (13.31).</p></li>
+</ol>
+<p>Exercise <span class="math inline">\(13.16\)</span> The observed data is <span class="math inline">\(\left\{Y_{i}, X_{i}, Z_{i}\right\} \in \mathbb{R} \times \mathbb{R}^{k} \times \mathbb{R}^{\ell}, k&gt;1\)</span> and <span class="math inline">\(\ell&gt;k&gt;1, i=1, \ldots, n\)</span>. The model is <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span>.</p>
+<ol type="a">
+<li><p>Given a weight matrix <span class="math inline">\(\boldsymbol{W}&gt;0\)</span> write down the GMM estimator <span class="math inline">\(\widehat{\beta}\)</span> for <span class="math inline">\(\beta\)</span>.</p></li>
+<li><p>Suppose the model is misspecified. Specifically, assume that for some <span class="math inline">\(\delta \neq 0\)</span>,</p></li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+e &amp;=\delta n^{-1 / 2}+u \\
+\mathbb{E}[u \mid Z] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>with <span class="math inline">\(\mu_{Z}=\mathbb{E}[Z] \neq 0\)</span>. Show that (13.32) implies that <span class="math inline">\(\mathbb{E}[Z e] \neq 0\)</span>.</p>
+<ol start="3" type="a">
+<li><p>Express <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> as a function of <span class="math inline">\(\boldsymbol{W}, n, \delta\)</span>, and the variables <span class="math inline">\(\left(X_{i}, Z_{i}, u_{i}\right)\)</span>.</p></li>
+<li><p>Find the asymptotic distribution of <span class="math inline">\(\sqrt{n}(\widehat{\beta}-\beta)\)</span> under Assumption (13.32). Exercise <span class="math inline">\(13.17\)</span> The model is <span class="math inline">\(Y=Z \beta+X \gamma+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid Z]=0, X \in \mathbb{R}\)</span> and <span class="math inline">\(Z \in \mathbb{R}\)</span>. <span class="math inline">\(X\)</span> is potentially endogenous and <span class="math inline">\(Z\)</span> is exogenous. Someone suggests estimating <span class="math inline">\((\beta, \gamma)\)</span> by GMM using the pair <span class="math inline">\(\left(Z, Z^{2}\right)\)</span> as instruments. Is this feasible? Under what conditions is this a valid estimator?</p></li>
+</ol>
+<p>Exercise <span class="math inline">\(13.18\)</span> The observations are i.i.d., <span class="math inline">\(\left(Y_{i}, X_{i}, Q_{i}: i=1, \ldots, n\right)\)</span>, where <span class="math inline">\(X\)</span> is <span class="math inline">\(k \times 1\)</span> and <span class="math inline">\(Q\)</span> is <span class="math inline">\(m \times 1\)</span>. The model is <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span> and <span class="math inline">\(\mathbb{E}[Q e]=0\)</span>. Find the efficient GMM estimator for <span class="math inline">\(\beta\)</span>.</p>
+<p>Exercise 13.19 You want to estimate <span class="math inline">\(\mu=\mathbb{E}[Y]\)</span> under the assumption that <span class="math inline">\(\mathbb{E}[X]=0\)</span>, where <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> are scalar and observed from a random sample. Find an efficient GMM estimator for <span class="math inline">\(\mu\)</span>.</p>
+<p>Exercise 13.20 Consider the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> given <span class="math inline">\(\mathbb{E}[Z e]=0\)</span> and <span class="math inline">\(\boldsymbol{R}^{\prime} \beta=0\)</span>. The dimensions are <span class="math inline">\(X \in R^{k}\)</span> and <span class="math inline">\(Z \in R^{\ell}\)</span> with <span class="math inline">\(\ell&gt;k\)</span>. The matrix <span class="math inline">\(\boldsymbol{R}\)</span> is <span class="math inline">\(k \times q, 1 \leq q&lt;k\)</span>. Derive an efficient GMM estimator for <span class="math inline">\(\beta\)</span>.</p>
+<p>Exercise 13.21 Take the linear equation <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> and consider the following estimators of <span class="math inline">\(\beta\)</span>.</p>
+<ol type="1">
+<li><p><span class="math inline">\(\widehat{\beta}\)</span> : 2SLS using the instruments <span class="math inline">\(Z_{1}\)</span>.</p></li>
+<li><p><span class="math inline">\(\widetilde{\beta}: 2\)</span> SLS using the instruments <span class="math inline">\(Z_{2}\)</span>.</p></li>
+<li><p><span class="math inline">\(\bar{\beta}\)</span> : GMM using the instruments <span class="math inline">\(Z=\left(Z_{1}, Z_{2}\right)\)</span> and the weight matrix</p></li>
+</ol>
+<p><span class="math display">\[
+\boldsymbol{W}=\left(\begin{array}{cc}
+\left(\boldsymbol{Z}_{1}^{\prime} \boldsymbol{Z}_{1}\right)^{-1} \lambda &amp; 0 \\
+0 &amp; \left(\boldsymbol{Z}_{2}^{\prime} \boldsymbol{Z}_{2}\right)^{-1}(1-\lambda)
+\end{array}\right)
+\]</span></p>
+<p>for <span class="math inline">\(\lambda \in(0,1)\)</span>.</p>
+<p>Find an expression for <span class="math inline">\(\bar{\beta}\)</span> which shows that it is a specific weighted average of <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(\widetilde{\beta}\)</span>.</p>
+<p>Exercise 13.22 Consider the just-identified model <span class="math inline">\(Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span> where <span class="math inline">\(X=\left(X_{1}^{\prime}\right.\)</span> <span class="math inline">\(\left.X_{2}^{\prime}\right)^{\prime} \in \mathbb{R}^{k}\)</span> and <span class="math inline">\(Z \in \mathbb{R}^{k}\)</span>. We want to test <span class="math inline">\(\mathbb{H}_{0}: \beta_{1}=0\)</span>. Three econometricians are called for advice.</p>
+<ul>
+<li><p>Econometrician 1 proposes testing <span class="math inline">\(\mathbb{M}_{0}\)</span> by a Wald statistic.</p></li>
+<li><p>Econometrician 2 suggests testing <span class="math inline">\(\mathbb{M}_{0}\)</span> by the GMM Distance Statistic.</p></li>
+<li><p>Econometrician 3 suggests testing <span class="math inline">\(\mathbb{M}_{0}\)</span> using the test of overidentifying restrictions.</p></li>
+</ul>
+<p>You are asked to settle this dispute. Explain the advantages and/or disadvantages of the different procedures in this specific context.</p>
+<p>Exercise 13.23 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span> and <span class="math inline">\(\beta=\boldsymbol{Q} \theta\)</span>, where <span class="math inline">\(\beta\)</span> is <span class="math inline">\(k \times 1, \boldsymbol{Q}\)</span> is <span class="math inline">\(k \times m\)</span> with <span class="math inline">\(m&lt;k, \boldsymbol{Q}\)</span> is known, and <span class="math inline">\(\theta\)</span> is <span class="math inline">\(m \times 1\)</span>. The observations <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are i.i.d. across <span class="math inline">\(i=1, \ldots, n\)</span>.</p>
+<p>Under these assumptions what is the efficient estimator of <span class="math inline">\(\theta\)</span> ?</p>
+<p>Exercise 13.24 Take the model <span class="math inline">\(Y=\theta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0, Y \in \mathbb{R}, X \in \mathbb{R}^{k}\)</span> and <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> a random sample.</p>
+<ol type="a">
+<li><p>Find the efficient GMM estimator of <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Is this model over-identified or just-identified?</p></li>
+<li><p>Find the GMM test statistic for over-identification. Exercise 13.25 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[X e]=0\)</span> where <span class="math inline">\(X\)</span> contains an intercept so <span class="math inline">\(\mathbb{E}[e]=0\)</span>. An enterprising econometrician notices that this implies the <span class="math inline">\(n\)</span> moment conditions</p></li>
+</ol>
+<p><span class="math display">\[
+\mathbb{E}\left[e_{i}\right]=0, i=1, \ldots, n .
+\]</span></p>
+<p>Given an <span class="math inline">\(n \times n\)</span> weight matrix <span class="math inline">\(\boldsymbol{W}\)</span>, this implies a GMM criterion</p>
+<p><span class="math display">\[
+J(\beta)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime} \boldsymbol{W}(\boldsymbol{Y}-\boldsymbol{X} \beta) .
+\]</span></p>
+<ol type="a">
+<li><p>Under i.i.d. sampling, show that the efficient weight matrix is <span class="math inline">\(\boldsymbol{W}=\sigma^{-2} \boldsymbol{I}_{n}\)</span> where <span class="math inline">\(\sigma^{2}=\mathbb{E}\left[e^{2}\right]\)</span>.</p></li>
+<li><p>Using the weight matrix <span class="math inline">\(\boldsymbol{W}=\sigma^{-2} \boldsymbol{I}_{n}\)</span> find the GMM estimator <span class="math inline">\(\widehat{\beta}\)</span> that minimizes <span class="math inline">\(J(\beta)\)</span>.</p></li>
+<li><p>Find a simple expression for the minimized criteria <span class="math inline">\(J(\widehat{\beta})\)</span>.</p></li>
+<li><p>Theorem <span class="math inline">\(13.14\)</span> says that criterion such as <span class="math inline">\(J(\widehat{\beta})\)</span> are asymptotically <span class="math inline">\(\chi_{\ell-k}^{2}\)</span> where <span class="math inline">\(\ell\)</span> is the number of moments. While the assumptions of Theorem <span class="math inline">\(13.14\)</span> do not apply to this context, what is <span class="math inline">\(\ell\)</span> here? That is, which <span class="math inline">\(\chi^{2}\)</span> distribution is the asserted asymptotic distribution?</p></li>
+<li><p>Does the answer in (d) make sense? Explain your reasoning.</p></li>
+</ol>
+<p>Exercise 13.26 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span> and <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span>. An econometrician more enterprising than the one in previous question notices that this implies the <span class="math inline">\(n k\)</span> moment conditions</p>
+<p><span class="math display">\[
+\mathbb{E}\left[X_{i} e_{i}\right]=0, i=1, \ldots, n .
+\]</span></p>
+<p>We can write the moments using matrix notation as <span class="math inline">\(\mathbb{E}\left[\bar{X}^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)\right]\)</span> where</p>
+<p><span class="math display">\[
+\overline{\boldsymbol{X}}=\left(\begin{array}{cccc}
+X_{1}^{\prime} &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; X_{2}^{\prime} &amp; &amp; 0 \\
+\vdots &amp; \vdots &amp; &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; X_{n}^{\prime}
+\end{array}\right) \text {. }
+\]</span></p>
+<p>Given an <span class="math inline">\(n k \times n k\)</span> weight matrix <span class="math inline">\(\boldsymbol{W}\)</span> this implies a GMM criterion</p>
+<p><span class="math display">\[
+J(\beta)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime} \overline{\boldsymbol{X}} \boldsymbol{W} \overline{\boldsymbol{X}}^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta) .
+\]</span></p>
+<ol type="a">
+<li><p>Calculate <span class="math inline">\(\Omega=\mathbb{E}\left[\overline{\boldsymbol{X}}^{\prime} \boldsymbol{e} \boldsymbol{e}^{\prime} \overline{\boldsymbol{X}}\right]\)</span>.</p></li>
+<li><p>The econometrician decides to set <span class="math inline">\(\boldsymbol{W}=\Omega^{-}\)</span>, the Moore-Penrose generalized inverse of <span class="math inline">\(\Omega\)</span>. (See Section A.6.) Note: A useful fact is that for a vector <span class="math inline">\(\boldsymbol{a},\left(\boldsymbol{a} \boldsymbol{a}^{\prime}\right)^{-}=\boldsymbol{a} \boldsymbol{a}^{\prime}\left(\boldsymbol{a}^{\prime} \boldsymbol{a}\right)^{-2}\)</span>.</p></li>
+<li><p>Find the GMM estimator <span class="math inline">\(\widehat{\beta}\)</span> that minimizes <span class="math inline">\(J(\beta)\)</span>.</p></li>
+<li><p>Find a simple expression for the minimized criterion <span class="math inline">\(J(\widehat{\beta})\)</span>.</p></li>
+<li><p>Comment on whether the <span class="math inline">\(\chi^{2}\)</span> approximation from Theorem <span class="math inline">\(13.14\)</span> is appropriate for <span class="math inline">\(J(\widehat{\beta})\)</span>.</p></li>
+</ol>
+<p>Exercise 13.27 Continuation of Exercise 12.22, based on the empirical work reported in Acemoglu, Johnson, and Robinson (2001).</p>
+<ol type="a">
+<li><p>Re-estimate the model estimated in part (j) by efficient GMM. Use the 2SLS estimates as the firststep for the weight matrix and then calculate the GMM estimator using this weight matrix without further iteration. Report the estimates and standard errors. (b) Calculate and report the <span class="math inline">\(J\)</span> statistic for overidentification.</p></li>
+<li><p>Compare the GMM and 2SLS estimates. Discuss your findings.</p></li>
+</ol>
+<p>Exercise 13.28 Continuation of Exercise 12.24, which involved estimation of a wage equation by 2 SLS.</p>
+<ol type="a">
+<li><p>Re-estimate the model in part (a) by efficient GMM. Do the results change meaningfully?</p></li>
+<li><p>Re-estimate the model in part (d) by efficient GMM. Do the results change meaningfully?</p></li>
+<li><p>Report the <span class="math inline">\(J\)</span> statistic for overidentification.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt12-iv.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./summary.html" class="pagination-link">
+        <span class="nav-page-text">Summary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

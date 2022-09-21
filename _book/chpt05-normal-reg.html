@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 5&nbsp; Normal Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./part02-LSM.html" rel="next">
+<link href="./chpt04-lsr.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">5.1</span> Introduction</a></li>
+  <li><a href="#the-normal-distribution" id="toc-the-normal-distribution" class="nav-link" data-scroll-target="#the-normal-distribution"> <span class="header-section-number">5.2</span> The Normal Distribution</a></li>
+  <li><a href="#multivariate-normal-distribution" id="toc-multivariate-normal-distribution" class="nav-link" data-scroll-target="#multivariate-normal-distribution"> <span class="header-section-number">5.3</span> Multivariate Normal Distribution</a></li>
+  <li><a href="#joint-normality-and-linear-regression" id="toc-joint-normality-and-linear-regression" class="nav-link" data-scroll-target="#joint-normality-and-linear-regression"> <span class="header-section-number">5.4</span> Joint Normality and Linear Regression</a></li>
+  <li><a href="#normal-regression-model" id="toc-normal-regression-model" class="nav-link" data-scroll-target="#normal-regression-model"> <span class="header-section-number">5.5</span> Normal Regression Model</a></li>
+  <li><a href="#distribution-of-ols-coefficient-vector" id="toc-distribution-of-ols-coefficient-vector" class="nav-link" data-scroll-target="#distribution-of-ols-coefficient-vector"> <span class="header-section-number">5.6</span> Distribution of OLS Coefficient Vector</a></li>
+  <li><a href="#distribution-of-ols-residual-vector" id="toc-distribution-of-ols-residual-vector" class="nav-link" data-scroll-target="#distribution-of-ols-residual-vector"> <span class="header-section-number">5.7</span> Distribution of OLS Residual Vector</a></li>
+  <li><a href="#distribution-of-variance-estimator" id="toc-distribution-of-variance-estimator" class="nav-link" data-scroll-target="#distribution-of-variance-estimator"> <span class="header-section-number">5.8</span> Distribution of Variance Estimator</a></li>
+  <li><a href="#t-statistic" id="toc-t-statistic" class="nav-link" data-scroll-target="#t-statistic"> <span class="header-section-number">5.9</span> t-statistic</a></li>
+  <li><a href="#confidence-intervals-for-regression-coefficients" id="toc-confidence-intervals-for-regression-coefficients" class="nav-link" data-scroll-target="#confidence-intervals-for-regression-coefficients"> <span class="header-section-number">5.10</span> Confidence Intervals for Regression Coefficients</a></li>
+  <li><a href="#confidence-intervals-for-error-variance" id="toc-confidence-intervals-for-error-variance" class="nav-link" data-scroll-target="#confidence-intervals-for-error-variance"> <span class="header-section-number">5.11</span> Confidence Intervals for Error Variance</a></li>
+  <li><a href="#t-test" id="toc-t-test" class="nav-link" data-scroll-target="#t-test"> <span class="header-section-number">5.12</span> t Test</a></li>
+  <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test"> <span class="header-section-number">5.13</span> Likelihood Ratio Test</a></li>
+  <li><a href="#information-bound-for-normal-regression" id="toc-information-bound-for-normal-regression" class="nav-link" data-scroll-target="#information-bound-for-normal-regression"> <span class="header-section-number">5.14</span> Information Bound for Normal Regression</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">5.15</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt05-normal-reg.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<p>This chapter introduces the normal regression model, which is a special case of the linear regression model. It is important as normality allows precise distributional characterizations and sharp inferences. It also provides a baseline for comparison with alternative inference methods, such as asymptotic approximations and the bootstrap.</p>
+<p>The normal regression model is a fully parametric setting where maximum likelihood estimation is appropriate. Therefore in this chapter we introduce likelihood methods. The method of maximum likelihood is a powerful statistical method for parametric models (such as the normal regression model) and is widely used in econometric practice.</p>
+<p>We start the chapter with a review of the definition and properties of the normal distribution. For detail and mathematical proofs see Chapter 5 of Probability and Statistics for Economists.</p>
+</section>
+<section id="the-normal-distribution" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="the-normal-distribution"><span class="header-section-number">5.2</span> The Normal Distribution</h2>
+<p>We say that a random variable <span class="math inline">\(Z\)</span> has the standard normal distribution, or Gaussian, written <span class="math inline">\(Z \sim\)</span> <span class="math inline">\(\mathrm{N}(0,1)\)</span>, if it has the density</p>
+<p><span class="math display">\[
+\phi(x)=\frac{1}{\sqrt{2 \pi}} \exp \left(-\frac{x^{2}}{2}\right), \quad-\infty&lt;x&lt;\infty .
+\]</span></p>
+<p>The standard normal density is typically written with the symbol <span class="math inline">\(\phi(x)\)</span> and the corresponding distribution function by <span class="math inline">\(\Phi(x)\)</span>. Plots of the standard normal density function <span class="math inline">\(\phi(x)\)</span> and distribution function <span class="math inline">\(\Phi(x)\)</span> are displayed in Figure 5.1.</p>
+<p><img src="images//2022_09_17_d221298fd653b1ce6adbg-02.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Normal Density</li>
+</ol>
+<p><img src="images//2022_09_17_d221298fd653b1ce6adbg-02(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Normal Distribution</li>
+</ol>
+<p>Figure 5.1: Standard Normal Density and Distribution</p>
+<p>Theorem 5.1 If <span class="math inline">\(Z \sim \mathrm{N}(0,1)\)</span> then</p>
+<ol type="1">
+<li><p>All integer moments of <span class="math inline">\(Z\)</span> are finite.</p></li>
+<li><p>All odd moments of <span class="math inline">\(Z\)</span> equal 0 .</p></li>
+<li><p>For any positive integer <span class="math inline">\(m\)</span></p></li>
+</ol>
+<p><span class="math display">\[
+\mathbb{E}\left[Z^{2 m}\right]=(2 m-1) ! !=(2 m-1) \times(2 m-3) \times \cdots \times 1 .
+\]</span></p>
+<p> 1. For any <span class="math inline">\(r&gt;0\)</span></p>
+<p><span class="math display">\[
+\mathbb{E}|Z|^{r}=\frac{2^{r / 2}}{\sqrt{\pi}} \Gamma\left(\frac{r+1}{2}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\Gamma(t)=\int_{0}^{\infty} u^{t-1} e^{-u} d u\)</span> is the gamma function.</p>
+<p>If <span class="math inline">\(Z \sim \mathrm{N}(0,1)\)</span> and <span class="math inline">\(X=\mu+\sigma Z\)</span> for <span class="math inline">\(\mu \in \mathbb{R}\)</span> and <span class="math inline">\(\sigma \geq 0\)</span> then <span class="math inline">\(X\)</span> has the univariate normal distribution, written <span class="math inline">\(X \sim \mathrm{N}\left(\mu, \sigma^{2}\right)\)</span>. By change-of-variables <span class="math inline">\(X\)</span> has the density</p>
+<p><span class="math display">\[
+f(x)=\frac{1}{\sqrt{2 \pi \sigma^{2}}} \exp \left(-\frac{(x-\mu)^{2}}{2 \sigma^{2}}\right), \quad-\infty&lt;x&lt;\infty .
+\]</span></p>
+<p>The expectation and variance of <span class="math inline">\(X\)</span> are <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^{2}\)</span>, respectively.</p>
+<p>The normal distribution and its relatives (the chi-square, student t, F, non-central chi-square, and F) are frequently used for inference to calculate critical values and <span class="math inline">\(\mathrm{p}\)</span>-values. This involves evaluating the normal cdf <span class="math inline">\(\Phi(x)\)</span> and its inverse. Since the cdf <span class="math inline">\(\Phi(x)\)</span> is not available in closed form, statistical textbooks have traditionally provided tables for this purpose. Such tables are not used currently as these calculations are embedded in modern statistical software. For convenience, we list the appropriate commands in MATLAB, R, and Stata to compute the cumulative distribution function of commonly used statistical distributions.</p>
+<p><img src="images//2022_09_17_d221298fd653b1ce6adbg-03.jpg" class="img-fluid"></p>
+<p>Here we list the appropriate commands to compute the inverse probabilities (quantiles) of the same distributions.</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 24%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">To calculate <span class="math inline">\(x\)</span> which solves <span class="math inline">\(p=\mathbb{P}[Z \leq x]\)</span> for given <span class="math inline">\(p\)</span></th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\mathrm{N}(0,1)\)</span></td>
+<td style="text-align: left;">MATLAB</td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{R}\)</span></td>
+<td style="text-align: left;">Stata</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><span class="math inline">\(\operatorname{norminv}(\mathrm{p})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{qnorm}(\mathrm{p})\)</span></td>
+<td style="text-align: left;">invnormal <span class="math inline">\((\mathrm{p})\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(t_{r}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\operatorname{tinv}(\mathrm{p}, \mathrm{r})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{qchisq}(\mathrm{p}, \mathrm{r})\)</span></td>
+<td style="text-align: left;">invchi2 <span class="math inline">\((\mathrm{r}, \mathrm{p})\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F_{r, k}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{finv}(\mathrm{p}, \mathrm{r}, \mathrm{k})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{qf}(\mathrm{p}, \mathrm{r}, \mathrm{k})\)</span></td>
+<td style="text-align: left;">invttail <span class="math inline">\((\mathrm{r}, 1-\mathrm{p})\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\chi_{r}^{2}(d)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{ncx2inv}(\mathrm{p}, \mathrm{r}, \mathrm{d})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{qchisq}(\mathrm{p}, \mathrm{r}, \mathrm{d})\)</span></td>
+<td style="text-align: left;">invnchi2 <span class="math inline">\((\mathrm{r}, \mathrm{d}, \mathrm{p})\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F_{r, k}(d)\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{ncfinv}(\mathrm{p}, \mathrm{r}, \mathrm{k}, \mathrm{d})\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathrm{qf}(\mathrm{p}, \mathrm{r}, \mathrm{k}, \mathrm{d})\)</span></td>
+<td style="text-align: left;">invnFtail <span class="math inline">\((\mathrm{r}, \mathrm{k}, \mathrm{d}, 1-\mathrm{p})\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="multivariate-normal-distribution" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="multivariate-normal-distribution"><span class="header-section-number">5.3</span> Multivariate Normal Distribution</h2>
+<p>We say that the <span class="math inline">\(k\)</span>-vector <span class="math inline">\(Z\)</span> has a multivariate standard normal distribution, written <span class="math inline">\(Z \sim \mathrm{N}\left(0, \boldsymbol{I}_{k}\right)\)</span>, if it has the joint density</p>
+<p><span class="math display">\[
+f(x)=\frac{1}{(2 \pi)^{k / 2}} \exp \left(-\frac{x^{\prime} x}{2}\right), \quad x \in \mathbb{R}^{k}
+\]</span></p>
+<p>The mean and covariance matrix of <span class="math inline">\(Z\)</span> are 0 and <span class="math inline">\(\boldsymbol{I}_{k}\)</span>, respectively. The multivariate joint density factors into the product of univariate normal densities, so the elements of <span class="math inline">\(Z\)</span> are mutually independent standard normals. If <span class="math inline">\(Z \sim \mathrm{N}\left(0, \boldsymbol{I}_{k}\right)\)</span> and <span class="math inline">\(X=\mu+\boldsymbol{B} Z\)</span> then the <span class="math inline">\(k\)</span>-vector <span class="math inline">\(X\)</span> has a multivariate normal distribution, written <span class="math inline">\(X \sim \mathrm{N}(\mu, \Sigma)\)</span> where <span class="math inline">\(\Sigma=\boldsymbol{B} \boldsymbol{B}^{\prime} \geq 0\)</span>. If <span class="math inline">\(\Sigma&gt;0\)</span> then by change-of-variables <span class="math inline">\(X\)</span> has the joint density function</p>
+<p><span class="math display">\[
+f(x)=\frac{1}{(2 \pi)^{k / 2} \operatorname{det}(\Sigma)^{1 / 2}} \exp \left(-\frac{(x-\mu)^{\prime} \Sigma^{-1}(x-\mu)}{2}\right), \quad x \in \mathbb{R}^{k} .
+\]</span></p>
+<p>The expectation and covariance matrix of <span class="math inline">\(X\)</span> are <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\Sigma\)</span>, respectively. By setting <span class="math inline">\(k=1\)</span> you can check that the multivariate normal simplifies to the univariate normal.</p>
+<p>An important property of normal random vectors is that affine functions are multivariate normal.</p>
+<p>Theorem 5.2 If <span class="math inline">\(X \sim \mathrm{N}(\mu, \Sigma)\)</span> and <span class="math inline">\(Y=\boldsymbol{a}+\boldsymbol{B} X\)</span>, then <span class="math inline">\(Y \sim \mathrm{N}\left(\boldsymbol{a}+\boldsymbol{B} \mu, \boldsymbol{B} \Sigma \boldsymbol{B}^{\prime}\right)\)</span>.</p>
+<p>One simple implication of Theorem <span class="math inline">\(5.2\)</span> is that if <span class="math inline">\(X\)</span> is multivariate normal then each component of <span class="math inline">\(X\)</span> is univariate normal.</p>
+<p>Another useful property of the multivariate normal distribution is that uncorrelatedness is the same as independence. That is, if a vector is multivariate normal, subsets of variables are independent if and only if they are uncorrelated.</p>
+<p>Theorem 5.3 Properties of the Multivariate Normal Distribution</p>
+<ol type="1">
+<li><p>The expectation and covariance matrix of <span class="math inline">\(X \sim \mathrm{N}(\mu, \Sigma)\)</span> are <span class="math inline">\(\mathbb{E}[X]=\mu\)</span> and <span class="math inline">\(\operatorname{var}[X]=\Sigma\)</span>.</p></li>
+<li><p>If <span class="math inline">\((X, Y)\)</span> are multivariate normal, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are uncorrelated if and only if they are independent.</p></li>
+<li><p>If <span class="math inline">\(X \sim \mathrm{N}(\mu, \Sigma)\)</span> and <span class="math inline">\(Y=\boldsymbol{a}+\boldsymbol{B} X\)</span>, then <span class="math inline">\(Y \sim \mathrm{N}\left(\boldsymbol{a}+\boldsymbol{B} \mu, \boldsymbol{B} \Sigma \boldsymbol{B}^{\prime}\right)\)</span>.</p></li>
+<li><p>If <span class="math inline">\(X \sim \mathrm{N}\left(0, \boldsymbol{I}_{k}\right)\)</span> then <span class="math inline">\(X^{\prime} X \sim \chi_{k}^{2}\)</span>, chi-square with <span class="math inline">\(k\)</span> degrees of freedom.</p></li>
+<li><p>If <span class="math inline">\(X \sim \mathrm{N}(0, \Sigma)\)</span> with <span class="math inline">\(\Sigma&gt;0\)</span> then <span class="math inline">\(X^{\prime} \Sigma^{-1} X \sim \chi_{k}^{2}\)</span> where <span class="math inline">\(k=\operatorname{dim}(X)\)</span>.</p></li>
+<li><p>If <span class="math inline">\(X \sim \mathrm{N}(\mu, \Sigma)\)</span> with <span class="math inline">\(\Sigma&gt;0, r \times r\)</span>, then <span class="math inline">\(X^{\prime} \Sigma^{-1} X \sim \chi_{r}^{2}(\lambda)\)</span> where <span class="math inline">\(\lambda=\mu^{\prime} \Sigma^{-1} \mu\)</span>.</p></li>
+<li><p>If <span class="math inline">\(Z \sim \mathrm{N}(0,1)\)</span> and <span class="math inline">\(Q \sim \chi_{k}^{2}\)</span> are independent then <span class="math inline">\(Z / \sqrt{Q / k} \sim t_{k}\)</span>, student t with <span class="math inline">\(k\)</span> degrees of freedom.</p></li>
+<li><p>If <span class="math inline">\((Y, X)\)</span> are multivariate normal</p></li>
+</ol>
+<p><span class="math display">\[
+\left(\begin{array}{l}
+Y \\
+X
+\end{array}\right) \sim \mathrm{N}\left(\left(\begin{array}{l}
+\mu_{Y} \\
+\mu_{X}
+\end{array}\right),\left(\begin{array}{cc}
+\Sigma_{Y Y} &amp; \Sigma_{Y X} \\
+\Sigma_{X Y} &amp; \Sigma_{X X}
+\end{array}\right)\right)
+\]</span></p>
+<p>with <span class="math inline">\(\Sigma_{Y Y}&gt;0\)</span> and <span class="math inline">\(\Sigma_{X X}&gt;0\)</span>, then the conditional distributions are</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;Y \mid X \sim \mathrm{N}\left(\mu_{Y}+\Sigma_{Y X} \Sigma_{X X}^{-1}\left(X-\mu_{X}\right), \Sigma_{Y Y}-\Sigma_{Y X} \Sigma_{X X}^{-1} \Sigma_{X Y}\right) \\
+&amp;X \mid Y \sim \mathrm{N}\left(\mu_{X}+\Sigma_{X Y} \Sigma_{Y Y}^{-1}\left(Y-\mu_{Y}\right), \Sigma_{X X}-\Sigma_{X Y} \Sigma_{Y Y}^{-1} \Sigma_{Y X}\right) .
+\end{aligned}
+\]</span></p>
+</section>
+<section id="joint-normality-and-linear-regression" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="joint-normality-and-linear-regression"><span class="header-section-number">5.4</span> Joint Normality and Linear Regression</h2>
+<p>given <span class="math inline">\(X\)</span>Suppose the variables <span class="math inline">\((Y, X)\)</span> are jointly normally distributed. Consider the best linear predictor of <span class="math inline">\(Y\)</span></p>
+<p><span class="math display">\[
+Y=X^{\prime} \beta+\alpha+e .
+\]</span></p>
+<p>By the properties of the best linear predictor, <span class="math inline">\(\mathbb{E}[X e]=0\)</span> and <span class="math inline">\(\mathbb{E}[e]=0\)</span>, so <span class="math inline">\(X\)</span> and <span class="math inline">\(e\)</span> are uncorrelated. Since <span class="math inline">\((e, X)\)</span> is an affine transformation of the normal vector <span class="math inline">\((Y, X)\)</span> it follows that <span class="math inline">\((e, X)\)</span> is jointly normal (Theorem 5.2). Since <span class="math inline">\((e, X)\)</span> is jointly normal and uncorrelated they are independent (Theorem 5.3). Independence implies that</p>
+<p><span class="math display">\[
+\mathbb{E}[e \mid X]=\mathbb{E}[e]=0
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\mathbb{E}\left[e^{2} \mid X\right]=\mathbb{E}\left[e^{2}\right]=\sigma^{2}
+\]</span></p>
+<p>which are properties of a homoskedastic linear CEF.</p>
+<p>We have shown that when <span class="math inline">\((Y, X)\)</span> are jointly normally distributed they satisfy a normal linear CEF</p>
+<p><span class="math display">\[
+Y=X^{\prime} \beta+\alpha+e
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+e \sim \mathrm{N}\left(0, \sigma^{2}\right)
+\]</span></p>
+<p>is independent of <span class="math inline">\(X\)</span>. This result can also be deduced from Theorem 5.3.7.</p>
+<p>This is a classical motivation for the linear regression model.</p>
+</section>
+<section id="normal-regression-model" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="normal-regression-model"><span class="header-section-number">5.5</span> Normal Regression Model</h2>
+<p>The normal regression model is the linear regression model with an independent normal error</p>
+<p><span class="math display">\[
+\begin{gathered}
+Y=X^{\prime} \beta+e \\
+e \sim \mathrm{N}\left(0, \sigma^{2}\right) .
+\end{gathered}
+\]</span></p>
+<p>As we learned in Section 5.4, the normal regression model holds when <span class="math inline">\((Y, X)\)</span> are jointly normally distributed. Normal regression, however, does not require joint normality. All that is required is that the conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is normal (the marginal distribution of <span class="math inline">\(X\)</span> is unrestricted). In this sense the normal regression model is broader than joint normality. Notice that for notational convenience we have written (5.1) so that <span class="math inline">\(X\)</span> contains the intercept.</p>
+<p>Normal regression is a parametric model where likelihood methods can be used for estimation, testing, and distribution theory. The likelihood is the name for the joint probability density of the data, evaluated at the observed sample, and viewed as a function of the parameters. The maximum likelihood estimator is the value which maximizes this likelihood function. Let us now derive the likelihood of the normal regression model.</p>
+<p>First, observe that model (5.1) is equivalent to the statement that the conditional density of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> takes the form</p>
+<p><span class="math display">\[
+f(y \mid x)=\frac{1}{\left(2 \pi \sigma^{2}\right)^{1 / 2}} \exp \left(-\frac{1}{2 \sigma^{2}}\left(y-x^{\prime} \beta\right)^{2}\right)
+\]</span></p>
+<p>Under the assumption that the observations are mutually independent this implies that the conditional density of <span class="math inline">\(\left(Y_{1}, \ldots, Y_{n}\right)\)</span> given <span class="math inline">\(\left(X_{1}, \ldots, X_{n}\right)\)</span> is</p>
+<p><span class="math display">\[
+\begin{aligned}
+f\left(y_{1}, \ldots, y_{n} \mid x_{1}, \ldots, x_{n}\right) &amp;=\prod_{i=1}^{n} f\left(y_{i} \mid x_{i}\right) \\
+&amp;=\prod_{i=1}^{n} \frac{1}{\left(2 \pi \sigma^{2}\right)^{1 / 2}} \exp \left(-\frac{1}{2 \sigma^{2}}\left(y_{i}-x_{i}^{\prime} \beta\right)^{2}\right) \\
+&amp;=\frac{1}{\left(2 \pi \sigma^{2}\right)^{n / 2}} \exp \left(-\frac{1}{2 \sigma^{2}} \sum_{i=1}^{n}\left(y_{i}-x_{i}^{\prime} \beta\right)^{2}\right) \\
+&amp; \stackrel{\operatorname{def}}{=} L_{n}\left(\beta, \sigma^{2}\right) .
+\end{aligned}
+\]</span></p>
+<p>This is called the likelihood function when evaluated at the sample data.</p>
+<p>For convenience it is typical to work with the natural logarithm</p>
+<p><span class="math display">\[
+\log L_{n}\left(\beta, \sigma^{2}\right)=-\frac{n}{2} \log \left(2 \pi \sigma^{2}\right)-\frac{1}{2 \sigma^{2}} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2} \stackrel{\text { def }}{=} \ell_{n}\left(\beta, \sigma^{2}\right)
+\]</span></p>
+<p>which is called the log-likelihood function.</p>
+<p>The maximum likelihood estimator (MLE) <span class="math inline">\(\left(\widehat{\beta}_{\mathrm{mle}}, \widehat{\sigma}_{\mathrm{mle}}^{2}\right)\)</span> is the value which maximizes the log-likelihood. We can write the maximization problem as</p>
+<p><span class="math display">\[
+\left(\widehat{\beta}_{\mathrm{mle}}, \widehat{\sigma}_{\mathrm{mle}}^{2}\right)=\underset{\beta \in \mathbb{R}^{k}, \sigma^{2}&gt;0}{\operatorname{argmax}} \ell_{n}\left(\beta, \sigma^{2}\right) .
+\]</span></p>
+<p>In most applications of maximum likelihood the MLE must be found by numerical methods. However in the case of the normal regression model we can find an explicit expression for <span class="math inline">\(\widehat{\beta}_{\text {mle }}\)</span> and <span class="math inline">\(\widehat{\sigma}_{\text {mle }}^{2}\)</span>.</p>
+<p>The maximizers <span class="math inline">\(\left(\widehat{\beta}_{\text {mle }}, \widehat{\sigma}_{\text {mle }}^{2}\right)\)</span> of (5.3) jointly solve the first-order conditions (FOC)</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;0=\left.\frac{\partial}{\partial \beta} \ell_{n}\left(\beta, \sigma^{2}\right)\right|_{\beta=\widehat{\beta}_{\mathrm{mle}}, \sigma^{2}=\widehat{\sigma}_{\mathrm{mle}}^{2}}=\frac{1}{\widehat{\sigma}_{\mathrm{mle}}^{2}} \sum_{i=1}^{n} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{mle}}\right) \\
+&amp;0=\left.\frac{\partial}{\partial \sigma^{2}} \ell_{n}\left(\beta, \sigma^{2}\right)\right|_{\beta=\widehat{\beta}_{\mathrm{mle}}, \sigma^{2}=\widehat{\sigma}_{\mathrm{mle}}^{2}}=-\frac{n}{2 \widehat{\sigma}_{\mathrm{mle}}^{2}}+\frac{1}{2 \widehat{\sigma}_{\mathrm{mle}}^{4}} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{mle}}\right)^{2} .
+\end{aligned}
+\]</span></p>
+<p>The first FOC (5.4) is proportional to the first-order conditions for the least squares minimization problem of Section 3.6. It follows that the MLE satisfies</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\mathrm{mle}}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right)=\widehat{\beta}_{\mathrm{ols}} .
+\]</span></p>
+<p>That is, the MLE for <span class="math inline">\(\beta\)</span> is algebraically identical to the OLS estimator.</p>
+<p>Solving the second FOC (5.5) for <span class="math inline">\(\widehat{\sigma}_{\mathrm{mle}}^{2}\)</span> we find</p>
+<p><span class="math display">\[
+\widehat{\sigma}_{\mathrm{mle}}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{mle}}\right)^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\mathrm{ols}}\right)^{2}=\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}^{2}=\widehat{\sigma}_{\mathrm{ols}}^{2}
+\]</span></p>
+<p>Thus the MLE for <span class="math inline">\(\sigma^{2}\)</span> is identical to the OLS/moment estimator from (3.26).</p>
+<p>Since the OLS estimator and MLE under normality are equivalent, <span class="math inline">\(\widehat{\beta}\)</span> is described by some authors as the maximum likelihood estimator, and by other authors as the least squares estimator. It is important to remember, however, that <span class="math inline">\(\widehat{\beta}\)</span> is only the MLE when the error <span class="math inline">\(e\)</span> has a known normal distribution and not otherwise.</p>
+<p>Plugging the estimators into (5.2) we obtain the maximized log-likelihood</p>
+<p><span class="math display">\[
+\ell_{n}\left(\widehat{\beta}_{\text {mle }}, \widehat{\sigma}_{\text {mle }}^{2}\right)=-\frac{n}{2} \log \left(2 \pi \widehat{\sigma}_{\text {mle }}^{2}\right)-\frac{n}{2} .
+\]</span></p>
+<p>The log-likelihood is typically reported as a measure of fit.</p>
+<p>It may seem surprising that the MLE <span class="math inline">\(\widehat{\beta}_{\mathrm{mle}}\)</span> is algebraically equal to the OLS estimator despite emerging from quite different motivations. It is not completely accidental. The least squares estimator minimizes a particular sample loss function - the sum of squared error criterion - and most loss functions are equivalent to the likelihood of a specific parametric distribution, in this case the normal regression model. In this sense it is not surprising that the least squares estimator can be motivated as either the minimizer of a sample loss function or as the maximizer of a likelihood function.</p>
+<p><img src="images//2022_09_17_d221298fd653b1ce6adbg-07.jpg" class="img-fluid"></p>
+</section>
+<section id="distribution-of-ols-coefficient-vector" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="distribution-of-ols-coefficient-vector"><span class="header-section-number">5.6</span> Distribution of OLS Coefficient Vector</h2>
+<p>In the normal linear regression model we can derive exact sampling distributions for the OLS/MLE estimator, residuals, and variance estimator. In this section we derive the distribution of the OLS coefficient estimator.</p>
+<p>The normality assumption <span class="math inline">\(e \mid X \sim \mathrm{N}\left(0, \sigma^{2}\right)\)</span> combined with independence of the observations has the multivariate implication</p>
+<p><span class="math display">\[
+\boldsymbol{e} \mid \boldsymbol{X} \sim \mathrm{N}\left(0, \boldsymbol{I}_{n} \sigma^{2}\right) .
+\]</span></p>
+<p>That is, the error vector <span class="math inline">\(\boldsymbol{e}\)</span> is independent of <span class="math inline">\(\boldsymbol{X}\)</span> and is normally distributed.</p>
+<p>Recall that the OLS estimator satisfies</p>
+<p><span class="math display">\[
+\widehat{\beta}-\beta=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{e}
+\]</span></p>
+<p>which is a linear function of <span class="math inline">\(\boldsymbol{e}\)</span>. Since linear functions of normals are also normal (Theorem 5.2) this implies that conditional on <span class="math inline">\(\boldsymbol{X}\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}-\beta \mid \boldsymbol{X} \sim\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \mathrm{N}\left(0, \boldsymbol{I}_{n} \sigma^{2}\right) \\
+&amp; \sim \mathrm{N}\left(0, \sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) \\
+=\mathrm{N}\left(0, \sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) .
+\end{aligned}
+\]</span></p>
+<p>This shows that under the assumption of normal errors the OLS estimator has an exact normal distribution.</p>
+<p>Theorem 5.4 In the normal regression model,</p>
+<p><span class="math display">\[
+\widehat{\beta} \mid \boldsymbol{X} \sim \mathrm{N}\left(\beta, \sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) .
+\]</span></p>
+<p>Theorems <span class="math inline">\(5.2\)</span> and <span class="math inline">\(5.4\)</span> imply that any affine function of the OLS estimator is also normally distributed including individual components. Letting <span class="math inline">\(\beta_{j}\)</span> and <span class="math inline">\(\widehat{\beta}_{j}\)</span> denote the <span class="math inline">\(j^{t h}\)</span> elements of <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\widehat{\beta}\)</span>, we have</p>
+<p><span class="math display">\[
+\widehat{\beta}_{j} \mid \boldsymbol{X} \sim \mathrm{N}\left(\beta_{j}, \sigma^{2}\left[\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right]_{j j}\right)
+\]</span></p>
+<p>Theorem <span class="math inline">\(5.4\)</span> is a statement about the conditional distribution. What about the unconditional distribution? In Section <span class="math inline">\(4.7\)</span> we presented Kinal’s theorem about the existence of moments for the joint normal regression model. We re-state the result here.</p>
+<p>Theorem 5.5 Kinal (1980) If <span class="math inline">\((Y, X)\)</span> are jointly normal, then for any <span class="math inline">\(r, \mathbb{E}\|\widehat{\beta}\|^{r}&lt;\)</span> <span class="math inline">\(\infty\)</span> if and only if <span class="math inline">\(r&lt;n-k+1\)</span>.</p>
+</section>
+<section id="distribution-of-ols-residual-vector" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="distribution-of-ols-residual-vector"><span class="header-section-number">5.7</span> Distribution of OLS Residual Vector</h2>
+<p>Consider the OLS residual vector. Recall from (3.24) that <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{e}\)</span> where <span class="math inline">\(\boldsymbol{M}=\boldsymbol{I}_{n}-\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span>. This shows that <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> is linear in <span class="math inline">\(\boldsymbol{e}\)</span>. So conditional on <span class="math inline">\(\boldsymbol{X}\)</span></p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{e} \mid \boldsymbol{X} \sim \mathrm{N}\left(0, \sigma^{2} \boldsymbol{M} \boldsymbol{M}\right)=\mathrm{N}\left(0, \sigma^{2} \boldsymbol{M}\right)
+\]</span></p>
+<p>the final equality because <span class="math inline">\(M\)</span> is idempotent (see Section 3.12). This shows that the residual vector has an exact normal distribution.</p>
+<p>Furthermore, it is useful to find the joint distribution of <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span>. This is easiest done by writing the two as a stacked linear function of the error <span class="math inline">\(\boldsymbol{e}\)</span>. Indeed,</p>
+<p><span class="math display">\[
+\left(\begin{array}{c}
+\widehat{\beta}-\beta \\
+\widehat{\boldsymbol{e}}
+\end{array}\right)=\left(\begin{array}{c}
+\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{e} \\
+\boldsymbol{M} \boldsymbol{e}
+\end{array}\right)=\left(\begin{array}{c}
+\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \\
+\boldsymbol{M}
+\end{array}\right) \boldsymbol{e}
+\]</span></p>
+<p>which is a linear function of <span class="math inline">\(\boldsymbol{e}\)</span>. The vector has a joint normal distribution with covariance matrix</p>
+<p><span class="math display">\[
+\left(\begin{array}{cc}
+\sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} &amp; 0 \\
+0 &amp; \sigma^{2} \boldsymbol{M}
+\end{array}\right)
+\]</span></p>
+<p>The off-diagonal block is zero because <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{M}=0\)</span> from (3.21). Since this is zero it follows that <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> are statistically independent (Theorem 5.3.2). Theorem 5.6 In the normal regression model, <span class="math inline">\(\widehat{\boldsymbol{e}} \mid \boldsymbol{X} \sim \mathrm{N}\left(0, \sigma^{2} \boldsymbol{M}\right)\)</span> and is independent of <span class="math inline">\(\widehat{\beta}\)</span>.</p>
+<p>The fact that <span class="math inline">\(\widehat{\beta}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> are independent implies that <span class="math inline">\(\widehat{\beta}\)</span> is independent of any function of the residual vector including individual residuals <span class="math inline">\(\widehat{e}_{i}\)</span> and the variance estimators <span class="math inline">\(s^{2}\)</span> and <span class="math inline">\(\widehat{\sigma}^{2}\)</span>.</p>
+</section>
+<section id="distribution-of-variance-estimator" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="distribution-of-variance-estimator"><span class="header-section-number">5.8</span> Distribution of Variance Estimator</h2>
+<p>Next, consider the variance estimator <span class="math inline">\(s^{2}\)</span> from (4.31). Using (3.28) it satisfies <span class="math inline">\((n-k) s^{2}=\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}=\boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}\)</span>. The spectral decomposition of <span class="math inline">\(\boldsymbol{M}\)</span> (equation (A.4)) is <span class="math inline">\(\boldsymbol{M}=\boldsymbol{H} \Lambda \boldsymbol{H}^{\prime}\)</span> where <span class="math inline">\(\boldsymbol{H}^{\prime} \boldsymbol{H}=\boldsymbol{I}_{n}\)</span> and <span class="math inline">\(\Lambda\)</span> is diagonal with the eigenvalues of <span class="math inline">\(\boldsymbol{M}\)</span> on the diagonal. Since <span class="math inline">\(\boldsymbol{M}\)</span> is idempotent with rank <span class="math inline">\(n-k\)</span> (see Section 3.12) it has <span class="math inline">\(n-k\)</span> eigenvalues equalling 1 and <span class="math inline">\(k\)</span> eigenvalues equalling 0 , so</p>
+<p><span class="math display">\[
+\Lambda=\left[\begin{array}{cc}
+\boldsymbol{I}_{n-k} &amp; \mathbf{0} \\
+\mathbf{0} &amp; \mathbf{0}_{k}
+\end{array}\right] .
+\]</span></p>
+<p>Let <span class="math inline">\(\boldsymbol{u}=\boldsymbol{H}^{\prime} \boldsymbol{e} \sim \mathrm{N}\left(\mathbf{0}, \boldsymbol{I}_{n} \sigma^{2}\right)\)</span> (see Exercise 5.2) and partition <span class="math inline">\(\boldsymbol{u}=\left(\boldsymbol{u}_{1}^{\prime}, \boldsymbol{u}_{2}^{\prime}\right)^{\prime}\)</span> where <span class="math inline">\(\boldsymbol{u}_{1} \sim \mathrm{N}\left(0, \boldsymbol{I}_{n-k} \sigma^{2}\right)\)</span>. Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+(n-k) s^{2} &amp;=\boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e} \\
+&amp;=\boldsymbol{e}^{\prime} \boldsymbol{H}\left[\begin{array}{cc}
+\boldsymbol{I}_{n-k} &amp; \mathbf{0} \\
+\mathbf{0} &amp; \mathbf{0}
+\end{array}\right] \boldsymbol{H}^{\prime} \boldsymbol{e} \\
+&amp;=\boldsymbol{u}^{\prime}\left[\begin{array}{cc}
+\boldsymbol{I}_{n-k} &amp; \mathbf{0} \\
+\mathbf{0} &amp; \mathbf{0}
+\end{array}\right] \boldsymbol{u} \\
+&amp;=\boldsymbol{u}_{1}^{\prime} \boldsymbol{u}_{1} \\
+&amp; \sim \sigma^{2} \chi_{n-k}^{2} .
+\end{aligned}
+\]</span></p>
+<p>We see that in the normal regression model the exact distribution of <span class="math inline">\(s^{2}\)</span> is a scaled chi-square.</p>
+<p>Since <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> is independent of <span class="math inline">\(\widehat{\beta}\)</span> it follows that <span class="math inline">\(s^{2}\)</span> is independent of <span class="math inline">\(\widehat{\beta}\)</span> as well.</p>
+<p>Theorem 5.7 In the normal regression model,</p>
+<p><span class="math display">\[
+\frac{(n-k) s^{2}}{\sigma^{2}} \sim \chi_{n-k}^{2}
+\]</span></p>
+<p>and is independent of <span class="math inline">\(\widehat{\beta}\)</span>.</p>
+</section>
+<section id="t-statistic" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="t-statistic"><span class="header-section-number">5.9</span> t-statistic</h2>
+<p>An alternative way of writing (5.7) is</p>
+<p><span class="math display">\[
+\frac{\widehat{\beta}_{j}-\beta_{j}}{\sqrt{\sigma^{2}\left[\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right]_{j j}}} \sim \mathrm{N}(0,1) .
+\]</span></p>
+<p>This is sometimes called a standardized statistic as the distribution is the standard normal.</p>
+<p>Now take the standardized statistic and replace the unknown variance <span class="math inline">\(\sigma^{2}\)</span> with its estimator <span class="math inline">\(s^{2}\)</span>. We call this a t-ratio or t-statistic</p>
+<p><span class="math display">\[
+T=\frac{\widehat{\beta}_{j}-\beta_{j}}{\sqrt{s^{2}\left[\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right]_{j j}}}=\frac{\widehat{\beta}_{j}-\beta_{j}}{s\left(\widehat{\beta}_{j}\right)}
+\]</span></p>
+<p>where <span class="math inline">\(s\left(\widehat{\beta}_{j}\right)\)</span> is the classical (homoskedastic) standard error for <span class="math inline">\(\widehat{\beta}_{j}\)</span> from (4.42). We will sometimes write the t-statistic as <span class="math inline">\(T\left(\beta_{j}\right)\)</span> to explicitly indicate its dependence on the parameter value <span class="math inline">\(\beta_{j}\)</span>, and sometimes will simplify notation and write the <span class="math inline">\(\mathrm{t}\)</span>-statistic as <span class="math inline">\(T\)</span> when the dependence is clear from the context.</p>
+<p>With algebraic re-scaling we can write the t-statistic as the ratio of the standardized statistic and the square root of the scaled variance estimator. Since the distributions of these two components are normal and chi-square, respectively, and independent, we deduce that the t-statistic has the distribution</p>
+<p><span class="math display">\[
+\begin{aligned}
+T &amp;=\frac{\widehat{\beta}_{j}-\beta_{j}}{\sqrt{\sigma^{2}\left[\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right]_{j j}}} / \sqrt{\frac{(n-k) s^{2}}{\sigma^{2}} /(n-k)} \\
+&amp; \sim \frac{\mathrm{N}(0,1)}{\sqrt{\chi_{n-k}^{2} /(n-k)}} \\
+&amp; \sim t_{n-k}
+\end{aligned}
+\]</span></p>
+<p>a student <span class="math inline">\(t\)</span> distribution with <span class="math inline">\(n-k\)</span> degrees of freedom.</p>
+<p>This derivation shows that the t-ratio has a sampling distribution which depends only on the quantity <span class="math inline">\(n-k\)</span>. The distribution does not depend on any other features of the data. In this context, we say that the distribution of the t-ratio is pivotal, meaning that it does not depend on unknowns.</p>
+<p>The trick behind this result is scaling the centered coefficient by its standard error, and recognizing that each depends on the unknown <span class="math inline">\(\sigma\)</span> only through scale. Thus the ratio of the two does not depend on <span class="math inline">\(\sigma\)</span>. This trick (scaling to eliminate dependence on unknowns) is known as studentization.</p>
+<p>Theorem 5.8 In the normal regression model, <span class="math inline">\(T \sim t_{n-k}\)</span>.</p>
+<p>An important caveat about Theorem <span class="math inline">\(5.8\)</span> is that it only applies to the t-statistic constructed with the homoskedastic (old-fashioned) standard error. It does not apply to a t-statistic constructed with any of the robust standard errors. In fact, the robust t-statistics can have finite sample distributions which deviate considerably from <span class="math inline">\(t_{n-k}\)</span> even when the regression errors are independent <span class="math inline">\(\mathrm{N}\left(0, \sigma^{2}\right)\)</span>. Thus the distributional result in Theorem <span class="math inline">\(5.8\)</span> and the use of the t distribution in finite samples is only exact when applied to classical t-statistics under the normality assumption.</p>
+</section>
+<section id="confidence-intervals-for-regression-coefficients" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="confidence-intervals-for-regression-coefficients"><span class="header-section-number">5.10</span> Confidence Intervals for Regression Coefficients</h2>
+<p>The OLS estimator <span class="math inline">\(\widehat{\beta}\)</span> is a point estimator for a coefficient <span class="math inline">\(\beta\)</span>. A broader concept is a set or interval estimator which takes the form <span class="math inline">\(\widehat{C}=[\widehat{L}, \widehat{U}]\)</span>. The goal of an interval estimator <span class="math inline">\(\widehat{C}\)</span> is to contain the true value, e.g.&nbsp;<span class="math inline">\(\beta \in \widehat{C}\)</span>, with high probability.</p>
+<p>The interval estimator <span class="math inline">\(\widehat{C}\)</span> is a function of the data and hence is random. An interval estimator <span class="math inline">\(\widehat{C}\)</span> is called a <span class="math inline">\(1-\alpha\)</span> confidence interval when <span class="math inline">\(\mathbb{P}[\beta \in \widehat{C}]=1-\alpha\)</span> for a selected value of <span class="math inline">\(\alpha\)</span>. The value <span class="math inline">\(1-\alpha\)</span> is called the coverage probability. Typical choices for the coverage probability <span class="math inline">\(1-\alpha\)</span> are <span class="math inline">\(0.95\)</span> or <span class="math inline">\(0.90\)</span>.</p>
+<p>The probability calculation <span class="math inline">\(\mathbb{P}[\beta \in \widehat{C}]\)</span> is easily mis-interpreted as treating <span class="math inline">\(\beta\)</span> as random and <span class="math inline">\(\widehat{C}\)</span> as fixed. (The probability that <span class="math inline">\(\beta\)</span> is in <span class="math inline">\(\widehat{C}\)</span>.) This is not the appropriate interpretation. Instead, the correct interpretation is that the probability <span class="math inline">\(\mathbb{P}[\beta \in \widehat{C}]\)</span> treats the point <span class="math inline">\(\beta\)</span> as fixed and the set <span class="math inline">\(\widehat{C}\)</span> as random. It is the probability that the random set <span class="math inline">\(\widehat{C}\)</span> covers (or contains) the fixed true coefficient <span class="math inline">\(\beta\)</span>.</p>
+<p>There is not a unique method to construct confidence intervals. For example, one simple (yet silly) interval is</p>
+<p><span class="math display">\[
+\widehat{C}=\left\{\begin{array}{cc}
+\mathbb{R} &amp; \text { with probability } 1-\alpha \\
+\{\widehat{\beta}\} &amp; \text { with probability } \alpha .
+\end{array}\right.
+\]</span></p>
+<p>If <span class="math inline">\(\widehat{\beta}\)</span> has a continuous distribution, then by construction <span class="math inline">\(\mathbb{P}[\beta \in \widehat{C}]=1-\alpha\)</span>, so this confidence interval has perfect coverage. However, <span class="math inline">\(\widehat{C}\)</span> is uninformative about <span class="math inline">\(\widehat{\beta}\)</span> and is therefore not useful.</p>
+<p>Instead, a good choice for a confidence interval for the regression coefficient <span class="math inline">\(\beta\)</span> is obtained by adding and subtracting from the estimator <span class="math inline">\(\widehat{\beta}\)</span> a fixed multiple of its standard error:</p>
+<p><span class="math display">\[
+\widehat{C}=[\widehat{\beta}-c \times s(\widehat{\beta}), \quad \widehat{\beta}+c \times s(\widehat{\beta})]
+\]</span></p>
+<p>where <span class="math inline">\(c&gt;0\)</span> is a pre-specified constant. This confidence interval is symmetric about the point estimator <span class="math inline">\(\widehat{\beta}\)</span> and its length is proportional to the standard error <span class="math inline">\(s(\widehat{\beta})\)</span>.</p>
+<p>Equivalently, <span class="math inline">\(\widehat{C}\)</span> is the set of parameter values for <span class="math inline">\(\beta\)</span> such that the t-statistic <span class="math inline">\(T(\beta)\)</span> is smaller (in absolute value) than <span class="math inline">\(c\)</span>, that is</p>
+<p><span class="math display">\[
+\widehat{C}=\{\beta:|T(\beta)| \leq c\}=\left\{\beta:-c \leq \frac{\widehat{\beta}-\beta}{s(\widehat{\beta})} \leq c\right\} .
+\]</span></p>
+<p>The coverage probability of this confidence interval is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}[\beta \in \widehat{C}] &amp;=\mathbb{P}[|T(\beta)| \leq c] \\
+&amp;=\mathbb{P}[-c \leq T(\beta) \leq c] .
+\end{aligned}
+\]</span></p>
+<p>Since the t-statistic <span class="math inline">\(T(\beta)\)</span> has the <span class="math inline">\(t_{n-k}\)</span> distribution, (5.9) equals <span class="math inline">\(F(c)-F(-c)\)</span>, where <span class="math inline">\(F(u)\)</span> is the student <span class="math inline">\(t\)</span> distribution function with <span class="math inline">\(n-k\)</span> degrees of freedom. Since <span class="math inline">\(F(-c)=1-F(c)\)</span> (see Exercise 5.8), we can write (5.9) as</p>
+<p><span class="math display">\[
+\mathbb{P}[\beta \in \widehat{C}]=2 F(c)-1 .
+\]</span></p>
+<p>This is the coverage probability of the interval <span class="math inline">\(\widehat{C}\)</span>, and only depends on the constant <span class="math inline">\(c\)</span>.</p>
+<p>As we mentioned before, a confidence interval has the coverage probability <span class="math inline">\(1-\alpha\)</span>. This requires selecting the constant <span class="math inline">\(c\)</span> so that <span class="math inline">\(F(c)=1-\alpha / 2\)</span>. This holds if <span class="math inline">\(c\)</span> equals the <span class="math inline">\(1-\alpha / 2\)</span> quantile of the <span class="math inline">\(t_{n-k}\)</span> distribution. As there is no closed form expression for these quantiles we compute their values numerically. For example, by tinv (1-alpha/2,n-k) in MATLAB. With this choice the confidence interval (5.8) has exact coverage probability <span class="math inline">\(1-\alpha\)</span>. By default, Stata reports <span class="math inline">\(95 %\)</span> confidence intervals <span class="math inline">\(\widehat{C}\)</span> for each estimated regression coefficient using the same formula.</p>
+<p>Theorem 5.9 In the normal regression model, (5.8) with <span class="math inline">\(c=F^{-1}(1-\alpha / 2)\)</span> has coverage probability <span class="math inline">\(\mathbb{P}[\beta \in \widehat{C}]=1-\alpha\)</span>. When the degree of freedom is large the distinction between the student <span class="math inline">\(t\)</span> and the normal distribution is negligible. In particular, for <span class="math inline">\(n-k \geq 61\)</span> we have <span class="math inline">\(c \leq 2.00\)</span> for a <span class="math inline">\(95 %\)</span> interval. Using this value we obtain the most commonly used confidence interval in applied econometric practice:</p>
+<p><span class="math display">\[
+\widehat{C}=[\widehat{\beta}-2 s(\widehat{\beta}), \quad \widehat{\beta}+2 s(\widehat{\beta})] .
+\]</span></p>
+<p>This is a useful rule-of-thumb. This <span class="math inline">\(95 %\)</span> confidence interval <span class="math inline">\(\widehat{C}\)</span> is simple to compute and can be easily calculated from coefficient estimates and standard errors.</p>
+<p>Theorem 5.10 In the normal regression model, if <span class="math inline">\(n-k \geq 61\)</span> then (5.10) has coverage probability <span class="math inline">\(\mathbb{P}[\beta \in \widehat{C}] \geq 0.95\)</span>.</p>
+<p>Confidence intervals are a simple yet effective tool to assess estimation uncertainty. When reading a set of empirical results look at the estimated coefficient estimates and the standard errors. For a parameter of interest compute the confidence interval <span class="math inline">\(\widehat{C}\)</span> and consider the meaning of the spread of the suggested values. If the range of values in the confidence interval are too wide to learn about <span class="math inline">\(\beta\)</span> then do not jump to a conclusion about <span class="math inline">\(\beta\)</span> based on the point estimate alone.</p>
+</section>
+<section id="confidence-intervals-for-error-variance" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="confidence-intervals-for-error-variance"><span class="header-section-number">5.11</span> Confidence Intervals for Error Variance</h2>
+<p>We can also construct a confidence interval for the regression error variance <span class="math inline">\(\sigma^{2}\)</span> using the sampling distribution of <span class="math inline">\(s^{2}\)</span> from Theorem 5.7. This states that in the normal regression model</p>
+<p><span class="math display">\[
+\frac{(n-k) s^{2}}{\sigma^{2}} \sim \chi_{n-k}^{2} .
+\]</span></p>
+<p>Let <span class="math inline">\(F(u)\)</span> denote the <span class="math inline">\(\chi_{n-k}^{2}\)</span> distribution function and for some <span class="math inline">\(\alpha\)</span> set <span class="math inline">\(c_{1}=F^{-1}(\alpha / 2)\)</span> and <span class="math inline">\(c_{2}=F^{-1}(1-\alpha / 2)\)</span> (the <span class="math inline">\(\alpha / 2\)</span> and <span class="math inline">\(1-\alpha / 2\)</span> quantiles of the <span class="math inline">\(\chi_{n-k}^{2}\)</span> distribution). Equation (5.11) implies that</p>
+<p><span class="math display">\[
+\mathbb{P}\left[c_{1} \leq \frac{(n-k) s^{2}}{\sigma^{2}} \leq c_{2}\right]=F\left(c_{2}\right)-F\left(c_{1}\right)=1-\alpha .
+\]</span></p>
+<p>Rewriting the inequalities we find</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\frac{(n-k) s^{2}}{c_{2}} \leq \sigma^{2} \leq \frac{(n-k) s^{2}}{c_{1}}\right]=1-\alpha .
+\]</span></p>
+<p>This shows that an exact <span class="math inline">\(1-\alpha\)</span> confidence interval for <span class="math inline">\(\sigma^{2}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{C}=\left[\frac{(n-k) s^{2}}{c_{2}}, \quad \frac{(n-k) s^{2}}{c_{1}}\right] .
+\]</span></p>
+<p>Theorem 5.11 In the normal regression model (5.12) has coverage probability <span class="math inline">\(\mathbb{P}\left[\sigma^{2} \in \widehat{C}\right]=1-\alpha\)</span>.</p>
+<p>The confidence interval (5.12) for <span class="math inline">\(\sigma^{2}\)</span> is asymmetric about the point estimate <span class="math inline">\(s^{2}\)</span> due to the latter’s asymmetric sampling distribution.</p>
+</section>
+<section id="t-test" class="level2" data-number="5.12">
+<h2 data-number="5.12" class="anchored" data-anchor-id="t-test"><span class="header-section-number">5.12</span> t Test</h2>
+<p>A typical goal in an econometric exercise is to assess whether or not a coefficient <span class="math inline">\(\beta\)</span> equals a specific value <span class="math inline">\(\beta_{0}\)</span>. Often the specific value to be tested is <span class="math inline">\(\beta_{0}=0\)</span> but this is not essential. This is called hypothesis testing, a subject which will be explored in detail in Chapter 9. In this section and the following we give a short introduction specific to the normal regression model.</p>
+<p>For simplicity write the coefficient to be tested as <span class="math inline">\(\beta\)</span>. The null hypothesis is</p>
+<p><span class="math display">\[
+\mathbb{M}_{0}: \beta=\beta_{0} .
+\]</span></p>
+<p>This states that the hypothesis is that the true value of <span class="math inline">\(\beta\)</span> equals the hypothesized value <span class="math inline">\(\beta_{0}\)</span>.</p>
+<p>The alternative hypothesis is the complement of <span class="math inline">\(\mathbb{M}_{0}\)</span>, and is written as</p>
+<p><span class="math display">\[
+\mathbb{H}_{1}: \beta \neq \beta_{0} .
+\]</span></p>
+<p>This states that the true value of <span class="math inline">\(\beta\)</span> does not equal the hypothesized value.</p>
+<p>We are interested in testing <span class="math inline">\(\mathbb{M}_{0}\)</span> against <span class="math inline">\(\mathbb{M}_{1}\)</span>. The method is to design a statistic which is informative about <span class="math inline">\(\mathbb{M}_{1}\)</span>. If the observed value of the statistic is consistent with random variation under the assumption that <span class="math inline">\(\mathbb{M}_{0}\)</span> is true, then we deduce that there is no evidence against <span class="math inline">\(\mathbb{H}_{0}\)</span> and consequently do not reject <span class="math inline">\(\mathbb{H}_{0}\)</span>. However, if the statistic takes a value which is unlikely to occur under the assumption that <span class="math inline">\(\mathbb{M}_{0}\)</span> is true, then we deduce that there is evidence against <span class="math inline">\(\mathbb{M}_{0}\)</span> and consequently we reject <span class="math inline">\(\mathbb{M}_{0}\)</span> in favor of <span class="math inline">\(\mathbb{M}_{1}\)</span>. The main steps are to design a test statistic and to characterize its sampling distribution.</p>
+<p>The standard statistic to test <span class="math inline">\(\mathbb{M}_{0}\)</span> against <span class="math inline">\(\mathbb{M}_{1}\)</span> is the absolute value of the t-statistic</p>
+<p><span class="math display">\[
+|T|=\left|\frac{\widehat{\beta}-\beta_{0}}{s(\widehat{\beta})}\right| .
+\]</span></p>
+<p>If <span class="math inline">\(\mathbb{M}_{0}\)</span> is true then we expect <span class="math inline">\(|T|\)</span> to be small, but if <span class="math inline">\(\mathbb{M}_{1}\)</span> is true then we would expect <span class="math inline">\(|T|\)</span> to be large. Hence the standard rule is to reject <span class="math inline">\(\mathbb{M}_{0}\)</span> in favor of <span class="math inline">\(\mathbb{M}_{1}\)</span> for large values of the t-statistic <span class="math inline">\(|T|\)</span> and otherwise fail to reject <span class="math inline">\(\mathbb{H}_{0}\)</span>. Thus the hypothesis test takes the form</p>
+<p><span class="math display">\[
+\text { Reject } \mathbb{M}_{0} \text { if }|T|&gt;c \text {. }
+\]</span></p>
+<p>The constant <span class="math inline">\(c\)</span> which appears in the statement of the test is called the critical value. Its value is selected to control the probability of false rejections. When the null hypothesis is true <span class="math inline">\(T\)</span> has an exact <span class="math inline">\(t_{n-k}\)</span> distribution in the normal regression model. Thus for a given value of <span class="math inline">\(c\)</span> the probability of false rejection is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}\left[\text { Reject } \mathbb{H}_{0} \mid \mathbb{B}_{0}\right] &amp;=\mathbb{P}\left[|T|&gt;c \mid \mathbb{M}_{0}\right] \\
+&amp;=\mathbb{P}\left[T&gt;c \mid \mathbb{H}_{0}\right]+\mathbb{P}\left[T&lt;-c \mid \mathbb{M}_{0}\right] \\
+&amp;=1-F(c)+F(-c) \\
+&amp;=2(1-F(c))
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(F(u)\)</span> is the <span class="math inline">\(t_{n-k}\)</span> distribution function. This is the probability of false rejection and is decreasing in the critical value <span class="math inline">\(c\)</span>. We select the value <span class="math inline">\(c\)</span> so that this probability equals a pre-selected value called the significance level which is typically written as <span class="math inline">\(\alpha\)</span>. It is conventional to set <span class="math inline">\(\alpha=0.05\)</span>, though this is not a hard rule. We then select <span class="math inline">\(c\)</span> so that <span class="math inline">\(F(c)=1-\alpha / 2\)</span>, which means that <span class="math inline">\(c\)</span> is the <span class="math inline">\(1-\alpha / 2\)</span> quantile (inverse CDF) of the <span class="math inline">\(t_{n-k}\)</span> distribution, the same as used for confidence intervals. With this choice the decision rule “Reject <span class="math inline">\(\mathbb{M}_{0}\)</span> if <span class="math inline">\(|T|&gt;c\)</span>” has a significance level (false rejection probability) of <span class="math inline">\(\alpha\)</span>. Theorem 5.12 In the normal regression model if the null hypothesis (5.13) is true, then for <span class="math inline">\(|T|\)</span> defined in (5.14) <span class="math inline">\(T \sim t_{n-k}\)</span>. If <span class="math inline">\(c\)</span> is set so that <span class="math inline">\(\mathbb{P}\left[\left|t_{n-k}\right| \geq c\right]=\)</span> <span class="math inline">\(\alpha\)</span>,then the test “Reject <span class="math inline">\(\mathbb{M}_{0}\)</span> in favor of <span class="math inline">\(\mathbb{M}_{1}\)</span> if <span class="math inline">\(|T|&gt;c\)</span>” has significance level <span class="math inline">\(\alpha\)</span>.</p>
+<p>To report the result of a hypothesis test we need to pre-determine the significance level <span class="math inline">\(\alpha\)</span> in order to calculate the critical value <span class="math inline">\(c\)</span>. This can be inconvenient and arbitrary. A simplification is to report what is known as the p-value of the test. In general, when a test takes the form “Reject <span class="math inline">\(\mathbb{B}_{0}\)</span> if <span class="math inline">\(S&gt;c\)</span>” and <span class="math inline">\(S\)</span> has null distribution <span class="math inline">\(G(u)\)</span> then the p-value of the test is <span class="math inline">\(p=1-G(S)\)</span>. A test with significance level <span class="math inline">\(\alpha\)</span> can be restated as “Reject <span class="math inline">\(\mathbb{M}_{0}\)</span> if <span class="math inline">\(p&lt;\alpha\)</span>”. It is sufficient to report the p-value <span class="math inline">\(p\)</span> and we can interpret the value of <span class="math inline">\(p\)</span> as indexing the test’s strength of rejection of the null hypothesis. Thus a <span class="math inline">\(\mathrm{p}\)</span>-value of <span class="math inline">\(0.07\)</span> might be interpreted as “nearly significant”, <span class="math inline">\(0.05\)</span> as “borderline significant”, and <span class="math inline">\(0.001\)</span> as “highly significant”. In the context of the normal regression model the p-value of a t-statistic <span class="math inline">\(|T|\)</span> is <span class="math inline">\(p=2\left(1-F_{n-k}(|T|)\right)\)</span> where <span class="math inline">\(F_{n-k}\)</span> is the <span class="math inline">\(t_{n-k}\)</span> CDF. For example, in MATLAB the calculation is <span class="math inline">\(2 *(1-\mathrm{t} c d f(\mathrm{abs}(\mathrm{t}), \mathrm{n}-\mathrm{k}))\)</span>. In Stata, the default is that for any estimated regression, t-statistics for each estimated coefficient are reported along with their p-values calculated using this same formula. These t-statistics test the hypotheses that each coefficient is zero.</p>
+<p>A p-value reports the strength of evidence against <span class="math inline">\(\mathbb{M}_{0}\)</span> but is not itself a probability. A common misunderstanding is that the p-value is the “probability that the null hypothesis is true”. This is an incorrect interpretation. It is a statistic, is random, and is a measure of the evidence against <span class="math inline">\(\mathbb{M}_{0}\)</span>. Nothing more.</p>
+</section>
+<section id="likelihood-ratio-test" class="level2" data-number="5.13">
+<h2 data-number="5.13" class="anchored" data-anchor-id="likelihood-ratio-test"><span class="header-section-number">5.13</span> Likelihood Ratio Test</h2>
+<p>In the previous section we described the t-test as the standard method to test a hypothesis on a single coefficient in a regression. In many contexts, however, we want to simultaneously assess a set of coefficients. In the normal regression model, this can be done by an <span class="math inline">\(F\)</span> test which can be derived from the likelihood ratio test.</p>
+<p>Partition the regressors as <span class="math inline">\(X=\left(X_{1}^{\prime}, X_{2}^{\prime}\right)\)</span> and similarly partition the coefficient vector as <span class="math inline">\(\beta=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)^{\prime}\)</span>. The regression model can be written as</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+X_{2}^{\prime} \beta_{2}+e .
+\]</span></p>
+<p>Let <span class="math inline">\(k=\operatorname{dim}(X), k_{1}=\operatorname{dim}\left(X_{1}\right)\)</span>, and <span class="math inline">\(q=\operatorname{dim}\left(X_{2}\right)\)</span>, so that <span class="math inline">\(k=k_{1}+q\)</span>. Partition the variables so that the hypothesis is that the second set of coefficients are zero, or</p>
+<p><span class="math display">\[
+\mathbb{H}_{0}: \beta_{2}=0 .
+\]</span></p>
+<p>If <span class="math inline">\(\mathbb{M}_{0}\)</span> is true then the regressors <span class="math inline">\(X_{2}\)</span> can be omitted from the regression. In this case we can write (5.15) as</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+e .
+\]</span></p>
+<p>We call (5.17) the null model. The alternative hypothesis is that at least one element of <span class="math inline">\(\beta_{2}\)</span> is non-zero and is written as <span class="math inline">\(\mathbb{H}_{1}: \beta_{2} \neq 0\)</span>.</p>
+<p>When models are estimated by maximum likelihood a well-accepted testing procedure is to reject <span class="math inline">\(\mathbb{M}_{0}\)</span> in favor of <span class="math inline">\(\mathbb{M}_{1}\)</span> for large values of the Likelihood Ratio - the ratio of the maximized likelihood function under <span class="math inline">\(\mathbb{H}_{1}\)</span> and <span class="math inline">\(\mathbb{H}_{0}\)</span>, respectively. We now construct this statistic in the normal regression model. Recall from (5.6) that the maximized log-likelihood equals</p>
+<p><span class="math display">\[
+\ell_{n}\left(\widehat{\beta}, \widehat{\sigma}^{2}\right)=-\frac{n}{2} \log \left(2 \pi \widehat{\sigma}^{2}\right)-\frac{n}{2} .
+\]</span></p>
+<p>We similarly calculate the maximized log-likelihood for the constrained model (5.17). By the same steps for derivation of the unconstrained MLE we find that the MLE for (5.17) is OLS of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X_{1}\)</span>. We can write this estimator as</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{1}=\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1}\right)^{-1} \boldsymbol{X}_{1}^{\prime} \boldsymbol{Y}
+\]</span></p>
+<p>with residual <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{1 i}^{\prime} \widetilde{\beta}_{1}\)</span> and error variance estimate <span class="math inline">\(\widetilde{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} \widetilde{e}_{i}^{2}\)</span>. We use tildes ” <span class="math inline">\(\sim\)</span> ” rather than hats ” <span class="math inline">\(\wedge\)</span> ” above the constrained estimates to distinguish them from the unconstrained estimates. You can calculate similar to (5.6) that the maximized constrained log-likelihood is</p>
+<p><span class="math display">\[
+\ell_{n}\left(\widetilde{\beta}_{1}, \widetilde{\sigma}^{2}\right)=-\frac{n}{2} \log \left(2 \pi \widetilde{\sigma}^{2}\right)-\frac{n}{2} .
+\]</span></p>
+<p>A classic testing procedure is to reject <span class="math inline">\(\mathbb{H}_{0}\)</span> for large values of the ratio of the maximized likelihoods. Equivalently the test rejects <span class="math inline">\(\mathbb{H}_{0}\)</span> for large values of twice the difference in the log-likelihood functions. (Multiplying the likelihood difference by two turns out to be a useful scaling.) This equals</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathrm{LR} &amp;=2\left(\ell_{n}\left(\widehat{\beta}, \widehat{\sigma}^{2}\right)-\ell_{n}\left(\widetilde{\beta}_{1}, \widetilde{\sigma}^{2}\right)\right) \\
+&amp;=2\left(\left(-\frac{n}{2} \log \left(2 \pi \widehat{\sigma}^{2}\right)-\frac{n}{2}\right)-\left(-\frac{n}{2} \log \left(2 \pi \widetilde{\sigma}^{2}\right)-\frac{n}{2}\right)\right) \\
+&amp;=n \log \left(\frac{\widetilde{\sigma}^{2}}{\widehat{\sigma}^{2}}\right) .
+\end{aligned}
+\]</span></p>
+<p>The likelihood ratio test rejects <span class="math inline">\(\mathbb{H}_{0}\)</span> for large values of LR, or equivalently (see Exercise <span class="math inline">\(5.10\)</span> ) for large values of</p>
+<p><span class="math display">\[
+\mathrm{F}=\frac{\left(\widetilde{\sigma}^{2}-\widehat{\sigma}^{2}\right) / q}{\widehat{\sigma}^{2} /(n-k)} .
+\]</span></p>
+<p>This is known as the <span class="math inline">\(F\)</span> statistic for the test of hypothesis <span class="math inline">\(\mathbb{M}_{0}\)</span> against <span class="math inline">\(\mathbb{M}_{1}\)</span>.</p>
+<p>To develop an appropriate critical value we need the null distribution of <span class="math inline">\(F\)</span>. Recall from (3.28) that <span class="math inline">\(n \widehat{\sigma}^{2}=\boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}\)</span> where <span class="math inline">\(\boldsymbol{M}=\boldsymbol{I}_{n}-\boldsymbol{P}\)</span> with <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span>. Similarly, under <span class="math inline">\(\mathbb{H}_{0}, n \widetilde{\sigma}^{2}=\boldsymbol{e}^{\prime} \boldsymbol{M}_{1} \boldsymbol{e}\)</span> where <span class="math inline">\(\boldsymbol{M}=\)</span> <span class="math inline">\(\boldsymbol{I}_{n}-\boldsymbol{P}_{1}\)</span> with <span class="math inline">\(\boldsymbol{P}_{1}=\boldsymbol{X}_{1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1}\right)^{-1} \boldsymbol{X}_{1}^{\prime}\)</span>. You can calculate that <span class="math inline">\(\boldsymbol{M}_{1}-\boldsymbol{M}=\boldsymbol{P}-\boldsymbol{P}_{1}\)</span> is idempotent with rank <span class="math inline">\(q\)</span>. Furthermore, <span class="math inline">\(\left(\boldsymbol{M}_{1}-\boldsymbol{M}\right) \boldsymbol{M}=0\)</span>. It follows that <span class="math inline">\(\boldsymbol{e}^{\prime}\left(\boldsymbol{M}_{1}-\boldsymbol{M}\right) \boldsymbol{e} \sim \chi_{q}^{2}\)</span> and is independent of <span class="math inline">\(\boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}\)</span>. Hence</p>
+<p><span class="math display">\[
+\mathrm{F}=\frac{\boldsymbol{e}^{\prime}\left(\boldsymbol{M}_{1}-\boldsymbol{M}\right) \boldsymbol{e} / q}{\boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e} /(n-k)} \sim \frac{\chi_{q}^{2} / q}{\chi_{n-k}^{2} /(n-k)} \sim F_{q, n-k}
+\]</span></p>
+<p>an exact <span class="math inline">\(F\)</span> distribution with degrees of freedom <span class="math inline">\(q\)</span> and <span class="math inline">\(n-k\)</span>, respectively. Thus under <span class="math inline">\(\mathbb{H}_{0}\)</span>, the <span class="math inline">\(F\)</span> statistic has an exact <span class="math inline">\(F\)</span> distribution.</p>
+<p>The critical values are selected from the upper tail of the <span class="math inline">\(F\)</span> distribution. For a given significance level <span class="math inline">\(\alpha\)</span> (typically <span class="math inline">\(\alpha=0.05\)</span> ) we select the critical value <span class="math inline">\(c\)</span> so that <span class="math inline">\(\mathbb{P}\left[F_{q, n-k} \geq c\right]=\alpha\)</span>. For example, in MATLAB the expression is <span class="math inline">\(f \operatorname{inv}(1-\alpha, \mathrm{q}, \mathrm{n}-\mathrm{k})\)</span>. The test rejects <span class="math inline">\(\mathbb{M}_{0}\)</span> in favor of <span class="math inline">\(\mathbb{B}_{1}\)</span> if <span class="math inline">\(F&gt;c\)</span> and does not reject <span class="math inline">\(\mathbb{H}_{0}\)</span> otherwise. The p-value of the test is <span class="math inline">\(p=1-G_{q, n-k}(F)\)</span> where <span class="math inline">\(G_{q, n-k}(u)\)</span> is the <span class="math inline">\(F_{q, n-k}\)</span> distribution function. In MATLAB, the p-value is computed as <span class="math inline">\(1-\mathrm{f} c d f(\mathrm{f}, \mathrm{q}, \mathrm{n}-\mathrm{k})\)</span>. It is equivalent to reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(F&gt;c\)</span> or <span class="math inline">\(p&lt;\alpha\)</span>.</p>
+<p>In Stata, the command to test multiple coefficients takes the form ‘test X1 X2’ where X1 and X2 are the names of the variables whose coefficients are tested. Stata then reports the F statistic for the hypothesis that the coefficients are jointly zero along with the p-value calculated using the <span class="math inline">\(F\)</span> distribution.</p>
+<p>Theorem 5.13 In the normal regression model, if the null hypothesis (5.16) is true, then for <span class="math inline">\(F\)</span> defined in (5.19), <span class="math inline">\(F \sim F_{q, n-k}\)</span>. If <span class="math inline">\(c\)</span> is set so that <span class="math inline">\(\mathbb{P}\left[F_{q, n-k} \geq c\right]=\alpha\)</span> then the test “Reject <span class="math inline">\(\mathbb{M}_{0}\)</span> in favor of <span class="math inline">\(\mathbb{M}_{1}\)</span> if <span class="math inline">\(F&gt;c\)</span>” has significance level <span class="math inline">\(\alpha\)</span>. Theorem <span class="math inline">\(5.13\)</span> justifies the <span class="math inline">\(F\)</span> test in the normal regression model with critical values from the <span class="math inline">\(F\)</span> distribution.</p>
+</section>
+<section id="information-bound-for-normal-regression" class="level2" data-number="5.14">
+<h2 data-number="5.14" class="anchored" data-anchor-id="information-bound-for-normal-regression"><span class="header-section-number">5.14</span> Information Bound for Normal Regression</h2>
+<p>This section requires a familiarity with the theory of the Cramér-Rao Lower Bound. See Chapter 10 of Probability and Statistics for Economists.</p>
+<p>The likelihood scores for the normal regression model are</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \beta} \ell_{n}\left(\beta, \sigma^{2}\right)=\frac{1}{\sigma^{2}} \sum_{i=1}^{n} X_{i}\left(Y_{i}-X_{i}^{\prime} \beta\right)=\frac{1}{\sigma^{2}} \sum_{i=1}^{n} X_{i} e_{i}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \sigma^{2}} \ell_{n}\left(\beta, \sigma^{2}\right)=-\frac{n}{2 \sigma^{2}}+\frac{1}{2 \sigma^{4}} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}=\frac{1}{2 \sigma^{4}} \sum_{i=1}^{n}\left(e_{i}^{2}-\sigma^{2}\right)
+\]</span></p>
+<p>It follows that the information matrix is</p>
+<p><span class="math display">\[
+\mathscr{I}=\operatorname{var}\left[\begin{array}{c}
+\frac{\partial}{\partial \beta} \ell\left(\beta, \sigma^{2}\right) \\
+\frac{\partial}{\partial \sigma^{2}} \ell\left(\beta, \sigma^{2}\right)
+\end{array} \mid \boldsymbol{X}\right]=\left(\begin{array}{cc}
+\frac{1}{\sigma^{2}} \boldsymbol{X}^{\prime} \boldsymbol{X} &amp; 0 \\
+0 &amp; \frac{2 \sigma^{4}}{n}
+\end{array}\right)
+\]</span></p>
+<p>(see Exercise 5.11). The Cramér-Rao Lower Bound is</p>
+<p><span class="math display">\[
+\mathscr{I}^{-1}=\left(\begin{array}{cc}
+\sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} &amp; 0 \\
+0 &amp; \frac{2 \sigma^{4}}{n}
+\end{array}\right)
+\]</span></p>
+<p>This shows that the lower bound for estimation of <span class="math inline">\(\beta\)</span> is <span class="math inline">\(\sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\)</span> and the lower bound for <span class="math inline">\(\sigma^{2}\)</span> is <span class="math inline">\(2 \sigma^{4} / n\)</span>.</p>
+<p>The unbiased variance estimator <span class="math inline">\(s^{2}\)</span> of <span class="math inline">\(\sigma^{2}\)</span> has variance <span class="math inline">\(2 \sigma^{4} /(n-k)\)</span> (see Exercise 5.12) which is larger than the Cramér-Rao lower bound <span class="math inline">\(2 \sigma^{4} / n\)</span>. Thus in contrast to the coefficient estimator, the variance estimator is not Cramér-Rao efficient.</p>
+</section>
+<section id="exercises" class="level2" data-number="5.15">
+<h2 data-number="5.15" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.15</span> Exercises</h2>
+<p>Exercise 5.1 Show that if <span class="math inline">\(Q \sim \chi_{r}^{2}\)</span>, then <span class="math inline">\(\mathbb{E}[Q]=r\)</span> and <span class="math inline">\(\operatorname{var}[Q]=2 r\)</span>.</p>
+<p>Hint: Use the representation <span class="math inline">\(Q=\sum_{i=1}^{n} Z_{i}^{2}\)</span> with <span class="math inline">\(Z_{i}\)</span> independent <span class="math inline">\(\mathrm{N}(0,1)\)</span>.</p>
+<p>Exercise 5.2 Show that if <span class="math inline">\(\boldsymbol{e} \sim \mathrm{N}\left(0, \boldsymbol{I}_{n} \sigma^{2}\right)\)</span> and <span class="math inline">\(\boldsymbol{H}^{\prime} \boldsymbol{H}=\boldsymbol{I}_{n}\)</span> then <span class="math inline">\(\boldsymbol{u}=\boldsymbol{H}^{\prime} \boldsymbol{e} \sim \mathrm{N}\left(0, \boldsymbol{I}_{n} \sigma^{2}\right)\)</span>.</p>
+<p>Exercise 5.3 Show that if <span class="math inline">\(\boldsymbol{e} \sim \mathrm{N}(0, \Sigma)\)</span> and <span class="math inline">\(\Sigma=\boldsymbol{A} \boldsymbol{A}^{\prime}\)</span> then <span class="math inline">\(\boldsymbol{u}=\boldsymbol{A}^{-1} \boldsymbol{e} \sim \mathrm{N}\left(0, \boldsymbol{I}_{n}\right)\)</span>.</p>
+<p>Exercise 5.4 Show that <span class="math inline">\(\operatorname{argmax}_{\theta \in \Theta} \ell_{n}(\theta)=\operatorname{argmax}_{\theta \in \Theta} L_{n}(\theta)\)</span>.</p>
+<p>Exercise 5.5 For the regression in-sample predicted values <span class="math inline">\(\widehat{Y}_{i}\)</span> show that <span class="math inline">\(\widehat{Y}_{i} \mid \boldsymbol{X} \sim \mathrm{N}\left(X_{i}^{\prime} \beta, \sigma^{2} h_{i i}\right)\)</span> where <span class="math inline">\(h_{i i}\)</span> are the leverage values (3.40).</p>
+<p>Exercise 5.6 In the normal regression model show that the leave-one out prediction errors <span class="math inline">\(\widetilde{e}_{i}\)</span> and the standardized residuals <span class="math inline">\(\bar{e}_{i}\)</span> are independent of <span class="math inline">\(\widehat{\beta}\)</span>, conditional on <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
+<p>Hint: Use (3.45) and (4.29). Exercise 5.7 In the normal regression model show that the robust covariance matrices <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 0}, \widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HCl}}\)</span>, <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC} 2}\)</span>, and <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{\mathrm{HC}}\)</span> are independent of the OLS estimator <span class="math inline">\(\widehat{\beta}\)</span>, conditional on <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
+<p>Exercise 5.8 Let <span class="math inline">\(F(u)\)</span> be the distribution function of a random variable <span class="math inline">\(X\)</span> whose density is symmetric about zero. (This includes the standard normal and the student <span class="math inline">\(t\)</span>.) Show that <span class="math inline">\(F(-u)=1-F(u)\)</span>.</p>
+<p>Exercise 5.9 Let <span class="math inline">\(\widehat{C}_{\beta}=[L, U]\)</span> be a <span class="math inline">\(1-\alpha\)</span> confidence interval for <span class="math inline">\(\beta\)</span>, and consider the transformation <span class="math inline">\(\theta=g(\beta)\)</span> where <span class="math inline">\(g(\cdot)\)</span> is monotonically increasing. Consider the confidence interval <span class="math inline">\(\widehat{C}_{\theta}=[g(L), g(U)]\)</span> for <span class="math inline">\(\theta\)</span>. Show that <span class="math inline">\(\mathbb{P}\left[\theta \in \widehat{C}_{\theta}\right]=\mathbb{P}\left[\beta \in \widehat{C}_{\beta}\right]\)</span>. Use this result to develop a confidence interval for <span class="math inline">\(\sigma\)</span>.</p>
+<p>Exercise 5.10 Show that the test “Reject <span class="math inline">\(\mathbb{M}_{0}\)</span> if <span class="math inline">\(L R \geq c_{1}\)</span>” for LR defined in (5.18), and the test “Reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if <span class="math inline">\(\mathrm{F} \geq c_{2}\)</span>” for <span class="math inline">\(\mathrm{F}\)</span> defined in (5.19), yield the same decisions if <span class="math inline">\(c_{2}=\left(\exp \left(c_{1} / n\right)-1\right)(n-k) / q\)</span>. Does this mean that the two tests are equivalent?</p>
+<p>Exercise 5.11 Show (5.20).</p>
+<p>Exercise 5.12 In the normal regression model let <span class="math inline">\(s^{2}\)</span> be the unbiased estimator of the error variance <span class="math inline">\(\sigma^{2}\)</span> from (4.31).</p>
+<ol type="a">
+<li><p>Show that <span class="math inline">\(\operatorname{var}\left[s^{2}\right]=2 \sigma^{4} /(n-k)\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(\operatorname{var}\left[s^{2}\right]\)</span> is strictly larger than the Cramér-Rao Lower Bound for <span class="math inline">\(\sigma^{2}\)</span>.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt04-lsr.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./part02-LSM.html" class="pagination-link">
+        <span class="nav-page-text">大样本方法</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

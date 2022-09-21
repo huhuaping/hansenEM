@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 3&nbsp; The Algebra of Least Squares</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt04-lsr.html" rel="next">
+<link href="./chpt02-ce.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">3.1</span> Introduction</a></li>
+  <li><a href="#samples" id="toc-samples" class="nav-link" data-scroll-target="#samples"> <span class="header-section-number">3.2</span> Samples</a></li>
+  <li><a href="#moment-estimators" id="toc-moment-estimators" class="nav-link" data-scroll-target="#moment-estimators"> <span class="header-section-number">3.3</span> Moment Estimators</a></li>
+  <li><a href="#least-squares-estimator" id="toc-least-squares-estimator" class="nav-link" data-scroll-target="#least-squares-estimator"> <span class="header-section-number">3.4</span> Least Squares Estimator</a></li>
+  <li><a href="#solving-for-least-squares-with-one-regressor" id="toc-solving-for-least-squares-with-one-regressor" class="nav-link" data-scroll-target="#solving-for-least-squares-with-one-regressor"> <span class="header-section-number">3.5</span> Solving for Least Squares with One Regressor</a></li>
+  <li><a href="#solving-for-least-squares-with-multiple-regressors" id="toc-solving-for-least-squares-with-multiple-regressors" class="nav-link" data-scroll-target="#solving-for-least-squares-with-multiple-regressors"> <span class="header-section-number">3.6</span> Solving for Least Squares with Multiple Regressors</a></li>
+  <li><a href="#adrien-marie-legendre" id="toc-adrien-marie-legendre" class="nav-link" data-scroll-target="#adrien-marie-legendre"> <span class="header-section-number">3.7</span> Adrien-Marie Legendre</a></li>
+  <li><a href="#illustration" id="toc-illustration" class="nav-link" data-scroll-target="#illustration"> <span class="header-section-number">3.8</span> Illustration</a></li>
+  <li><a href="#least-squares-residuals" id="toc-least-squares-residuals" class="nav-link" data-scroll-target="#least-squares-residuals"> <span class="header-section-number">3.9</span> Least Squares Residuals</a></li>
+  <li><a href="#demeaned-regressors" id="toc-demeaned-regressors" class="nav-link" data-scroll-target="#demeaned-regressors"> <span class="header-section-number">3.10</span> Demeaned Regressors</a></li>
+  <li><a href="#model-in-matrix-notation" id="toc-model-in-matrix-notation" class="nav-link" data-scroll-target="#model-in-matrix-notation"> <span class="header-section-number">3.11</span> Model in Matrix Notation</a></li>
+  <li><a href="#early-use-of-matrices" id="toc-early-use-of-matrices" class="nav-link" data-scroll-target="#early-use-of-matrices"> <span class="header-section-number">3.12</span> Early Use of Matrices</a></li>
+  <li><a href="#projection-matrix" id="toc-projection-matrix" class="nav-link" data-scroll-target="#projection-matrix"> <span class="header-section-number">3.13</span> Projection Matrix</a></li>
+  <li><a href="#annihilator-matrix" id="toc-annihilator-matrix" class="nav-link" data-scroll-target="#annihilator-matrix"> <span class="header-section-number">3.14</span> Annihilator Matrix</a></li>
+  <li><a href="#estimation-of-error-variance" id="toc-estimation-of-error-variance" class="nav-link" data-scroll-target="#estimation-of-error-variance"> <span class="header-section-number">3.15</span> Estimation of Error Variance</a></li>
+  <li><a href="#analysis-of-variance" id="toc-analysis-of-variance" class="nav-link" data-scroll-target="#analysis-of-variance"> <span class="header-section-number">3.16</span> Analysis of Variance</a></li>
+  <li><a href="#projections" id="toc-projections" class="nav-link" data-scroll-target="#projections"> <span class="header-section-number">3.17</span> Projections</a></li>
+  <li><a href="#regression-components" id="toc-regression-components" class="nav-link" data-scroll-target="#regression-components"> <span class="header-section-number">3.18</span> Regression Components</a></li>
+  <li><a href="#regression-components-alternative-derivation" id="toc-regression-components-alternative-derivation" class="nav-link" data-scroll-target="#regression-components-alternative-derivation"> <span class="header-section-number">3.19</span> Regression Components (Alternative Derivation)*</a></li>
+  <li><a href="#residual-regression" id="toc-residual-regression" class="nav-link" data-scroll-target="#residual-regression"> <span class="header-section-number">3.20</span> Residual Regression</a></li>
+  <li><a href="#leverage-values" id="toc-leverage-values" class="nav-link" data-scroll-target="#leverage-values"> <span class="header-section-number">3.21</span> Leverage Values</a></li>
+  <li><a href="#leave-one-out-regression" id="toc-leave-one-out-regression" class="nav-link" data-scroll-target="#leave-one-out-regression"> <span class="header-section-number">3.22</span> Leave-One-Out Regression</a></li>
+  <li><a href="#influential-observations" id="toc-influential-observations" class="nav-link" data-scroll-target="#influential-observations"> <span class="header-section-number">3.23</span> Influential Observations</a></li>
+  <li><a href="#cps-data-set" id="toc-cps-data-set" class="nav-link" data-scroll-target="#cps-data-set"> <span class="header-section-number">3.24</span> CPS Data Set</a></li>
+  <li><a href="#numerical-computation" id="toc-numerical-computation" class="nav-link" data-scroll-target="#numerical-computation"> <span class="header-section-number">3.25</span> Numerical Computation</a></li>
+  <li><a href="#collinearity-errors" id="toc-collinearity-errors" class="nav-link" data-scroll-target="#collinearity-errors"> <span class="header-section-number">3.26</span> Collinearity Errors</a></li>
+  <li><a href="#programming" id="toc-programming" class="nav-link" data-scroll-target="#programming"> <span class="header-section-number">3.27</span> Programming</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">3.28</span> Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt03-algebra.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
+<p>In this chapter we introduce the popular least squares estimator. Most of the discussion will be algebraic, with questions of distribution and inference deferred to later chapters.</p>
+</section>
+<section id="samples" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="samples"><span class="header-section-number">3.2</span> Samples</h2>
+<p>In Section <span class="math inline">\(2.18\)</span> we derived and discussed the best linear predictor of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> for a pair of random variables <span class="math inline">\((Y, X) \in \mathbb{R} \times \mathbb{R}^{k}\)</span> and called this the linear projection model. We are now interested in estimating the parameters of this model, in particular the projection coefficient</p>
+<p><span class="math display">\[
+\beta=\left(\mathbb{E}\left[X X^{\prime}\right]\right)^{-1} \mathbb{E}[X Y] .
+\]</span></p>
+<p>We can estimate <span class="math inline">\(\beta\)</span> from samples which include joint measurements of <span class="math inline">\((Y, X)\)</span>. For example, supposing we are interested in estimating a wage equation, we would use a dataset with observations on wages (or weekly earnings), education, experience (or age), and demographic characteristics (gender, race, location). One possible dataset is the Current Population Survey (CPS), a survey of U.S. households which includes questions on employment, income, education, and demographic characteristics.</p>
+<p>Notationally we wish to distinguish observations (realizations) from the underlying random variables. The random variables are <span class="math inline">\((Y, X)\)</span>. The observations are <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>. From the vantage of the researcher the latter are numbers. From the vantage of statistical theory we view them as realizations of random variables. For individual observations we append a subscript <span class="math inline">\(i\)</span> which runs from 1 to <span class="math inline">\(n\)</span>, thus the <span class="math inline">\(i^{t h}\)</span> observation is <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>. The number <span class="math inline">\(n\)</span> is the sample size. The dataset or sample is <span class="math inline">\(\left\{\left(Y_{i}, X_{i}\right): i=1, \ldots, n\right\}\)</span>.</p>
+<p>From the viewpoint of empirical analysis a dataset is an array of numbers. It is typically organized as a table where each column is a variable and each row is an observation. For empirical analysis the dataset is fixed in the sense that they are numbers presented to the researcher. For statistical analysis we view the dataset as random, or more precisely as a realization of a random process.</p>
+<p>The individual observations could be draws from a common (homogeneous) distribution or could be draws from heterogeneous distributions. The simplest approach is to assume homogeneity-that the observations are realizations from an identical underlying population <span class="math inline">\(F\)</span>.</p>
+<p>Assumption 3.1 The variables <span class="math inline">\(\left\{\left(Y_{1}, X_{1}\right), \ldots,\left(Y_{i}, X_{i}\right), \ldots,\left(Y_{n}, X_{n}\right)\right\}\)</span> are identically distributed; they are draws from a common distribution <span class="math inline">\(F\)</span>. This assumption does not need to be viewed as literally true. Rather it is a useful modeling device so that parameters such as <span class="math inline">\(\beta\)</span> are well defined. This assumption should be interpreted as how we view an observation a priori, before we actually observe it. If I tell you that we have a sample with <span class="math inline">\(n=59\)</span> observations set in no particular order, then it makes sense to view two observations, say 17 and 58 , as draws from the same distribution. We have no reason to expect anything special about either observation.</p>
+<p>In econometric theory we refer to the underlying common distribution <span class="math inline">\(F\)</span> as the population. Some authors prefer the label data-generating-process (DGP). You can think of it as a theoretical concept or an infinitely-large potential population. In contrast, we refer to the observations available to us <span class="math inline">\(\left\{\left(Y_{i}, X_{i}\right)\right.\)</span> : <span class="math inline">\(i=1, \ldots, n\}\)</span> as the sample or dataset. In some contexts the dataset consists of all potential observations, for example administrative tax records may contain every single taxpayer in a political unit. Even in this case we can view the observations as if they are random draws from an underlying infinitely-large population as this will allow us to apply the tools of statistical theory.</p>
+<p>The linear projection model applies to the random variables <span class="math inline">\((Y, X)\)</span>. This is the probability model described in Section 2.18. The model is</p>
+<p><span class="math display">\[
+Y=X^{\prime} \beta+e
+\]</span></p>
+<p>where the linear projection coefficient <span class="math inline">\(\beta\)</span> is defined as</p>
+<p><span class="math display">\[
+\beta=\underset{b \in \mathbb{R}^{k}}{\operatorname{argmin}} S(b),
+\]</span></p>
+<p>the minimizer of the expected squared error</p>
+<p><span class="math display">\[
+S(\beta)=\mathbb{E}\left[\left(Y-X^{\prime} \beta\right)^{2}\right] .
+\]</span></p>
+<p>The coefficient has the explicit solution (3.1).</p>
+</section>
+<section id="moment-estimators" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="moment-estimators"><span class="header-section-number">3.3</span> Moment Estimators</h2>
+<p>We want to estimate the coefficient <span class="math inline">\(\beta\)</span> defined in (3.1) from the sample of observations. Notice that <span class="math inline">\(\beta\)</span> is written as a function of certain population expectations. In this context an appropriate estimator is the same function of the sample moments. Let’s explain this in detail.</p>
+<p>To start, suppose that we are interested in the population mean <span class="math inline">\(\mu\)</span> of a random variable <span class="math inline">\(Y\)</span> with distribution function <span class="math inline">\(F\)</span></p>
+<p><span class="math display">\[
+\mu=\mathbb{E}[Y]=\int_{-\infty}^{\infty} y d F(y) .
+\]</span></p>
+<p>The expectation <span class="math inline">\(\mu\)</span> is a function of the distribution <span class="math inline">\(F\)</span>. To estimate <span class="math inline">\(\mu\)</span> given <span class="math inline">\(n\)</span> random variables <span class="math inline">\(Y_{i}\)</span> from <span class="math inline">\(F\)</span> a natural estimator is the sample mean</p>
+<p><span class="math display">\[
+\widehat{\mu}=\bar{Y}=\frac{1}{n} \sum_{i=1}^{n} Y_{i} .
+\]</span></p>
+<p>Notice that we have written this using two pieces of notation. The notation <span class="math inline">\(\bar{Y}\)</span> with the bar on top is conventional for a sample mean. The notation <span class="math inline">\(\widehat{\mu}\)</span> with the hat ” <span class="math inline">\(\wedge\)</span> ” is conventional in econometrics to denote an estimator of the parameter <span class="math inline">\(\mu\)</span>. In this case <span class="math inline">\(\bar{Y}\)</span> is the estimator of <span class="math inline">\(\mu\)</span>, so <span class="math inline">\(\widehat{\mu}\)</span> and <span class="math inline">\(\bar{Y}\)</span> are the same. The sample mean <span class="math inline">\(\bar{Y}\)</span> can be viewed as the natural analog of the population mean (3.5) because <span class="math inline">\(\bar{Y}\)</span> equals the expectation (3.5) with respect to the empirical distribution - the discrete distribution which puts weight <span class="math inline">\(1 / n\)</span> on each observation <span class="math inline">\(Y_{i}\)</span>. There are other justifications for <span class="math inline">\(\bar{Y}\)</span> as an estimator for <span class="math inline">\(\mu\)</span>. We will defer these discussions for now. Suffice it to say that it is the conventional estimator. Now suppose that we are interested in a set of population expectations of possibly nonlinear functions of a random vector <span class="math inline">\(Y\)</span>, say <span class="math inline">\(\mu=\mathbb{E}[h(Y)]\)</span>. For example, we may be interested in the first two moments of <span class="math inline">\(Y, \mathbb{E}[Y]\)</span> and <span class="math inline">\(\mathbb{E}\left[Y^{2}\right]\)</span>. In this case the natural estimator is the vector of sample means,</p>
+<p><span class="math display">\[
+\widehat{\mu}=\frac{1}{n} \sum_{i=1}^{n} h\left(Y_{i}\right) .
+\]</span></p>
+<p>We call <span class="math inline">\(\widehat{\mu}\)</span> the moment estimator for <span class="math inline">\(\mu\)</span>. For example, if <span class="math inline">\(h(y)=\left(y, y^{2}\right)^{\prime}\)</span> then <span class="math inline">\(\widehat{\mu}_{1}=n^{-1} \sum_{i=1}^{n} Y_{i}\)</span> and <span class="math inline">\(\widehat{\mu}_{2}=\)</span> <span class="math inline">\(n^{-1} \sum_{i=1}^{n} Y_{i}^{2}\)</span></p>
+<p>Now suppose that we are interested in a nonlinear function of a set of moments. For example, consider the variance of <span class="math inline">\(Y\)</span></p>
+<p><span class="math display">\[
+\sigma^{2}=\operatorname{var}[Y]=\mathbb{E}\left[Y^{2}\right]-(\mathbb{E}[Y])^{2} .
+\]</span></p>
+<p>In general, many parameters of interest can be written as a function of moments of <span class="math inline">\(Y\)</span>. Notationally, <span class="math inline">\(\beta=g(\mu)\)</span> and <span class="math inline">\(\mu=\mathbb{E}[h(Y)]\)</span>. Here, <span class="math inline">\(Y\)</span> are the random variables, <span class="math inline">\(h(Y)\)</span> are functions (transformations) of the random variables, and <span class="math inline">\(\mu\)</span> is the expectation of these functions. <span class="math inline">\(\beta\)</span> is the parameter of interest, and is the (nonlinear) function <span class="math inline">\(g(\cdot)\)</span> of these expectations.</p>
+<p>In this context a natural estimator of <span class="math inline">\(\beta\)</span> is obtained by replacing <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\widehat{\mu}\)</span>. Thus <span class="math inline">\(\widehat{\beta}=g(\widehat{\mu})\)</span>. The estimator <span class="math inline">\(\widehat{\beta}\)</span> is often called a plug-in estimator. We also call <span class="math inline">\(\widehat{\beta}\)</span> a moment, or moment-based, estimator of <span class="math inline">\(\beta\)</span> since it is a natural extension of the moment estimator <span class="math inline">\(\widehat{\mu}\)</span>.</p>
+<p>Take the example of the variance <span class="math inline">\(\sigma^{2}=\operatorname{var}[Y]\)</span>. Its moment estimator is</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=\widehat{\mu}_{2}-\widehat{\mu}_{1}^{2}=\frac{1}{n} \sum_{i=1}^{n} Y_{i}^{2}-\left(\frac{1}{n} \sum_{i=1}^{n} Y_{i}\right)^{2}
+\]</span></p>
+<p>This is not the only possible estimator for <span class="math inline">\(\sigma^{2}\)</span> (there is also the well-known bias-corrected estimator) but <span class="math inline">\(\widehat{\sigma}^{2}\)</span> is a straightforward and simple choice.</p>
+</section>
+<section id="least-squares-estimator" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="least-squares-estimator"><span class="header-section-number">3.4</span> Least Squares Estimator</h2>
+<p>The linear projection coefficient <span class="math inline">\(\beta\)</span> is defined in (3.3) as the minimizer of the expected squared error <span class="math inline">\(S(\beta)\)</span> defined in (3.4). For given <span class="math inline">\(\beta\)</span>, the expected squared error is the expectation of the squared error <span class="math inline">\(\left(Y-X^{\prime} \beta\right)^{2}\)</span>. The moment estimator of <span class="math inline">\(S(\beta)\)</span> is the sample average:</p>
+<p><span class="math display">\[
+\widehat{S}(\beta)=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}=\frac{1}{n} \operatorname{SSE}(\beta)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}
+\]</span></p>
+<p>is called the sum of squared errors function.</p>
+<p>Since <span class="math inline">\(\widehat{S}(\beta)\)</span> is a sample average we can interpret it as an estimator of the expected squared error <span class="math inline">\(S(\beta)\)</span>. Examining <span class="math inline">\(\widehat{S}(\beta)\)</span> as a function of <span class="math inline">\(\beta\)</span> is informative about how <span class="math inline">\(S(\beta)\)</span> varies with <span class="math inline">\(\beta\)</span>. Since the projection coefficient minimizes <span class="math inline">\(S(\beta)\)</span> an analog estimator minimizes (3.6).</p>
+<p>We define the estimator <span class="math inline">\(\widehat{\beta}\)</span> as the minimizer of <span class="math inline">\(\widehat{S}(\beta)\)</span>.</p>
+<p>Definition <span class="math inline">\(3.1\)</span> The least squares estimator is <span class="math inline">\(\widehat{\beta}=\underset{\beta \in \mathbb{R}^{k}}{\operatorname{argmin}} \widehat{S}(\beta)\)</span>\ where <span class="math inline">\(\widehat{S}(\beta)=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}\)</span></p>
+<p>As <span class="math inline">\(\widehat{S}(\beta)\)</span> is a scale multiple of <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> we may equivalently define <span class="math inline">\(\widehat{\beta}\)</span> as the minimizer of <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>. Hence <span class="math inline">\(\widehat{\beta}\)</span> is commonly called the least squares (LS) estimator of <span class="math inline">\(\beta\)</span>. The estimator is also commonly refered to as the ordinary least squares (OLS) estimator. For the origin of this label see the historical discussion on Adrien-Marie Legendre below. Here, as is common in econometrics, we put a hat ” <span class="math inline">\(\wedge\)</span> ” over the parameter <span class="math inline">\(\beta\)</span> to indicate that <span class="math inline">\(\widehat{\beta}\)</span> is a sample estimator of <span class="math inline">\(\beta\)</span>. This is a helpful convention. Just by seeing the symbol <span class="math inline">\(\widehat{\beta}\)</span> we can immediately interpret it as an estimator (because of the hat) of the parameter <span class="math inline">\(\beta\)</span>. Sometimes when we want to be explicit about the estimation method, we will write <span class="math inline">\(\widehat{\beta}_{\text {ols }}\)</span> to signify that it is the OLS estimator. It is also common to see the notation <span class="math inline">\(\widehat{\beta}_{n}\)</span>, where the subscript ” <span class="math inline">\(n\)</span> ” indicates that the estimator depends on the sample size <span class="math inline">\(n\)</span>.</p>
+<p>It is important to understand the distinction between population parameters such as <span class="math inline">\(\beta\)</span> and sample estimators such as <span class="math inline">\(\widehat{\beta}\)</span>. The population parameter <span class="math inline">\(\beta\)</span> is a non-random feature of the population while the sample estimator <span class="math inline">\(\widehat{\beta}\)</span> is a random feature of a random sample. <span class="math inline">\(\beta\)</span> is fixed, while <span class="math inline">\(\widehat{\beta}\)</span> varies across samples.</p>
+</section>
+<section id="solving-for-least-squares-with-one-regressor" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="solving-for-least-squares-with-one-regressor"><span class="header-section-number">3.5</span> Solving for Least Squares with One Regressor</h2>
+<p>For simplicity, we start by considering the case <span class="math inline">\(k=1\)</span> so that there is a scalar regressor <span class="math inline">\(X\)</span> and a scalar coefficient <span class="math inline">\(\beta\)</span>. To illustrate, Figure 3.1(a) displays a scatter <span class="math inline">\(\operatorname{plot}^{1}\)</span> of 20 pairs <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>.</p>
+<p>The sum of squared errors <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> is a function of <span class="math inline">\(\beta\)</span>. Given <span class="math inline">\(\beta\)</span> we calculate the “error” <span class="math inline">\(Y_{i}-X_{i} \beta\)</span> by taking the vertical distance between <span class="math inline">\(Y_{i}\)</span> and <span class="math inline">\(X_{i} \beta\)</span>. This can be seen in Figure 3.1(a) by the vertical lines which connect the observations to the straight line. These vertical lines are the errors <span class="math inline">\(Y_{i}-X_{i} \beta\)</span>. The sum of squared errors is the sum of the 20 squared lengths.</p>
+<p>The sum of squared errors is the function</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n}\left(Y_{i}-X_{i} \beta\right)^{2}=\left(\sum_{i=1}^{n} Y_{i}^{2}\right)-2 \beta\left(\sum_{i=1}^{n} X_{i} Y_{i}\right)+\beta^{2}\left(\sum_{i=1}^{n} X_{i}^{2}\right) .
+\]</span></p>
+<p>This is a quadratic function of <span class="math inline">\(\beta\)</span>. The sum of squared error function is displayed in Figure <span class="math inline">\(3.1\)</span> (b) over the range <span class="math inline">\([2,4]\)</span>. The coefficient <span class="math inline">\(\beta\)</span> ranges along the <span class="math inline">\(x\)</span>-axis. The sum of squared errors <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> as a function of <span class="math inline">\(\beta\)</span> is displayed on the <span class="math inline">\(y\)</span>-axis.</p>
+<p>The OLS estimator <span class="math inline">\(\widehat{\beta}\)</span> minimizes this function. From elementary algebra we know that the minimizer of the quadratic function <span class="math inline">\(a-2 b x+c x^{2}\)</span> is <span class="math inline">\(x=b / c\)</span>. Thus the minimizer of <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\beta}=\frac{\sum_{i=1}^{n} X_{i} Y_{i}}{\sum_{i=1}^{n} X_{i}^{2}}
+\]</span></p>
+<p>For example, the minimizer of the sum of squared error function displayed in Figure 3.1(b) is <span class="math inline">\(\widehat{\beta}=3.07\)</span>, and is marked on the <span class="math inline">\(\mathrm{x}\)</span>-axis.</p>
+<p>The intercept-only model is the special case <span class="math inline">\(X_{i}=1\)</span>. In this case we find</p>
+<p><span class="math display">\[
+\widehat{\beta}=\frac{\sum_{i=1}^{n} 1 Y_{i}}{\sum_{i=1}^{n} 1^{2}}=\frac{1}{n} \sum_{i=1}^{n} Y_{i}=\bar{Y},
+\]</span></p>
+<p><span class="math inline">\({ }^{1}\)</span> The observations were generated by simulation as <span class="math inline">\(X \sim U[0,1]\)</span> and <span class="math inline">\(Y \sim \mathrm{N}[3 X, 1]\)</span>.</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-05.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Deviation from Fitted Line</li>
+</ol>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-05(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Sum of Squared Error Function</li>
+</ol>
+<p>Figure 3.1: Regression With One Regressor</p>
+<p>the sample mean of <span class="math inline">\(Y_{i}\)</span>. Here, as is common, we put a bar “-” over <span class="math inline">\(Y\)</span> to indicate that the quantity is a sample mean. This shows that the OLS estimator in the intercept-only model is the sample mean.</p>
+<p>Technically, the estimator <span class="math inline">\(\widehat{\beta}\)</span> in (3.7) only exists if the denominator is non-zero. Since it is a sum of squares it is necessarily non-negative. Thus <span class="math inline">\(\widehat{\beta}\)</span> exists if <span class="math inline">\(\sum_{i=1}^{n} X_{i}^{2}&gt;0\)</span>.</p>
+</section>
+<section id="solving-for-least-squares-with-multiple-regressors" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="solving-for-least-squares-with-multiple-regressors"><span class="header-section-number">3.6</span> Solving for Least Squares with Multiple Regressors</h2>
+<p>We now consider the case with <span class="math inline">\(k&gt;1\)</span> so that the coefficient <span class="math inline">\(\beta \in \mathbb{R}^{k}\)</span> is a vector.</p>
+<p>To illustrate, Figure <span class="math inline">\(3.2\)</span> displays a scatter plot of 100 triples <span class="math inline">\(\left(Y_{i}, X_{1 i}, X_{2 i}\right)\)</span>. The regression function <span class="math inline">\(x^{\prime} \beta=x_{1} \beta_{1}+x_{2} \beta_{2}\)</span> is a 2-dimensional surface and is shown as the plane in Figure 3.2.</p>
+<p>The sum of squared errors <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> is a function of the vector <span class="math inline">\(\beta\)</span>. For any <span class="math inline">\(\beta\)</span> the error <span class="math inline">\(Y_{i}-X_{i}^{\prime} \beta\)</span> is the vertical distance between <span class="math inline">\(Y_{i}\)</span> and <span class="math inline">\(X_{i}^{\prime} \beta\)</span>. This can be seen in Figure <span class="math inline">\(3.2\)</span> by the vertical lines which connect the observations to the plane. As in the single regressor case these vertical lines are the errors <span class="math inline">\(e_{i}=Y_{i}-\)</span> <span class="math inline">\(X_{i}^{\prime} \beta\)</span>. The sum of squared errors is the sum of the 100 squared lengths.</p>
+<p>The sum of squared errors can be written as</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n} Y_{i}^{2}-2 \beta^{\prime} \sum_{i=1}^{n} X_{i} Y_{i}+\beta^{\prime} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \beta .
+\]</span></p>
+<p>As in the single regressor case this is a quadratic function in <span class="math inline">\(\beta\)</span>. The difference is that in the multiple regressor case this is a vector-valued quadratic function. To visualize the sum of squared errors function Figure 3.3(a) displays <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>. Another way to visualize a 3-dimensional surface is by a contour plot. A contour plot of the same <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> function is shown in Figure 3.3(b). The contour lines are points in the <span class="math inline">\(\left(\beta_{1}, \beta_{2}\right)\)</span> space where <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> takes the same value. The contour lines are elliptical because <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> is quadratic.</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-06.jpg" class="img-fluid"></p>
+<p>Figure 3.2: Regression with Two Variables</p>
+<p>The least squares estimator <span class="math inline">\(\widehat{\beta}\)</span> minimizes <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>. A simple way to find the minimum is by solving the first-order conditions. The latter are</p>
+<p><span class="math display">\[
+0=\frac{\partial}{\partial \beta} \operatorname{SSE}(\widehat{\beta})=-2 \sum_{i=1}^{n} X_{i} Y_{i}+2 \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\beta}
+\]</span></p>
+<p>We have written this using a single expression, but it is actually a system of <span class="math inline">\(k\)</span> equations with <span class="math inline">\(k\)</span> unknowns (the elements of <span class="math inline">\(\widehat{\beta}\)</span> ).</p>
+<p>The solution for <span class="math inline">\(\widehat{\beta}\)</span> may be found by solving the system of <span class="math inline">\(k\)</span> equations in (3.9). We can write this solution compactly using matrix algebra. Dividing (3.9) by 2 we obtain</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\beta}=\sum_{i=1}^{n} X_{i} Y_{i} .
+\]</span></p>
+<p>This is a system of equations of the form <span class="math inline">\(\boldsymbol{A} \boldsymbol{b}=\boldsymbol{c}\)</span> where <span class="math inline">\(\boldsymbol{A}\)</span> is <span class="math inline">\(k \times k\)</span> and <span class="math inline">\(\boldsymbol{b}\)</span> and <span class="math inline">\(\boldsymbol{c}\)</span> are <span class="math inline">\(k \times 1\)</span>. The solution is <span class="math inline">\(\boldsymbol{b}=\boldsymbol{A}^{-1} \boldsymbol{c}\)</span>, and can be obtained by pre-multiplying <span class="math inline">\(\boldsymbol{A} \boldsymbol{b}=\boldsymbol{c}\)</span> by <span class="math inline">\(\boldsymbol{A}^{-1}\)</span> and using the matrix inverse property <span class="math inline">\(\boldsymbol{A}^{-1} \boldsymbol{A}=\boldsymbol{I}_{k}\)</span>. Applied to (3.10) we find an explicit formula for the least squares estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right) .
+\]</span></p>
+<p>This is the natural estimator of the best linear projection coefficient <span class="math inline">\(\beta\)</span> defined in (3.3), and could also be called the linear projection estimator.</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-07.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Sum of Squared Error Function</li>
+</ol>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-07(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>SSE Contour</li>
+</ol>
+<p>Figure 3.3: SSE with Two Regressors</p>
+<p>Recall that we claimed that <span class="math inline">\(\widehat{\beta}\)</span> in (3.11) is the minimizer of <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>, and found it by solving the firstorder conditions. To be complete we should verify the second-order conditions. We calculate that</p>
+<p><span class="math display">\[
+\frac{\partial^{2}}{\partial \beta \partial \beta^{\prime}} \operatorname{SSE}(\beta)=2 \sum_{i=1}^{n} X_{i} X_{i}^{\prime}
+\]</span></p>
+<p>which is a positive semi-definite matrix. If actually positive definite, then the second-order condition for minimization is satisfied, in which case <span class="math inline">\(\widehat{\beta}\)</span> is the unique minimizer of <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>.</p>
+<p>Returning to the example sum of squared errors function <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> displayed in Figure <span class="math inline">\(3.3\)</span>, the least squares estimator <span class="math inline">\(\widehat{\beta}\)</span> is the the pair <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)\)</span> which minimize this function; visually it is the low spot in the 3-dimensional graph, and is marked in Figure 3.3(b) as the center point of the contour plots.</p>
+<p>Take equation (3.11) and suppose that <span class="math inline">\(k=1\)</span>. In this case <span class="math inline">\(X_{i}\)</span> is scalar so <span class="math inline">\(X_{i} X_{i}^{\prime}=X_{i}^{2}\)</span>. Then (3.11) simplifies to the expression (3.7) previously derived. The expression (3.11) is a notationally simple generalization but requires a careful attention to vector and matrix manipulations.</p>
+<p>Alternatively, equation (3.1) writes the projection coefficient <span class="math inline">\(\beta\)</span> as an explicit function of the population moments <span class="math inline">\(\boldsymbol{Q}_{X Y}\)</span> and <span class="math inline">\(\boldsymbol{Q}_{X X}\)</span>. Their moment estimators are the sample moments</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}}_{X Y} &amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i} \\
+\widehat{\boldsymbol{Q}}_{X X} &amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}
+\end{aligned}
+\]</span></p>
+<p>The moment estimator of <span class="math inline">\(\beta\)</span> replaces the population moments in (3.1) with the sample moments:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{Q}}_{X Y} \\
+&amp;=\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i}\right) \\
+&amp;=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right)
+\end{aligned}
+\]</span></p>
+<p>which is identical with (3.11).</p>
+<p>Technically, the estimator <span class="math inline">\(\widehat{\beta}\)</span> is unique and equals (3.11) only if the inverted matrix is actually invertible, which holds if (and only if) this matrix is positive definite. This excludes the case that <span class="math inline">\(X_{i}\)</span> contains redundant regressors. This will be discussed further in Section 3.24.</p>
+<p>Theorem 3.1 If <span class="math inline">\(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}&gt;0\)</span>, the least squares estimator is unique and equals</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right) .
+\]</span></p>
+</section>
+<section id="adrien-marie-legendre" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="adrien-marie-legendre"><span class="header-section-number">3.7</span> Adrien-Marie Legendre</h2>
+<p>The method of least squares was published in 1805 by the French mathematician Adrien-Marie Legendre (1752-1833). Legendre proposed least squares as a solution to the algebraic problem of solving a system of equations when the number of equations exceeded the number of unknowns. This was a vexing and common problem in astronomical measurement. As viewed by Legendre, (3.2) is a set of <span class="math inline">\(n\)</span> equations with <span class="math inline">\(k\)</span> unknowns. As the equations cannot be solved exactly, Legendre’s goal was to select <span class="math inline">\(\beta\)</span> to make the set of errors as small as possible. He proposed the sum of squared error criterion and derived the algebraic solution presented above. As he noted, the first-order conditions (3.9) is a system of <span class="math inline">\(k\)</span> equations with <span class="math inline">\(k\)</span> unknowns which can be solved by “ordinary” methods. Hence the method became known as Ordinary Least Squares and to this day we still use the abbreviation OLS to refer to Legendre’s estimation method.</p>
+</section>
+<section id="illustration" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="illustration"><span class="header-section-number">3.8</span> Illustration</h2>
+<p>We illustrate the least squares estimator in practice with the data set used to calculate the estimates reported in Chapter 2. This is the March 2009 Current Population Survey, which has extensive information on the U.S. population. This data set is described in more detail in Section 3.22. For this illustration we use the sub-sample of married (spouse present) Black female wage earners with 12 years potential work experience. This sub-sample has 20 observations <span class="math inline">\({ }^{2}\)</span>.</p>
+<p>In Table <span class="math inline">\(3.1\)</span> we display the observations for reference. Each row is an individual observation which are the data for an individual person. The columns correspond to the variables (measurements) for the individuals. The second column is the reported wage (total annual earnings divided by hours worked). The third column is the natural logarithm of the wage. The fourth column is years of education. The fifth and six columns are further transformations, specifically the square of education and the product of education and <span class="math inline">\(\log\)</span> (wage). The bottom row are the sums of the elements in that column.</p>
+<p>Table 3.1: Observations From CPS Data Set</p>
+<table class="table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 7%">
+<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 17%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Observation</th>
+<th>wage</th>
+<th><span class="math inline">\(\log (\)</span> wage)</th>
+<th>education</th>
+<th>education <span class="math inline">\(^{2}\)</span></th>
+<th>education <span class="math inline">\(\times \log (\)</span> wage <span class="math inline">\()\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\(37.93\)</span></td>
+<td><span class="math inline">\(3.64\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(65.44\)</span></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><span class="math inline">\(40.87\)</span></td>
+<td><span class="math inline">\(3.71\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(66.79\)</span></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><span class="math inline">\(14.18\)</span></td>
+<td><span class="math inline">\(2.65\)</span></td>
+<td>13</td>
+<td>169</td>
+<td><span class="math inline">\(34.48\)</span></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><span class="math inline">\(16.83\)</span></td>
+<td><span class="math inline">\(2.82\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(45.17\)</span></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><span class="math inline">\(33.17\)</span></td>
+<td><span class="math inline">\(3.50\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(56.03\)</span></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><span class="math inline">\(29.81\)</span></td>
+<td><span class="math inline">\(3.39\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(61.11\)</span></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><span class="math inline">\(54.62\)</span></td>
+<td><span class="math inline">\(4.00\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(64.00\)</span></td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><span class="math inline">\(43.08\)</span></td>
+<td><span class="math inline">\(3.76\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(67.73\)</span></td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><span class="math inline">\(14.42\)</span></td>
+<td><span class="math inline">\(2.67\)</span></td>
+<td>12</td>
+<td>144</td>
+<td><span class="math inline">\(32.03\)</span></td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td><span class="math inline">\(14.90\)</span></td>
+<td><span class="math inline">\(2.70\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(43.23\)</span></td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td><span class="math inline">\(21.63\)</span></td>
+<td><span class="math inline">\(3.07\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(55.44\)</span></td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td><span class="math inline">\(11.09\)</span></td>
+<td><span class="math inline">\(2.41\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(38.50\)</span></td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td><span class="math inline">\(10.00\)</span></td>
+<td><span class="math inline">\(2.30\)</span></td>
+<td>13</td>
+<td>169</td>
+<td><span class="math inline">\(29.93\)</span></td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td><span class="math inline">\(31.73\)</span></td>
+<td><span class="math inline">\(3.46\)</span></td>
+<td>14</td>
+<td>196</td>
+<td><span class="math inline">\(48.40\)</span></td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td><span class="math inline">\(11.06\)</span></td>
+<td><span class="math inline">\(2.40\)</span></td>
+<td>12</td>
+<td>144</td>
+<td><span class="math inline">\(28.84\)</span></td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td><span class="math inline">\(18.75\)</span></td>
+<td><span class="math inline">\(2.93\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(46.90\)</span></td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td><span class="math inline">\(27.35\)</span></td>
+<td><span class="math inline">\(3.31\)</span></td>
+<td>14</td>
+<td>196</td>
+<td><span class="math inline">\(46.32\)</span></td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td><span class="math inline">\(24.04\)</span></td>
+<td><span class="math inline">\(3.18\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(50.76\)</span></td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td><span class="math inline">\(36.06\)</span></td>
+<td><span class="math inline">\(3.59\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(64.53\)</span></td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td><span class="math inline">\(23.08\)</span></td>
+<td><span class="math inline">\(3.14\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(50.22\)</span></td>
+</tr>
+<tr class="odd">
+<td>Sum</td>
+<td>515</td>
+<td><span class="math inline">\(62.64\)</span></td>
+<td>314</td>
+<td>5010</td>
+<td><span class="math inline">\(995.86\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Putting the variables into the standard regression notation, let <span class="math inline">\(Y_{i}\)</span> be <span class="math inline">\(\log (w a g e)\)</span> and <span class="math inline">\(X_{i}\)</span> be years of education and an intercept. Then from the column sums in Table <span class="math inline">\(3.1\)</span> we have</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} Y_{i}=\left(\begin{array}{c}
+995.86 \\
+62.64
+\end{array}\right)
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} X_{i}^{\prime}=\left(\begin{array}{cc}
+5010 &amp; 314 \\
+314 &amp; 20
+\end{array}\right)
+\]</span></p>
+<p>Taking the inverse we obtain</p>
+<p><span class="math display">\[
+\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}=\left(\begin{array}{cc}
+0.0125 &amp; -0.196 \\
+-0.196 &amp; 3.124
+\end{array}\right) .
+\]</span></p>
+<p><span class="math inline">\({ }^{2}\)</span> This sample was selected specifically so that it has a small number of observations, facilitating exposition. Thus by matrix multiplication</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\begin{array}{cc}
+0.0125 &amp; -0.196 \\
+-0.196 &amp; 3.124
+\end{array}\right)\left(\begin{array}{c}
+995.86 \\
+62.64
+\end{array}\right)=\left(\begin{array}{c}
+0.155 \\
+0.698
+\end{array}\right) .
+\]</span></p>
+<p>In practice the regression estimates <span class="math inline">\(\widehat{\beta}\)</span> are computed by computer software without the user taking the explicit steps listed above. However, it is useful to understand that the least squares estimator can be calculated by simple algebraic operations. If your data is in a spreadsheet similar to Table 3.1, then the listed transformations (logarithm, squares, cross-products, column sums) can be computed by spreadsheet operations. <span class="math inline">\(\widehat{\beta}\)</span> could then be calculated by matrix inversion and multiplication. Once again, this is rarely done by applied economists because computer software is available to ease the process.</p>
+<p>We often write the estimated equation using the format</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.155 \text { education }+0.698 \text {. }
+\]</span></p>
+<p>An interpretation of the estimated equation is that each year of education is associated with a <span class="math inline">\(16 %\)</span> increase in mean wages.</p>
+<p>Another use of the estimated equation (3.12) is for prediction. Suppose one individual has 12 years of education and a second has 16. Using (3.12) we find that the first’s expected log wage is</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wag } e)}=0.155 \times 12+0.698=2.56
+\]</span></p>
+<p>and for the second</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.155 \times 16+0.698=3.18 .
+\]</span></p>
+<p>Equation (3.12) is called a bivariate regression as there are two variables. It is also called a simple regression as there is a single regressor. A multiple regression has two or more regressors and allows a more detailed investigation. Let’s take an example similar to (3.12) but include all levels of experience. This time we use the sub-sample of single (never married) Asian men which has 268 observations. Including as regressors years of potential work experience (experience) and its square (experience <span class="math inline">\({ }^{2} / 100\)</span> ) (we divide by 100 to simplify reporting) we obtain the estimates</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.143 \text { education }+0.036 \text { experience }-0.071 \text { experience }^{2} / 100+0.575 \text {. }
+\]</span></p>
+<p>These estimates suggest a <span class="math inline">\(14 %\)</span> increase in mean wages per year of education holding experience constant.</p>
+</section>
+<section id="least-squares-residuals" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="least-squares-residuals"><span class="header-section-number">3.9</span> Least Squares Residuals</h2>
+<p>As a by-product of estimation we define the fitted value <span class="math inline">\(\widehat{Y}_{i}=X_{i}^{\prime} \widehat{\beta}\)</span> and the residual</p>
+<p><span class="math display">\[
+\widehat{e}_{i}=Y_{i}-\widehat{Y}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}
+\]</span></p>
+<p>Sometimes <span class="math inline">\(\widehat{Y}_{i}\)</span> is called the predicted value but this is a misleading label. The fitted value <span class="math inline">\(\widehat{Y}_{i}\)</span> is a function of the entire sample including <span class="math inline">\(Y_{i}\)</span>, and thus cannot be interpreted as a valid prediction of <span class="math inline">\(Y_{i}\)</span>. It is thus more accurate to describe <span class="math inline">\(\widehat{Y}_{i}\)</span> as a fitted rather than a predicted value.</p>
+<p>Note that <span class="math inline">\(Y_{i}=\widehat{Y}_{i}+\widehat{e}_{i}\)</span> and</p>
+<p><span class="math display">\[
+Y_{i}=X_{i}^{\prime} \widehat{\beta}+\widehat{e}_{i} .
+\]</span></p>
+<p>We make a distinction between the error <span class="math inline">\(e_{i}\)</span> and the residual <span class="math inline">\(\widehat{e}_{i}\)</span>. The error <span class="math inline">\(e_{i}\)</span> is unobservable while the residual <span class="math inline">\(\widehat{e}_{i}\)</span> is an estimator. These two variables are frequently mislabeled which can cause confusion. Equation (3.9) implies that</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} \widehat{e}_{i}=0 .
+\]</span></p>
+<p>To see this by a direct calculation, using (3.14) and (3.11),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{i=1}^{n} X_{i} \widehat{e}_{i} &amp;=\sum_{i=1}^{n} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}\right) \\
+&amp;=\sum_{i=1}^{n} X_{i} Y_{i}-\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\beta} \\
+&amp;=\sum_{i=1}^{n} X_{i} Y_{i}-\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right) \\
+&amp;=\sum_{i=1}^{n} X_{i} Y_{i}-\sum_{i=1}^{n} X_{i} Y_{i}=0 .
+\end{aligned}
+\]</span></p>
+<p>When <span class="math inline">\(X_{i}\)</span> contains a constant an implication of (3.16) is</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}=0 .
+\]</span></p>
+<p>Thus the residuals have a sample mean of zero and the sample correlation between the regressors and the residual is zero. These are algebraic results and hold true for all linear regression estimates.</p>
+</section>
+<section id="demeaned-regressors" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="demeaned-regressors"><span class="header-section-number">3.10</span> Demeaned Regressors</h2>
+<p>Sometimes it is useful to separate the constant from the other regressors and write the linear projection equation in the format</p>
+<p><span class="math display">\[
+Y_{i}=X_{i}^{\prime} \beta+\alpha+e_{i}
+\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is the intercept and <span class="math inline">\(X_{i}\)</span> does not contain a constant. The least squares estimates and residuals can be written as <span class="math inline">\(Y_{i}=X_{i}^{\prime} \widehat{\beta}+\widehat{\alpha}+\widehat{e}_{i}\)</span>.</p>
+<p>In this case (3.16) can be written as the equation system</p>
+<p><span class="math display">\[
+\begin{array}{r}
+\sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}-\widehat{\alpha}\right)=0 \\
+\sum_{i=1}^{n} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}-\widehat{\alpha}\right)=0 .
+\end{array}
+\]</span></p>
+<p>The first equation implies</p>
+<p><span class="math display">\[
+\widehat{\alpha}=\bar{Y}-\bar{X}^{\prime} \widehat{\beta} .
+\]</span></p>
+<p>Subtracting from the second we obtain</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i}\left(\left(Y_{i}-\bar{Y}\right)-\left(X_{i}-\bar{X}\right)^{\prime} \widehat{\beta}\right)=0 .
+\]</span></p>
+<p>Solving for <span class="math inline">\(\widehat{\beta}\)</span> we find</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\left(\sum_{i=1}^{n} X_{i}\left(X_{i}-\bar{X}\right)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i}\left(Y_{i}-\bar{Y}\right)\right) \\
+&amp;=\left(\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)\left(X_{i}-\bar{X}\right)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)\left(Y_{i}-\bar{Y}\right)\right) .
+\end{aligned}
+\]</span></p>
+<p>Thus the OLS estimator for the slope coefficients is OLS with demeaned data and no intercept.</p>
+<p>The representation (3.18) is known as the demeaned formula for the least squares estimator.</p>
+</section>
+<section id="model-in-matrix-notation" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="model-in-matrix-notation"><span class="header-section-number">3.11</span> Model in Matrix Notation</h2>
+<p>For many purposes, including computation, it is convenient to write the model and statistics in matrix notation. The <span class="math inline">\(n\)</span> linear equations <span class="math inline">\(Y_{i}=X_{i}^{\prime} \beta+e_{i}\)</span> make a system of <span class="math inline">\(n\)</span> equations. We can stack these <span class="math inline">\(n\)</span> equations together as</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;Y_{1}=X_{1}^{\prime} \beta+e_{1} \\
+&amp;Y_{2}=X_{2}^{\prime} \beta+e_{2} \\
+&amp;\vdots \\
+&amp;Y_{n}=X_{n}^{\prime} \beta+e_{n} .
+\end{aligned}
+\]</span></p>
+<p>Define</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\left(\begin{array}{c}
+Y_{1} \\
+Y_{2} \\
+\vdots \\
+Y_{n}
+\end{array}\right), \quad \boldsymbol{X}=\left(\begin{array}{c}
+X_{1}^{\prime} \\
+X_{2}^{\prime} \\
+\vdots \\
+X_{n}^{\prime}
+\end{array}\right), \quad \boldsymbol{e}=\left(\begin{array}{c}
+e_{1} \\
+e_{2} \\
+\vdots \\
+e_{n}
+\end{array}\right)
+\]</span></p>
+<p>Observe that <span class="math inline">\(\boldsymbol{Y}\)</span> and <span class="math inline">\(\boldsymbol{e}\)</span> are <span class="math inline">\(n \times 1\)</span> vectors and <span class="math inline">\(\boldsymbol{X}\)</span> is an <span class="math inline">\(n \times k\)</span> matrix. The system of <span class="math inline">\(n\)</span> equations can be compactly written in the single equation</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X} \beta+\boldsymbol{e} .
+\]</span></p>
+<p>Sample sums can be written in matrix notation. For example</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\sum_{i=1}^{n} X_{i} X_{i}^{\prime}=\boldsymbol{X}^{\prime} \boldsymbol{X} \\
+&amp;\sum_{i=1}^{n} X_{i} Y_{i}=\boldsymbol{X}^{\prime} \boldsymbol{Y} .
+\end{aligned}
+\]</span></p>
+<p>Therefore the least squares estimator can be written as</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right) .
+\]</span></p>
+<p>The matrix version of (3.15) and estimated version of (3.19) is</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X} \widehat{\beta}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>Equivalently the residual vector is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{e}}=\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta}
+\]</span></p>
+<p>Using the residual vector we can write (3.16) as</p>
+<p><span class="math display">\[
+\boldsymbol{X}^{\prime} \widehat{\boldsymbol{e}}=0
+\]</span></p>
+<p>It can also be useful to write the sum of squared error criterion as</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta) .
+\]</span></p>
+<p>Using matrix notation we have simple expressions for most estimators. This is particularly convenient for computer programming as most languages allow matrix notation and manipulation. Theorem 3.2 Important Matrix Expressions</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right) \\
+\widehat{\boldsymbol{e}} &amp;=\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta} \\
+\boldsymbol{X}^{\prime} \widehat{\boldsymbol{e}} &amp;=0 .
+\end{aligned}
+\]</span></p>
+</section>
+<section id="early-use-of-matrices" class="level2" data-number="3.12">
+<h2 data-number="3.12" class="anchored" data-anchor-id="early-use-of-matrices"><span class="header-section-number">3.12</span> Early Use of Matrices</h2>
+<p>The earliest known treatment of the use of matrix methods to solve simultaneous systems is found in Chapter 8 of the Chinese text The Nine Chapters on the Mathematical Art, written by several generations of scholars from the <span class="math inline">\(10^{\text {th }}\)</span> to <span class="math inline">\(2^{\text {nd }}\)</span> century BCE.</p>
+</section>
+<section id="projection-matrix" class="level2" data-number="3.13">
+<h2 data-number="3.13" class="anchored" data-anchor-id="projection-matrix"><span class="header-section-number">3.13</span> Projection Matrix</h2>
+<p>Define the matrix</p>
+<p><span class="math display">\[
+\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}
+\]</span></p>
+<p>Observe that</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{X}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X}=\boldsymbol{X} .
+\]</span></p>
+<p>This is a property of a projection matrix. More generally, for any matrix <span class="math inline">\(\boldsymbol{Z}\)</span> which can be written as <span class="math inline">\(\boldsymbol{Z}=\boldsymbol{X} \boldsymbol{\Gamma}\)</span> for some matrix <span class="math inline">\(\Gamma\)</span> (we say that <span class="math inline">\(\boldsymbol{Z}\)</span> lies in the range space of <span class="math inline">\(\boldsymbol{X}\)</span> ), then</p>
+<p><span class="math display">\[
+\boldsymbol{P Z}=\boldsymbol{P} \boldsymbol{X} \boldsymbol{\Gamma}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X} \boldsymbol{\Gamma}=\boldsymbol{X} \boldsymbol{\Gamma}=\boldsymbol{Z} .
+\]</span></p>
+<p>As an important example, if we partition the matrix <span class="math inline">\(\boldsymbol{X}\)</span> into two matrices <span class="math inline">\(\boldsymbol{X}_{1}\)</span> and <span class="math inline">\(\boldsymbol{X}_{2}\)</span> so that <span class="math inline">\(\boldsymbol{X}=\)</span> <span class="math inline">\(\left[\begin{array}{ll}\boldsymbol{X}_{1} &amp; \boldsymbol{X}_{2}\end{array}\right]\)</span> then <span class="math inline">\(\boldsymbol{P} \boldsymbol{X}_{1}=\boldsymbol{X}_{1}\)</span>. (See Exercise 3.7.)</p>
+<p>The projection matrix <span class="math inline">\(\boldsymbol{P}\)</span> has the algebraic property that it is idempotent: <span class="math inline">\(\boldsymbol{P} \boldsymbol{P}=\boldsymbol{P}\)</span>. See Theorem 3.3.2 below. For the general properties of projection matrices see Section A.11.</p>
+<p>The matrix <span class="math inline">\(\boldsymbol{P}\)</span> creates the fitted values in a least squares regression:</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{Y}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}=\boldsymbol{X} \widehat{\boldsymbol{\beta}}=\widehat{\boldsymbol{Y}} \text {. }
+\]</span></p>
+<p>Because of this property <span class="math inline">\(\boldsymbol{P}\)</span> is also known as the hat matrix.</p>
+<p>A special example of a projection matrix occurs when <span class="math inline">\(X=\mathbf{1}_{n}\)</span> is an <span class="math inline">\(n\)</span>-vector of ones. Then</p>
+<p><span class="math display">\[
+\boldsymbol{P}=\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime}=\frac{1}{n} \mathbf{1}_{n} \mathbf{1}_{n}^{\prime} .
+\]</span></p>
+<p>Note that in this case</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{Y}=\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime} \boldsymbol{Y}=\mathbf{1}_{n} \bar{Y}
+\]</span></p>
+<p>creates an <span class="math inline">\(n\)</span>-vector whose elements are the sample mean <span class="math inline">\(\bar{Y}\)</span>.</p>
+<p>The projection matrix <span class="math inline">\(\boldsymbol{P}\)</span> appears frequently in algebraic manipulations in least squares regression. The matrix has the following important properties. Theorem 3.3 The projection matrix <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span> for any <span class="math inline">\(n \times k \boldsymbol{X}\)</span> with <span class="math inline">\(n \geq\)</span> <span class="math inline">\(k\)</span> has the following algebraic properties.</p>
+<ol type="1">
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> is symmetric <span class="math inline">\(\left(\boldsymbol{P}^{\prime}=\boldsymbol{P}\right)\)</span>.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> is idempotent <span class="math inline">\((\boldsymbol{P P}=\boldsymbol{P})\)</span>.</p></li>
+<li><p><span class="math inline">\(\operatorname{tr} \boldsymbol{P}=k\)</span>.</p></li>
+<li><p>The eigenvalues of <span class="math inline">\(\boldsymbol{P}\)</span> are 1 and 0 .</p></li>
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> has <span class="math inline">\(k\)</span> eigenvalues equalling 1 and <span class="math inline">\(n-k\)</span> equalling 0 .</p></li>
+<li><p><span class="math inline">\(\operatorname{rank}(\boldsymbol{P})=k\)</span>.</p></li>
+</ol>
+<p>We close this section by proving the claims in Theorem 3.3. Part 1 holds because</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{P}^{\prime} &amp;=\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\right)^{\prime} \\
+&amp;=\left(\boldsymbol{X}^{\prime}\right)^{\prime}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right)^{\prime}(\boldsymbol{X})^{\prime} \\
+&amp;=\boldsymbol{X}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{\prime}\right)^{-1} \boldsymbol{X}^{\prime} \\
+&amp;=\boldsymbol{X}\left((\boldsymbol{X})^{\prime}\left(\boldsymbol{X}^{\prime}\right)^{\prime}\right)^{-1} \boldsymbol{X}^{\prime}=\boldsymbol{P} .
+\end{aligned}
+\]</span></p>
+<p>To establish part 2, the fact that <span class="math inline">\(\boldsymbol{P X}=\boldsymbol{X}\)</span> implies that</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{P}=\boldsymbol{P} \boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}=\boldsymbol{P}
+\]</span></p>
+<p>as claimed. For part 3 ,</p>
+<p><span class="math display">\[
+\operatorname{tr} \boldsymbol{P}=\operatorname{tr}\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\right)=\operatorname{tr}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X}\right)=\operatorname{tr}\left(\boldsymbol{I}_{k}\right)=k .
+\]</span></p>
+<p>See Appendix A.5 for definition and properties of the trace operator.</p>
+<p>Appendix A.11 shows that part 4 holds for any idempotent matrix. For part 5, since <span class="math inline">\(\operatorname{tr} \boldsymbol{P}\)</span> equals the sum of the <span class="math inline">\(n\)</span> eigenvalues and <span class="math inline">\(\operatorname{tr} \boldsymbol{P}=k\)</span> by part 3, it follows that there are <span class="math inline">\(k\)</span> eigenvalues equalling 1 and the remainder <span class="math inline">\(n-k\)</span> equalling 0 .</p>
+<p>For part 6, observe that <span class="math inline">\(\boldsymbol{P}\)</span> is positive semi-definite because its eigenvalues are all non-negative. By Theorem A.4.5 its rank equals the number of positive eigenvalues, which is <span class="math inline">\(k\)</span> as claimed.</p>
+</section>
+<section id="annihilator-matrix" class="level2" data-number="3.14">
+<h2 data-number="3.14" class="anchored" data-anchor-id="annihilator-matrix"><span class="header-section-number">3.14</span> Annihilator Matrix</h2>
+<p>Define</p>
+<p><span class="math display">\[
+\boldsymbol{M}=\boldsymbol{I}_{n}-\boldsymbol{P}=\boldsymbol{I}_{n}-\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{I}_{n}\)</span> is the <span class="math inline">\(n \times n\)</span> identity matrix. Note that</p>
+<p><span class="math display">\[
+\boldsymbol{M} \boldsymbol{X}=\left(\boldsymbol{I}_{n}-\boldsymbol{P}\right) \boldsymbol{X}=\boldsymbol{X}-\boldsymbol{P} \boldsymbol{X}=\boldsymbol{X}-\boldsymbol{X}=0 .
+\]</span></p>
+<p>Thus <span class="math inline">\(\boldsymbol{M}\)</span> and <span class="math inline">\(\boldsymbol{X}\)</span> are orthogonal. We call <span class="math inline">\(\boldsymbol{M}\)</span> the annihilator matrix due to the property that for any matrix <span class="math inline">\(\boldsymbol{Z}\)</span> in the range space of <span class="math inline">\(\boldsymbol{X}\)</span> then</p>
+<p><span class="math display">\[
+M Z=Z-P Z=0 .
+\]</span></p>
+<p>For example, <span class="math inline">\(\boldsymbol{M} \boldsymbol{X}_{1}=0\)</span> for any subcomponent <span class="math inline">\(\boldsymbol{X}_{1}\)</span> of <span class="math inline">\(\boldsymbol{X}\)</span>, and <span class="math inline">\(\boldsymbol{M P}=0\)</span> (see Exercise 3.7).</p>
+<p>The annihilator matrix <span class="math inline">\(\boldsymbol{M}\)</span> has similar properties with <span class="math inline">\(\boldsymbol{P}\)</span>, including that <span class="math inline">\(\boldsymbol{M}\)</span> is symmetric <span class="math inline">\(\left(\boldsymbol{M}^{\prime}=\boldsymbol{M}\right)\)</span> and idempotent <span class="math inline">\((\boldsymbol{M} M=\boldsymbol{M})\)</span>. It is thus a projection matrix. Similarly to Theorem 3.3.3 we can calculate</p>
+<p><span class="math display">\[
+\operatorname{tr} M=n-k .
+\]</span></p>
+<p>(See Exercise 3.9.) One implication is that the rank of <span class="math inline">\(\boldsymbol{M}\)</span> is <span class="math inline">\(n-k\)</span>.</p>
+<p>While <span class="math inline">\(\boldsymbol{P}\)</span> creates fitted values, <span class="math inline">\(\boldsymbol{M}\)</span> creates least squares residuals:</p>
+<p><span class="math display">\[
+M Y=Y-P Y=Y-X \widehat{\beta}=\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>As discussed in the previous section, a special example of a projection matrix occurs when <span class="math inline">\(\boldsymbol{X}=\mathbf{1}_{n}\)</span> is an <span class="math inline">\(n\)</span>-vector of ones, so that <span class="math inline">\(\boldsymbol{P}=\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime}\)</span>. The associated annihilator matrix is</p>
+<p><span class="math display">\[
+\boldsymbol{M}=\boldsymbol{I}_{n}-\boldsymbol{P}=\boldsymbol{I}_{n}-\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime} .
+\]</span></p>
+<p>While <span class="math inline">\(\boldsymbol{P}\)</span> creates a vector of sample means, <span class="math inline">\(\boldsymbol{M}\)</span> creates demeaned values:</p>
+<p><span class="math display">\[
+\boldsymbol{M Y}=\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y} .
+\]</span></p>
+<p>For simplicity we will often write the right-hand-side as <span class="math inline">\(Y-\bar{Y}\)</span>. The <span class="math inline">\(i^{t h}\)</span> element is <span class="math inline">\(Y_{i}-\bar{Y}\)</span>, the demeaned value of <span class="math inline">\(Y_{i}\)</span></p>
+<p>We can also use (3.23) to write an alternative expression for the residual vector. Substituting <span class="math inline">\(\boldsymbol{Y}=\)</span> <span class="math inline">\(\boldsymbol{X} \beta+\boldsymbol{e}\)</span> into <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{Y}\)</span> and using <span class="math inline">\(\boldsymbol{M} \boldsymbol{X}=\mathbf{0}\)</span> we find</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{Y}=\boldsymbol{M}(\boldsymbol{X} \beta+\boldsymbol{e})=\boldsymbol{M} \boldsymbol{e}
+\]</span></p>
+<p>which is free of dependence on the regression coefficient <span class="math inline">\(\beta\)</span>.</p>
+</section>
+<section id="estimation-of-error-variance" class="level2" data-number="3.15">
+<h2 data-number="3.15" class="anchored" data-anchor-id="estimation-of-error-variance"><span class="header-section-number">3.15</span> Estimation of Error Variance</h2>
+<p>The error variance <span class="math inline">\(\sigma^{2}=\mathbb{E}\left[e^{2}\right]\)</span> is a moment, so a natural estimator is a moment estimator. If <span class="math inline">\(e_{i}\)</span> were observed we would estimate <span class="math inline">\(\sigma^{2}\)</span> by</p>
+<p><span class="math display">\[
+\widetilde{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} e_{i}^{2} .
+\]</span></p>
+<p>However, this is infeasible as <span class="math inline">\(e_{i}\)</span> is not observed. In this case it is common to take a two-step approach to estimation. The residuals <span class="math inline">\(\widehat{e}_{i}\)</span> are calculated in the first step, and then we substitute <span class="math inline">\(\widehat{e}_{i}\)</span> for <span class="math inline">\(e_{i}\)</span> in expression (3.25) to obtain the feasible estimator</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
+\]</span></p>
+<p>In matrix notation, we can write (3.25) and (3.26) as <span class="math inline">\(\widetilde{\sigma}^{2}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{e}\)</span> and</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=n^{-1} \widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>Recall the expressions <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{Y}=\boldsymbol{M} \boldsymbol{e}\)</span> from (3.23) and (3.24). Applied to (3.27) we find</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=n^{-1} \widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{M M} \boldsymbol{M}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}
+\]</span></p>
+<p>the third equality because <span class="math inline">\(M M=M\)</span>.</p>
+<p>An interesting implication is that</p>
+<p><span class="math display">\[
+\widetilde{\sigma}^{2}-\widehat{\sigma}^{2}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{e}-n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{P} \boldsymbol{e} \geq 0 .
+\]</span></p>
+<p>The final inequality holds because <span class="math inline">\(\boldsymbol{P}\)</span> is positive semi-definite and <span class="math inline">\(\boldsymbol{e}^{\prime} \boldsymbol{P} \boldsymbol{e}\)</span> is a quadratic form. This shows that the feasible estimator <span class="math inline">\(\widehat{\sigma}^{2}\)</span> is numerically smaller than the idealized estimator (3.25).</p>
+</section>
+<section id="analysis-of-variance" class="level2" data-number="3.16">
+<h2 data-number="3.16" class="anchored" data-anchor-id="analysis-of-variance"><span class="header-section-number">3.16</span> Analysis of Variance</h2>
+<p>Another way of writing (3.23) is</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{P} \boldsymbol{Y}+\boldsymbol{M} \boldsymbol{Y}=\widehat{\boldsymbol{Y}}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>This decomposition is orthogonal, that is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{e}}=(\boldsymbol{P} \boldsymbol{Y})^{\prime}(\boldsymbol{M} \boldsymbol{Y})=\boldsymbol{Y}^{\prime} \boldsymbol{P} \boldsymbol{M} \boldsymbol{Y}=0 .
+\]</span></p>
+<p>It follows that</p>
+<p><span class="math display">\[
+\boldsymbol{Y}^{\prime} \boldsymbol{Y}=\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{Y}}+2 \widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{e}}+\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}=\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{Y}}+\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} Y_{i}^{2}=\sum_{i=1}^{n} \widehat{Y}_{i}^{2}+\sum_{i=1}^{n} \widehat{e}_{i}^{2}
+\]</span></p>
+<p>Subtracting <span class="math inline">\(\bar{Y}\)</span> from both sides of (3.29) we obtain</p>
+<p><span class="math display">\[
+\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y}=\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}+\widehat{\boldsymbol{e}}
+\]</span></p>
+<p>This decomposition is also orthogonal when <span class="math inline">\(X\)</span> contains a constant, as</p>
+<p><span class="math display">\[
+\left(\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}\right)^{\prime} \widehat{\boldsymbol{e}}=\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{e}}-\bar{Y} \mathbf{1}_{n}^{\prime} \widehat{\boldsymbol{e}}=0
+\]</span></p>
+<p>under (3.17). It follows that</p>
+<p><span class="math display">\[
+\left(\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y}\right)^{\prime}\left(\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y}\right)=\left(\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}\right)^{\prime}\left(\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}\right)+\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}=\sum_{i=1}^{n}\left(\widehat{Y}_{i}-\bar{Y}\right)^{2}+\sum_{i=1}^{n} \widehat{e}_{i}^{2} .
+\]</span></p>
+<p>This is commonly called the analysis-of-variance formula for least squares regression.</p>
+<p>A commonly reported statistic is the coefficient of determination or R-squared:</p>
+<p><span class="math display">\[
+R^{2}=\frac{\sum_{i=1}^{n}\left(\widehat{Y}_{i}-\bar{Y}\right)^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}=1-\frac{\sum_{i=1}^{n} \widehat{e}_{i}^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}} .
+\]</span></p>
+<p>It is often described as “the fraction of the sample variance of <span class="math inline">\(Y\)</span> which is explained by the least squares fit”. <span class="math inline">\(R^{2}\)</span> is a crude measure of regression fit. We have better measures of fit, but these require a statistical (not just algebraic) analysis and we will return to these issues later. One deficiency with <span class="math inline">\(R^{2}\)</span> is that it increases when regressors are added to a regression (see Exercise 3.16) so the “fit” can be always increased by increasing the number of regressors.</p>
+<p>The coefficient of determination was introduced by Wright (1921).</p>
+</section>
+<section id="projections" class="level2" data-number="3.17">
+<h2 data-number="3.17" class="anchored" data-anchor-id="projections"><span class="header-section-number">3.17</span> Projections</h2>
+<p>One way to visualize least squares fitting is as a projection operation.</p>
+<p>Write the regressor matrix as <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> where <span class="math inline">\(\boldsymbol{X}_{j}\)</span> is the <span class="math inline">\(j^{t h}\)</span> column of <span class="math inline">\(\boldsymbol{X}\)</span>. The range space <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span> of <span class="math inline">\(\boldsymbol{X}\)</span> is the space consisting of all linear combinations of the columns <span class="math inline">\(\boldsymbol{X}_{1}, \boldsymbol{X}_{2}, \ldots, \boldsymbol{X}_{k} . \mathscr{R}(\boldsymbol{X})\)</span> is a <span class="math inline">\(k\)</span> dimensional surface contained in <span class="math inline">\(\mathbb{R}^{n}\)</span>. If <span class="math inline">\(k=2\)</span> then <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span> is a plane. The operator <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span> projects vectors onto <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span>. The fitted values <span class="math inline">\(\widehat{\boldsymbol{Y}}=\boldsymbol{P} \boldsymbol{Y}\)</span> are the projection of <span class="math inline">\(\boldsymbol{Y}\)</span> onto <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span>.</p>
+<p>To visualize examine Figure 3.4. This displays the case <span class="math inline">\(n=3\)</span> and <span class="math inline">\(k=2\)</span>. Displayed are three vectors <span class="math inline">\(\boldsymbol{Y}, \boldsymbol{X}_{1}\)</span>, and <span class="math inline">\(\boldsymbol{X}_{2}\)</span>, which are each elements of <span class="math inline">\(\mathbb{R}^{3}\)</span>. The plane created by <span class="math inline">\(\boldsymbol{X}_{1}\)</span> and <span class="math inline">\(\boldsymbol{X}_{2}\)</span> is the range space <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span>. Regression fitted values are linear combinations of <span class="math inline">\(\boldsymbol{X}_{1}\)</span> and <span class="math inline">\(\boldsymbol{X}_{2}\)</span> and so lie on this plane. The fitted value <span class="math inline">\(\widehat{\boldsymbol{Y}}\)</span> is the vector on this plane closest to <span class="math inline">\(\boldsymbol{Y}\)</span>. The residual <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{Y}-\widehat{\boldsymbol{Y}}\)</span> is the difference between the two. The angle between the vectors <span class="math inline">\(\widehat{\boldsymbol{Y}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> is <span class="math inline">\(90^{\circ}\)</span>, and therefore they are orthogonal as shown.</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-17.jpg" class="img-fluid"></p>
+<p>Figure 3.4: Projection of <span class="math inline">\(\boldsymbol{Y}\)</span> onto <span class="math inline">\(\boldsymbol{X}_{1}\)</span> and <span class="math inline">\(\boldsymbol{X}_{2}\)</span></p>
+</section>
+<section id="regression-components" class="level2" data-number="3.18">
+<h2 data-number="3.18" class="anchored" data-anchor-id="regression-components"><span class="header-section-number">3.18</span> Regression Components</h2>
+<p>Partition <span class="math inline">\(\boldsymbol{X}=\left[\begin{array}{ll}\boldsymbol{X}_{1} &amp; \boldsymbol{X}_{2}\end{array}\right]\)</span> and <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span>. The regression model can be written as</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X}_{1} \beta_{1}+\boldsymbol{X}_{2} \beta_{2}+\boldsymbol{e} .
+\]</span></p>
+<p>The OLS estimator of <span class="math inline">\(\beta=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)^{\prime}\)</span> is obtained by regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> and can be written as</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X} \widehat{\beta}+\widehat{\boldsymbol{e}}=\boldsymbol{X}_{1} \widehat{\boldsymbol{\beta}}_{1}+\boldsymbol{X}_{2} \widehat{\boldsymbol{\beta}}_{2}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>We are interested in algebraic expressions for <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span>.</p>
+<p>Let’s first focus on <span class="math inline">\(\widehat{\beta}_{1}\)</span>. The least squares estimator by definition is found by the joint minimization</p>
+<p><span class="math display">\[
+\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)=\underset{\beta_{1}, \beta_{2}}{\operatorname{argmin}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)=\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}-\boldsymbol{X}_{2} \beta_{2}\right)^{\prime}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}-\boldsymbol{X}_{2} \beta_{2}\right) .
+\]</span></p>
+<p>An equivalent expression for <span class="math inline">\(\widehat{\beta}_{1}\)</span> can be obtained by concentration (nested minimization). The solution (3.33) can be written as</p>
+<p><span class="math display">\[
+\widehat{\beta}_{1}=\underset{\beta_{1}}{\operatorname{argmin}}\left(\min _{\beta_{2}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)\right) .
+\]</span></p>
+<p>The inner expression <span class="math inline">\(\min _{\beta_{2}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)\)</span> minimizes over <span class="math inline">\(\beta_{2}\)</span> while holding <span class="math inline">\(\beta_{1}\)</span> fixed. It is the lowest possible sum of squared errors given <span class="math inline">\(\beta_{1}\)</span>. The outer minimization <span class="math inline">\(\operatorname{argmin}_{\beta_{1}}\)</span> finds the coefficient <span class="math inline">\(\beta_{1}\)</span> which minimizes the “lowest possible sum of squared errors given <span class="math inline">\(\beta_{1}\)</span>”. This means that <span class="math inline">\(\widehat{\beta}_{1}\)</span> as defined in (3.33) and (3.34) are algebraically identical.</p>
+<p>Examine the inner minimization problem in (3.34). This is simply the least squares regression of <span class="math inline">\(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\)</span> on <span class="math inline">\(\boldsymbol{X}_{2}\)</span>. This has solution</p>
+<p><span class="math display">\[
+\underset{\beta_{2}}{\operatorname{argmin}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)\right)
+\]</span></p>
+<p>with residuals</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}-\boldsymbol{X}_{2}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)\right) &amp;=\left(\boldsymbol{M}_{2} \boldsymbol{Y}-\boldsymbol{M}_{2} \boldsymbol{X}_{1} \beta_{1}\right) \\
+&amp;=\boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)
+\end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{M}_{2}=\boldsymbol{I}_{n}-\boldsymbol{X}_{2}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1} \boldsymbol{X}_{2}^{\prime}
+\]</span></p>
+<p>is the annihilator matrix for <span class="math inline">\(\boldsymbol{X}_{2}\)</span>. This means that the inner minimization problem (3.34) has minimized value</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min _{\beta_{2}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right) &amp;=\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)^{\prime} \boldsymbol{M}_{2} \boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right) \\
+&amp;=\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)^{\prime} \boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)
+\end{aligned}
+\]</span></p>
+<p>where the second equality holds because <span class="math inline">\(\boldsymbol{M}_{2}\)</span> is idempotent. Substituting this into (3.34) we find</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{1} &amp;=\underset{\beta_{1}}{\operatorname{argmin}}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)^{\prime} \boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right) \\
+&amp;=\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{X}_{1}\right)^{-1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{Y}\right) .
+\end{aligned}
+\]</span></p>
+<p>By a similar argument we find</p>
+<p><span class="math display">\[
+\widehat{\beta}_{2}=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\right)
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{M}_{1}=\boldsymbol{I}_{n}-\boldsymbol{X}_{1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1}\right)^{-1} \boldsymbol{X}_{1}^{\prime}
+\]</span></p>
+<p>is the annihilator matrix for <span class="math inline">\(\boldsymbol{X}_{1}\)</span>. Theorem 3.4 The least squares estimator <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)\)</span> for (3.32) has the algebraic solution</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\widehat{\beta}_{1}=\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{X}_{1}\right)^{-1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{Y}\right) \\
+&amp;\widehat{\beta}_{2}=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\right)
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{M}_{1}\)</span> and <span class="math inline">\(\boldsymbol{M}_{2}\)</span> are defined in (3.36) and (3.35), respectively.</p>
+</section>
+<section id="regression-components-alternative-derivation" class="level2" data-number="3.19">
+<h2 data-number="3.19" class="anchored" data-anchor-id="regression-components-alternative-derivation"><span class="header-section-number">3.19</span> Regression Components (Alternative Derivation)*</h2>
+<p>An alternative proof of Theorem <span class="math inline">\(3.4\)</span> uses an algebraic argument based on the population calculations from Section 2.22. Since this is a classic derivation we present it here for completeness.</p>
+<p>Partition <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}\)</span> as</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X X}=\left[\begin{array}{ll}
+\widehat{\boldsymbol{Q}}_{11} &amp; \widehat{\boldsymbol{Q}}_{12} \\
+\widehat{\boldsymbol{Q}}_{21} &amp; \widehat{\boldsymbol{Q}}_{22}
+\end{array}\right]=\left[\begin{array}{ll}
+\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1} &amp; \frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2} \\
+\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{1} &amp; \frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}
+\end{array}\right]
+\]</span></p>
+<p>and similarly <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X Y}\)</span> as</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X Y}=\left[\begin{array}{l}
+\widehat{\boldsymbol{Q}}_{1 Y} \\
+\widehat{\boldsymbol{Q}}_{2 Y}
+\end{array}\right]=\left[\begin{array}{c}
+\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{Y} \\
+\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{Y}
+\end{array}\right]
+\]</span></p>
+<p>By the partitioned matrix inversion formula (A.3)</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X X}^{-1}=\left[\begin{array}{ll}
+\widehat{\boldsymbol{Q}}_{11} &amp; \widehat{\boldsymbol{Q}}_{12} \\
+\widehat{\boldsymbol{Q}}_{21} &amp; \widehat{\boldsymbol{Q}}_{22}
+\end{array}\right]^{-1} \stackrel{\operatorname{def}}{=}\left[\begin{array}{cc}
+\widehat{\boldsymbol{Q}}^{11} &amp; \widehat{\boldsymbol{Q}}^{12} \\
+\widehat{\boldsymbol{Q}}^{21} &amp; \widehat{\boldsymbol{Q}}^{22}
+\end{array}\right]=\left[\begin{array}{cc}
+\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} &amp; -\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \\
+-\widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1} \widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} &amp; \widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1}
+\end{array}\right]
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\boldsymbol{Q}}_{11 \cdot 2}=\widehat{\boldsymbol{Q}}_{11}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{21}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{Q}}_{22 \cdot 1}=\widehat{\boldsymbol{Q}}_{22}-\widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{12}\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\left(\begin{array}{c}
+\widehat{\beta}_{1} \\
+\widehat{\beta}_{2}
+\end{array}\right) \\
+&amp;=\left[\begin{array}{cc}
+\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} &amp; -\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \\
+-\widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1} \widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} &amp; \widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1}
+\end{array}\right]\left[\begin{array}{c}
+\widehat{\boldsymbol{Q}}_{1 Y} \\
+\widehat{\boldsymbol{Q}}_{2 Y}
+\end{array}\right] \\
+&amp;=\left(\begin{array}{c}
+\widehat{\mathbf{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{1 Y \cdot 2} \\
+\widehat{\mathbf{Q}}_{22 \cdot 1}^{-1} \widehat{\mathbf{Q}}_{2 Y \cdot 1}
+\end{array}\right)
+\end{aligned}
+\]</span></p>
+<p>Now</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}}_{11 \cdot 2} &amp;=\widehat{\boldsymbol{Q}}_{11}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{21} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1}-\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2}\left(\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1} \frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{1} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{X}_{1}
+\end{aligned}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}}_{1 y \cdot 2} &amp;=\widehat{\boldsymbol{Q}}_{1 Y}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{2 Y} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{Y}-\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2}\left(\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1} \frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{Y} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{Y} .
+\end{aligned}
+\]</span></p>
+<p>Equation (3.38) follows.</p>
+<p>Similarly to the calculation for <span class="math inline">\(\widehat{\boldsymbol{Q}}_{11 \cdot 2}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{Q}}_{1 Y \cdot 2}\)</span> you can show that <span class="math inline">\(\widehat{\boldsymbol{Q}}_{2 Y \cdot 1}=\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{Q}}_{22 \cdot 1}=\)</span> <span class="math inline">\(\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\)</span>. This establishes (3.37). Together, this is Theorem 3.4.</p>
+</section>
+<section id="residual-regression" class="level2" data-number="3.20">
+<h2 data-number="3.20" class="anchored" data-anchor-id="residual-regression"><span class="header-section-number">3.20</span> Residual Regression</h2>
+<p>As first recognized by Frisch and Waugh (1933) and extended by Lovell (1963), expressions (3.37) and (3.38) can be used to show that the least squares estimators <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span> can be found by a two-step regression procedure.</p>
+<p>Take (3.38). Since <span class="math inline">\(\boldsymbol{M}_{1}\)</span> is idempotent, <span class="math inline">\(\boldsymbol{M}_{1}=\boldsymbol{M}_{1} \boldsymbol{M}_{1}\)</span> and thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{2} &amp;=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\right) \\
+&amp;=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{M}_{1} \boldsymbol{Y}\right) \\
+&amp;=\left(\widetilde{\boldsymbol{X}}_{2}^{\prime} \widetilde{\boldsymbol{X}}_{2}\right)^{-1}\left(\widetilde{\boldsymbol{X}}_{2}^{\prime} \widetilde{\boldsymbol{e}}_{1}\right)
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}=\boldsymbol{M}_{1} \boldsymbol{X}_{2}\)</span> and <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}=\boldsymbol{M}_{1} \boldsymbol{Y}\)</span>.</p>
+<p>Thus the coefficient estimator <span class="math inline">\(\widehat{\beta}_{2}\)</span> is algebraically equal to the least squares regression of <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span> on <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span>. Notice that these two are <span class="math inline">\(\boldsymbol{Y}\)</span> and <span class="math inline">\(\boldsymbol{X}_{2}\)</span>, respectively, premultiplied by <span class="math inline">\(\boldsymbol{M}_{1}\)</span>. But we know that pre-multiplication by <span class="math inline">\(\boldsymbol{M}_{1}\)</span> creates least squares residuals. Therefore <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span> is simply the least squares residual from a regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}_{1}\)</span>, and the columns of <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span> are the least squares residuals from the regressions of the columns of <span class="math inline">\(\boldsymbol{X}_{2}\)</span> on <span class="math inline">\(\boldsymbol{X}_{1}\)</span>.</p>
+<p>We have proven the following theorem.</p>
+<p>Theorem 3.5 Frisch-Waugh-Lovell (FWL)</p>
+<p>In the model (3.31), the OLS estimator of <span class="math inline">\(\beta_{2}\)</span> and the OLS residuals <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> may be computed by either the OLS regression (3.32) or via the following algorithm:</p>
+<ol type="1">
+<li><p>Regress <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}_{1}\)</span>, obtain residuals <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span>;</p></li>
+<li><p>Regress <span class="math inline">\(\boldsymbol{X}_{2}\)</span> on <span class="math inline">\(\boldsymbol{X}_{1}\)</span>, obtain residuals <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span>;</p></li>
+<li><p>Regress <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span> on <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span>, obtain OLS estimates <span class="math inline">\(\widehat{\beta}_{2}\)</span> and residuals <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span>.</p></li>
+</ol>
+<p>In some contexts (such as panel data models, to be introduced in Chapter 17), the FWL theorem can be used to greatly speed computation.</p>
+<p>The FWL theorem is a direct analog of the coefficient representation obtained in Section 2.23. The result obtained in that section concerned the population projection coefficients; the result obtained here concern the least squares estimators. The key message is the same. In the least squares regression (3.32) the estimated coefficient <span class="math inline">\(\widehat{\beta}_{2}\)</span> algebraically equals the regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on the regressors <span class="math inline">\(\boldsymbol{X}_{2}\)</span> after the regressors <span class="math inline">\(X_{1}\)</span> have been linearly projected out. Similarly, the coefficient estimate <span class="math inline">\(\widehat{\beta}_{1}\)</span> algebraically equals the regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on the regressors <span class="math inline">\(\boldsymbol{X}_{1}\)</span> after the regressors <span class="math inline">\(\boldsymbol{X}_{2}\)</span> have been linearly projected out. This result can be insightful when interpreting regression coefficients.</p>
+<p>A common application of the FWL theorem is the demeaning formula for regression obtained in (3.18). Partition <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> where <span class="math inline">\(\boldsymbol{X}_{1}=\mathbf{1}_{n}\)</span> is a vector of ones and <span class="math inline">\(\boldsymbol{X}_{2}\)</span> is a matrix of observed regressors. In this case <span class="math inline">\(\boldsymbol{M}_{1}=\boldsymbol{I}_{n}-\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime}\)</span>. Observe that <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}=\boldsymbol{M}_{1} \boldsymbol{X}_{2}=\boldsymbol{X}_{2}-\overline{\boldsymbol{X}}_{2}\)</span> and <span class="math inline">\(\boldsymbol{M}_{1} \boldsymbol{Y}=\boldsymbol{Y}-\overline{\boldsymbol{Y}}\)</span> are the “demeaned” variables. The FWL theorem says that <span class="math inline">\(\widehat{\beta}_{2}\)</span> is the OLS estimate from a regression of <span class="math inline">\(Y_{i}-\bar{Y}\)</span> on <span class="math inline">\(X_{2 i}-\bar{X}_{2}\)</span> :</p>
+<p><span class="math display">\[
+\widehat{\beta}_{2}=\left(\sum_{i=1}^{n}\left(X_{2 i}-\bar{X}_{2}\right)\left(X_{2 i}-\bar{X}_{2}\right)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n}\left(X_{2 i}-\bar{X}_{2}\right)\left(Y_{i}-\bar{Y}\right)\right)
+\]</span></p>
+<p>This is (3.18).</p>
+<p>Ragnar Frisch\ Ragnar Frisch (1895-1973) was co-winner with Jan Tinbergen of the first No-\ bel Memorial Prize in Economic Sciences in 1969 for their work in developing\ and applying dynamic models for the analysis of economic problems. Frisch\ made a number of foundational contributions to modern economics beyond the\ Frisch-Waugh-Lovell Theorem, including formalizing consumer theory, produc-\ tion theory, and business cycle theory.</p>
+</section>
+<section id="leverage-values" class="level2" data-number="3.21">
+<h2 data-number="3.21" class="anchored" data-anchor-id="leverage-values"><span class="header-section-number">3.21</span> Leverage Values</h2>
+<p>The leverage values for the regressor matrix <span class="math inline">\(\boldsymbol{X}\)</span> are the diagonal elements of the projection matrix <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span>. There are <span class="math inline">\(n\)</span> leverage values, and are typically written as <span class="math inline">\(h_{i i}\)</span> for <span class="math inline">\(i=1, \ldots, n\)</span>. Since</p>
+<p><span class="math display">\[
+\boldsymbol{P}=\left(\begin{array}{c}
+X_{1}^{\prime} \\
+X_{2}^{\prime} \\
+\vdots \\
+X_{n}^{\prime}
+\end{array}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\begin{array}{llll}
+X_{1} &amp; X_{2} &amp; \cdots &amp; X_{n}
+\end{array}\right)
+\]</span></p>
+<p>they are</p>
+<p><span class="math display">\[
+h_{i i}=X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} .
+\]</span></p>
+<p>The leverage value <span class="math inline">\(h_{i i}\)</span> is a normalized length of the observed regressor vector <span class="math inline">\(X_{i}\)</span>. They appear frequently in the algebraic and statistical analysis of least squares regression, including leave-one-out regression, influential observations, robust covariance matrix estimation, and cross-validation.</p>
+<p>A few properties of the leverage values are now listed.</p>
+<p>Theorem 3.6</p>
+<ol type="1">
+<li><p><span class="math inline">\(0 \leq h_{i i} \leq 1\)</span>.</p></li>
+<li><p><span class="math inline">\(h_{i i} \geq 1 / n\)</span> if <span class="math inline">\(X\)</span> includes an intercept.</p></li>
+<li><p><span class="math inline">\(\sum_{i=1}^{n} h_{i i}=k\)</span>.</p></li>
+</ol>
+<p>We prove Theorem <span class="math inline">\(3.6\)</span> below.</p>
+<p>The leverage value <span class="math inline">\(h_{i i}\)</span> measures how unusual the <span class="math inline">\(i^{t h}\)</span> observation <span class="math inline">\(X_{i}\)</span> is relative to the other observations in the sample. A large <span class="math inline">\(h_{i i}\)</span> occurs when <span class="math inline">\(X_{i}\)</span> is quite different from the other sample values. A measure of overall unusualness is the maximum leverage value</p>
+<p><span class="math display">\[
+\bar{h}=\max _{1 \leq i \leq n} h_{i i} .
+\]</span></p>
+<p>It is common to say that a regression design is balanced when the leverage values are all roughly equal to one another. From Theorem 3.6.3 we deduce that complete balance occurs when <span class="math inline">\(h_{i i}=\bar{h}=k / n\)</span>. An example of complete balance is when the regressors are all orthogonal dummy variables, each of which have equal occurrance of 0’s and 1’s.</p>
+<p>A regression design is unbalanced if some leverage values are highly unequal from the others. The most extreme case is <span class="math inline">\(\bar{h}=1\)</span>. An example where this occurs is when there is a dummy regressor which takes the value 1 for only one observation in the sample.</p>
+<p>The maximal leverage value (3.41) will change depending on the choice of regressors. For example, consider equation (3.13), the wage regression for single Asian men which has <span class="math inline">\(n=268\)</span> observations. This regression has <span class="math inline">\(\bar{h}=0.33\)</span>. If the squared experience regressor is omitted the leverage drops to <span class="math inline">\(\bar{h}=0.10\)</span>. If a cubic in experience is added it increases to <span class="math inline">\(\bar{h}=0.76\)</span>. And if a fourth and fifth power are added it increases to <span class="math inline">\(\bar{h}=0.99\)</span>.</p>
+<p>Some inference procedures (such as robust covariance matrix estimation and cross-validation) are sensitive to high leverage values. We will return to these issues later.</p>
+<p>We now prove Theorem 3.6. For part 1 let <span class="math inline">\(s_{i}\)</span> be an <span class="math inline">\(n \times 1\)</span> unit vector with a 1 in the <span class="math inline">\(i^{t h}\)</span> place and zeros elsewhere so that <span class="math inline">\(h_{i i}=s_{i}^{\prime} \boldsymbol{P} s_{i}\)</span>. Then applying the Quadratic Inequality (B.18) and Theorem 3.3.4,</p>
+<p><span class="math display">\[
+h_{i i}=s_{i}^{\prime} \boldsymbol{P} s_{i} \leq s_{i}^{\prime} s_{i} \lambda_{\max }(\boldsymbol{P})=1
+\]</span></p>
+<p>as claimed.</p>
+<p>For part 2 partition <span class="math inline">\(X_{i}=\left(1, Z_{i}^{\prime}\right)^{\prime}\)</span>. Without loss of generality we can replace <span class="math inline">\(Z_{i}\)</span> with the demeaned values <span class="math inline">\(Z_{i}^{*}=Z_{i}-\bar{Z}\)</span>. Then since <span class="math inline">\(Z_{i}^{*}\)</span> and the intercept are orthgonal</p>
+<p><span class="math display">\[
+\begin{aligned}
+h_{i i} &amp;=\left(1, Z_{i}^{* \prime}\right)\left[\begin{array}{cc}
+n &amp; 0 \\
+0 &amp; Z^{* \prime} Z^{*}
+\end{array}\right]^{-1}\left(\begin{array}{c}
+1 \\
+Z_{i}^{*}
+\end{array}\right) \\
+&amp;=\frac{1}{n}+Z_{i}^{* \prime}\left(Z^{* \prime} Z^{*}\right)^{-1} Z_{i}^{*} \geq \frac{1}{n} .
+\end{aligned}
+\]</span></p>
+<p>For part 3, <span class="math inline">\(\sum_{i=1}^{n} h_{i i}=\operatorname{tr} \boldsymbol{P}=k\)</span> where the second equality is Theorem 3.3.3.</p>
+</section>
+<section id="leave-one-out-regression" class="level2" data-number="3.22">
+<h2 data-number="3.22" class="anchored" data-anchor-id="leave-one-out-regression"><span class="header-section-number">3.22</span> Leave-One-Out Regression</h2>
+<p>There are a number of statistical procedures - residual analysis, jackknife variance estimation, crossvalidation, two-step estimation, hold-out sample evaluation - which make use of estimators constructed on sub-samples. Of particular importance is the case where we exclude a single observation and then repeat this for all observations. This is called leave-one-out (LOO) regression.</p>
+<p>Specifically, the leave-one-out estimator of the regression coefficient <span class="math inline">\(\beta\)</span> is the least squares estimator constructed using the full sample excluding a single observation <span class="math inline">\(i\)</span>. This can be written as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{(-i)} &amp;=\left(\sum_{j \neq i} X_{j} X_{j}^{\prime}\right)^{-1}\left(\sum_{j \neq i} X_{j} Y_{j}\right) \\
+&amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}-X_{i} X_{i}^{\prime}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}-X_{i} Y_{i}\right) \\
+&amp;=\left(\boldsymbol{X}_{(-i)}^{\prime} \boldsymbol{X}_{(-i)}\right)^{-1} \boldsymbol{X}_{(-i)}^{\prime} \boldsymbol{Y}_{(-i)} .
+\end{aligned}
+\]</span></p>
+<p>Here, <span class="math inline">\(\boldsymbol{X}_{(-i)}\)</span> and <span class="math inline">\(\boldsymbol{Y}_{(-i)}\)</span> are the data matrices omitting the <span class="math inline">\(i^{t h}\)</span> row. The notation <span class="math inline">\(\widehat{\beta}_{(-i)}\)</span> or <span class="math inline">\(\widehat{\beta}_{-i}\)</span> is commonly used to denote an estimator with the <span class="math inline">\(i^{t h}\)</span> observation omitted. There is a leave-one-out estimator for each observation, <span class="math inline">\(i=1, \ldots, n\)</span>, so we have <span class="math inline">\(n\)</span> such estimators.</p>
+<p>The leave-one-out predicted value for <span class="math inline">\(Y_{i}\)</span> is <span class="math inline">\(\widetilde{Y}_{i}=X_{i}^{\prime} \widehat{\beta}_{(-i)}\)</span>. This is the predicted value obtained by estimating <span class="math inline">\(\beta\)</span> on the sample without observation <span class="math inline">\(i\)</span> and then using the covariate vector <span class="math inline">\(X_{i}\)</span> to predict <span class="math inline">\(Y_{i}\)</span>. Notice that <span class="math inline">\(\widetilde{Y}_{i}\)</span> is an authentic prediction as <span class="math inline">\(Y_{i}\)</span> is not used to construct <span class="math inline">\(\widetilde{Y}_{i}\)</span>. This is in contrast to the fitted values <span class="math inline">\(\widehat{Y}_{i}\)</span> which are functions of <span class="math inline">\(Y_{i}\)</span>.</p>
+<p>The leave-one-out residual, prediction error, or prediction residual is <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-\widetilde{Y}_{i}\)</span>. The prediction errors may be used as estimators of the errors instead of the residuals. The prediction errors are better estimators than the residuals because the former are based on authentic predictions.</p>
+<p>The leave-one-out formula (3.42) gives the unfortunate impression that the leave-one-out coefficients and errors are computationally cumbersome, requiring <span class="math inline">\(n\)</span> separate regressions. In the context of linear regression this is fortunately not the case. There are simple linear expressions for <span class="math inline">\(\widehat{\beta}_{(-i)}\)</span> and <span class="math inline">\(\widetilde{e}_{i}\)</span>.</p>
+<p>Theorem 3.7 The leave-one-out estimator and prediction error equal</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\widetilde{e}_{i}=\left(1-h_{i i}\right)^{-1} \widehat{e}_{i}
+\]</span></p>
+<p>where <span class="math inline">\(h_{i i}\)</span> are the leverage values as defined in (3.40).</p>
+<p>We prove Theorem <span class="math inline">\(3.7\)</span> at the end of the section.</p>
+<p>Equation (3.43) shows that the leave-one-out coefficients can be calculated by a simple linear operation and do not need to be calculated using <span class="math inline">\(n\)</span> separate regressions. Another interesting feature of equation (3.44) is that the prediction errors <span class="math inline">\(\widetilde{e}_{i}\)</span> are a simple scaling of the least squares residuals <span class="math inline">\(\widehat{e}_{i}\)</span> with the scaling dependent on the leverage values <span class="math inline">\(h_{i i}\)</span>. If <span class="math inline">\(h_{i i}\)</span> is small then <span class="math inline">\(\widetilde{e}_{i} \simeq \widehat{e}_{i}\)</span>. However if <span class="math inline">\(h_{i i}\)</span> is large then <span class="math inline">\(\widetilde{e}_{i}\)</span> can be quite different from <span class="math inline">\(\widehat{e}_{i}\)</span>. Thus the difference between the residuals and predicted values depends on the leverage values, that is, how unusual is <span class="math inline">\(X_{i}\)</span>. To write (3.44) in vector notation, define</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{M}^{*} &amp;=\left(\boldsymbol{I}_{n}-\operatorname{diag}\left\{h_{11}, . ., h_{n n}\right\}\right)^{-1} \\
+&amp;=\operatorname{diag}\left\{\left(1-h_{11}\right)^{-1}, \ldots,\left(1-h_{n n}\right)^{-1}\right\}
+\end{aligned}
+\]</span></p>
+<p>Then (3.44) is equivalent to</p>
+<p><span class="math display">\[
+\widetilde{\boldsymbol{e}}=\boldsymbol{M}^{*} \widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>One use of the prediction errors is to estimate the out-of-sample mean squared error:</p>
+<p><span class="math display">\[
+\widetilde{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} \widetilde{e}_{i}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(1-h_{i i}\right)^{-2} \widehat{e}_{i}^{2} .
+\]</span></p>
+<p>This is known as the sample mean squared prediction error. Its square root <span class="math inline">\(\widetilde{\sigma}=\sqrt{\widetilde{\sigma}^{2}}\)</span> is the prediction standard error.</p>
+<p>We complete the section with a proof of Theorem 3.7. The leave-one-out estimator (3.42) can be written as</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}-X_{i} X_{i}^{\prime}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}-X_{i} Y_{i}\right) .
+\]</span></p>
+<p>Multiply (3.47) by <span class="math inline">\(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}-X_{i} X_{i}^{\prime}\right)\)</span>. We obtain</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} X_{i}^{\prime} \widehat{\beta}_{(-i)}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}-X_{i} Y_{i}\right)=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} Y_{i} .
+\]</span></p>
+<p>Rewriting</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}_{(-i)}\right)=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}
+\]</span></p>
+<p>which is (3.43). Premultiplying this expression by <span class="math inline">\(X_{i}^{\prime}\)</span> and using definition (3.40) we obtain</p>
+<p><span class="math display">\[
+X_{i}^{\prime} \widehat{\beta}_{(-i)}=X_{i}^{\prime} \widehat{\beta}-X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}=X_{i}^{\prime} \widehat{\beta}-h_{i i} \widetilde{e}_{i} .
+\]</span></p>
+<p>Using the definitions for <span class="math inline">\(\widehat{e}_{i}\)</span> and <span class="math inline">\(\widetilde{e}_{i}\)</span> we obtain <span class="math inline">\(\widetilde{e}_{i}=\widehat{e}_{i}+h_{i i} \widetilde{e}_{i}\)</span>. Re-writing we obtain (3.44).</p>
+</section>
+<section id="influential-observations" class="level2" data-number="3.23">
+<h2 data-number="3.23" class="anchored" data-anchor-id="influential-observations"><span class="header-section-number">3.23</span> Influential Observations</h2>
+<p>Another use of the leave-one-out estimator is to investigate the impact of influential observations, sometimes called outliers. We say that observation <span class="math inline">\(i\)</span> is influential if its omission from the sample induces a substantial change in a parameter estimate of interest.</p>
+<p>For illustration consider Figure <span class="math inline">\(3.5\)</span> which shows a scatter plot of realizations <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>. The 25 observations shown with the open circles are generated by <span class="math inline">\(X_{i} \sim U[1,10]\)</span> and <span class="math inline">\(Y_{i} \sim \mathrm{N}\left(X_{i}, 4\right)\)</span>. The <span class="math inline">\(26^{\text {th }}\)</span> observation shown with the filled circle is <span class="math inline">\(X_{26}=9, Y_{26}=0\)</span>. (Imagine that <span class="math inline">\(Y_{26}=0\)</span> was incorrectly recorded due to a mistaken key entry.) The figure shows both the least squares fitted line from the full sample and that obtained after deletion of the <span class="math inline">\(26^{\text {th }}\)</span> observation from the sample. In this example we can see how the <span class="math inline">\(26^{\text {th }}\)</span> observation (the “outlier”) greatly tilts the least squares fitted line towards the <span class="math inline">\(26^{\text {th }}\)</span> observation. In fact, the slope coefficient decreases from <span class="math inline">\(0.97\)</span> (which is close to the true value of <span class="math inline">\(1.00\)</span> ) to <span class="math inline">\(0.56\)</span>, which is substantially reduced. Neither <span class="math inline">\(Y_{26}\)</span> nor <span class="math inline">\(X_{26}\)</span> are unusual values relative to their marginal distributions so this outlier would not have been detected from examination of the marginal distributions of the data. The change in the slope coefficient of <span class="math inline">\(-0.41\)</span> is meaningful and should raise concern to an applied economist.</p>
+<p>From (3.43) we know that</p>
+<p><span class="math display">\[
+\widehat{\beta}-\widehat{\beta}_{(-i)}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}
+\]</span></p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-25.jpg" class="img-fluid"></p>
+<p>Figure 3.5: Impact of an Influential Observation on the Least-Squares Estimator</p>
+<p>By direct calculation of this quantity for each observation <span class="math inline">\(i\)</span>, we can directly discover if a specific observation <span class="math inline">\(i\)</span> is influential for a coefficient estimate of interest.</p>
+<p>For a general assessment, we can focus on the predicted values. The difference between the fullsample and leave-one-out predicted values is</p>
+<p><span class="math display">\[
+\widehat{Y}_{i}-\widetilde{Y}_{i}=X_{i}^{\prime} \widehat{\beta}-X_{i}^{\prime} \widehat{\beta}_{(-i)}=X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}=h_{i i} \widetilde{e}_{i}
+\]</span></p>
+<p>which is a simple function of the leverage values <span class="math inline">\(h_{i i}\)</span> and prediction errors <span class="math inline">\(\widetilde{e}_{i}\)</span>. Observation <span class="math inline">\(i\)</span> is influential for the predicted value if <span class="math inline">\(\left|h_{i i} \widetilde{e}_{i}\right|\)</span> is large, which requires that both <span class="math inline">\(h_{i i}\)</span> and <span class="math inline">\(\left|\widetilde{e}_{i}\right|\)</span> are large.</p>
+<p>One way to think about this is that a large leverage value <span class="math inline">\(h_{i i}\)</span> gives the potential for observation <span class="math inline">\(i\)</span> to be influential. A large <span class="math inline">\(h_{i i}\)</span> means that observation <span class="math inline">\(i\)</span> is unusual in the sense that the regressor <span class="math inline">\(X_{i}\)</span> is far from its sample mean. We call an observation with large <span class="math inline">\(h_{i i}\)</span> a leverage point. A leverage point is not necessarily influential as the latter also requires that the prediction error <span class="math inline">\(\widetilde{e}_{i}\)</span> is large.</p>
+<p>To determine if any individual observations are influential in this sense several diagnostics have been proposed (some names include DFITS, Cook’s Distance, and Welsch Distance). Unfortunately, from a statistical perspective it is difficult to recommend these diagnostics for applications as they are not based on statistical theory. Probably the most relevant measure is the change in the coefficient estimates given in (3.48). The ratio of these changes to the coefficient’s standard error is called its DFBETA, and is a postestimation diagnostic available in Stata. While there is no magic threshold, the concern is whether or not an individual observation meaningfully changes an estimated coefficient of interest. A simple diagnostic for influential observations is to calculate</p>
+<p><span class="math display">\[
+\text { Influence }=\max _{1 \leq i \leq n}\left|\widehat{Y}_{i}-\widetilde{Y}_{i}\right|=\max _{1 \leq i \leq n}\left|h_{i i} \widetilde{e}_{i}\right| .
+\]</span></p>
+<p>This is the largest (absolute) change in the predicted value due to a single observation. If this diagnostic is large relative to the distribution of <span class="math inline">\(Y\)</span> it may indicate that that observation is influential.</p>
+<p>If an observation is determined to be influential what should be done? As a common cause of influential observations is data error, the influential observations should be examined for evidence that the observation was mis-recorded. Perhaps the observation falls outside of permitted ranges, or some observables are inconsistent (for example, a person is listed as having a job but receives earnings of <span class="math inline">\(\$ 0\)</span> ). If it is determined that an observation is incorrectly recorded, then the observation is typically deleted from the sample. This process is often called “cleaning the data”. The decisions made in this process involve a fair amount of individual judgment. [When this is done the proper practice is to retain the source data in its original form and create a program file which executes all cleaning operations (for example deletion of individual observations). The cleaned data file can be saved at this point, and then used for the subsequent statistical analysis. The point of retaining the source data and a specific program file which cleans the data is twofold: so that all decisions are documented, and so that modifications can be made in revisions and future research.] It is also possible that an observation is correctly measured, but unusual and influential. In this case it is unclear how to proceed. Some researchers will try to alter the specification to properly model the influential observation. Other researchers will delete the observation from the sample. The motivation for this choice is to prevent the results from being skewed or determined by individual observations. This latter practice is viewed skeptically by many researchers who believe it reduces the integrity of reported empirical results.</p>
+<p>For an empirical illustration consider the log wage regression (3.13) for single Asian men. This regression, which has 268 observations, has Influence <span class="math inline">\(=0.29\)</span>. This means that the most influential observation, when deleted, changes the predicted (fitted) value of the dependent variable <span class="math inline">\(\log (\)</span> wage) by <span class="math inline">\(0.29\)</span>, or equivalently the average wage by <span class="math inline">\(29 %\)</span>. This is a meaningful change and suggests further investigation. We examine the influential observation, and find that its leverage <span class="math inline">\(h_{i i}\)</span> is <span class="math inline">\(0.33\)</span>. It is a moderately large leverage value, meaning that the regressor <span class="math inline">\(X_{i}\)</span> is somewhat unusual. Examining further, we find that this individual is 65 years old with 8 years education, so that his potential work experience is 51 years. This is the highest experience in the subsample - the next highest is 41 years. The large leverage is due to his unusual characteristics (very low education and very high experience) within this sample. Essentially, regression (3.13) is attempting to estimate the conditional mean at experience <span class="math inline">\(=51\)</span> with only one observation. It is not surprising that this observation determines the fit and is thus influential. A reasonable conclusion is the regression function can only be estimated over a smaller range of experience. We restrict the sample to individuals with less than 45 years experience, re-estimate, and obtain the following estimates.</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.144 \text { education }+0.043 \text { experience }-0.095 \text { experience }^{2} / 100+0.531 \text {. }
+\]</span></p>
+<p>For this regression, we calculate that Influence <span class="math inline">\(=0.11\)</span>, which is greatly reduced relative to the regression (3.13). Comparing (3.49) with (3.13), the slope coefficient for education is essentially unchanged, but the coefficients on experience and its square have slightly increased.</p>
+<p>By eliminating the influential observation equation (3.49) can be viewed as a more robust estimate of the conditional mean for most levels of experience. Whether to report (3.13) or (3.49) in an application is largely a matter of judgment.</p>
+</section>
+<section id="cps-data-set" class="level2" data-number="3.24">
+<h2 data-number="3.24" class="anchored" data-anchor-id="cps-data-set"><span class="header-section-number">3.24</span> CPS Data Set</h2>
+<p>In this section we describe the data set used in the empirical illustrations.</p>
+<p>The Current Population Survey (CPS) is a monthly survey of about 57,000 U.S. households conducted by the Bureau of the Census of the Bureau of Labor Statistics. The CPS is the primary source of information on the labor force characteristics of the U.S. population. The survey covers employment, earnings, educational attainment, income, poverty, health insurance coverage, job experience, voting and registration, computer usage, veteran status, and other variables. Details can be found at . html.</p>
+<p>From the March 2009 survey we extracted the individuals with non-allocated variables who were fulltime employed (defined as those who had worked at least 36 hours per week for at least 48 weeks the past year), and excluded those in the military. This sample has 50,742 individuals. We extracted 14 variables from the CPS on these individuals and created the data set cps09mar. This data set, and all others used in this textbook, are available at http: . wisc . edu/ bhansen/econometrics/.</p>
+</section>
+<section id="numerical-computation" class="level2" data-number="3.25">
+<h2 data-number="3.25" class="anchored" data-anchor-id="numerical-computation"><span class="header-section-number">3.25</span> Numerical Computation</h2>
+<p>Modern econometric estimation involves large samples and many covariates. Consequently, calculation of even simple statistics such as the least squares estimator requires a large number (millions) of arithmetic operations. In practice most economists don’t need to think much about this as it is done swiftly and effortlessly on personal computers. Nevertheless it is useful to understand the underlying calculation methods as choices can occasionally make substantive differences.</p>
+<p>While today nearly all statistical computations are made using statistical software running on electronic computers, this was not always the case. In the nineteenth and early twentieth centures “computer” was a job label for workers who made computations by hand. Computers were employed by astronomers and statistical laboratories. This fascinating job (and the fact that most computers employed in laboratories were women) has entered popular culture. For example the lives of several computers who worked for the early U.S. space program is described in the book and popular movie Hidden Figures, a fictional computer/astronaut is the protagonist of the novel The Calculating Stars, and the life of computer/astronomer Henrietta Swan Leavitt is dramatized in the play Silent Sky.</p>
+<p>Until programmable electronic computers became available in the 1960s economics graduate students were routinely employed as computers. Sample sizes were considerably smaller than those seen today, but still the effort required to calculate by hand a regression with even <span class="math inline">\(n=100\)</span> observations and <span class="math inline">\(k=5\)</span> variables is considerable! If you are a current graduate student you should feel fortunate that the profession has moved on from the era of human computers! (Now research assistants do more elevated tasks such as writing Stata, R, and MATLAB code.)</p>
+<p>To obtain the least squares estimate <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right)\)</span> we need to either invert <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> or solve a system of equations. To be specific, let <span class="math inline">\(\boldsymbol{A}=\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> and <span class="math inline">\(\boldsymbol{c}=\boldsymbol{X}^{\prime} \boldsymbol{Y}\)</span> so that the least squares estimate can be written as either the solution to</p>
+<p><span class="math display">\[
+\boldsymbol{A} \widehat{\beta}=\boldsymbol{c}
+\]</span></p>
+<p>or as</p>
+<p><span class="math display">\[
+\widehat{\beta}=A^{-1} \boldsymbol{c} .
+\]</span></p>
+<p>The equations (3.50) and (3.51) are algebraically identical but they suggest two distinct numerical approaches to obtain <span class="math inline">\(\widehat{\beta}\)</span>. (3.50) suggests solving a system of <span class="math inline">\(k\)</span> equations. (3.51) suggests finding <span class="math inline">\(A^{-1}\)</span> and then multiplying by <span class="math inline">\(\boldsymbol{c}\)</span>. While the two expressions are algebraically identical the implied numerical approaches are different. In a nutshell, solving the system of equations (3.50) is numerically preferred to the matrix inversion problem (3.51). Directly solving (3.50) is faster and produces a solution with a higher degree of numerical accuracy. Thus (3.50) is generally recommended over (3.51). However, in most practical applications the choice will not make any practical difference. Contexts where the choice may make a difference is when the matrix <span class="math inline">\(\boldsymbol{A}\)</span> is ill-conditioned (to be discussed in Section 3.24) or of extremely high dimension.</p>
+<p>Numerical methods to solve the system of equations (3.50) and calculate <span class="math inline">\(\boldsymbol{A}^{-1}\)</span> are discussed in Sections A.18 and A.19, respectively.</p>
+<p>Statistical packages use a variety of matrix methods to solve (3.50). Stata uses the sweep algorithm which is a variant of the Gauss-Jordan algorithm discussed in Section A.18. (For the sweep algorithm see Goodnight (1979).) In R, solve (A, b) uses the QR decomposition. In MATLAB, A b uses the Cholesky decomposition when <span class="math inline">\(A\)</span> is positive definite and the QR decomposition otherwise.</p>
+</section>
+<section id="collinearity-errors" class="level2" data-number="3.26">
+<h2 data-number="3.26" class="anchored" data-anchor-id="collinearity-errors"><span class="header-section-number">3.26</span> Collinearity Errors</h2>
+<p>For the least squares estimator to be uniquely defined the regressors cannot be linearly dependent. However, it is quite easy to attempt to calculate a regression with linearly dependent regressors. This can occur for many reasons, including the following.</p>
+<ol type="1">
+<li><p>Including the same regressor twice.</p></li>
+<li><p>Including regressors which are a linear combination of one another, such as education, experience and age in the CPS data set example (recall, experience is defined as age-education-6).</p></li>
+<li><p>Including a dummy variable and its square.</p></li>
+<li><p>Estimating a regression on a sub-sample for which a dummy variable is either all zeros or all ones.</p></li>
+<li><p>Including a dummy variable interaction which yields all zeros.</p></li>
+<li><p>Including more regressors than observations.</p></li>
+</ol>
+<p>In any of the above cases the regressors are linearly dependent so <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> is singular and the least squares estimator is not unique. If you attempt to estimate the regression, you are likely to encounter an error message. (A possible exception is MATLAB using “A <span class="math inline">\(\backslash \mathrm{b}\)</span>”, as discussed below.) The message may be that “system is exactly singular”, “system is computationally singular”, a variable is “omitted because of collinearity”, or a coefficient is listed as “NA”. In some cases (such as estimation in R using explicit matrix computation or MATLAB using the regress command) the program will stop execution. In other cases the program will continue to run. In Stata (and in the Im package in R), a regression will be reported but one or more variables will be omitted.</p>
+<p>If any of these warnings or error messages appear, the correct response is to stop and examine the regression coding and data. Did you make an unintended mistake? Have you included a linearly dependent regressor? Are you estimating on a subsample for which the variables (in particular dummy variables) have no variation? If you can determine that one of these scenarios caused the error, the solution is immediately apparent. You need to respecify your model (either sample or regressors) so that the redundancy is eliminated. All empirical researchers encounter this error in the course of empirical work. You should not, however, simply accept output if the package has selected variables for omission. It is the researcher’s job to understand the underlying cause and enact a suitable remedy.</p>
+<p>There is also a possibility that the statistical package will not detect and report the matrix singularity. If you compute in MATLAB using explicit matrix operations and use the recommended A <span class="math inline">\(\backslash \mathrm{b}\)</span> command to compute the least squares estimator MATLAB may return a numerical solution without an error message even when the regressors are algebraically dependent. It is therefore recommended that you perform a numerical check for matrix singularity when using explicit matrix operations in MATLAB.</p>
+<p>How can we numerically check if a matrix <span class="math inline">\(\boldsymbol{A}\)</span> is singular? A standard diagnostic is the reciprocal condition number</p>
+<p><span class="math display">\[
+C=\frac{\lambda_{\min }(\boldsymbol{A})}{\lambda_{\max }(\boldsymbol{A})} .
+\]</span></p>
+<p>If <span class="math inline">\(C=0\)</span> then <span class="math inline">\(\boldsymbol{A}\)</span> is singular. If <span class="math inline">\(C=1\)</span> then <span class="math inline">\(\boldsymbol{A}\)</span> is perfectly balanced. If <span class="math inline">\(C\)</span> is extremely small we say that <span class="math inline">\(\boldsymbol{A}\)</span> is ill-conditioned. The reciprocal condition number can be calculated in MATLAB or R by the rcond command. Unfortunately, there is no accepted tolerance for how small <span class="math inline">\(C\)</span> should be before regarding <span class="math inline">\(\boldsymbol{A}\)</span> as numerically singular, in part since rcond (A) can return a positive (but small) result even if <span class="math inline">\(\boldsymbol{A}\)</span> is algebraically singular. However, in double precision (which is typically used for computation) numerical accuracy is bounded by <span class="math inline">\(2^{-52} \simeq 2 \mathrm{e}-16\)</span>, suggesting the minimum bound <span class="math inline">\(C \geq 2 \mathrm{e}-16\)</span>.</p>
+<p>Checking for numerical singularity is complicated by the fact that low values of <span class="math inline">\(C\)</span> can also be caused by unbalanced or highly correlated regressors.</p>
+<p>To illustrate, consider a wage regression using the sample from (3.13) on powers of experience <span class="math inline">\(X\)</span> from 1 through <span class="math inline">\(k\)</span> (e.g.&nbsp;<span class="math inline">\(X, X^{2}, X^{3}, \ldots, X^{k}\)</span> ). We calculated the reciprocal condition number <span class="math inline">\(C\)</span> for each <span class="math inline">\(k\)</span>, and found that <span class="math inline">\(C\)</span> is decreasing as <span class="math inline">\(k\)</span> increases, indicating increasing ill-conditioning. Indeed, for <span class="math inline">\(k=\)</span> 5, we find <span class="math inline">\(C=6 \mathrm{e}-17\)</span>, which is lower than double precision accuracy. This means that a regression on <span class="math inline">\(\left(X, X^{2}, X^{3}, X^{4}, X^{5}\right)\)</span> is ill-conditioned. The regressor matrix, however, is not singular. The low value of <span class="math inline">\(C\)</span> is not due to algebraic singularity but rather is due to a lack of balance and high collinearity.</p>
+<p>Ill-conditioned regressors have the potential problem that the numerical results (the reported coefficient estimates) will be inaccurate. It may not be a concern in most applications as this only occurs in extreme cases. Nevertheless, we should try and avoid ill-conditioned regressions whenever possible.</p>
+<p>There are strategies which can reduce or even eliminate ill-conditioning. Often it is sufficient to rescale the regressors. A simple rescaling which often works for non-negative regressors is to divide each by its sample mean, thus replace <span class="math inline">\(X_{j i}\)</span> with <span class="math inline">\(X_{j i} / \bar{X}_{j}\)</span>. In the above example with the powers of experience, this means replacing <span class="math inline">\(X_{i}^{2}\)</span> with <span class="math inline">\(X_{i}^{2} /\left(n^{-1} \sum_{i=1}^{n} X_{i}^{2}\right)\)</span>, etc. Doing so dramatically reduces the ill-conditioning. With this scaling, regressions for <span class="math inline">\(k \leq 11\)</span> satisfy <span class="math inline">\(C \geq 1 \mathrm{e}-15\)</span>. Another rescaling specific to a regression with powers is to first rescale the regressor to lie in <span class="math inline">\([-1,1]\)</span> before taking powers. With this scaling, regressions for <span class="math inline">\(k \leq 16\)</span> satisfy <span class="math inline">\(C \geq 1 \mathrm{e}-15\)</span>. A simpler scaling option is to rescale the regressor to lie in <span class="math inline">\([0,1]\)</span> before taking powers. With this scaling, regressions for <span class="math inline">\(k \leq 9\)</span> satisfy <span class="math inline">\(C \geq 1 \mathrm{e}-15\)</span>. This is often sufficient for applications.</p>
+<p>Ill-conditioning can often be completely eliminated by orthogonalization of the regressors. This is achieved by sequentially regressing each variable (each column in <span class="math inline">\(\boldsymbol{X}\)</span> ) on the preceeding variables (each preceeding column), taking the residual, and then rescaling to have a unit variance. This will produce regressors which algebraically satisfy <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}=n \boldsymbol{I}_{n}\)</span> and have a condition number of <span class="math inline">\(C=1\)</span>. If we apply this method to the above example, we obtain a condition number close to 1 for <span class="math inline">\(k \leq 20\)</span>.</p>
+<p>What this shows is that when a regression has a small condition number it is important to examine the specification carefully. It is possible that the regressors are linearly dependent in which case one or more regressors will need to be omitted. It is also possible that the regressors are badly scaled in which case it may be useful to rescale some of the regressors. It is also possible that the variables are highly collinear in which case a possible solution is orthogonalization. These choices should be made by the researcher not by an automated software program.</p>
+</section>
+<section id="programming" class="level2" data-number="3.27">
+<h2 data-number="3.27" class="anchored" data-anchor-id="programming"><span class="header-section-number">3.27</span> Programming</h2>
+<p>Most packages allow both interactive programming (where you enter commands one-by-one) and batch programming (where you run a pre-written sequence of commands from a file). Interactive programming can be useful for exploratory analysis but eventually all work should be executed in batch mode. This is the best way to control and document your work.</p>
+<p>Batch programs are text files where each line executes a single command. For Stata, this file needs to have the filename extension “.do”, and for MATLAB “.m”. For R there is no specific naming requirements, though it is typical to use the extension “.r”. When writing batch files it is useful to include comments for documentation and readability. To execute a program file you type a command within the program.</p>
+<p>Stata: do chapter3 executes the file chapter3. do.</p>
+<p>MATLAB: run chapter3 executes the file chapter3.m.</p>
+<p>R: source (‘chapter3.r’) executes the file chapter3.r.</p>
+<p>There are similarities and differences between the commands used in these packages. For example:</p>
+<ol type="1">
+<li><p>Different symbols are used to create comments. <span class="math inline">\(*\)</span> in Stata, # in <span class="math inline">\(\mathrm{R}\)</span>, and <span class="math inline">\(%\)</span> in MATLAB.</p></li>
+<li><p>MATLAB uses the symbol ; to separate lines. Stata and R use a hard return.</p></li>
+<li><p>Stata uses <span class="math inline">\(\ln ()\)</span> to compute natural logarithms. R and MATLAB use <span class="math inline">\(\log ()\)</span>.</p></li>
+<li><p>The symbol <span class="math inline">\(=\)</span> is used to define a variable. <span class="math inline">\(\mathrm{R}\)</span> prefers <span class="math inline">\(&lt;-\)</span>. Double equality <span class="math inline">\(==\)</span> is used to test equality.</p></li>
+</ol>
+<p>We now illustrate programming files for Stata, R, and MATLAB, which execute a portion of the empirical illustrations from Sections <span class="math inline">\(3.7\)</span> and 3.21. For the R and MATLAB code we illustrate using explicit matrix operations. Alternatively, R and MATLAB have built-in functions which implement least squares regression without the need for explicit matrix operations. In <span class="math inline">\(\mathrm{R}\)</span> the standard function is <span class="math inline">\(1 \mathrm{~m}\)</span>. In MATLAB the standard function is regress. The advantage of using explicit matrix operations as shown below is that you know exactly what computations are done and it is easier to go “out of the box” to execute new procedures. The advantage of using built-in functions is that coding is simplified and you are much less likely to make a coding error.</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-31.jpg" class="img-fluid"></p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-32.jpg" class="img-fluid"></p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-33.jpg" class="img-fluid"></p>
+</section>
+<section id="exercises" class="level2" data-number="3.28">
+<h2 data-number="3.28" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.28</span> Exercises</h2>
+<p>Exercise 3.1 Let <span class="math inline">\(Y\)</span> be a random variable with <span class="math inline">\(\mu=\mathbb{E}[Y]\)</span> and <span class="math inline">\(\sigma^{2}=\operatorname{var}[Y]\)</span>. Define</p>
+<p><span class="math display">\[
+g\left(y, \mu, \sigma^{2}\right)=\left(\begin{array}{c}
+y-\mu \\
+(y-\mu)^{2}-\sigma^{2}
+\end{array}\right) .
+\]</span></p>
+<p>Let <span class="math inline">\(\left(\widehat{\mu}, \widehat{\sigma}^{2}\right)\)</span> be the values such that <span class="math inline">\(\bar{g}_{n}\left(\widehat{\mu}, \widehat{\sigma}^{2}\right)=0\)</span> where <span class="math inline">\(\bar{g}_{n}(m, s)=n^{-1} \sum_{i=1}^{n} g\left(y_{i}, m, s\right)\)</span>. Show that <span class="math inline">\(\widehat{\mu}\)</span> and <span class="math inline">\(\widehat{\sigma}^{2}\)</span> are the sample mean and variance.</p>
+<p>Exercise 3.2 Consider the OLS regression of the <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(\boldsymbol{Y}\)</span> on the <span class="math inline">\(n \times k\)</span> matrix <span class="math inline">\(\boldsymbol{X}\)</span>. Consider an alternative set of regressors <span class="math inline">\(\boldsymbol{Z}=\boldsymbol{X} \boldsymbol{C}\)</span>, where <span class="math inline">\(\boldsymbol{C}\)</span> is a <span class="math inline">\(k \times k\)</span> non-singular matrix. Thus, each column of <span class="math inline">\(\boldsymbol{Z}\)</span> is a mixture of some of the columns of <span class="math inline">\(\boldsymbol{X}\)</span>. Compare the OLS estimates and residuals from the regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}\)</span> to the OLS estimates from the regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{Z}\)</span>.</p>
+<p>Exercise 3.3 Using matrix algebra, show <span class="math inline">\(\boldsymbol{X}^{\prime} \widehat{\boldsymbol{e}}=0\)</span>.</p>
+<p>Exercise 3.4 Let <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> be the OLS residual from a regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span>. Find <span class="math inline">\(\boldsymbol{X}_{2}^{\prime} \widehat{\boldsymbol{e}}\)</span>.</p>
+<p>Exercise 3.5 Let <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> be the OLS residual from a regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}\)</span>. Find the OLS coefficient from a regression of <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> on <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
+<p>Exercise 3.6 Let <span class="math inline">\(\widehat{\boldsymbol{Y}}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}\)</span>. Find the OLS coefficient from a regression of <span class="math inline">\(\widehat{\boldsymbol{Y}}\)</span> on <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
+<p>Exercise 3.7 Show that if <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> then <span class="math inline">\(\boldsymbol{P} \boldsymbol{X}_{1}=\boldsymbol{X}_{1}\)</span> and <span class="math inline">\(\boldsymbol{M} \boldsymbol{X}_{1}=0 .\)</span></p>
+<p>Exercise 3.8 Show that <span class="math inline">\(M\)</span> is idempotent: <span class="math inline">\(M M=M\)</span>.</p>
+<p>Exercise 3.9 Show that <span class="math inline">\(\operatorname{tr} M=n-k\)</span>.</p>
+<p>Exercise 3.10 Show that if <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> and <span class="math inline">\(\boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2}=0\)</span> then <span class="math inline">\(\boldsymbol{P}=\boldsymbol{P}_{1}+\boldsymbol{P}_{2}\)</span>.</p>
+<p>Exercise 3.11 Show that when <span class="math inline">\(X\)</span> contains a constant, <span class="math inline">\(n^{-1} \sum_{i=1}^{n} \widehat{Y}_{i}=\bar{Y}\)</span>.</p>
+<p>Exercise 3.12 A dummy variable takes on only the values 0 and 1 . It is used for categorical variables. Let <span class="math inline">\(\boldsymbol{D}_{1}\)</span> and <span class="math inline">\(\boldsymbol{D}_{2}\)</span> be vectors of 1’s and 0’s, with the <span class="math inline">\(i^{\text {th }}\)</span> element of <span class="math inline">\(\boldsymbol{D}_{1}\)</span> equaling 1 and that of <span class="math inline">\(\boldsymbol{D}_{2}\)</span> equaling 0 if the person is a man, and the reverse if the person is a woman. Suppose that there are <span class="math inline">\(n_{1}\)</span> men and <span class="math inline">\(n_{2}\)</span> women in the sample. Consider fitting the following three equations by OLS</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{Y}=\mu+\boldsymbol{D}_{1} \alpha_{1}+\boldsymbol{D}_{2} \alpha_{2}+\boldsymbol{e} \\
+&amp;\boldsymbol{Y}=\boldsymbol{D}_{1} \alpha_{1}+\boldsymbol{D}_{2} \alpha_{2}+\boldsymbol{e} \\
+&amp;\boldsymbol{Y}=\mu+\boldsymbol{D}_{1} \phi+\boldsymbol{e}
+\end{aligned}
+\]</span></p>
+<p>Can all three equations (3.52), (3.53), and (3.54) be estimated by OLS? Explain if not.</p>
+<ol type="a">
+<li><p>Compare regressions (3.53) and (3.54). Is one more general than the other? Explain the relationship between the parameters in (3.53) and (3.54).</p></li>
+<li><p>Compute <span class="math inline">\(\mathbf{1}_{n}^{\prime} \boldsymbol{D}_{1}\)</span> and <span class="math inline">\(\mathbf{1}_{n}^{\prime} \boldsymbol{D}_{2}\)</span>, where <span class="math inline">\(\mathbf{1}_{n}\)</span> is an <span class="math inline">\(n \times 1\)</span> vector of ones.</p></li>
+</ol>
+<p>Exercise 3.13 Let <span class="math inline">\(\boldsymbol{D}_{1}\)</span> and <span class="math inline">\(\boldsymbol{D}_{2}\)</span> be defined as in the previous exercise.</p>
+<ol type="a">
+<li>In the OLS regression</li>
+</ol>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{D}_{1} \widehat{\gamma}_{1}+\boldsymbol{D}_{2} \widehat{\gamma}_{2}+\widehat{\boldsymbol{u}}
+\]</span></p>
+<p>show that <span class="math inline">\(\widehat{\gamma}_{1}\)</span> is the sample mean of the dependent variable among the men of the sample <span class="math inline">\(\left(\bar{Y}_{1}\right)\)</span>, and that <span class="math inline">\(\widehat{\gamma}_{2}\)</span> is the sample mean among the women <span class="math inline">\(\left(\bar{Y}_{2}\right)\)</span>.</p>
+<ol start="2" type="a">
+<li>Let <span class="math inline">\(\boldsymbol{X}(n \times k)\)</span> be an additional matrix of regressors. Describe in words the transformations</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{Y}^{*}=\boldsymbol{Y}-\boldsymbol{D}_{1} \bar{Y}_{1}-\boldsymbol{D}_{2} \bar{Y}_{2} \\
+&amp;\boldsymbol{X}^{*}=\boldsymbol{X}-\boldsymbol{D}_{1} \bar{X}_{1}^{\prime}-\boldsymbol{D}_{2} \bar{X}_{2}^{\prime}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\bar{X}_{1}\)</span> and <span class="math inline">\(\bar{X}_{2}\)</span> are the <span class="math inline">\(k \times 1\)</span> means of the regressors for men and women, respectively. (c) Compare <span class="math inline">\(\widetilde{\beta}\)</span> from the OLS regression</p>
+<p><span class="math display">\[
+\boldsymbol{Y}^{*}=\boldsymbol{X}^{*} \widetilde{\boldsymbol{\beta}}+\widetilde{\boldsymbol{e}}
+\]</span></p>
+<p>with <span class="math inline">\(\widehat{\beta}\)</span> from the OLS regression</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{D}_{1} \widehat{\alpha}_{1}+\boldsymbol{D}_{2} \widehat{\alpha}_{2}+\boldsymbol{X} \widehat{\boldsymbol{\beta}}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>Exercise 3.14 Let <span class="math inline">\(\widehat{\beta}_{n}=\left(\boldsymbol{X}_{n}^{\prime} \boldsymbol{X}_{n}\right)^{-1} \boldsymbol{X}_{n}^{\prime} \boldsymbol{Y}_{n}\)</span> denote the OLS estimate when <span class="math inline">\(\boldsymbol{Y}_{n}\)</span> is <span class="math inline">\(n \times 1\)</span> and <span class="math inline">\(\boldsymbol{X}_{n}\)</span> is <span class="math inline">\(n \times k\)</span>. A new observation <span class="math inline">\(\left(Y_{n+1}, X_{n+1}\right)\)</span> becomes available. Prove that the OLS estimate computed using this additional observation is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{n+1}=\widehat{\beta}_{n}+\frac{1}{1+X_{n+1}^{\prime}\left(\boldsymbol{X}_{n}^{\prime} \boldsymbol{X}_{n}\right)^{-1} X_{n+1}}\left(\boldsymbol{X}_{n}^{\prime} \boldsymbol{X}_{n}\right)^{-1} X_{n+1}\left(Y_{n+1}-X_{n+1}^{\prime} \widehat{\beta}_{n}\right)
+\]</span></p>
+<p>Exercise 3.15 Prove that <span class="math inline">\(R^{2}\)</span> is the square of the sample correlation between <span class="math inline">\(\boldsymbol{Y}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{Y}}\)</span>.</p>
+<p>Exercise 3.16 Consider two least squares regressions</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X}_{1} \widetilde{\beta}_{1}+\widetilde{\boldsymbol{e}}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X}_{1} \widehat{\beta}_{1}+\boldsymbol{X}_{2} \widehat{\beta}_{2}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>Let <span class="math inline">\(R_{1}^{2}\)</span> and <span class="math inline">\(R_{2}^{2}\)</span> be the <span class="math inline">\(R\)</span>-squared from the two regressions. Show that <span class="math inline">\(R_{2}^{2} \geq R_{1}^{2}\)</span>. Is there a case (explain) when there is equality <span class="math inline">\(R_{2}^{2}=R_{1}^{2}\)</span> ?</p>
+<p>Exercise 3.17 For <span class="math inline">\(\widetilde{\sigma}^{2}\)</span> defined in (3.46), show that <span class="math inline">\(\widetilde{\sigma}^{2} \geq \widehat{\sigma}^{2}\)</span>. Is equality possible?</p>
+<p>Exercise 3.18 For which observations will <span class="math inline">\(\widehat{\beta}_{(-i)}=\widehat{\beta}\)</span> ?</p>
+<p>Exercise 3.19 For the intercept-only model <span class="math inline">\(Y_{i}=\beta+e_{i}\)</span>, show that the leave-one-out prediction error is</p>
+<p><span class="math display">\[
+\widetilde{e}_{i}=\left(\frac{n}{n-1}\right)\left(Y_{i}-\bar{Y}\right) .
+\]</span></p>
+<p>Exercise 3.20 Define the leave-one-out estimator of <span class="math inline">\(\sigma^{2}\)</span>,</p>
+<p><span class="math display">\[
+\widehat{\sigma}_{(-i)}^{2}=\frac{1}{n-1} \sum_{j \neq i}\left(Y_{j}-X_{j}^{\prime} \widehat{\beta}_{(-i)}\right)^{2} .
+\]</span></p>
+<p>This is the estimator obtained from the sample with observation <span class="math inline">\(i\)</span> omitted. Show that</p>
+<p><span class="math display">\[
+\widehat{\sigma}_{(-i)}^{2}=\frac{n}{n-1} \widehat{\sigma}^{2}-\frac{\widehat{e}_{i}^{2}}{(n-1)\left(1-h_{i i}\right)} .
+\]</span></p>
+<p>Exercise 3.21 Consider the least squares regression estimators</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i} \widehat{\beta}_{1}+X_{2 i} \widehat{\beta}_{2}+\widehat{e}_{i}
+\]</span></p>
+<p>and the “one regressor at a time” regression estimators</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i} \widetilde{\beta}_{1}+\widetilde{e}_{1 i}, \quad Y_{i}=X_{2 i} \widetilde{\beta}_{2}+\widetilde{e}_{2 i}
+\]</span></p>
+<p>Under what condition does <span class="math inline">\(\widetilde{\beta}_{1}=\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widetilde{\beta}_{2}=\widehat{\beta}_{2}\)</span> ? Exercise 3.22 You estimate a least squares regression</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i}^{\prime} \widetilde{\beta}_{1}+\widetilde{u}_{i}
+\]</span></p>
+<p>and then regress the residuals on another set of regressors</p>
+<p><span class="math display">\[
+\widetilde{u}_{i}=X_{2 i}^{\prime} \widetilde{\beta}_{2}+\widetilde{e}_{i}
+\]</span></p>
+<p>Does this second regression give you the same estimated coefficients as from estimation of a least squares regression on both set of regressors?</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i}^{\prime} \widehat{\beta}_{1}+X_{2 i}^{\prime} \widehat{\beta}_{2}+\widehat{e}_{i}
+\]</span></p>
+<p>In other words, is it true that <span class="math inline">\(\widetilde{\beta}_{2}=\widehat{\beta}_{2}\)</span> ? Explain your reasoning.</p>
+<p>Exercise 3.23 The data matrix is <span class="math inline">\((\boldsymbol{Y}, \boldsymbol{X})\)</span> with <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1}, \boldsymbol{X}_{2}\right]\)</span>, and consider the transformed regressor matrix <span class="math inline">\(\boldsymbol{Z}=\left[\boldsymbol{X}_{1}, \boldsymbol{X}_{2}-\boldsymbol{X}_{1}\right]\)</span>. Suppose you do a least squares regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}\)</span>, and a least squares regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{Z}\)</span>. Let <span class="math inline">\(\widehat{\sigma}^{2}\)</span> and <span class="math inline">\(\widetilde{\sigma}^{2}\)</span> denote the residual variance estimates from the two regressions. Give a formula relating <span class="math inline">\(\widehat{\sigma}^{2}\)</span> and <span class="math inline">\(\widetilde{\sigma}^{2}\)</span> ? (Explain your reasoning.)</p>
+<p>Exercise 3.24 Use the cps09mar data set described in Section <span class="math inline">\(3.22\)</span> and available on the textbook website. Take the sub-sample used for equation (3.49) (see Section 3.25) for data construction)</p>
+<ol type="a">
+<li><p>Estimate equation (3.49) and compute the equation <span class="math inline">\(R^{2}\)</span> and sum of squared errors.</p></li>
+<li><p>Re-estimate the slope on education using the residual regression approach. Regress log(wage) on experience and its square, regress education on experience and its square, and the residuals on the residuals. Report the estimates from this final regression, along with the equation <span class="math inline">\(R^{2}\)</span> and sum of squared errors. Does the slope coefficient equal the value in (3.49)? Explain.</p></li>
+<li><p>Are the <span class="math inline">\(R^{2}\)</span> and sum-of-squared errors from parts (a) and (b) equal? Explain.</p></li>
+</ol>
+<p>Exercise 3.25 Estimate equation (3.49) as in part (a) of the previous question. Let <span class="math inline">\(\widehat{e}_{i}\)</span> be the OLS residual, <span class="math inline">\(\widehat{Y}_{i}\)</span> the predicted value from the regression, <span class="math inline">\(X_{1 i}\)</span> be education and <span class="math inline">\(X_{2 i}\)</span> be experience. Numerically calculate the following:\ (a) <span class="math inline">\(\sum_{i=1}^{n} \widehat{e}_{i}\)</span>\ (b) <span class="math inline">\(\sum_{i=1}^{n} X_{1 i} \widehat{e}_{i}\)</span>\ (c) <span class="math inline">\(\sum_{i=1}^{n} X_{2 i} \widehat{e}_{i}\)</span>\ (d) <span class="math inline">\(\sum_{i=1}^{n} X_{1 i}^{2} \widehat{e}_{i}\)</span>\ (e) <span class="math inline">\(\sum_{i=1}^{n} X_{2 i}^{2} \widehat{e}_{i}\)</span>\ (f) <span class="math inline">\(\sum_{i=1}^{n} \widehat{Y}_{i} \widehat{e}_{i}\)</span>\ (g) <span class="math inline">\(\sum_{i=1}^{n} \widehat{e}_{i}^{2}\)</span></p>
+<p>Are these calculations consistent with the theoretical properties of OLS? Explain.</p>
+<p>Exercise 3.26 Use the cps09mar data set. (a) Estimate a log wage regression for the subsample of white male Hispanics. In addition to education, experience, and its square, include a set of binary variables for regions and marital status. For regions, create dummy variables for Northeast, South, and West so that Midwest is the excluded group. For marital status, create variables for married, widowed or divorced, and separated, so that single (never married) is the excluded group.</p>
+<ol start="2" type="a">
+<li>Repeat using a different econometric package. Compare your results. Do they agree?</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt02-ce.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt04-lsr.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

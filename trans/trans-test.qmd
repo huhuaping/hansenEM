@@ -1,0 +1,161 @@
+---
+title: "Untitled"
+format: 
+  html:
+    self-contained: true
+    self-contained-math: true
+    
+---
+
+
+## 准备R包
+
+```{r}
+require(knitr)
+require(tidyverse)
+require(stringr)
+require(purrr)
+require(here)
+#renv::install("ropensci/googleLanguageR")
+require(googleLanguageR)
+
+#renv::install("keyring")
+library("keyring")
+# the package is not on cran now
+#renv::install("ChristopherLucas/translateR")
+require("translateR")
+#renv::install("textreadr")
+require("textreadr")
+
+```
+
+## 准备测试文本
+
+```{r}
+file_path <- "../chpt02-ce.qmd"
+tex <- readLines(file_path) %>%
+  as_tibble() %>%
+  rename("text" = "value") %>%
+  add_column(row = 1:nrow(.), 
+             .before = "text")
+
+# tibble contains all contents
+tbl_text <- tex %>%
+  filter(text!="")
+
+# string of vector
+text_vector <- tbl_text %>%
+  filter(str_detect(text, "An alternative notation which includes both discrete and continuous")) %>%
+  pull(text)
+
+# string of data frame
+text_dt <- tbl_text %>%
+  .[178:181,]
+
+```
+
+
+## 方法1：translateR::translate
+
+### 设置翻译接口
+
+google clound平台的相关准备工作。
+
+- `id`为project id（项目 ID）。
+
+- `token`为API密钥：my project $\Rightarrow$ API和服务 $\Rightarrow$ 凭据 $\Rightarrow$ API密钥 $\Rightarrow$ 显示密钥
+
+```{r, eval=FALSE}
+# this will run only once
+# make secretes
+keyring::keyring_create("gg-translation2022")
+keyring::key_set("token", keyring = "gg-translation2022")
+
+### donot forget to lock the keyring after use
+keyring::keyring_lock("gg-translation22")
+
+# make secretes
+keyring::keyring_create("ms-translation22")
+keyring::key_set("id", keyring = "ms-translation22")
+keyring::key_set("secret", keyring = "ms-translation22")
+### donot forget to lock the keyring after use
+keyring::keyring_lock("ms-translation22")
+```
+
+### 文本翻译：dataframe
+
+```{r, eval=FALSE, echo=TRUE}
+# translate the data frame
+result <- translateR::translate(
+  dataset = text_dt, 
+  content.field = "text",
+  google.api.key = list(
+    key=keyring::key_get(
+      "token", 
+      keyring = "gg-translation2022")
+    ),
+  source.lang = "en",
+  target.lang = "zh-CN") 
+
+file_path <- here("data/ggtrans/trans2dt.rds")
+write_rds(result, file_path)
+```
+
+```{r, echo=TRUE}
+file_path <- here("data/ggtrans/trans2dt.rds")
+string_dt <- read_rds(file_path)
+
+kable(string_dt)
+```
+
+
+### 文本翻译：vector
+
+```{r, eval=FALSE, echo=TRUE}
+# translate the data frame
+result <- translateR::translate(
+  content.vec = text_dt$text, 
+  google.api.key = list(
+    key=keyring::key_get(
+      "token", 
+      keyring = "gg-translation2022")
+    ),
+  source.lang = "en",
+  target.lang = "zh-CN") 
+
+
+file_path <- here("data/ggtrans/trans2vec.rds")
+write_rds(result, file_path)
+```
+
+```{r, echo=TRUE}
+file_path <- here("data/ggtrans/trans2vec.rds")
+string_vec <- read_rds(file_path)
+
+string_vec
+```
+
+
+## 方法2：googleLanguageR
+
+```{r, eval=FALSE, echo=TRUE}
+# translate with google translate API
+#renv::install("ropensci/googleLanguageR")
+#gl_auth("C:/Users/huhua/json/googleLanguageR.json")
+library(googleLanguageR)
+gl_auth("C:/Users/huhua/json/googleLanguageR.json")
+
+result <- gl_translate(
+  t_string = text_vector, 
+  target = "zh-CN")$translatedText
+
+file_path <- here("data/ggtrans/trans2vec_open.rds")
+write_rds(result, file_path)
+```
+
+```{r, echo=TRUE}
+file_path <- here("data/ggtrans/trans2vec_open.rds")
+string_vec <- read_rds(file_path)
+
+string_vec
+```

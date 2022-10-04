@@ -2,86 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://hansenem.netlify.app/index.html</loc>
-    <lastmod>2022-10-04T05:00:37.413Z</lastmod>
+    <lastmod>2022-10-04T17:32:37.996Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/participate.html</loc>
-    <lastmod>2022-09-22T07:29:34.385Z</lastmod>
+    <lastmod>2022-10-04T17:32:37.998Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt01-intro.html</loc>
-    <lastmod>2022-09-21T04:00:39.784Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.000Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/part01-reg.html</loc>
-    <lastmod>2022-09-21T04:00:39.785Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.001Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt02-ce.html</loc>
-    <lastmod>2022-09-22T07:30:33.860Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.024Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hansenem.netlify.app/chpt02-ce-chn.html</loc>
+    <lastmod>2022-10-04T17:34:54.378Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt03-algebra.html</loc>
-    <lastmod>2022-09-21T04:00:39.810Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.061Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt04-lsr.html</loc>
-    <lastmod>2022-09-21T04:00:39.822Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.074Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt05-normal-reg.html</loc>
-    <lastmod>2022-09-21T04:00:39.835Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.082Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/part02-LSM.html</loc>
-    <lastmod>2022-09-21T04:00:39.836Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.084Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt06-review.html</loc>
-    <lastmod>2022-09-21T04:00:39.840Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.087Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt07-asymptotic-ls.html</loc>
-    <lastmod>2022-09-21T04:00:39.850Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.104Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt08-restricted-est.html</loc>
-    <lastmod>2022-09-21T04:00:39.861Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.116Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt09-hypothesit-test.html</loc>
-    <lastmod>2022-09-21T04:00:39.876Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.136Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt10-resample-method.html</loc>
-    <lastmod>2022-09-21T04:00:39.889Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.158Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/part03-MEQ.html</loc>
-    <lastmod>2022-09-21T04:00:39.890Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.159Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt11-multi-reg.html</loc>
-    <lastmod>2022-09-21T04:00:39.897Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.169Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt12-iv.html</loc>
-    <lastmod>2022-09-21T04:00:39.914Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.195Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/chpt13-gmm.html</loc>
-    <lastmod>2022-09-21T04:00:39.926Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.204Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/summary.html</loc>
-    <lastmod>2022-09-21T04:00:39.927Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.206Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/references.html</loc>
-    <lastmod>2022-09-21T04:00:39.929Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.208Z</lastmod>
   </url>
   <url>
     <loc>https://hansenem.netlify.app/a1-notation.html</loc>
-    <lastmod>2022-09-21T04:00:39.933Z</lastmod>
+    <lastmod>2022-10-04T17:32:38.211Z</lastmod>
   </url>
 </urlset>

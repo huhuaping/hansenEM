@@ -4,6 +4,10 @@ require(tidyverse)
 require(here)
 require(glue)
 
+# quotar
+require(downlit)
+require(xml2)
+
 # data read and write
 require(openxlsx)
 

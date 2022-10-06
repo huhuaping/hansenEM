@@ -29,6 +29,15 @@ require("textreadr")
 
 ```
 
+## 调用函数翻译全章
+
+```{r}
+require(here)
+chpt_path <- here("chpt03-algebra.qmd")
+source("../R/ggtrans-en2chn.R",encoding = "utf-8")
+```
+
+
 ## 准备测试文本
 
 ```{r}

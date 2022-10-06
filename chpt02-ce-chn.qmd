@@ -1,15 +1,34 @@
 
-# 条件预期和预测
+# 条件预期和预测 {.unnumbered}
 
 ## 介绍
 
+
 最常用的计量经济学工具是最小二乘估计，也称为回归。最小二乘法是一种工具，用于在给定另一组变量（回归变量、条件变量或协变量）的情况下估计一个变量（因变量）的条件均值。
 
+::: {.column-margin}
+
+The most commonly applied econometric tool is least squares estimation, also known as regression. Least squares is a tool to estimate the conditional mean of one variable (the dependent variable) given another set of variables (the regressors, conditioning variables, or covariates).
+
+:::
+
 在本章中，我们从估计中抽象出来，重点讨论条件期望模型的概率基础及其投影近似。这包括对概率论的回顾。有关中级概率论的背景知识，请参阅《经济学家的概率与统计》第 1-5 章。
+
+::: {.column-margin}
+
+In this chapter we abstract from estimation and focus on the probabilistic foundation of the conditional expectation model and its projection approximation. This includes a review of probability theory. For a background in intermediate probability theory see Chapters 1-5 of Probability and Statistics for Economists.
+
+:::
 
 ## 工资分配
 
 假设我们对美国的工资率感兴趣。由于工人的工资率各不相同，我们不能用一个数字来描述工资率。相反，我们可以使用概率分布来描述工资。形式上，我们将单个工人的工资视为具有概率分布的随机变量工资
+
+::: {.column-margin}
+
+Suppose that we are interested in wage rates in the United States. Since wage rates vary across workers we cannot describe wage rates by a single number. Instead, we can describe wages using a probability distribution. Formally, we view the wage of an individual worker as a random variable wage with the probability distribution
+
+:::
 
 $$
 F(y)=\mathbb{P}[\text { wage } \leq y] .

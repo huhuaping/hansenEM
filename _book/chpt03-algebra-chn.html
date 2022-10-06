@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 最小二乘代数</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt04-lsr.html" rel="next">
+<link href="./chpt03-algebra.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">最小二乘代数</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link active">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#介绍" id="toc-介绍" class="nav-link active" data-scroll-target="#介绍">介绍</a></li>
+  <li><a href="#样品" id="toc-样品" class="nav-link" data-scroll-target="#样品">样品</a></li>
+  <li><a href="#矩估计器" id="toc-矩估计器" class="nav-link" data-scroll-target="#矩估计器">矩估计器</a></li>
+  <li><a href="#最小二乘估计器" id="toc-最小二乘估计器" class="nav-link" data-scroll-target="#最小二乘估计器">最小二乘估计器</a></li>
+  <li><a href="#用一个回归器求解最小二乘" id="toc-用一个回归器求解最小二乘" class="nav-link" data-scroll-target="#用一个回归器求解最小二乘">用一个回归器求解最小二乘</a></li>
+  <li><a href="#使用多个回归器求解最小二乘" id="toc-使用多个回归器求解最小二乘" class="nav-link" data-scroll-target="#使用多个回归器求解最小二乘">使用多个回归器求解最小二乘</a></li>
+  <li><a href="#阿德里安玛丽勒让德" id="toc-阿德里安玛丽勒让德" class="nav-link" data-scroll-target="#阿德里安玛丽勒让德">阿德里安·玛丽·勒让德</a></li>
+  <li><a href="#插图" id="toc-插图" class="nav-link" data-scroll-target="#插图">插图</a></li>
+  <li><a href="#最小二乘残差" id="toc-最小二乘残差" class="nav-link" data-scroll-target="#最小二乘残差">最小二乘残差</a></li>
+  <li><a href="#贬低回归者" id="toc-贬低回归者" class="nav-link" data-scroll-target="#贬低回归者">贬低回归者</a></li>
+  <li><a href="#矩阵表示法模型" id="toc-矩阵表示法模型" class="nav-link" data-scroll-target="#矩阵表示法模型">矩阵表示法模型</a></li>
+  <li><a href="#早期使用矩阵" id="toc-早期使用矩阵" class="nav-link" data-scroll-target="#早期使用矩阵">早期使用矩阵</a></li>
+  <li><a href="#投影矩阵" id="toc-投影矩阵" class="nav-link" data-scroll-target="#投影矩阵">投影矩阵</a></li>
+  <li><a href="#歼灭者矩阵" id="toc-歼灭者矩阵" class="nav-link" data-scroll-target="#歼灭者矩阵">歼灭者矩阵</a></li>
+  <li><a href="#误差方差的估计" id="toc-误差方差的估计" class="nav-link" data-scroll-target="#误差方差的估计">误差方差的估计</a></li>
+  <li><a href="#方差分析" id="toc-方差分析" class="nav-link" data-scroll-target="#方差分析">方差分析</a></li>
+  <li><a href="#预测" id="toc-预测" class="nav-link" data-scroll-target="#预测">预测</a></li>
+  <li><a href="#回归组件" id="toc-回归组件" class="nav-link" data-scroll-target="#回归组件">回归组件</a></li>
+  <li><a href="#回归组件替代推导" id="toc-回归组件替代推导" class="nav-link" data-scroll-target="#回归组件替代推导">回归组件（替代推导）*</a></li>
+  <li><a href="#残差回归" id="toc-残差回归" class="nav-link" data-scroll-target="#残差回归">残差回归</a></li>
+  <li><a href="#杠杆价值" id="toc-杠杆价值" class="nav-link" data-scroll-target="#杠杆价值">杠杆价值</a></li>
+  <li><a href="#留一法回归" id="toc-留一法回归" class="nav-link" data-scroll-target="#留一法回归">留一法回归</a></li>
+  <li><a href="#有影响的观察" id="toc-有影响的观察" class="nav-link" data-scroll-target="#有影响的观察">有影响的观察</a></li>
+  <li><a href="#cps-数据集" id="toc-cps-数据集" class="nav-link" data-scroll-target="#cps-数据集">CPS 数据集</a></li>
+  <li><a href="#数值计算" id="toc-数值计算" class="nav-link" data-scroll-target="#数值计算">数值计算</a></li>
+  <li><a href="#共线性误差" id="toc-共线性误差" class="nav-link" data-scroll-target="#共线性误差">共线性误差</a></li>
+  <li><a href="#编程" id="toc-编程" class="nav-link" data-scroll-target="#编程">编程</a></li>
+  <li><a href="#练习" id="toc-练习" class="nav-link" data-scroll-target="#练习">练习</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt03-algebra-chn.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">最小二乘代数</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="介绍" class="level2">
+<h2 class="anchored" data-anchor-id="介绍">介绍</h2>
+<p>在本章中，我们将介绍流行的最小二乘估计器。大部分讨论都是代数的，分布和推理的问题推迟到后面的章节。</p>
+</section>
+<section id="样品" class="level2">
+<h2 class="anchored" data-anchor-id="样品">样品</h2>
+<p>在 <span class="math inline">\(2.18\)</span> 部分，我们推导并讨论了给定 <span class="math inline">\(X\)</span> 对随机变量 <span class="math inline">\((Y, X) \in \mathbb{R} \times \mathbb{R}^{k}\)</span> 的 <span class="math inline">\(Y\)</span> 的最佳线性预测器，并将其称为线性投影模型。我们现在对估计这个模型的参数感兴趣，特别是投影系数</p>
+<p><span class="math display">\[
+\beta=\left(\mathbb{E}\left[X X^{\prime}\right]\right)^{-1} \mathbb{E}[X Y] .
+\]</span></p>
+<p>我们可以从包含 <span class="math inline">\((Y, X)\)</span> 的联合测量值的样本中估计 <span class="math inline">\(\beta\)</span>。例如，假设我们有兴趣估计工资方程，我们将使用一个数据集，其中包含工资（或每周收入）、教育、经验（或年龄）和人口特征（性别、种族、位置）的观察结果。一个可能的数据集是当前人口调查 (CPS)，这是一项对美国家庭的调查，其中包括有关就业、收入、教育和人口特征的问题。</p>
+<p>从符号上讲，我们希望将观察（实现）与潜在的随机变量区分开来。随机变量是 <span class="math inline">\((Y, X)\)</span>。观察结果是 <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>。从研究人员的角度来看，后者是数字。从统计理论的角度来看，我们将它们视为随机变量的实现。对于单个观察，我们附加一个从 1 到 <span class="math inline">\(n\)</span> 的下标 <span class="math inline">\(i\)</span>，因此 <span class="math inline">\(i^{t h}\)</span> 观察是 <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>。数字 <span class="math inline">\(n\)</span> 是样本量。数据集或样本是 <span class="math inline">\(\left\{\left(Y_{i}, X_{i}\right): i=1, \ldots, n\right\}\)</span>。</p>
+<p>从经验分析的角度来看，数据集是一组数字。它通常组织为一个表，其中每一列是一个变量，每一行是一个观察值。对于经验分析，数据集是固定的，因为它们是呈现给研究人员的数字。对于统计分析，我们将数据集视为随机的，或者更准确地说是随机过程的实现。</p>
+<p>个别观察可以从一个共同的（同质的）分布中提取，也可以从异质的分布中提取。最简单的方法是假设同质性 - 即观察结果是来自相同基础总体 <span class="math inline">\(F\)</span> 的实现。</p>
+<p>假设 3.1 变量 <span class="math inline">\(\left\{\left(Y_{1}, X_{1}\right), \ldots,\left(Y_{i}, X_{i}\right), \ldots,\left(Y_{n}, X_{n}\right)\right\}\)</span> 同分布；它们来自一个共同的分布 <span class="math inline">\(F\)</span>。这个假设不需要被视为字面上正确的。相反，它是一种有用的建模设备，因此可以很好地定义诸如 <span class="math inline">\(\beta\)</span> 之类的参数。这个假设应该被解释为我们在实际观察之前如何先验地看待观察。如果我告诉您我们有一个样本，其中 <span class="math inline">\(n=59\)</span> 观察值没有按特定顺序设置，那么查看两个观察值（例如 17 和 58 ）是有意义的，因为它们来自相同的分布。我们没有理由期待这两种观察有什么特别之处。</p>
+<p>在计量经济学理论中，我们将潜在的共同分布 <span class="math inline">\(F\)</span> 称为总体。一些作者更喜欢标签数据生成过程（DGP）。您可以将其视为一个理论概念或无限大的潜在人口。相比之下，我们将 <span class="math inline">\(\left\{\left(Y_{i}, X_{i}\right)\right.\)</span> : <span class="math inline">\(i=1, \ldots, n\}\)</span> 可用的观察结果称为样本或数据集。在某些情况下，数据集包含所有潜在的观察结果，例如行政税务记录可能包含政治单位中的每个纳税人。即使在这种情况下，我们也可以将观察结果看作是从潜在的无限大群体中随机抽取的，因为这将使我们能够应用统计理论的工具。</p>
+<p>线性投影模型适用于随机变量 <span class="math inline">\((Y, X)\)</span>。这是 2.18 节中描述的概率模型。模型是</p>
+<p><span class="math display">\[
+Y=X^{\prime} \beta+e
+\]</span></p>
+<p>其中线性投影系数 <span class="math inline">\(\beta\)</span> 定义为</p>
+<p><span class="math display">\[
+\beta=\underset{b \in \mathbb{R}^{k}}{\operatorname{argmin}} S(b),
+\]</span></p>
+<p>期望平方误差的最小值</p>
+<p><span class="math display">\[
+S(\beta)=\mathbb{E}\left[\left(Y-X^{\prime} \beta\right)^{2}\right] .
+\]</span></p>
+<p>该系数具有显式解 (3.1)。</p>
+</section>
+<section id="矩估计器" class="level2">
+<h2 class="anchored" data-anchor-id="矩估计器">矩估计器</h2>
+<p>我们想从观测样本中估计 (3.1) 中定义的系数 <span class="math inline">\(\beta\)</span>。请注意，<span class="math inline">\(\beta\)</span> 是作为特定总体预期的函数编写的。在这种情况下，适当的估计器是样本矩的相同函数。让我们详细解释一下。</p>
+<p>首先，假设我们对具有分布函数 <span class="math inline">\(F\)</span> 的随机变量 <span class="math inline">\(Y\)</span> 的总体均值 <span class="math inline">\(\mu\)</span> 感兴趣</p>
+<p><span class="math display">\[
+\mu=\mathbb{E}[Y]=\int_{-\infty}^{\infty} y d F(y) .
+\]</span></p>
+<p>期望 <span class="math inline">\(\mu\)</span> 是分布 <span class="math inline">\(F\)</span> 的函数。从 <span class="math inline">\(F\)</span> 给定 <span class="math inline">\(n\)</span> 随机变量 <span class="math inline">\(Y_{i}\)</span> 来估计 <span class="math inline">\(\mu\)</span>，自然估计量是样本均值</p>
+<p><span class="math display">\[
+\widehat{\mu}=\bar{Y}=\frac{1}{n} \sum_{i=1}^{n} Y_{i} .
+\]</span></p>
+<p>请注意，我们使用两种符号来编写它。顶部带有条形的符号 <span class="math inline">\(\bar{Y}\)</span> 是样本均值的常规符号。带有帽子“<span class="math inline">\(\wedge\)</span>”的符号 <span class="math inline">\(\widehat{\mu}\)</span> 在计量经济学中是传统的，用于表示参数 <span class="math inline">\(\mu\)</span> 的估计量。在这种情况下，<span class="math inline">\(\bar{Y}\)</span> 是 <span class="math inline">\(\mu\)</span> 的估计量，所以 <span class="math inline">\(\widehat{\mu}\)</span> 和 <span class="math inline">\(\bar{Y}\)</span> 是相同的。样本均值 <span class="math inline">\(\bar{Y}\)</span> 可以被视为总体均值 (3.5) 的自然模拟，因为对于经验分布，<span class="math inline">\(\bar{Y}\)</span> 等于期望值 (3.5) - 离散分布将权重 <span class="math inline">\(\bar{Y}\)</span> 放在每个观察 <span class="math inline">\(数学12\)</span>。将 <span class="math inline">\(\bar{Y}\)</span> 作为 <span class="math inline">\(\bar{Y}\)</span> 的估计量还有其他理由。我们将暂时推迟这些讨论。可以说它是传统的估计量就足够了。现在假设我们对随机向量 <span class="math inline">\(\bar{Y}\)</span>，比如说 <span class="math inline">\(\bar{Y}\)</span> 的可能非线性函数的一组总体期望感兴趣。例如，我们可能对 <span class="math inline">\(\bar{Y}\)</span> 和 <span class="math inline">\(\bar{Y}\)</span> 的前两个矩感兴趣。在这种情况下，自然估计量是样本均值的向量，</p>
+<p><span class="math display">\[
+\widehat{\mu}=\frac{1}{n} \sum_{i=1}^{n} h\left(Y_{i}\right) .
+\]</span></p>
+<p>我们称 <span class="math inline">\(\widehat{\mu}\)</span> 为 <span class="math inline">\(\mu\)</span> 的矩估计量。例如，如果 <span class="math inline">\(h(y)=\left(y, y^{2}\right)^{\prime}\)</span> 那么 <span class="math inline">\(\widehat{\mu}_{1}=n^{-1} \sum_{i=1}^{n} Y_{i}\)</span> 和 <span class="math inline">\(\widehat{\mu}_{2}=\)</span> <span class="math inline">\(n^{-1} \sum_{i=1}^{n} Y_{i}^{2}\)</span></p>
+<p>现在假设我们对一组矩的非线性函数感兴趣。例如，考虑 <span class="math inline">\(Y\)</span> 的方差</p>
+<p><span class="math display">\[
+\sigma^{2}=\operatorname{var}[Y]=\mathbb{E}\left[Y^{2}\right]-(\mathbb{E}[Y])^{2} .
+\]</span></p>
+<p>通常，许多感兴趣的参数可以写成<span class="math inline">\(Y\)</span> 矩的函数。符号上，<span class="math inline">\(\beta=g(\mu)\)</span> 和 <span class="math inline">\(\mu=\mathbb{E}[h(Y)]\)</span>。这里，<span class="math inline">\(Y\)</span> 是随机变量，<span class="math inline">\(h(Y)\)</span> 是随机变量的函数（变换），<span class="math inline">\(\mu\)</span> 是这些函数的期望值。 <span class="math inline">\(\beta\)</span> 是感兴趣的参数，并且是这些期望的（非线性）函数 <span class="math inline">\(g(\cdot)\)</span>。</p>
+<p>在这种情况下，通过将 <span class="math inline">\(\mu\)</span> 替换为 <span class="math inline">\(\widehat{\mu}\)</span> 来获得 <span class="math inline">\(\beta\)</span> 的自然估计量。因此 <span class="math inline">\(\widehat{\beta}=g(\widehat{\mu})\)</span>。估计器 <span class="math inline">\(\widehat{\beta}\)</span> 通常称为插件估计器。我们也将 <span class="math inline">\(\widehat{\beta}\)</span> 称为 <span class="math inline">\(\beta\)</span> 的矩或基于矩的估计器，因为它是矩估计器 <span class="math inline">\(\widehat{\mu}\)</span> 的自然扩展。</p>
+<p>以方差 <span class="math inline">\(\sigma^{2}=\operatorname{var}[Y]\)</span> 为例。它的矩估计量是</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=\widehat{\mu}_{2}-\widehat{\mu}_{1}^{2}=\frac{1}{n} \sum_{i=1}^{n} Y_{i}^{2}-\left(\frac{1}{n} \sum_{i=1}^{n} Y_{i}\right)^{2}
+\]</span></p>
+<p>这不是 <span class="math inline">\(\sigma^{2}\)</span> 唯一可能的估计器（还有著名的偏差校正估计器），但 <span class="math inline">\(\widehat{\sigma}^{2}\)</span> 是一个简单明了的选择。</p>
+</section>
+<section id="最小二乘估计器" class="level2">
+<h2 class="anchored" data-anchor-id="最小二乘估计器">最小二乘估计器</h2>
+<p>线性投影系数 <span class="math inline">\(\beta\)</span> 在 (3.3) 中定义为 (3.4) 中定义的期望平方误差 <span class="math inline">\(S(\beta)\)</span> 的最小值。对于给定的 <span class="math inline">\(\beta\)</span>，预期平方误差是平方误差 <span class="math inline">\(\left(Y-X^{\prime} \beta\right)^{2}\)</span> 的期望值。 <span class="math inline">\(S(\beta)\)</span> 的矩估计量是样本平均值：</p>
+<p><span class="math display">\[
+\widehat{S}(\beta)=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}=\frac{1}{n} \operatorname{SSE}(\beta)
+\]</span></p>
+<p>在哪里</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}
+\]</span></p>
+<p>称为误差平方和函数。</p>
+<p>由于 <span class="math inline">\(\widehat{S}(\beta)\)</span> 是样本平均值，我们可以将其解释为预期平方误差 <span class="math inline">\(S(\beta)\)</span> 的估计量。将 <span class="math inline">\(\widehat{S}(\beta)\)</span> 作为 <span class="math inline">\(\beta\)</span> 的函数来检查 <span class="math inline">\(S(\beta)\)</span> 如何随 <span class="math inline">\(\beta\)</span> 变化。由于投影系数使 <span class="math inline">\(S(\beta)\)</span> 最小化，因此模拟估计器最小化 (3.6)。</p>
+<p>我们将估计器 <span class="math inline">\(\widehat{\beta}\)</span> 定义为 <span class="math inline">\(\widehat{S}(\beta)\)</span> 的最小化器。</p>
+<p>定义 <span class="math inline">\(3.1\)</span> 最小二乘估计量是 <span class="math inline">\(\widehat{\beta}=\underset{\beta \in \mathbb{R}^{k}}{\operatorname{argmin}} \widehat{S}(\beta)\)</span>\ <span class="math inline">\(\widehat{S}(\beta)=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \beta\right)^{2}\)</span></p>
+<p>由于 <span class="math inline">\(\widehat{S}(\beta)\)</span> 是 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 的比例倍数，我们可以等效地将 <span class="math inline">\(\widehat{\beta}\)</span> 定义为 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 的最小化器。因此 <span class="math inline">\(\widehat{\beta}\)</span> 通常被称为 <span class="math inline">\(\beta\)</span> 的最小二乘 (LS) 估计量。估计器通常也称为普通最小二乘 (OLS) 估计器。有关此标签的起源，请参见下面关于 Adrien-Marie Legendre 的历史讨论。在这里，正如计量经济学中常见的那样，我们在参数 <span class="math inline">\(\beta\)</span> 上加上一个帽子“<span class="math inline">\(\wedge\)</span>”，以表明 <span class="math inline">\(\widehat{\beta}\)</span> 是 <span class="math inline">\(\widehat{S}(\beta)\)</span> 的样本估计量。这是一个有用的约定。只需看到符号 <span class="math inline">\(\widehat{S}(\beta)\)</span>，我们就可以立即将其解释为参数 <span class="math inline">\(\widehat{S}(\beta)\)</span> 的估计量（因为帽子）。有时当我们想明确估计方法时，我们会写 <span class="math inline">\(\widehat{S}(\beta)\)</span> 来表示它是 OLS 估计量。符号 <span class="math inline">\(\widehat{S}(\beta)\)</span> 也很常见，其中下标“<span class="math inline">\(\widehat{S}(\beta)\)</span>”表示估计量取决于样本大小 <span class="math inline">\(\widehat{S}(\beta)\)</span>。</p>
+<p>了解总体参数（例如 <span class="math inline">\(\beta\)</span>）和样本估计量（例如 <span class="math inline">\(\widehat{\beta}\)</span>）之间的区别很重要。总体参数 <span class="math inline">\(\beta\)</span> 是总体的非随机特征，而样本估计量 <span class="math inline">\(\widehat{\beta}\)</span> 是随机样本的随机特征。 <span class="math inline">\(\beta\)</span> 是固定的，而 <span class="math inline">\(\widehat{\beta}\)</span> 因样本而异。</p>
+</section>
+<section id="用一个回归器求解最小二乘" class="level2">
+<h2 class="anchored" data-anchor-id="用一个回归器求解最小二乘">用一个回归器求解最小二乘</h2>
+<p>为简单起见，我们首先考虑 <span class="math inline">\(k=1\)</span> 的情况，因此有一个标量回归量 <span class="math inline">\(X\)</span> 和一个标量系数 <span class="math inline">\(\beta\)</span>。为了说明，图 3.1(a) 显示了 20 对 <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> 的散布 <span class="math inline">\(\operatorname{plot}^{1}\)</span>。</p>
+<p>误差平方和 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 是 <span class="math inline">\(\beta\)</span> 的函数。给定 <span class="math inline">\(\beta\)</span>，我们通过获取 <span class="math inline">\(Y_{i}\)</span> 和 <span class="math inline">\(X_{i} \beta\)</span> 之间的垂直距离来计算“误差”<span class="math inline">\(Y_{i}-X_{i} \beta\)</span>。这可以在图 3.1(a) 中通过将观测值与直线连接起来的垂直线看出。这些垂直线是错误 <span class="math inline">\(Y_{i}-X_{i} \beta\)</span>。误差平方和是 20 个平方长度之和。</p>
+<p>误差平方和是函数</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n}\left(Y_{i}-X_{i} \beta\right)^{2}=\left(\sum_{i=1}^{n} Y_{i}^{2}\right)-2 \beta\left(\sum_{i=1}^{n} X_{i} Y_{i}\right)+\beta^{2}\left(\sum_{i=1}^{n} X_{i}^{2}\right) .
+\]</span></p>
+<p>这是 <span class="math inline">\(\beta\)</span> 的二次函数。图 <span class="math inline">\(3.1\)</span> (b) 在 <span class="math inline">\([2,4]\)</span> 范围内显示平方误差函数的总和。系数 <span class="math inline">\(\beta\)</span> 的范围沿 <span class="math inline">\(x\)</span> 轴。作为 <span class="math inline">\(\beta\)</span> 函数的误差平方和 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 显示在 <span class="math inline">\(y\)</span> 轴上。</p>
+<p>OLS 估计器 <span class="math inline">\(\widehat{\beta}\)</span> 最小化了这个函数。从初等代数我们知道二次函数 <span class="math inline">\(a-2 b x+c x^{2}\)</span> 的最小值是 <span class="math inline">\(x=b / c\)</span>。因此 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 的最小化器是</p>
+<p><span class="math display">\[
+\widehat{\beta}=\frac{\sum_{i=1}^{n} X_{i} Y_{i}}{\sum_{i=1}^{n} X_{i}^{2}}
+\]</span></p>
+<p>例如，图 3.1(b) 中显示的误差平方和函数的最小值是 <span class="math inline">\(\widehat{\beta}=3.07\)</span>，并标记在 <span class="math inline">\(\mathrm{x}\)</span> 轴上。</p>
+<p>只截取模型是特例 <span class="math inline">\(X_{i}=1\)</span>。在这种情况下，我们发现</p>
+<p><span class="math display">\[
+\widehat{\beta}=\frac{\sum_{i=1}^{n} 1 Y_{i}}{\sum_{i=1}^{n} 1^{2}}=\frac{1}{n} \sum_{i=1}^{n} Y_{i}=\bar{Y},
+\]</span></p>
+<p><span class="math inline">\({ }^{1}\)</span> 观察结果是通过模拟生成的 <span class="math inline">\(X \sim U[0,1]\)</span> 和 <span class="math inline">\(Y \sim \mathrm{N}[3 X, 1]\)</span>。</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-05.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>与拟合线的偏差</li>
+</ol>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-05(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>平方误差函数之和</li>
+</ol>
+<p>图 3.1：使用一个回归器的回归</p>
+<p><span class="math inline">\(Y_{i}\)</span> 的样本均值。在这里，通常情况下，我们在 <span class="math inline">\(Y\)</span> 上放置一个“-”条，表示该数量是样本均值。这表明仅截距模型中的 OLS 估计量是样本均值。</p>
+<p>从技术上讲，(3.7) 中的估计量 <span class="math inline">\(\widehat{\beta}\)</span> 只有在分母非零时才存在。因为它是平方和，所以它必然是非负的。因此，如果 <span class="math inline">\(\sum_{i=1}^{n} X_{i}^{2}&gt;0\)</span>，则 <span class="math inline">\(\widehat{\beta}\)</span> 存在。</p>
+</section>
+<section id="使用多个回归器求解最小二乘" class="level2">
+<h2 class="anchored" data-anchor-id="使用多个回归器求解最小二乘">使用多个回归器求解最小二乘</h2>
+<p>我们现在考虑 <span class="math inline">\(k&gt;1\)</span> 的情况，因此系数 <span class="math inline">\(\beta \in \mathbb{R}^{k}\)</span> 是一个向量。</p>
+<p>为了说明，图 <span class="math inline">\(3.2\)</span> 显示了 100 个三元组 <span class="math inline">\(\left(Y_{i}, X_{1 i}, X_{2 i}\right)\)</span> 的散点图。回归函数 <span class="math inline">\(x^{\prime} \beta=x_{1} \beta_{1}+x_{2} \beta_{2}\)</span> 是一个二维曲面，如图 3.2 中的平面所示。</p>
+<p>误差平方和 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 是向量 <span class="math inline">\(\beta\)</span> 的函数。对于任何 <span class="math inline">\(\beta\)</span>，误差 <span class="math inline">\(Y_{i}-X_{i}^{\prime} \beta\)</span> 是 <span class="math inline">\(Y_{i}\)</span> 和 <span class="math inline">\(X_{i}^{\prime} \beta\)</span> 之间的垂直距离。这可以在图 <span class="math inline">\(3.2\)</span> 中通过将观察结果连接到平面的垂直线看出。在单一回归量的情况下，这些垂直线是错误 <span class="math inline">\(e_{i}=Y_{i}-\)</span> <span class="math inline">\(X_{i}^{\prime} \beta\)</span>。误差平方和是 100 个平方长度之和。</p>
+<p>误差平方和可以写为</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=\sum_{i=1}^{n} Y_{i}^{2}-2 \beta^{\prime} \sum_{i=1}^{n} X_{i} Y_{i}+\beta^{\prime} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \beta .
+\]</span></p>
+<p>与单一回归量情况一样，这是 <span class="math inline">\(\beta\)</span> 中的二次函数。不同之处在于，在多重回归的情况下，这是一个向量值二次函数。为了使误差平方和函数可视化，图 3.3(a) 显示了 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>。另一种可视化 3 维表面的方法是使用等高线图。图 3.3(b) 显示了相同 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 函数的等高线图。等高线是 <span class="math inline">\(\left(\beta_{1}, \beta_{2}\right)\)</span> 空间中的点，其中 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 取相同的值。等高线是椭圆的，因为 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 是二次的。</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-06.jpg" class="img-fluid"></p>
+<p>图 3.2：具有两个变量的回归</p>
+<p>最小二乘估计器 <span class="math inline">\(\widehat{\beta}\)</span> 最小化 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span>。找到最小值的一种简单方法是求解一阶条件。后者是</p>
+<p><span class="math display">\[
+0=\frac{\partial}{\partial \beta} \operatorname{SSE}(\widehat{\beta})=-2 \sum_{i=1}^{n} X_{i} Y_{i}+2 \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\beta}
+\]</span></p>
+<p>我们使用单个表达式编写了这个，但它实际上是一个带有 <span class="math inline">\(k\)</span> 未知数（<span class="math inline">\(\widehat{\beta}\)</span> 的元素）的 <span class="math inline">\(k\)</span> 方程系统。</p>
+<p><span class="math inline">\(\widehat{\beta}\)</span> 的解可以通过求解 (3.9) 中的 <span class="math inline">\(k\)</span> 方程组来找到。我们可以使用矩阵代数紧凑地编写此解决方案。将 (3.9) 除以 2 我们得到</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\beta}=\sum_{i=1}^{n} X_{i} Y_{i} .
+\]</span></p>
+<p>这是一个形式为 <span class="math inline">\(\boldsymbol{A} \boldsymbol{b}=\boldsymbol{c}\)</span> 的方程组，其中 <span class="math inline">\(\boldsymbol{A}\)</span> 是 <span class="math inline">\(k \times k\)</span>，<span class="math inline">\(\boldsymbol{b}\)</span> 和 <span class="math inline">\(\boldsymbol{c}\)</span> 是 <span class="math inline">\(k \times 1\)</span>。解是 <span class="math inline">\(\boldsymbol{b}=\boldsymbol{A}^{-1} \boldsymbol{c}\)</span>，可以通过将 <span class="math inline">\(\boldsymbol{A} \boldsymbol{b}=\boldsymbol{c}\)</span> 与 <span class="math inline">\(\boldsymbol{A}^{-1}\)</span> 预乘并使用矩阵逆属性 <span class="math inline">\(\boldsymbol{A} \boldsymbol{b}=\boldsymbol{c}\)</span> 来获得。应用于（3.10），我们找到了最小二乘估计量的明确公式</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right) .
+\]</span></p>
+<p>这是（3.3）中定义的最佳线性投影系数<span class="math inline">\(\beta\)</span>的自然估计量，也可以称为线性投影估计量。</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-07.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>平方误差函数之和</li>
+</ol>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-07(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>上证所轮廓</li>
+</ol>
+<p>图 3.3：具有两个回归量的 SSE</p>
+<p>回想一下，我们声称 (3.11) 中的 <span class="math inline">\(\widehat{\beta}\)</span> 是 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 的最小值，并通过求解一阶条件找到它。为了完整，我们应该验证二阶条件。我们计算得出</p>
+<p><span class="math display">\[
+\frac{\partial^{2}}{\partial \beta \partial \beta^{\prime}} \operatorname{SSE}(\beta)=2 \sum_{i=1}^{n} X_{i} X_{i}^{\prime}
+\]</span></p>
+<p>是一个半正定矩阵。如果实际上是正定的，则满足最小化的二阶条件，在这种情况下 <span class="math inline">\(\widehat{\beta}\)</span> 是 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 的唯一最小化器。</p>
+<p>回到图 <span class="math inline">\(3.3\)</span> 中显示的误差平方和函数 <span class="math inline">\(\operatorname{SSE}(\beta)\)</span> 的示例，最小二乘估计器 <span class="math inline">\(\widehat{\beta}\)</span> 是使该函数最小化的对 <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)\)</span>；从视觉上看，它是 3 维图中的低点，在图 3.3(b) 中标记为等高线图的中心点。</p>
+<p>取方程 (3.11) 并假设 <span class="math inline">\(k=1\)</span>。在这种情况下，<span class="math inline">\(X_{i}\)</span> 是标量，所以 <span class="math inline">\(X_{i} X_{i}^{\prime}=X_{i}^{2}\)</span>。然后 (3.11) 简化为先前导出的表达式 (3.7)。表达式 (3.11) 是一个符号简单的概括，但需要仔细注意向量和矩阵操作。</p>
+<p>或者，等式 (3.1) 将投影系数 <span class="math inline">\(\beta\)</span> 写为总体矩 <span class="math inline">\(\boldsymbol{Q}_{X Y}\)</span> 和 <span class="math inline">\(\boldsymbol{Q}_{X X}\)</span> 的显式函数。他们的矩估计器是样本矩</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}}_{X Y} &amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i} \\
+\widehat{\boldsymbol{Q}}_{X X} &amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(\beta\)</span> 的矩估计器将 (3.1) 中的总体矩替换为样本矩：</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\widehat{\boldsymbol{Q}}_{X X}^{-1} \widehat{\boldsymbol{Q}}_{X Y} \\
+&amp;=\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\frac{1}{n} \sum_{i=1}^{n} X_{i} Y_{i}\right) \\
+&amp;=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right)
+\end{aligned}
+\]</span></p>
+<p>与 (3.11) 相同。</p>
+<p>从技术上讲，估计量 <span class="math inline">\(\widehat{\beta}\)</span> 是唯一的，并且仅当倒置矩阵实际上是可逆的时才等于 (3.11)，当（且仅当）该矩阵是正定时，它才成立。这不包括 <span class="math inline">\(X_{i}\)</span> 包含冗余回归量的情况。这将在第 3.24 节中进一步讨论。</p>
+<p>定理 3.1 如果 <span class="math inline">\(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}&gt;0\)</span>，最小二乘估计量是唯一的并且等于</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right) .
+\]</span></p>
+</section>
+<section id="阿德里安玛丽勒让德" class="level2">
+<h2 class="anchored" data-anchor-id="阿德里安玛丽勒让德">阿德里安·玛丽·勒让德</h2>
+<p>最小二乘法由法国数学家 Adrien-Marie Legendre (1752-1833) 于 1805 年发表。当方程的数量超过未知数的数量时，勒让德提出最小二乘法作为求解方程组的代数问题的解决方案。这是天文测量中一个令人头疼的普遍问题。在勒让德看来，(3.2) 是一组具有 <span class="math inline">\(k\)</span> 未知数的 <span class="math inline">\(n\)</span> 方程。由于方程不能精确求解，Legendre 的目标是选择 <span class="math inline">\(\beta\)</span> 以使误差集尽可能小。他提出了误差平方和的准则，并推导出了上面提出的代数解。正如他所指出的，一阶条件 (3.9) 是具有 <span class="math inline">\(k\)</span> 未知数的 <span class="math inline">\(k\)</span> 方程组，可以通过“普通”方法求解。因此该方法被称为普通最小二乘法，直到今天我们仍然使用缩写 OLS 来指代勒让德的估计方法。</p>
+</section>
+<section id="插图" class="level2">
+<h2 class="anchored" data-anchor-id="插图">插图</h2>
+<p>我们使用用于计算第 2 章中报告的估计值的数据集来说明实践中的最小二乘估计量。这是 2009 年 3 月的当前人口调查，其中包含有关美国人口的大量信息。该数据集在第 3.22 节中有更详细的描述。在本例中，我们使用已婚（配偶在场）具有 12 年潜在工作经验的黑人女性工薪族的子样本。这个子样本有 20 个观测值 <span class="math inline">\({ }^{2}\)</span>。</p>
+<p>在表 <span class="math inline">\(3.1\)</span> 中，我们显示观察结果以供参考。每一行都是一个单独的观察，它是一个人的数据。这些列对应于个体的变量（测量值）。第二列是报告的工资（年总收入除以工作时间）。第三列是工资的自然对数。第四栏是受教育年限。第五和第六列是进一步的变换，具体是教育的平方和教育与<span class="math inline">\(\log\)</span>（工资）的乘积。底行是该列中元素的总和。</p>
+<p>表 3.1：来自 CPS 数据集的观察结果</p>
+<table class="table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 7%">
+<col style="width: 15%">
+<col style="width: 9%">
+<col style="width: 17%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Observation</th>
+<th>wage</th>
+<th><span class="math inline">\(\log (\)</span> wage)</th>
+<th>education</th>
+<th>education <span class="math inline">\(^{2}\)</span></th>
+<th>education <span class="math inline">\(\times \log (\)</span> wage <span class="math inline">\()\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><span class="math inline">\(37.93\)</span></td>
+<td><span class="math inline">\(3.64\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(65.44\)</span></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><span class="math inline">\(40.87\)</span></td>
+<td><span class="math inline">\(3.71\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(66.79\)</span></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><span class="math inline">\(14.18\)</span></td>
+<td><span class="math inline">\(2.65\)</span></td>
+<td>13</td>
+<td>169</td>
+<td><span class="math inline">\(34.48\)</span></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><span class="math inline">\(16.83\)</span></td>
+<td><span class="math inline">\(2.82\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(45.17\)</span></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><span class="math inline">\(33.17\)</span></td>
+<td><span class="math inline">\(3.50\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(56.03\)</span></td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><span class="math inline">\(29.81\)</span></td>
+<td><span class="math inline">\(3.39\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(61.11\)</span></td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><span class="math inline">\(54.62\)</span></td>
+<td><span class="math inline">\(4.00\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(64.00\)</span></td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><span class="math inline">\(43.08\)</span></td>
+<td><span class="math inline">\(3.76\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(67.73\)</span></td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><span class="math inline">\(14.42\)</span></td>
+<td><span class="math inline">\(2.67\)</span></td>
+<td>12</td>
+<td>144</td>
+<td><span class="math inline">\(32.03\)</span></td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td><span class="math inline">\(14.90\)</span></td>
+<td><span class="math inline">\(2.70\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(43.23\)</span></td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td><span class="math inline">\(21.63\)</span></td>
+<td><span class="math inline">\(3.07\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(55.44\)</span></td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td><span class="math inline">\(11.09\)</span></td>
+<td><span class="math inline">\(2.41\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(38.50\)</span></td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td><span class="math inline">\(10.00\)</span></td>
+<td><span class="math inline">\(2.30\)</span></td>
+<td>13</td>
+<td>169</td>
+<td><span class="math inline">\(29.93\)</span></td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td><span class="math inline">\(31.73\)</span></td>
+<td><span class="math inline">\(3.46\)</span></td>
+<td>14</td>
+<td>196</td>
+<td><span class="math inline">\(48.40\)</span></td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td><span class="math inline">\(11.06\)</span></td>
+<td><span class="math inline">\(2.40\)</span></td>
+<td>12</td>
+<td>144</td>
+<td><span class="math inline">\(28.84\)</span></td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td><span class="math inline">\(18.75\)</span></td>
+<td><span class="math inline">\(2.93\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(46.90\)</span></td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td><span class="math inline">\(27.35\)</span></td>
+<td><span class="math inline">\(3.31\)</span></td>
+<td>14</td>
+<td>196</td>
+<td><span class="math inline">\(46.32\)</span></td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td><span class="math inline">\(24.04\)</span></td>
+<td><span class="math inline">\(3.18\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(50.76\)</span></td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td><span class="math inline">\(36.06\)</span></td>
+<td><span class="math inline">\(3.59\)</span></td>
+<td>18</td>
+<td>324</td>
+<td><span class="math inline">\(64.53\)</span></td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td><span class="math inline">\(23.08\)</span></td>
+<td><span class="math inline">\(3.14\)</span></td>
+<td>16</td>
+<td>256</td>
+<td><span class="math inline">\(50.22\)</span></td>
+</tr>
+<tr class="odd">
+<td>Sum</td>
+<td>515</td>
+<td><span class="math inline">\(62.64\)</span></td>
+<td>314</td>
+<td>5010</td>
+<td><span class="math inline">\(995.86\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>将变量放入标准回归符号中，令 <span class="math inline">\(Y_{i}\)</span> 为 <span class="math inline">\(\log (w a g e)\)</span>，<span class="math inline">\(X_{i}\)</span> 为教育年限和截距。然后从表 <span class="math inline">\(3.1\)</span> 中的列总和我们有</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} Y_{i}=\left(\begin{array}{c}
+995.86 \\
+62.64
+\end{array}\right)
+\]</span></p>
+<p>和</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} X_{i}^{\prime}=\left(\begin{array}{cc}
+5010 &amp; 314 \\
+314 &amp; 20
+\end{array}\right)
+\]</span></p>
+<p>取逆我们得到</p>
+<p><span class="math display">\[
+\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}=\left(\begin{array}{cc}
+0.0125 &amp; -0.196 \\
+-0.196 &amp; 3.124
+\end{array}\right) .
+\]</span></p>
+<p><span class="math inline">\({ }^{2}\)</span> 这个样本是专门选择的，所以它有少量的观察，便于说明。因此通过矩阵乘法</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\begin{array}{cc}
+0.0125 &amp; -0.196 \\
+-0.196 &amp; 3.124
+\end{array}\right)\left(\begin{array}{c}
+995.86 \\
+62.64
+\end{array}\right)=\left(\begin{array}{c}
+0.155 \\
+0.698
+\end{array}\right) .
+\]</span></p>
+<p>在实践中，回归估计 <span class="math inline">\(\widehat{\beta}\)</span> 是由计算机软件计算的，用户无需执行上面列出的明确步骤。然而，了解最小二乘估计量可以通过简单的代数运算来计算是有用的。如果您的数据位于类似于表 3.1 的电子表格中，则可以通过电子表格操作计算列出的转换（对数、平方、叉积、列和）。然后可以通过矩阵求逆和乘法计算 <span class="math inline">\(\widehat{\beta}\)</span>。再一次，应用经济学家很少这样做，因为可以使用计算机软件来简化这一过程。</p>
+<p>我们经常使用以下格式编写估计方程</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.155 \text { education }+0.698 \text {. }
+\]</span></p>
+<p>对估计方程的解释是，每一年的教育都与平均工资增加 <span class="math inline">\(16 %\)</span> 相关。</p>
+<p>估计方程（3.12）的另一个用途是用于预测。假设一个人有 12 年的教育，第二个有 16 年。使用 (3.12) 我们发现第一个人的期望对数工资是</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wag } e)}=0.155 \times 12+0.698=2.56
+\]</span></p>
+<p>第二个</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.155 \times 16+0.698=3.18 .
+\]</span></p>
+<p>方程（3.12）被称为二元回归，因为有两个变量。它也称为简单回归，因为只有一个回归量。多元回归有两个或更多回归量，并允许进行更详细的调查。让我们举一个类似于 (3.12) 的例子，但包括所有级别的经验。这次我们使用有 268 个观察值的单身（未婚）亚洲男性的子样本。包括作为回归器的潜在工作经验（经验）及其平方（经验 <span class="math inline">\({ }^{2} / 100\)</span> ）（我们除以 100 以简化报告），我们获得了估计值</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.143 \text { education }+0.036 \text { experience }-0.071 \text { experience }^{2} / 100+0.575 \text {. }
+\]</span></p>
+<p>这些估计表明，在保持经验不变的情况下，每年的平均工资增加了 <span class="math inline">\(14 %\)</span>。</p>
+</section>
+<section id="最小二乘残差" class="level2">
+<h2 class="anchored" data-anchor-id="最小二乘残差">最小二乘残差</h2>
+<p>作为估计的副产品，我们定义了拟合值 <span class="math inline">\(\widehat{Y}_{i}=X_{i}^{\prime} \widehat{\beta}\)</span> 和残差</p>
+<p><span class="math display">\[
+\widehat{e}_{i}=Y_{i}-\widehat{Y}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}
+\]</span></p>
+<p>有时 <span class="math inline">\(\widehat{Y}_{i}\)</span> 被称为预测值，但这是一个误导性标签。拟合值 <span class="math inline">\(\widehat{Y}_{i}\)</span> 是包括 <span class="math inline">\(Y_{i}\)</span> 在内的整个样本的函数，因此不能解释为 <span class="math inline">\(Y_{i}\)</span> 的有效预测。因此，将 <span class="math inline">\(\widehat{Y}_{i}\)</span> 描述为拟合值而不是预测值更准确。</p>
+<p>注意 <span class="math inline">\(Y_{i}=\widehat{Y}_{i}+\widehat{e}_{i}\)</span> 和</p>
+<p><span class="math display">\[
+Y_{i}=X_{i}^{\prime} \widehat{\beta}+\widehat{e}_{i} .
+\]</span></p>
+<p>我们区分了误差 <span class="math inline">\(e_{i}\)</span> 和残差 <span class="math inline">\(\widehat{e}_{i}\)</span>。误差 <span class="math inline">\(e_{i}\)</span> 是不可观察的，而残差 <span class="math inline">\(\widehat{e}_{i}\)</span> 是一个估计量。这两个变量经常被错误标记，这可能会导致混淆。等式 (3.9) 意味着</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i} \widehat{e}_{i}=0 .
+\]</span></p>
+<p>要通过直接计算看到这一点，使用 (3.14) 和 (3.11)，</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_{i=1}^{n} X_{i} \widehat{e}_{i} &amp;=\sum_{i=1}^{n} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}\right) \\
+&amp;=\sum_{i=1}^{n} X_{i} Y_{i}-\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\beta} \\
+&amp;=\sum_{i=1}^{n} X_{i} Y_{i}-\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} Y_{i}\right) \\
+&amp;=\sum_{i=1}^{n} X_{i} Y_{i}-\sum_{i=1}^{n} X_{i} Y_{i}=0 .
+\end{aligned}
+\]</span></p>
+<p>当 <span class="math inline">\(X_{i}\)</span> 包含一个常数时， (3.16) 的含义是</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}=0 .
+\]</span></p>
+<p>因此，残差的样本均值为零，回归量和残差之间的样本相关性为零。这些是代数结果，适用于所有线性回归估计。</p>
+</section>
+<section id="贬低回归者" class="level2">
+<h2 class="anchored" data-anchor-id="贬低回归者">贬低回归者</h2>
+<p>有时将常数与其他回归量分开并将线性投影方程写成格式是有用的</p>
+<p><span class="math display">\[
+Y_{i}=X_{i}^{\prime} \beta+\alpha+e_{i}
+\]</span></p>
+<p>其中 <span class="math inline">\(\alpha\)</span> 是截距，<span class="math inline">\(X_{i}\)</span> 不包含常数。最小二乘估计和残差可以写成 <span class="math inline">\(Y_{i}=X_{i}^{\prime} \widehat{\beta}+\widehat{\alpha}+\widehat{e}_{i}\)</span>。</p>
+<p>在这种情况下（3.16）可以写成方程组</p>
+<p><span class="math display">\[
+\begin{array}{r}
+\sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}-\widehat{\alpha}\right)=0 \\
+\sum_{i=1}^{n} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}-\widehat{\alpha}\right)=0 .
+\end{array}
+\]</span></p>
+<p>第一个方程意味着</p>
+<p><span class="math display">\[
+\widehat{\alpha}=\bar{Y}-\bar{X}^{\prime} \widehat{\beta} .
+\]</span></p>
+<p>从我们得到的秒中减去</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} X_{i}\left(\left(Y_{i}-\bar{Y}\right)-\left(X_{i}-\bar{X}\right)^{\prime} \widehat{\beta}\right)=0 .
+\]</span></p>
+<p>求解 <span class="math inline">\(\widehat{\beta}\)</span> 我们发现</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\left(\sum_{i=1}^{n} X_{i}\left(X_{i}-\bar{X}\right)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} X_{i}\left(Y_{i}-\bar{Y}\right)\right) \\
+&amp;=\left(\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)\left(X_{i}-\bar{X}\right)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)\left(Y_{i}-\bar{Y}\right)\right) .
+\end{aligned}
+\]</span></p>
+<p>因此，斜率系数的 OLS 估计量是具有退化数据且没有截距的 OLS。</p>
+<p>表示 (3.18) 被称为最小二乘估计量的退化公式。</p>
+</section>
+<section id="矩阵表示法模型" class="level2">
+<h2 class="anchored" data-anchor-id="矩阵表示法模型">矩阵表示法模型</h2>
+<p>对于许多目的，包括计算，用矩阵表示法编写模型和统计数据很方便。 <span class="math inline">\(n\)</span> 线性方程 <span class="math inline">\(Y_{i}=X_{i}^{\prime} \beta+e_{i}\)</span> 构成了一个 <span class="math inline">\(n\)</span> 方程组。我们可以将这些 <span class="math inline">\(n\)</span> 方程堆叠在一起作为</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;Y_{1}=X_{1}^{\prime} \beta+e_{1} \\
+&amp;Y_{2}=X_{2}^{\prime} \beta+e_{2} \\
+&amp;\vdots \\
+&amp;Y_{n}=X_{n}^{\prime} \beta+e_{n} .
+\end{aligned}
+\]</span></p>
+<p>定义</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\left(\begin{array}{c}
+Y_{1} \\
+Y_{2} \\
+\vdots \\
+Y_{n}
+\end{array}\right), \quad \boldsymbol{X}=\left(\begin{array}{c}
+X_{1}^{\prime} \\
+X_{2}^{\prime} \\
+\vdots \\
+X_{n}^{\prime}
+\end{array}\right), \quad \boldsymbol{e}=\left(\begin{array}{c}
+e_{1} \\
+e_{2} \\
+\vdots \\
+e_{n}
+\end{array}\right)
+\]</span></p>
+<p>观察 <span class="math inline">\(\boldsymbol{Y}\)</span> 和 <span class="math inline">\(\boldsymbol{e}\)</span> 是 <span class="math inline">\(n \times 1\)</span> 向量，<span class="math inline">\(\boldsymbol{X}\)</span> 是 <span class="math inline">\(n \times k\)</span> 矩阵。 <span class="math inline">\(n\)</span> 方程组可以紧凑地写成单个方程</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X} \beta+\boldsymbol{e} .
+\]</span></p>
+<p>样本总和可以用矩阵表示法编写。例如</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\sum_{i=1}^{n} X_{i} X_{i}^{\prime}=\boldsymbol{X}^{\prime} \boldsymbol{X} \\
+&amp;\sum_{i=1}^{n} X_{i} Y_{i}=\boldsymbol{X}^{\prime} \boldsymbol{Y} .
+\end{aligned}
+\]</span></p>
+<p>因此最小二乘估计量可以写成</p>
+<p><span class="math display">\[
+\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right) .
+\]</span></p>
+<p>(3.15) 的矩阵版本和 (3.19) 的估计版本是</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X} \widehat{\beta}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>等价的残差向量是</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{e}}=\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta}
+\]</span></p>
+<p>使用残差向量，我们可以将 (3.16) 写为</p>
+<p><span class="math display">\[
+\boldsymbol{X}^{\prime} \widehat{\boldsymbol{e}}=0
+\]</span></p>
+<p>将误差平方和标准写为</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta) .
+\]</span></p>
+<p>使用矩阵表示法，我们对大多数估计器都有简单的表达式。这对于计算机编程特别方便，因为大多数语言都允许矩阵表示法和操作。定理 3.2 重要的矩阵表达式</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right) \\
+\widehat{\boldsymbol{e}} &amp;=\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta} \\
+\boldsymbol{X}^{\prime} \widehat{\boldsymbol{e}} &amp;=0 .
+\end{aligned}
+\]</span></p>
+</section>
+<section id="早期使用矩阵" class="level2">
+<h2 class="anchored" data-anchor-id="早期使用矩阵">早期使用矩阵</h2>
+<p>已知最早使用矩阵方法求解联立系统的处理方法见于公元前 <span class="math inline">\(10^{\text {th }}\)</span> 至 <span class="math inline">\(2^{\text {nd }}\)</span> 世纪几代学者所著的《数学艺术九章》的第 8 章。</p>
+</section>
+<section id="投影矩阵" class="level2">
+<h2 class="anchored" data-anchor-id="投影矩阵">投影矩阵</h2>
+<p>定义矩阵</p>
+<p><span class="math display">\[
+\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}
+\]</span></p>
+<p>请注意</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{X}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X}=\boldsymbol{X} .
+\]</span></p>
+<p>这是投影矩阵的属性。更一般地，对于任何矩阵 <span class="math inline">\(\boldsymbol{Z}\)</span> 可以写成 <span class="math inline">\(\boldsymbol{Z}=\boldsymbol{X} \boldsymbol{\Gamma}\)</span> 对于某个矩阵 <span class="math inline">\(\Gamma\)</span> （我们说 <span class="math inline">\(\boldsymbol{Z}\)</span> 位于 <span class="math inline">\(\boldsymbol{X}\)</span> 的范围空间中），然后</p>
+<p><span class="math display">\[
+\boldsymbol{P Z}=\boldsymbol{P} \boldsymbol{X} \boldsymbol{\Gamma}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X} \boldsymbol{\Gamma}=\boldsymbol{X} \boldsymbol{\Gamma}=\boldsymbol{Z} .
+\]</span></p>
+<p>举一个重要的例子，如果我们将矩阵 <span class="math inline">\(\boldsymbol{X}\)</span> 划分为两个矩阵 <span class="math inline">\(\boldsymbol{X}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{X}_{2}\)</span>，那么 <span class="math inline">\(\boldsymbol{X}=\)</span> 和 <span class="math inline">\(\left[\begin{array}{ll}\boldsymbol{X}_{1} &amp; \boldsymbol{X}_{2}\end{array}\right]\)</span> 然后是 <span class="math inline">\(\boldsymbol{P} \boldsymbol{X}_{1}=\boldsymbol{X}_{1}\)</span>。 （见练习 3.7。）</p>
+<p>投影矩阵 <span class="math inline">\(\boldsymbol{P}\)</span> 具有幂等的代数性质：<span class="math inline">\(\boldsymbol{P} \boldsymbol{P}=\boldsymbol{P}\)</span>。见下文定理 3.3.2。有关投影矩阵的一般属性，请参见第 A.11 节。</p>
+<p>矩阵 <span class="math inline">\(\boldsymbol{P}\)</span> 在最小二乘回归中创建拟合值：</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{Y}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}=\boldsymbol{X} \widehat{\boldsymbol{\beta}}=\widehat{\boldsymbol{Y}} \text {. }
+\]</span></p>
+<p>由于这个属性，<span class="math inline">\(\boldsymbol{P}\)</span> 也被称为帽子矩阵。</p>
+<p>当 <span class="math inline">\(X=\mathbf{1}_{n}\)</span> 是一个由 1 组成的 <span class="math inline">\(n\)</span> 向量时，会出现一个投影矩阵的特殊示例。然后</p>
+<p><span class="math display">\[
+\boldsymbol{P}=\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime}=\frac{1}{n} \mathbf{1}_{n} \mathbf{1}_{n}^{\prime} .
+\]</span></p>
+<p>请注意，在这种情况下</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{Y}=\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime} \boldsymbol{Y}=\mathbf{1}_{n} \bar{Y}
+\]</span></p>
+<p>创建一个 <span class="math inline">\(n\)</span>-vector，其元素是样本均值 <span class="math inline">\(\bar{Y}\)</span>。</p>
+<p>投影矩阵 <span class="math inline">\(\boldsymbol{P}\)</span> 经常出现在最小二乘回归的代数运算中。该矩阵具有以下重要性质。定理 3.3 任何 <span class="math inline">\(n \times k \boldsymbol{X}\)</span> 与 <span class="math inline">\(n \geq\)</span> <span class="math inline">\(k\)</span> 的投影矩阵 <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span> 具有以下代数性质。</p>
+<ol type="1">
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> 是对称的 <span class="math inline">\(\left(\boldsymbol{P}^{\prime}=\boldsymbol{P}\right)\)</span>。</p></li>
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> 是幂等的 <span class="math inline">\((\boldsymbol{P P}=\boldsymbol{P})\)</span>。</p></li>
+<li><p><span class="math inline">\(\operatorname{tr} \boldsymbol{P}=k\)</span>。</p></li>
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> 的特征值为 1 和 0 。</p></li>
+<li><p><span class="math inline">\(\boldsymbol{P}\)</span> 的 <span class="math inline">\(k\)</span> 特征值等于 1 和 <span class="math inline">\(n-k\)</span> 等于 0 。</p></li>
+<li><p><span class="math inline">\(\operatorname{rank}(\boldsymbol{P})=k\)</span>。</p></li>
+</ol>
+<p>我们通过证明定理 3.3 中的主张来结束本节。第 1 部分成立，因为</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{P}^{\prime} &amp;=\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\right)^{\prime} \\
+&amp;=\left(\boldsymbol{X}^{\prime}\right)^{\prime}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right)^{\prime}(\boldsymbol{X})^{\prime} \\
+&amp;=\boldsymbol{X}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{\prime}\right)^{-1} \boldsymbol{X}^{\prime} \\
+&amp;=\boldsymbol{X}\left((\boldsymbol{X})^{\prime}\left(\boldsymbol{X}^{\prime}\right)^{\prime}\right)^{-1} \boldsymbol{X}^{\prime}=\boldsymbol{P} .
+\end{aligned}
+\]</span></p>
+<p>为了建立第 2 部分，<span class="math inline">\(\boldsymbol{P X}=\boldsymbol{X}\)</span> 的事实意味着</p>
+<p><span class="math display">\[
+\boldsymbol{P} \boldsymbol{P}=\boldsymbol{P} \boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}=\boldsymbol{P}
+\]</span></p>
+<p>如声称的那样。对于第 3 部分，</p>
+<p><span class="math display">\[
+\operatorname{tr} \boldsymbol{P}=\operatorname{tr}\left(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\right)=\operatorname{tr}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X}\right)=\operatorname{tr}\left(\boldsymbol{I}_{k}\right)=k .
+\]</span></p>
+<p>跟踪算子的定义和属性见附录 A.5。</p>
+<p>附录 A.11 表明第 4 部分适用于任何幂等矩阵。对于第 5 部分，由于 <span class="math inline">\(\operatorname{tr} \boldsymbol{P}\)</span> 等于第 3 部分的 <span class="math inline">\(n\)</span> 特征值和 <span class="math inline">\(\operatorname{tr} \boldsymbol{P}=k\)</span> 之和，因此有 <span class="math inline">\(k\)</span> 特征值等于 1，其余 <span class="math inline">\(n-k\)</span> 等于 0。</p>
+<p>对于第 6 部分，观察 <span class="math inline">\(\boldsymbol{P}\)</span> 是半正定的，因为它的特征值都是非负的。根据定理 A.4.5，它的秩等于正特征值的数量，即声称的 <span class="math inline">\(k\)</span>。</p>
+</section>
+<section id="歼灭者矩阵" class="level2">
+<h2 class="anchored" data-anchor-id="歼灭者矩阵">歼灭者矩阵</h2>
+<p>定义</p>
+<p><span class="math display">\[
+\boldsymbol{M}=\boldsymbol{I}_{n}-\boldsymbol{P}=\boldsymbol{I}_{n}-\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}
+\]</span></p>
+<p>其中 <span class="math inline">\(\boldsymbol{I}_{n}\)</span> 是 <span class="math inline">\(n \times n\)</span> 单位矩阵。注意</p>
+<p><span class="math display">\[
+\boldsymbol{M} \boldsymbol{X}=\left(\boldsymbol{I}_{n}-\boldsymbol{P}\right) \boldsymbol{X}=\boldsymbol{X}-\boldsymbol{P} \boldsymbol{X}=\boldsymbol{X}-\boldsymbol{X}=0 .
+\]</span></p>
+<p>因此 <span class="math inline">\(\boldsymbol{M}\)</span> 和 <span class="math inline">\(\boldsymbol{X}\)</span> 是正交的。我们称 <span class="math inline">\(\boldsymbol{M}\)</span> 为歼灭矩阵，因为对于 <span class="math inline">\(\boldsymbol{X}\)</span> 的范围空间中的任何矩阵 <span class="math inline">\(\boldsymbol{Z}\)</span>，那么</p>
+<p><span class="math display">\[
+M Z=Z-P Z=0 .
+\]</span></p>
+<p>例如，<span class="math inline">\(\boldsymbol{M} \boldsymbol{X}_{1}=0\)</span> 表示 <span class="math inline">\(\boldsymbol{X}\)</span> 和 <span class="math inline">\(\boldsymbol{M P}=0\)</span> 的任何子组件 <span class="math inline">\(\boldsymbol{X}_{1}\)</span>（参见练习 3.7）。</p>
+<p>湮没矩阵 <span class="math inline">\(\boldsymbol{M}\)</span> 与 <span class="math inline">\(\boldsymbol{P}\)</span> 具有相似的性质，包括 <span class="math inline">\(\boldsymbol{M}\)</span> 是对称的 <span class="math inline">\(\left(\boldsymbol{M}^{\prime}=\boldsymbol{M}\right)\)</span> 和幂等的 <span class="math inline">\((\boldsymbol{M} M=\boldsymbol{M})\)</span>。因此它是一个投影矩阵。与定理 3.3.3 类似，我们可以计算</p>
+<p><span class="math display">\[
+\operatorname{tr} M=n-k .
+\]</span></p>
+<p>（见习题 3.9。）一个暗示是 <span class="math inline">\(\boldsymbol{M}\)</span> 的秩是 <span class="math inline">\(n-k\)</span>。</p>
+<p><span class="math inline">\(\boldsymbol{P}\)</span> 创建拟合值，<span class="math inline">\(\boldsymbol{M}\)</span> 创建最小二乘残差：</p>
+<p><span class="math display">\[
+M Y=Y-P Y=Y-X \widehat{\beta}=\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>如上一节所述，投影矩阵的一个特殊示例出现在 <span class="math inline">\(\boldsymbol{X}=\mathbf{1}_{n}\)</span> 是一个由 1 组成的 <span class="math inline">\(n\)</span>-vector 时，因此 <span class="math inline">\(\boldsymbol{P}=\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime}\)</span>.相关的湮没矩阵是</p>
+<p><span class="math display">\[
+\boldsymbol{M}=\boldsymbol{I}_{n}-\boldsymbol{P}=\boldsymbol{I}_{n}-\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime} .
+\]</span></p>
+<p><span class="math inline">\(\boldsymbol{P}\)</span> 创建样本均值向量，<span class="math inline">\(\boldsymbol{M}\)</span> 创建贬值值：</p>
+<p><span class="math display">\[
+\boldsymbol{M Y}=\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y} .
+\]</span></p>
+<p>为简单起见，我们通常将右侧写为 <span class="math inline">\(Y-\bar{Y}\)</span>。 <span class="math inline">\(i^{t h}\)</span> 元素是 <span class="math inline">\(Y_{i}-\bar{Y}\)</span>，<span class="math inline">\(Y_{i}\)</span> 的贬值</p>
+<p>我们还可以使用 (3.23) 为残差向量写一个替代表达式。将 <span class="math inline">\(\boldsymbol{Y}=\)</span> <span class="math inline">\(\boldsymbol{X} \beta+\boldsymbol{e}\)</span> 代入 <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{Y}\)</span> 并使用 <span class="math inline">\(\boldsymbol{M} \boldsymbol{X}=\mathbf{0}\)</span> 我们发现</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{Y}=\boldsymbol{M}(\boldsymbol{X} \beta+\boldsymbol{e})=\boldsymbol{M} \boldsymbol{e}
+\]</span></p>
+<p>它不依赖于回归系数 <span class="math inline">\(\beta\)</span>。</p>
+</section>
+<section id="误差方差的估计" class="level2">
+<h2 class="anchored" data-anchor-id="误差方差的估计">误差方差的估计</h2>
+<p>误差方差 <span class="math inline">\(\sigma^{2}=\mathbb{E}\left[e^{2}\right]\)</span> 是矩，因此自然估计量是矩估计量。如果观察到 <span class="math inline">\(e_{i}\)</span>，我们将估计 <span class="math inline">\(\sigma^{2}\)</span></p>
+<p><span class="math display">\[
+\widetilde{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} e_{i}^{2} .
+\]</span></p>
+<p>但是，这是不可行的，因为没有观察到 <span class="math inline">\(e_{i}\)</span>。在这种情况下，通常采用两步法进行估计。第一步计算残差<span class="math inline">\(\widehat{e}_{i}\)</span>，然后我们将表达式（3.25）中的<span class="math inline">\(\widehat{e}_{i}\)</span>代入<span class="math inline">\(e_{i}\)</span>，得到可行估计量</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
+\]</span></p>
+<p>在矩阵表示法中，我们可以将 (3.25) 和 (3.26) 写为 <span class="math inline">\(\widetilde{\sigma}^{2}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{e}\)</span> 和</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=n^{-1} \widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>回忆 (3.23) 和 (3.24) 中的表达式 <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{Y}=\boldsymbol{M} \boldsymbol{e}\)</span>。应用于 (3.27) 我们发现</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}=n^{-1} \widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{M M} \boldsymbol{M}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}
+\]</span></p>
+<p>第三个相等，因为 <span class="math inline">\(M M=M\)</span>。</p>
+<p>一个有趣的暗示是</p>
+<p><span class="math display">\[
+\widetilde{\sigma}^{2}-\widehat{\sigma}^{2}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{e}-n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{M} \boldsymbol{e}=n^{-1} \boldsymbol{e}^{\prime} \boldsymbol{P} \boldsymbol{e} \geq 0 .
+\]</span></p>
+<p>最后的不等式成立，因为 <span class="math inline">\(\boldsymbol{P}\)</span> 是半正定的，而 <span class="math inline">\(\boldsymbol{e}^{\prime} \boldsymbol{P} \boldsymbol{e}\)</span> 是二次形式。这表明可行估计量 <span class="math inline">\(\widehat{\sigma}^{2}\)</span> 在数值上小于理想化估计量 (3.25)。</p>
+</section>
+<section id="方差分析" class="level2">
+<h2 class="anchored" data-anchor-id="方差分析">方差分析</h2>
+<p>另一种写法（3.23）是</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{P} \boldsymbol{Y}+\boldsymbol{M} \boldsymbol{Y}=\widehat{\boldsymbol{Y}}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>这种分解是正交的，即</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{e}}=(\boldsymbol{P} \boldsymbol{Y})^{\prime}(\boldsymbol{M} \boldsymbol{Y})=\boldsymbol{Y}^{\prime} \boldsymbol{P} \boldsymbol{M} \boldsymbol{Y}=0 .
+\]</span></p>
+<p>它遵循</p>
+<p><span class="math display">\[
+\boldsymbol{Y}^{\prime} \boldsymbol{Y}=\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{Y}}+2 \widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{e}}+\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}=\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{Y}}+\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}
+\]</span></p>
+<p>或者</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} Y_{i}^{2}=\sum_{i=1}^{n} \widehat{Y}_{i}^{2}+\sum_{i=1}^{n} \widehat{e}_{i}^{2}
+\]</span></p>
+<p>从 (3.29) 的两边减去 <span class="math inline">\(\bar{Y}\)</span>，我们得到</p>
+<p><span class="math display">\[
+\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y}=\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}+\widehat{\boldsymbol{e}}
+\]</span></p>
+<p>当 <span class="math inline">\(X\)</span> 包含一个常数时，这种分解也是正交的，如</p>
+<p><span class="math display">\[
+\left(\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}\right)^{\prime} \widehat{\boldsymbol{e}}=\widehat{\boldsymbol{Y}}^{\prime} \widehat{\boldsymbol{e}}-\bar{Y} \mathbf{1}_{n}^{\prime} \widehat{\boldsymbol{e}}=0
+\]</span></p>
+<p>根据（3.17）。它遵循</p>
+<p><span class="math display">\[
+\left(\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y}\right)^{\prime}\left(\boldsymbol{Y}-\mathbf{1}_{n} \bar{Y}\right)=\left(\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}\right)^{\prime}\left(\widehat{\boldsymbol{Y}}-\mathbf{1}_{n} \bar{Y}\right)+\widehat{\boldsymbol{e}}^{\prime} \widehat{\boldsymbol{e}}
+\]</span></p>
+<p>或者</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}=\sum_{i=1}^{n}\left(\widehat{Y}_{i}-\bar{Y}\right)^{2}+\sum_{i=1}^{n} \widehat{e}_{i}^{2} .
+\]</span></p>
+<p>这通常称为最小二乘回归的方差分析公式。</p>
+<p>一个常见的统计数据是决定系数或 R 平方：</p>
+<p><span class="math display">\[
+R^{2}=\frac{\sum_{i=1}^{n}\left(\widehat{Y}_{i}-\bar{Y}\right)^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}=1-\frac{\sum_{i=1}^{n} \widehat{e}_{i}^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}} .
+\]</span></p>
+<p>它通常被描述为“由最小二乘拟合解释的 <span class="math inline">\(Y\)</span> 的样本方差的分数”。 <span class="math inline">\(R^{2}\)</span> 是回归拟合的粗略度量。我们有更好的拟合度量，但这些需要统计（不仅仅是代数）分析，我们稍后会回到这些问题。 <span class="math inline">\(R^{2}\)</span> 的一个缺陷是当回归变量添加到回归时它会增加（参见练习 3.16），因此“拟合”总是可以通过增加回归变量的数量来增加。</p>
+<p>Wright (1921) 引入了决定系数。</p>
+</section>
+<section id="预测" class="level2">
+<h2 class="anchored" data-anchor-id="预测">预测</h2>
+<p>可视化最小二乘拟合的一种方法是作为投影操作。</p>
+<p>将回归矩阵写为 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span>，其中 <span class="math inline">\(\boldsymbol{X}_{j}\)</span> 是 <span class="math inline">\(\boldsymbol{X}\)</span> 的 <span class="math inline">\(j^{t h}\)</span> 列。 <span class="math inline">\(\boldsymbol{X}\)</span> 的范围空间 <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span> 是由列的所有线性组合组成的空间 <span class="math inline">\(\boldsymbol{X}_{1}, \boldsymbol{X}_{2}, \ldots, \boldsymbol{X}_{k} . \mathscr{R}(\boldsymbol{X})\)</span> 是 <span class="math inline">\(\mathbb{R}^{n}\)</span> 中包含的 <span class="math inline">\(k\)</span> 维曲面。如果 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 则 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 是平面。运算符 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 将向量投影到 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 上。拟合值 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 是 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 到 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2} \ldots \boldsymbol{X}_{k}\right]\)</span> 的投影。</p>
+<p>可视化检查图 3.4。这将显示 <span class="math inline">\(n=3\)</span> 和 <span class="math inline">\(k=2\)</span> 的情况。显示的是三个向量 <span class="math inline">\(\boldsymbol{Y}, \boldsymbol{X}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{X}_{2}\)</span>，它们是 <span class="math inline">\(\mathbb{R}^{3}\)</span> 的每个元素。 <span class="math inline">\(\boldsymbol{X}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{X}_{2}\)</span> 创建的平面是范围空间 <span class="math inline">\(\mathscr{R}(\boldsymbol{X})\)</span>。回归拟合值是 <span class="math inline">\(\boldsymbol{X}_{1}\)</span> 和 <span class="math inline">\(n=3\)</span> 的线性组合，因此位于该平面上。拟合值 <span class="math inline">\(n=3\)</span> 是该平面上最接近 <span class="math inline">\(n=3\)</span> 的向量。残差 <span class="math inline">\(n=3\)</span> 是两者之差。向量 <span class="math inline">\(n=3\)</span> 和 <span class="math inline">\(n=3\)</span> 之间的角度是 <span class="math inline">\(n=3\)</span>，因此它们是正交的，如图所示。</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-17.jpg" class="img-fluid"></p>
+<p>图 3.4：<span class="math inline">\(\boldsymbol{Y}\)</span> 到 <span class="math inline">\(\boldsymbol{X}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{X}_{2}\)</span> 的投影</p>
+</section>
+<section id="回归组件" class="level2">
+<h2 class="anchored" data-anchor-id="回归组件">回归组件</h2>
+<p>分区 <span class="math inline">\(\boldsymbol{X}=\left[\begin{array}{ll}\boldsymbol{X}_{1} &amp; \boldsymbol{X}_{2}\end{array}\right]\)</span> 和 <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span>。回归模型可以写成</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X}_{1} \beta_{1}+\boldsymbol{X}_{2} \beta_{2}+\boldsymbol{e} .
+\]</span></p>
+<p><span class="math inline">\(\beta=\left(\beta_{1}^{\prime}, \beta_{2}^{\prime}\right)^{\prime}\)</span> 的 OLS 估计量是通过 <span class="math inline">\(\boldsymbol{Y}\)</span> 对 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> 的回归得到的，可以写为</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X} \widehat{\beta}+\widehat{\boldsymbol{e}}=\boldsymbol{X}_{1} \widehat{\boldsymbol{\beta}}_{1}+\boldsymbol{X}_{2} \widehat{\boldsymbol{\beta}}_{2}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>我们对 <span class="math inline">\(\widehat{\beta}_{1}\)</span> 和 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 的代数表达式感兴趣。</p>
+<p>让我们首先关注 <span class="math inline">\(\widehat{\beta}_{1}\)</span>。根据定义，最小二乘估计量是通过联合最小化找到的</p>
+<p><span class="math display">\[
+\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)=\underset{\beta_{1}, \beta_{2}}{\operatorname{argmin}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)
+\]</span></p>
+<p>在哪里</p>
+<p><span class="math display">\[
+\operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)=\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}-\boldsymbol{X}_{2} \beta_{2}\right)^{\prime}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}-\boldsymbol{X}_{2} \beta_{2}\right) .
+\]</span></p>
+<p><span class="math inline">\(\widehat{\beta}_{1}\)</span> 的等价表达式可以通过集中（嵌套最小化）获得。解 (3.33) 可以写成</p>
+<p><span class="math display">\[
+\widehat{\beta}_{1}=\underset{\beta_{1}}{\operatorname{argmin}}\left(\min _{\beta_{2}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)\right) .
+\]</span></p>
+<p>内部表达式 <span class="math inline">\(\min _{\beta_{2}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)\)</span> 在 <span class="math inline">\(\beta_{1}\)</span> 固定的同时最小化了 <span class="math inline">\(\beta_{2}\)</span>。它是给定 <span class="math inline">\(\beta_{1}\)</span> 的最小可能误差平方和。外部最小化 <span class="math inline">\(\operatorname{argmin}_{\beta_{1}}\)</span> 找到系数 <span class="math inline">\(\beta_{1}\)</span>，它使“给定 <span class="math inline">\(\beta_{1}\)</span> 的最小可能平方误差总和”最小化。这意味着 (3.33) 和 (3.34) 中定义的 <span class="math inline">\(\widehat{\beta}_{1}\)</span> 在代数上是相同的。</p>
+<p>检查 (3.34) 中的内部最小化问题。这只是 <span class="math inline">\(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\)</span> 对 <span class="math inline">\(\boldsymbol{X}_{2}\)</span> 的最小二乘回归。这有解决方案</p>
+<p><span class="math display">\[
+\underset{\beta_{2}}{\operatorname{argmin}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right)=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)\right)
+\]</span></p>
+<p>有残差</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}-\boldsymbol{X}_{2}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)\right) &amp;=\left(\boldsymbol{M}_{2} \boldsymbol{Y}-\boldsymbol{M}_{2} \boldsymbol{X}_{1} \beta_{1}\right) \\
+&amp;=\boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)
+\end{aligned}
+\]</span></p>
+<p>在哪里</p>
+<p><span class="math display">\[
+\boldsymbol{M}_{2}=\boldsymbol{I}_{n}-\boldsymbol{X}_{2}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1} \boldsymbol{X}_{2}^{\prime}
+\]</span></p>
+<p>是 <span class="math inline">\(\boldsymbol{X}_{2}\)</span> 的湮没矩阵。这意味着内部最小化问题（3.34）具有最小化值</p>
+<p><span class="math display">\[
+\begin{aligned}
+\min _{\beta_{2}} \operatorname{SSE}\left(\beta_{1}, \beta_{2}\right) &amp;=\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)^{\prime} \boldsymbol{M}_{2} \boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right) \\
+&amp;=\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)^{\prime} \boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)
+\end{aligned}
+\]</span></p>
+<p>其中第二个等式成立，因为 <span class="math inline">\(\boldsymbol{M}_{2}\)</span> 是幂等的。将其代入 (3.34) 我们发现</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{1} &amp;=\underset{\beta_{1}}{\operatorname{argmin}}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right)^{\prime} \boldsymbol{M}_{2}\left(\boldsymbol{Y}-\boldsymbol{X}_{1} \beta_{1}\right) \\
+&amp;=\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{X}_{1}\right)^{-1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{Y}\right) .
+\end{aligned}
+\]</span></p>
+<p>通过类似的论证，我们发现</p>
+<p><span class="math display">\[
+\widehat{\beta}_{2}=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\right)
+\]</span></p>
+<p>在哪里</p>
+<p><span class="math display">\[
+\boldsymbol{M}_{1}=\boldsymbol{I}_{n}-\boldsymbol{X}_{1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1}\right)^{-1} \boldsymbol{X}_{1}^{\prime}
+\]</span></p>
+<p>是 <span class="math inline">\(\boldsymbol{X}_{1}\)</span> 的湮没矩阵。定理 3.4 (3.32) 的最小二乘估计量 <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)\)</span> 有代数解</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\widehat{\beta}_{1}=\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{X}_{1}\right)^{-1}\left(\boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{Y}\right) \\
+&amp;\widehat{\beta}_{2}=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\right)
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\boldsymbol{M}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{M}_{2}\)</span> 分别在 (3.36) 和 (3.35) 中定义。</p>
+</section>
+<section id="回归组件替代推导" class="level2">
+<h2 class="anchored" data-anchor-id="回归组件替代推导">回归组件（替代推导）*</h2>
+<p>定理 <span class="math inline">\(3.4\)</span> 的另一种证明使用基于 2.22 节的总体计算的代数参数。由于这是一个经典的推导，为了完整起见，我们在这里展示它。</p>
+<p>分区 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X X}\)</span> 为</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X X}=\left[\begin{array}{ll}
+\widehat{\boldsymbol{Q}}_{11} &amp; \widehat{\boldsymbol{Q}}_{12} \\
+\widehat{\boldsymbol{Q}}_{21} &amp; \widehat{\boldsymbol{Q}}_{22}
+\end{array}\right]=\left[\begin{array}{ll}
+\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1} &amp; \frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2} \\
+\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{1} &amp; \frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}
+\end{array}\right]
+\]</span></p>
+<p>同样 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{X Y}\)</span> 为</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X Y}=\left[\begin{array}{l}
+\widehat{\boldsymbol{Q}}_{1 Y} \\
+\widehat{\boldsymbol{Q}}_{2 Y}
+\end{array}\right]=\left[\begin{array}{c}
+\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{Y} \\
+\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{Y}
+\end{array}\right]
+\]</span></p>
+<p>由分区矩阵求逆公式（A.3）</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{X X}^{-1}=\left[\begin{array}{ll}
+\widehat{\boldsymbol{Q}}_{11} &amp; \widehat{\boldsymbol{Q}}_{12} \\
+\widehat{\boldsymbol{Q}}_{21} &amp; \widehat{\boldsymbol{Q}}_{22}
+\end{array}\right]^{-1} \stackrel{\operatorname{def}}{=}\left[\begin{array}{cc}
+\widehat{\boldsymbol{Q}}^{11} &amp; \widehat{\boldsymbol{Q}}^{12} \\
+\widehat{\boldsymbol{Q}}^{21} &amp; \widehat{\boldsymbol{Q}}^{22}
+\end{array}\right]=\left[\begin{array}{cc}
+\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} &amp; -\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \\
+-\widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1} \widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} &amp; \widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1}
+\end{array}\right]
+\]</span></p>
+<p>其中 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{11 \cdot 2}=\widehat{\boldsymbol{Q}}_{11}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{21}\)</span> 和 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{22 \cdot 1}=\widehat{\boldsymbol{Q}}_{22}-\widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} \widehat{\boldsymbol{Q}}_{12}\)</span>。因此</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta} &amp;=\left(\begin{array}{c}
+\widehat{\beta}_{1} \\
+\widehat{\beta}_{2}
+\end{array}\right) \\
+&amp;=\left[\begin{array}{cc}
+\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} &amp; -\widehat{\boldsymbol{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \\
+-\widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1} \widehat{\boldsymbol{Q}}_{21} \widehat{\boldsymbol{Q}}_{11}^{-1} &amp; \widehat{\boldsymbol{Q}}_{22 \cdot 1}^{-1}
+\end{array}\right]\left[\begin{array}{c}
+\widehat{\boldsymbol{Q}}_{1 Y} \\
+\widehat{\boldsymbol{Q}}_{2 Y}
+\end{array}\right] \\
+&amp;=\left(\begin{array}{c}
+\widehat{\mathbf{Q}}_{11 \cdot 2}^{-1} \widehat{\boldsymbol{Q}}_{1 Y \cdot 2} \\
+\widehat{\mathbf{Q}}_{22 \cdot 1}^{-1} \widehat{\mathbf{Q}}_{2 Y \cdot 1}
+\end{array}\right)
+\end{aligned}
+\]</span></p>
+<p>现在</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}}_{11 \cdot 2} &amp;=\widehat{\boldsymbol{Q}}_{11}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{21} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{1}-\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2}\left(\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1} \frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{1} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{X}_{1}
+\end{aligned}
+\]</span></p>
+<p>和</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}}_{1 y \cdot 2} &amp;=\widehat{\boldsymbol{Q}}_{1 Y}-\widehat{\boldsymbol{Q}}_{12} \widehat{\boldsymbol{Q}}_{22}^{-1} \widehat{\boldsymbol{Q}}_{2 Y} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{Y}-\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2}\left(\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{X}_{2}\right)^{-1} \frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{Y} \\
+&amp;=\frac{1}{n} \boldsymbol{X}_{1}^{\prime} \boldsymbol{M}_{2} \boldsymbol{Y} .
+\end{aligned}
+\]</span></p>
+<p>方程（3.38）如下。</p>
+<p>与 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{11 \cdot 2}\)</span> 和 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{1 Y \cdot 2}\)</span> 的计算类似，您可以证明 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{2 Y \cdot 1}=\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\)</span> 和 <span class="math inline">\(\widehat{\boldsymbol{Q}}_{22 \cdot 1}=\)</span> <span class="math inline">\(\frac{1}{n} \boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\)</span>。这建立了（3.37）。这就是定理 3.4。</p>
+</section>
+<section id="残差回归" class="level2">
+<h2 class="anchored" data-anchor-id="残差回归">残差回归</h2>
+<p>正如 Frisch 和 Waugh (1933) 首次认识到并由 Lovell (1963) 扩展的那样，表达式 (3.37) 和 (3.38) 可用于表明最小二乘估计量 <span class="math inline">\(\widehat{\beta}_{1}\)</span> 和 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 可以通过两个-逐步回归过程。</p>
+<p>取 (3.38)。由于 <span class="math inline">\(\boldsymbol{M}_{1}\)</span> 是幂等的，<span class="math inline">\(\boldsymbol{M}_{1}=\boldsymbol{M}_{1} \boldsymbol{M}_{1}\)</span> 因而</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{2} &amp;=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{Y}\right) \\
+&amp;=\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{M}_{1} \boldsymbol{X}_{2}\right)^{-1}\left(\boldsymbol{X}_{2}^{\prime} \boldsymbol{M}_{1} \boldsymbol{M}_{1} \boldsymbol{Y}\right) \\
+&amp;=\left(\widetilde{\boldsymbol{X}}_{2}^{\prime} \widetilde{\boldsymbol{X}}_{2}\right)^{-1}\left(\widetilde{\boldsymbol{X}}_{2}^{\prime} \widetilde{\boldsymbol{e}}_{1}\right)
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}=\boldsymbol{M}_{1} \boldsymbol{X}_{2}\)</span> 和 <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}=\boldsymbol{M}_{1} \boldsymbol{Y}\)</span>。</p>
+<p>因此，系数估计量 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 在代数上等于 <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span> 对 <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span> 的最小二乘回归。请注意，这两个分别是 <span class="math inline">\(\boldsymbol{Y}\)</span> 和 <span class="math inline">\(\boldsymbol{X}_{2}\)</span>，预乘以 <span class="math inline">\(\boldsymbol{M}_{1}\)</span>。但是我们知道 <span class="math inline">\(\boldsymbol{M}_{1}\)</span> 的预乘会产生最小二乘残差。因此 <span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span> 只是 <span class="math inline">\(\boldsymbol{Y}\)</span> 对 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 的回归的最小二乘残差，<span class="math inline">\(\widehat{\beta}_{2}\)</span> 的列是 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 的列对 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 的回归的最小二乘残差。</p>
+<p>我们已经证明了以下定理。</p>
+<p>定理 3.5 Frisch-Waugh-Lovell (FWL)</p>
+<p>在模型 (3.31) 中，<span class="math inline">\(\beta_{2}\)</span> 的 OLS 估计量和 OLS 残差 <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> 可以通过 OLS 回归 (3.32) 或通过以下算法计算：</p>
+<p>1、对<span class="math inline">\(\boldsymbol{X}_{1}\)</span>回归<span class="math inline">\(\boldsymbol{Y}\)</span>，得到残差<span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span>；</p>
+<p>2.对<span class="math inline">\(\boldsymbol{X}_{1}\)</span>回归<span class="math inline">\(\boldsymbol{X}_{2}\)</span>，得到残差<span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span>；</p>
+<ol start="3" type="1">
+<li>对<span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}\)</span> 回归<span class="math inline">\(\widetilde{\boldsymbol{e}}_{1}\)</span>，得到OLS 估计<span class="math inline">\(\widehat{\beta}_{2}\)</span> 和残差<span class="math inline">\(\widehat{\boldsymbol{e}}\)</span>。</li>
+</ol>
+<p>在某些情况下（例如面板数据模型，将在第 17 章中介绍），FWL 定理可用于大大加快计算速度。</p>
+<p>FWL 定理是 2.23 节中获得的系数表示的直接模拟。该部分获得的结果涉及人口预测系数；此处获得的结果涉及最小二乘估计量。关键信息是相同的。在最小二乘回归 (3.32) 中，估计系数 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 在回归量 <span class="math inline">\(X_{1}\)</span> 被线性投影后，在代数上等于 <span class="math inline">\(\boldsymbol{Y}\)</span> 对回归量 <span class="math inline">\(\boldsymbol{X}_{2}\)</span> 的回归。类似地，在回归量 <span class="math inline">\(\boldsymbol{X}_{2}\)</span> 被线性投影后，系数估计 <span class="math inline">\(\widehat{\beta}_{1}\)</span> 在代数上等于 <span class="math inline">\(\boldsymbol{Y}\)</span> 对回归量 <span class="math inline">\(\boldsymbol{X}_{1}\)</span> 的回归。在解释回归系数时，这个结果可能很有见地。</p>
+<p>FWL 定理的一个常见应用是在 (3.18) 中获得的回归贬义公式。分区 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> 其中 <span class="math inline">\(\boldsymbol{X}_{1}=\mathbf{1}_{n}\)</span> 是一个向量，<span class="math inline">\(\boldsymbol{X}_{2}\)</span> 是观察到的回归量矩阵。在这种情况下 <span class="math inline">\(\boldsymbol{M}_{1}=\boldsymbol{I}_{n}-\mathbf{1}_{n}\left(\mathbf{1}_{n}^{\prime} \mathbf{1}_{n}\right)^{-1} \mathbf{1}_{n}^{\prime}\)</span>。注意 <span class="math inline">\(\widetilde{\boldsymbol{X}}_{2}=\boldsymbol{M}_{1} \boldsymbol{X}_{2}=\boldsymbol{X}_{2}-\overline{\boldsymbol{X}}_{2}\)</span> 和 <span class="math inline">\(\boldsymbol{M}_{1} \boldsymbol{Y}=\boldsymbol{Y}-\overline{\boldsymbol{Y}}\)</span> 是“贬低”的变量。 FWL 定理说 <span class="math inline">\(\widehat{\beta}_{2}\)</span> 是从 <span class="math inline">\(Y_{i}-\bar{Y}\)</span> 对 <span class="math inline">\(X_{2 i}-\bar{X}_{2}\)</span> 的回归得到的 OLS 估计：</p>
+<p><span class="math display">\[
+\widehat{\beta}_{2}=\left(\sum_{i=1}^{n}\left(X_{2 i}-\bar{X}_{2}\right)\left(X_{2 i}-\bar{X}_{2}\right)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n}\left(X_{2 i}-\bar{X}_{2}\right)\left(Y_{i}-\bar{Y}\right)\right)
+\]</span></p>
+<p>这是（3.18）。</p>
+<p>拉格纳新鲜\ Ragnar Frisch (1895-1973) 与第一届 No-\ 的 Jan Tinbergen 共同获胜 1969 年贝尔经济科学纪念奖，以表彰他们在发展中国家的工作 并应用动态模型分析经济问题。弗里施\ 为现代经济学做出了许多基础性贡献。 Frisch-Waugh-Lovell 定理，包括形式化消费者理论，产品-\ 理论和商业周期理论。</p>
+</section>
+<section id="杠杆价值" class="level2">
+<h2 class="anchored" data-anchor-id="杠杆价值">杠杆价值</h2>
+<p>回归矩阵 <span class="math inline">\(\boldsymbol{X}\)</span> 的杠杆值是投影矩阵 <span class="math inline">\(\boldsymbol{P}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span> 的对角线元素。有 <span class="math inline">\(n\)</span> 杠杆值，通常写为 <span class="math inline">\(h_{i i}\)</span> 对应 <span class="math inline">\(i=1, \ldots, n\)</span>。自从</p>
+<p><span class="math display">\[
+\boldsymbol{P}=\left(\begin{array}{c}
+X_{1}^{\prime} \\
+X_{2}^{\prime} \\
+\vdots \\
+X_{n}^{\prime}
+\end{array}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\begin{array}{llll}
+X_{1} &amp; X_{2} &amp; \cdots &amp; X_{n}
+\end{array}\right)
+\]</span></p>
+<p>他们是</p>
+<p><span class="math display">\[
+h_{i i}=X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} .
+\]</span></p>
+<p>杠杆值 <span class="math inline">\(h_{i i}\)</span> 是观察到的回归向量 <span class="math inline">\(X_{i}\)</span> 的标准化长度。它们经常出现在最小二乘回归的代数和统计分析中，包括留一法回归、有影响的观察、稳健的协方差矩阵估计和交叉验证。</p>
+<p>现在列出了杠杆值的一些属性。</p>
+<p>定理 3.6</p>
+<ol type="1">
+<li><p><span class="math inline">\(0 \leq h_{i i} \leq 1\)</span>。</p></li>
+<li><p><span class="math inline">\(h_{i i} \geq 1 / n\)</span> 如果 <span class="math inline">\(X\)</span> 包含截距。</p></li>
+<li><p><span class="math inline">\(\sum_{i=1}^{n} h_{i i}=k\)</span>。</p></li>
+</ol>
+<p>我们在下面证明定理 <span class="math inline">\(3.6\)</span>。</p>
+<p>杠杆值 <span class="math inline">\(h_{i i}\)</span> 衡量 <span class="math inline">\(i^{t h}\)</span> 观察 <span class="math inline">\(X_{i}\)</span> 相对于样本中其他观察的异常程度。当 <span class="math inline">\(X_{i}\)</span> 与其他样本值完全不同时，会出现较大的 <span class="math inline">\(h_{i i}\)</span>。衡量整体异常性的是最大杠杆值</p>
+<p><span class="math display">\[
+\bar{h}=\max _{1 \leq i \leq n} h_{i i} .
+\]</span></p>
+<p>通常说，当杠杆值都大致相等时，回归设计是平衡的。从定理 3.6.3 我们推导出当 <span class="math inline">\(h_{i i}=\bar{h}=k / n\)</span> 时出现完全平衡。完全平衡的一个例子是，当回归变量都是正交虚拟变量时，每个变量都有相同的 0 和 1 出现。</p>
+<p>如果某些杠杆值与其他杠杆值高度不相等，则回归设计是不平衡的。最极端的情况是 <span class="math inline">\(\bar{h}=1\)</span>。发生这种情况的一个示例是，当有一个虚拟回归器仅对样本中的一个观察值取值为 1 时。</p>
+<p>最大杠杆值 (3.41) 将根据回归变量的选择而变化。例如，考虑方程 (3.13)，对具有 <span class="math inline">\(n=268\)</span> 观察值的单身亚洲男性的工资回归。这个回归有 <span class="math inline">\(\bar{h}=0.33\)</span>。如果省略平方经验回归量，则杠杆率降至 <span class="math inline">\(\bar{h}=0.10\)</span>。如果添加一个立方经验，它会增加到 <span class="math inline">\(\bar{h}=0.76\)</span>。如果四次方和五次方相加，则增加到 <span class="math inline">\(\bar{h}=0.99\)</span>。</p>
+<p>一些推理过程（例如稳健的协方差矩阵估计和交叉验证）对高杠杆值很敏感。我们稍后会回到这些问题。</p>
+<p>我们现在证明定理 3.6。对于第 1 部分，令 <span class="math inline">\(s_{i}\)</span> 为 <span class="math inline">\(n \times 1\)</span> 单位向量，其中 <span class="math inline">\(i^{t h}\)</span> 位置为 1，其他位置为零，因此 <span class="math inline">\(h_{i i}=s_{i}^{\prime} \boldsymbol{P} s_{i}\)</span>。然后应用二次不等式 (B.18) 和定理 3.3.4，</p>
+<p><span class="math display">\[
+h_{i i}=s_{i}^{\prime} \boldsymbol{P} s_{i} \leq s_{i}^{\prime} s_{i} \lambda_{\max }(\boldsymbol{P})=1
+\]</span></p>
+<p>如声称的那样。</p>
+<p>对于第 2 部分分区 <span class="math inline">\(X_{i}=\left(1, Z_{i}^{\prime}\right)^{\prime}\)</span>。不失一般性，我们可以用贬值的值 <span class="math inline">\(Z_{i}^{*}=Z_{i}-\bar{Z}\)</span> 替换 <span class="math inline">\(Z_{i}\)</span>。然后因为 <span class="math inline">\(Z_{i}^{*}\)</span> 和截距是正交的</p>
+<p><span class="math display">\[
+\begin{aligned}
+h_{i i} &amp;=\left(1, Z_{i}^{* \prime}\right)\left[\begin{array}{cc}
+n &amp; 0 \\
+0 &amp; Z^{* \prime} Z^{*}
+\end{array}\right]^{-1}\left(\begin{array}{c}
+1 \\
+Z_{i}^{*}
+\end{array}\right) \\
+&amp;=\frac{1}{n}+Z_{i}^{* \prime}\left(Z^{* \prime} Z^{*}\right)^{-1} Z_{i}^{*} \geq \frac{1}{n} .
+\end{aligned}
+\]</span></p>
+<p>对于第 3 部分，<span class="math inline">\(\sum_{i=1}^{n} h_{i i}=\operatorname{tr} \boldsymbol{P}=k\)</span>，其中第二个等式是定理 3.3.3。</p>
+</section>
+<section id="留一法回归" class="level2">
+<h2 class="anchored" data-anchor-id="留一法回归">留一法回归</h2>
+<p>有许多统计程序——残差分析、折刀方差估计、交叉验证、两步估计、保留样本评估——它们利用在子样本上构建的估计器。特别重要的是我们排除单个观察然后对所有观察重复此操作的情况。这称为留一法 (LOO) 回归。</p>
+<p>具体来说，回归系数 <span class="math inline">\(\beta\)</span> 的留一估计量是使用不包括单个观测值 <span class="math inline">\(i\)</span> 的完整样本构建的最小二乘估计量。这可以写成</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{(-i)} &amp;=\left(\sum_{j \neq i} X_{j} X_{j}^{\prime}\right)^{-1}\left(\sum_{j \neq i} X_{j} Y_{j}\right) \\
+&amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}-X_{i} X_{i}^{\prime}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}-X_{i} Y_{i}\right) \\
+&amp;=\left(\boldsymbol{X}_{(-i)}^{\prime} \boldsymbol{X}_{(-i)}\right)^{-1} \boldsymbol{X}_{(-i)}^{\prime} \boldsymbol{Y}_{(-i)} .
+\end{aligned}
+\]</span></p>
+<p>这里，<span class="math inline">\(\boldsymbol{X}_{(-i)}\)</span> 和 <span class="math inline">\(\boldsymbol{Y}_{(-i)}\)</span> 是省略了 <span class="math inline">\(i^{t h}\)</span> 行的数据矩阵。符号 <span class="math inline">\(\widehat{\beta}_{(-i)}\)</span> 或 <span class="math inline">\(\widehat{\beta}_{-i}\)</span> 通常用于表示省略了 <span class="math inline">\(i^{t h}\)</span> 观察的估计量。每个观察值都有一个留一估计量，<span class="math inline">\(i=1, \ldots, n\)</span>，所以我们有 <span class="math inline">\(n\)</span> 这样的估计量。</p>
+<p><span class="math inline">\(Y_{i}\)</span> 的留一预测值为 <span class="math inline">\(\widetilde{Y}_{i}=X_{i}^{\prime} \widehat{\beta}_{(-i)}\)</span>。这是通过在没有观察 <span class="math inline">\(i\)</span> 的情况下估计样本上的 <span class="math inline">\(\beta\)</span>，然后使用协变量向量 <span class="math inline">\(X_{i}\)</span> 预测 <span class="math inline">\(Y_{i}\)</span> 获得的预测值。请注意，<span class="math inline">\(\widetilde{Y}_{i}\)</span> 是真实的预测，因为 <span class="math inline">\(Y_{i}\)</span> 不用于构造 <span class="math inline">\(\widetilde{Y}_{i}\)</span>。这与作为 <span class="math inline">\(Y_{i}\)</span> 的函数的拟合值 <span class="math inline">\(Y_{i}\)</span> 形成对比。</p>
+<p>留一残差、预测误差或预测残差是 <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-\widetilde{Y}_{i}\)</span>。预测误差可以用作误差的估计量而不是残差。预测误差是比残差更好的估计量，因为前者是基于真实的预测。</p>
+<p>留一法公式 (3.42) 给人的印象是留一法系数和误差在计算上很麻烦，需要 <span class="math inline">\(n\)</span> 单独的回归。幸运的是，在线性回归的背景下，情况并非如此。 <span class="math inline">\(\widehat{\beta}_{(-i)}\)</span> 和 <span class="math inline">\(\widetilde{e}_{i}\)</span> 有简单的线性表达式。</p>
+<p>定理 3.7 留一估计量和预测误差相等</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}
+\]</span></p>
+<p>和</p>
+<p><span class="math display">\[
+\widetilde{e}_{i}=\left(1-h_{i i}\right)^{-1} \widehat{e}_{i}
+\]</span></p>
+<p>其中 <span class="math inline">\(h_{i i}\)</span> 是 (3.40) 中定义的杠杆值。</p>
+<p>我们在本节末尾证明了定理 <span class="math inline">\(3.7\)</span>。</p>
+<p>等式 (3.43) 表明，留一法系数可以通过简单的线性运算来计算，不需要使用 <span class="math inline">\(n\)</span> 单独的回归来计算。方程 (3.44) 的另一个有趣特征是预测误差 <span class="math inline">\(\widetilde{e}_{i}\)</span> 是最小二乘残差 <span class="math inline">\(\widehat{e}_{i}\)</span> 的简单缩放，缩放取决于杠杆值 <span class="math inline">\(h_{i i}\)</span>。如果 <span class="math inline">\(h_{i i}\)</span> 很小，那么 <span class="math inline">\(\widetilde{e}_{i} \simeq \widehat{e}_{i}\)</span>。但是，如果 <span class="math inline">\(h_{i i}\)</span> 很大，那么 <span class="math inline">\(\widetilde{e}_{i}\)</span> 可能与 <span class="math inline">\(\widehat{e}_{i}\)</span> 完全不同。因此，残差和预测值之间的差异取决于杠杆值，即 <span class="math inline">\(n\)</span> 的异常程度。要将 (3.44) 写成矢量符号，定义</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{M}^{*} &amp;=\left(\boldsymbol{I}_{n}-\operatorname{diag}\left\{h_{11}, . ., h_{n n}\right\}\right)^{-1} \\
+&amp;=\operatorname{diag}\left\{\left(1-h_{11}\right)^{-1}, \ldots,\left(1-h_{n n}\right)^{-1}\right\}
+\end{aligned}
+\]</span></p>
+<p>那么 (3.44) 等价于</p>
+<p><span class="math display">\[
+\widetilde{\boldsymbol{e}}=\boldsymbol{M}^{*} \widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>预测误差的一种用途是估计样本外均方误差：</p>
+<p><span class="math display">\[
+\widetilde{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} \widetilde{e}_{i}^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(1-h_{i i}\right)^{-2} \widehat{e}_{i}^{2} .
+\]</span></p>
+<p>这称为样本均方预测误差。它的平方根 <span class="math inline">\(\widetilde{\sigma}=\sqrt{\widetilde{\sigma}^{2}}\)</span> 是预测标准误差。</p>
+<p>我们用定理 3.7 的证明来完成本节。留一估计量 (3.42) 可以写为</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}-X_{i} X_{i}^{\prime}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}-X_{i} Y_{i}\right) .
+\]</span></p>
+<p>将 (3.47) 乘以 <span class="math inline">\(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}-X_{i} X_{i}^{\prime}\right)\)</span>。我们获得</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} X_{i}^{\prime} \widehat{\beta}_{(-i)}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}-X_{i} Y_{i}\right)=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} Y_{i} .
+\]</span></p>
+<p>重写</p>
+<p><span class="math display">\[
+\widehat{\beta}_{(-i)}=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}_{(-i)}\right)=\widehat{\beta}-\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}
+\]</span></p>
+<p>即 (3.43)。将此表达式预乘以 <span class="math inline">\(X_{i}^{\prime}\)</span> 并使用定义 (3.40) 我们得到</p>
+<p><span class="math display">\[
+X_{i}^{\prime} \widehat{\beta}_{(-i)}=X_{i}^{\prime} \widehat{\beta}-X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}=X_{i}^{\prime} \widehat{\beta}-h_{i i} \widetilde{e}_{i} .
+\]</span></p>
+<p>使用 <span class="math inline">\(\widehat{e}_{i}\)</span> 和 <span class="math inline">\(\widetilde{e}_{i}\)</span> 的定义，我们得到 <span class="math inline">\(\widetilde{e}_{i}=\widehat{e}_{i}+h_{i i} \widetilde{e}_{i}\)</span>。重写我们得到（3.44）。</p>
+</section>
+<section id="有影响的观察" class="level2">
+<h2 class="anchored" data-anchor-id="有影响的观察">有影响的观察</h2>
+<p>留一法估计量的另一个用途是调查有影响的观察的影响，有时称为异常值。如果从样本中遗漏它会导致感兴趣的参数估计发生重大变化，我们说观察 <span class="math inline">\(i\)</span> 是有影响的。</p>
+<p>为了说明，请考虑图 <span class="math inline">\(3.5\)</span>，它显示了实现 <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> 的散点图。用空心圆圈显示的 25 个观测值是由 <span class="math inline">\(X_{i} \sim U[1,10]\)</span> 和 <span class="math inline">\(Y_{i} \sim \mathrm{N}\left(X_{i}, 4\right)\)</span> 生成的。用实心圆圈显示的 <span class="math inline">\(26^{\text {th }}\)</span> 观察结果是 <span class="math inline">\(X_{26}=9, Y_{26}=0\)</span>。 （假设 <span class="math inline">\(Y_{26}=0\)</span> 由于输入错误而被错误记录。）该图显示了来自完整样本的最小二乘拟合线和从样本中删除 <span class="math inline">\(26^{\text {th }}\)</span> 观测值后获得的拟合线。在这个例子中，我们可以看到 <span class="math inline">\(26^{\text {th }}\)</span> 观察值（“异常值”）如何使最小二乘拟合线向 <span class="math inline">\(3.5\)</span> 观察值大幅倾斜。事实上，斜率系数从 <span class="math inline">\(3.5\)</span>（接近 <span class="math inline">\(3.5\)</span> 的真实值）减小到 <span class="math inline">\(3.5\)</span>，大幅降低。 <span class="math inline">\(3.5\)</span> 和 <span class="math inline">\(3.5\)</span> 都不是相对于它们的边际分布的异常值，因此通过检查数据的边际分布不会检测到这个异常值。 <span class="math inline">\(3.5\)</span> 的斜率系数的变化是有意义的，应该引起应用经济学家的关注。</p>
+<p>从 (3.43) 我们知道</p>
+<p><span class="math display">\[
+\widehat{\beta}-\widehat{\beta}_{(-i)}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}
+\]</span></p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-25.jpg" class="img-fluid"></p>
+<p>图 3.5：有影响的观察对最小二乘估计量的影响</p>
+<p>通过直接计算每个观测值 <span class="math inline">\(i\)</span> 的数量，我们可以直接发现特定观测值 <span class="math inline">\(i\)</span> 是否对感兴趣的系数估计有影响。</p>
+<p>对于一般性评估，我们可以关注预测值。全样本和留一法预测值之间的差异是</p>
+<p><span class="math display">\[
+\widehat{Y}_{i}-\widetilde{Y}_{i}=X_{i}^{\prime} \widehat{\beta}-X_{i}^{\prime} \widehat{\beta}_{(-i)}=X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} X_{i} \widetilde{e}_{i}=h_{i i} \widetilde{e}_{i}
+\]</span></p>
+<p>这是杠杆值 <span class="math inline">\(h_{i i}\)</span> 和预测误差 <span class="math inline">\(\widetilde{e}_{i}\)</span> 的简单函数。如果 <span class="math inline">\(\left|h_{i i} \widetilde{e}_{i}\right|\)</span> 很大，则观察 <span class="math inline">\(i\)</span> 对预测值有影响，这要求 <span class="math inline">\(h_{i i}\)</span> 和 <span class="math inline">\(\left|\widetilde{e}_{i}\right|\)</span> 都很大。</p>
+<p>考虑这一点的一种方法是，大的杠杆值 <span class="math inline">\(h_{i i}\)</span> 使观察 <span class="math inline">\(i\)</span> 有可能产生影响。较大的 <span class="math inline">\(h_{i i}\)</span> 意味着观察 <span class="math inline">\(i\)</span> 是不寻常的，因为回归量 <span class="math inline">\(X_{i}\)</span> 远离其样本均值。我们将具有大 <span class="math inline">\(h_{i i}\)</span> 的观察称为杠杆点。杠杆点不一定有影响，因为后者还要求预测误差 <span class="math inline">\(\widetilde{e}_{i}\)</span> 很大。</p>
+<p>为了确定任何个体观察在这个意义上是否有影响，已经提出了几种诊断方法（一些名称包括 DFITS、Cook 距离和 Welsch 距离）。不幸的是，从统计角度来看，很难将这些诊断推荐用于应用程序，因为它们不是基于统计理论。可能最相关的衡量标准是（3.48）中给出的系数估计值的变化。这些变化与系数标准误差的比率称为其 DFBETA，是 Stata 中可用的后估计诊断。虽然没有神奇的阈值，但问题在于单个观察是否有意义地改变了估计的兴趣系数。有影响的观察的一个简单诊断是计算</p>
+<p><span class="math display">\[
+\text { Influence }=\max _{1 \leq i \leq n}\left|\widehat{Y}_{i}-\widetilde{Y}_{i}\right|=\max _{1 \leq i \leq n}\left|h_{i i} \widetilde{e}_{i}\right| .
+\]</span></p>
+<p>这是由于单次观察导致的预测值的最大（绝对）变化。如果此诊断相对于 <span class="math inline">\(Y\)</span> 的分布较大，则可能表明该观察是有影响的。</p>
+<p>如果某个观察结果被确定为有影响力，应该怎么做？由于有影响的观察的一个常见原因是数据错误，因此应检查有影响的观察，以寻找错误记录观察的证据。可能观察值超出了允许的范围，或者某些观察值不一致（例如，一个人被列为有工作但收入为 <span class="math inline">\(\$ 0\)</span> ）。如果确定不正确地记录了观察，则通常从样本中删除观察。这个过程通常被称为“清理数据”。在此过程中做出的决定涉及相当多的个人判断。 [完成此操作后，正确的做法是以原始形式保留源数据并创建执行所有清理操作（例如删除单个观察值）的程序文件。清洗后的数据文件此时可以保存起来，用于后续的统计分析。保留源数据和清理数据的特定程序文件的意义是双重的：以便记录所有决策，以便在修订和未来研究中进行修改。] 也有可能正确测量观察结果，但不寻常且有影响力。在这种情况下，尚不清楚如何进行。一些研究人员将尝试更改规范以正确模拟有影响的观察。其他研究人员将从样本中删除观察结果。这种选择的动机是防止结果被个人观察歪曲或确定。许多研究人员对后一种做法持怀疑态度，他们认为这会降低报告的实证结果的完整性。</p>
+<p>作为实证说明，请考虑单身亚洲男性的对数工资回归 (3.13)。这个回归有 268 个观测值，影响 <span class="math inline">\(=0.29\)</span>。这意味着当删除最有影响的观察时，因变量 <span class="math inline">\(\log (\)</span> 工资的预测（拟合）值改变了 <span class="math inline">\(0.29\)</span>，或者等效地改变了平均工资 <span class="math inline">\(29 %\)</span>。这是一个有意义的变化，建议进一步调查。我们检查有影响的观察结果，发现它的杠杆 <span class="math inline">\(h_{i i}\)</span> 是 <span class="math inline">\(0.33\)</span>。这是一个中等大的杠杆值，这意味着回归量 <span class="math inline">\(X_{i}\)</span> 有点不寻常。进一步考察，我们发现这个人今年 65 岁，受过 8 年教育，因此他的潜在工作经验是 51 年。这是子样本中最高的经验 - 次高的是 41 年。巨大的影响力是由于他在这个样本中的不同寻常的特征（非常低的教育和非常高的经验）。本质上，回归 (3.13) 试图仅通过一次观察来估计经验 <span class="math inline">\(=51\)</span> 的条件均值。毫不奇怪，这种观察决定了拟合并因此具有影响力。一个合理的结论是回归函数只能在较小的经验范围内进行估计。我们将样本限制为经验不足 45 年的个人，重新估计，并获得以下估计。</p>
+<p><span class="math display">\[
+\widehat{\log (\text { wage })}=0.144 \text { education }+0.043 \text { experience }-0.095 \text { experience }^{2} / 100+0.531 \text {. }
+\]</span></p>
+<p>对于这个回归，我们计算了影响 <span class="math inline">\(=0.11\)</span>，它相对于回归 (3.13) 大大降低了。 （3.49）与（3.13）比较，教育的斜率系数基本不变，但经验系数及其平方略有增加。</p>
+<p>通过消除有影响的观察方程 (3.49) 可以被视为对大多数经验水平的条件均值的更稳健估计。在申请中是否报告 (3.13) 或 (3.49) 在很大程度上取决于判断。</p>
+</section>
+<section id="cps-数据集" class="level2">
+<h2 class="anchored" data-anchor-id="cps-数据集">CPS 数据集</h2>
+<p>在本节中，我们将描述经验插图中使用的数据集。</p>
+<p>当前人口调查 (CPS) 是由美国劳工统计局人口普查局对约 57,000 个美国家庭进行的月度调查。 CPS 是有关美国人口劳动力特征的主要信息来源。该调查涵盖就业、收入、教育程度、收入、贫困、健康保险范围、工作经验、投票和登记、计算机使用、退伍军人身份和其他变量。详情可在 找到。 html。</p>
+<p>从 2009 年 3 月的调查中，我们提取了具有未分配变量的全职工作人员（定义为过去一年每周工作至少 36 小时、至少工作 48 周的人员），并排除了那些在军队中的人员。该样本有 50,742 个人。我们从这些个体的 CPS 中提取了 14 个变量，并创建了数据集 cps09mar。该数据集以及本教科书中使用的所有其他数据集可在 http: 获得。威斯克edu/bhansen/econometrics/。</p>
+</section>
+<section id="数值计算" class="level2">
+<h2 class="anchored" data-anchor-id="数值计算">数值计算</h2>
+<p>现代计量经济学估计涉及大样本和许多协变量。因此，即使是简单的统计数据（例如最小二乘估计量）的计算也需要大量（数百万）的算术运算。在实践中，大多数经济学家不需要过多考虑这一点，因为它可以在个人电脑上快速轻松地完成。尽管如此，了解基本的计算方法还是很有用的，因为选择有时会产生实质性的差异。</p>
+<p>虽然今天几乎所有的统计计算都是使用在电子计算机上运行的统计软件进行的，但情况并非总是如此。在 19 世纪和 20 世纪初，“计算机”是手工计算工人的工作标签。天文学家和统计实验室使用计算机。这项令人着迷的工作（以及实验室中使用的大多数计算机都是女性这一事实）已经进入了流行文化。例如，为美国早期太空计划工作的几台计算机的生活在这本书和流行电影 Hidden Figures 中有所描述，虚构的计算机/宇航员是小说《计算之星》的主角，以及计算机/天文学家 Henrietta Swan 的生活莱维特在《寂静的天空》中被戏剧化。</p>
+<p>在 1960 年代可编程电子计算机出现之前，经济学研究生通常被聘为计算机。样本量比今天看到的要小得多，但是手动计算带有 <span class="math inline">\(n=100\)</span> 观察值和 <span class="math inline">\(k=5\)</span> 变量的回归所需的工作量仍然很大！如果你现在是一名研究生，你应该为这个行业已经从人机时代发展而感到幸运！ （现在研究助理可以完成更多更高级的任务，例如编写 Stata、R 和 MATLAB 代码。）</p>
+<p>要获得最小二乘估计 <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right)\)</span>，我们需要反转 <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> 或求解方程组。具体来说，让 <span class="math inline">\(\boldsymbol{A}=\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> 和 <span class="math inline">\(\boldsymbol{c}=\boldsymbol{X}^{\prime} \boldsymbol{Y}\)</span> 使得最小二乘估计可以写成</p>
+<p><span class="math display">\[
+\boldsymbol{A} \widehat{\beta}=\boldsymbol{c}
+\]</span></p>
+<p>或作为</p>
+<p><span class="math display">\[
+\widehat{\beta}=A^{-1} \boldsymbol{c} .
+\]</span></p>
+<p>方程 (3.50) 和 (3.51) 在代数上是相同的，但它们提出了两种不同的数值方法来获得 <span class="math inline">\(\widehat{\beta}\)</span>。 (3.50) 建议求解 <span class="math inline">\(k\)</span> 方程组。 (3.51) 建议找到 <span class="math inline">\(A^{-1}\)</span>，然后乘以 <span class="math inline">\(\boldsymbol{c}\)</span>。虽然这两个表达式在代数上是相同的，但隐含的数值方法是不同的。简而言之，求解方程组 (3.50) 在数值上优于矩阵求逆问题 (3.51)。直接求解 (3.50) 速度更快，并产生具有更高数值精度的解。因此，通常推荐（3.50）超过（3.51）。然而，在大多数实际应用中，选择不会产生任何实际差异。当矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 是病态的（将在第 3.24 节中讨论）或具有极高维数时，选择可能会产生影响的上下文。</p>
+<p>求解方程组 (3.50) 和计算 <span class="math inline">\(\boldsymbol{A}^{-1}\)</span> 的数值方法分别在第 A.18 节和 A.19 节中讨论。</p>
+<p>统计包使用多种矩阵方法来求解（3.50）。 Stata 使用扫描算法，它是 A.18 节中讨论的 Gauss-Jordan 算法的变体。 （有关扫描算法，请参阅 Goodnight (1979)。）在 R 中，求解 (A, b) 使用 QR 分解。在 MATLAB 中，当 <span class="math inline">\(A\)</span> 为正定时，A b 使用 Cholesky 分解，否则使用 QR 分解。</p>
+</section>
+<section id="共线性误差" class="level2">
+<h2 class="anchored" data-anchor-id="共线性误差">共线性误差</h2>
+<p>对于要唯一定义的最小二乘估计量，回归量不能线性相关。然而，尝试用线性相关的回归器计算回归是很容易的。发生这种情况的原因有很多，包括以下原因。</p>
+<ol type="1">
+<li>包括两次相同的回归量。</li>
+</ol>
+<p>2.在CPS数据集示例中包括相互线性组合的回归量，例如教育、经验和年龄（回忆一下，经验被定义为年龄-教育-6）。</p>
+<ol start="3" type="1">
+<li><p>包括一个虚拟变量及其平方。</p></li>
+<li><p>估计子样本的回归，其中虚拟变量是全零或全一。</p></li>
+<li><p>包括一个产生全零的虚拟变量交互作用。</p></li>
+<li><p>包含比观察更多的回归变量。</p></li>
+</ol>
+<p>在上述任何一种情况下，回归量都是线性相关的，因此 <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> 是奇异的，并且最小二乘估计量不是唯一的。如果您尝试估计回归，您可能会遇到错误消息。 （一个可能的例外是 MATLAB 使用“A <span class="math inline">\(\backslash \mathrm{b}\)</span>”，如下所述。）消息可能是“系统完全奇异”、“系统在计算上是奇异的”、变量“由于共线性而被省略”或系数被列为“NA”。在某些情况下（例如在 R 中使用显式矩阵计算或在 MATLAB 中使用 regress 命令进行估计）程序将停止执行。在其他情况下，程序将继续运行。在 Stata（以及 R 中的 Im 包）中，将报告回归，但将省略一个或多个变量。</p>
+<p>如果出现任何这些警告或错误消息，正确的响应是停止并检查回归编码和数据。你犯了一个不经意的错误吗？你是否包含了一个线性相关的回归器？您是否在估计变量（特别是虚拟变量）没有变化的子样本？如果您可以确定其中一种情况导致了错误，那么解决方案就会立即显现出来。您需要重新指定模型（样本或回归量）以消除冗余。所有的实证研究人员在实证工作的过程中都会遇到这个错误。但是，如果包选择了要省略的变量，则不应简单地接受输出。研究人员的工作是了解根本原因并制定合适的补救措施。</p>
+<p>统计包也有可能不会检测和报告矩阵奇异性。如果您在 MATLAB 中使用显式矩阵运算进行计算并使用推荐的 A <span class="math inline">\(\backslash \mathrm{b}\)</span> 命令来计算最小二乘估计量，则即使回归量在代数上相关，MATLAB 也可能会返回没有错误消息的数值解。因此，建议您在 MATLAB 中使用显式矩阵运算时对矩阵奇异性进行数值检查。</p>
+<p>我们如何在数字上检查矩阵 <span class="math inline">\(\boldsymbol{A}\)</span> 是否是奇异的？标准诊断是倒数条件数</p>
+<p><span class="math display">\[
+C=\frac{\lambda_{\min }(\boldsymbol{A})}{\lambda_{\max }(\boldsymbol{A})} .
+\]</span></p>
+<p>如果 <span class="math inline">\(C=0\)</span> 则 <span class="math inline">\(\boldsymbol{A}\)</span> 是单数。如果 <span class="math inline">\(C=1\)</span> 那么 <span class="math inline">\(\boldsymbol{A}\)</span> 是完全平衡的。如果 <span class="math inline">\(C\)</span> 非常小，我们说 <span class="math inline">\(\boldsymbol{A}\)</span> 是病态的。倒数条件数可以在 MATLAB 或 R 中通过 rcond 命令计算。不幸的是，在将 <span class="math inline">\(\boldsymbol{A}\)</span> 视为数值奇异之前，对于 <span class="math inline">\(C\)</span> 应该有多小没有可接受的容忍度，部分原因是即使 <span class="math inline">\(\boldsymbol{A}\)</span> 是代数奇异的，rcond (A) 也可以返回正（但很小）结果。但是，在双精度（通常用于计算）中，数值精度受 <span class="math inline">\(C=0\)</span> 的限制，这表明了最小范围 <span class="math inline">\(C=0\)</span>。</p>
+<p>由于 <span class="math inline">\(C\)</span> 的低值也可能是由不平衡或高度相关的回归量引起的，因此检查数值奇异性很复杂。</p>
+<p>为了说明，考虑使用 (3.13) 中的样本对从 1 到 <span class="math inline">\(k\)</span> 的经验幂 <span class="math inline">\(X\)</span> 进行工资回归（例如 <span class="math inline">\(X, X^{2}, X^{3}, \ldots, X^{k}\)</span> ）。我们计算了每个 <span class="math inline">\(k\)</span> 的倒数条件数 <span class="math inline">\(C\)</span>，发现 <span class="math inline">\(C\)</span> 随着 <span class="math inline">\(k\)</span> 的增加而减少，表明病态条件增加。实际上，对于 <span class="math inline">\(k=\)</span> 5，我们发现 <span class="math inline">\(C=6 \mathrm{e}-17\)</span>，它低于双精度精度。这意味着 <span class="math inline">\(X\)</span> 的回归是病态的。然而，回归矩阵不是奇异的。 <span class="math inline">\(X\)</span> 的低值不是由于代数奇异性，而是由于缺乏平衡和高共线性。</p>
+<p>病态回归变量存在数值结果（报告的系数估计）不准确的潜在问题。在大多数应用程序中这可能不是问题，因为这只发生在极端情况下。然而，我们应该尽可能避免病态回归。</p>
+<p>有一些策略可以减少甚至消除不良条件。通常，重新调整回归量就足够了。一个通常适用于非负回归器的简单重新缩放是将每个变量除以其样本均值，从而将 <span class="math inline">\(X_{j i}\)</span> 替换为 <span class="math inline">\(X_{j i} / \bar{X}_{j}\)</span>。在上面带有经验的例子中，这意味着将 <span class="math inline">\(X_{i}^{2}\)</span> 替换为 <span class="math inline">\(X_{i}^{2} /\left(n^{-1} \sum_{i=1}^{n} X_{i}^{2}\right)\)</span> 等。这样做可以显着减少病态条件。通过这种缩放，<span class="math inline">\(k \leq 11\)</span> 的回归满足 <span class="math inline">\(C \geq 1 \mathrm{e}-15\)</span>。另一个特定于幂回归的重新缩放是在获取幂之前首先重新缩放回归器以位于 <span class="math inline">\([-1,1]\)</span> 中。通过这种缩放，<span class="math inline">\(k \leq 16\)</span> 的回归满足 <span class="math inline">\(C \geq 1 \mathrm{e}-15\)</span>。一个更简单的缩放选项是在获取权力之前重新缩放回归量以位于 <span class="math inline">\(X_{j i}\)</span> 中。通过这种缩放，<span class="math inline">\(X_{j i}\)</span> 的回归满足 <span class="math inline">\(X_{j i}\)</span>。这对于应用程序来说通常是足够的。</p>
+<p>病态条件通常可以通过回归量的正交化完全消除。这是通过在前面的变量（每个前面的列）上顺序回归每个变量（<span class="math inline">\(\boldsymbol{X}\)</span> 中的每一列），获取残差，然后重新缩放以获得单位方差来实现的。这将产生在代数上满足 <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}=n \boldsymbol{I}_{n}\)</span> 并且条件数为 <span class="math inline">\(C=1\)</span> 的回归量。如果我们将这个方法应用到上面的例子中，我们会得到一个接近 1 的 <span class="math inline">\(k \leq 20\)</span> 的条件数。</p>
+<p>这表明，当回归的条件数较小时，仔细检查规范很重要。回归量可能是线性相关的，在这种情况下，需要省略一个或多个回归量。回归量也有可能被严重缩放，在这种情况下，重新缩放一些回归量可能很有用。变量也可能是高度共线的，在这种情况下，可能的解决方案是正交化。这些选择应该由研究人员做出，而不是由自动化软件程序做出。</p>
+</section>
+<section id="编程" class="level2">
+<h2 class="anchored" data-anchor-id="编程">编程</h2>
+<p>大多数程序包都允许交互式编程（您一个接一个地输入命令）和批处理编程（您从文件中运行预先编写的命令序列）。交互式编程对于探索性分析很有用，但最终所有工作都应该以批处理模式执行。这是控制和记录您的工作的最佳方式。</p>
+<p>批处理程序是文本文件，其中每一行执行一个命令。对于 Stata，此文件需要具有文件扩展名“.do”，对于 MATLAB，该文件需要具有“.m”。对于 R，没有特定的命名要求，尽管通常使用扩展名“.r”。在编写批处理文件时，包含文档和可读性的注释很有用。要执行程序文件，您在程序中键入命令。</p>
+<p>Stata：do chapter3 执行文件 chapter3。做。</p>
+<p>MATLAB：run chapter3 执行文件 chapter3.m。</p>
+<p>R: source (‘chapter3.r’) 执行文件chapter3.r。</p>
+<p>这些包中使用的命令有相同点和不同点。例如：</p>
+<ol type="1">
+<li><p>不同的符号用于创建注释。 <span class="math inline">\(*\)</span> 在 Stata 中，# 在 <span class="math inline">\(\mathrm{R}\)</span> 中，<span class="math inline">\(%\)</span> 在 MATLAB 中。</p></li>
+<li><p>MATLAB 使用符号 ;分隔线。 Stata 和 R 使用硬回报。</p></li>
+<li><p>Stata 使用 <span class="math inline">\(\ln ()\)</span> 计算自然对数。 R 和 MATLAB 使用 <span class="math inline">\(\log ()\)</span>。</p></li>
+<li><p>符号<span class="math inline">\(=\)</span> 用于定义变量。 <span class="math inline">\(\mathrm{R}\)</span> 更喜欢 <span class="math inline">\(&lt;-\)</span>。双重相等 <span class="math inline">\(==\)</span> 用于测试相等性。</p></li>
+</ol>
+<p>我们现在说明 Stata、R 和 MATLAB 的编程文件，它们执行 <span class="math inline">\(3.7\)</span> 和 3.21 节中的部分经验说明。对于 R 和 MATLAB 代码，我们使用显式矩阵运算进行说明。或者，R 和 MATLAB 具有内置函数，无需显式矩阵运算即可实现最小二乘回归。在 <span class="math inline">\(\mathrm{R}\)</span> 中，标准函数是 <span class="math inline">\(1 \mathrm{~m}\)</span>。在 MATLAB 中，标准函数是回归。使用如下所示的显式矩阵运算的优点是您确切地知道完成了哪些计算，并且更容易“开箱即用”来执行新过程。使用内置函数的好处是简化了编码，并且您不太可能出现编码错误。</p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-31.jpg" class="img-fluid"></p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-32.jpg" class="img-fluid"></p>
+<p><img src="images//2022_09_17_333a3ece3fb3afcc15d0g-33.jpg" class="img-fluid"></p>
+</section>
+<section id="练习" class="level2">
+<h2 class="anchored" data-anchor-id="练习">练习</h2>
+<p>练习 3.1 设 <span class="math inline">\(Y\)</span> 是一个随机变量，<span class="math inline">\(\mu=\mathbb{E}[Y]\)</span> 和 <span class="math inline">\(\sigma^{2}=\operatorname{var}[Y]\)</span>。定义</p>
+<p><span class="math display">\[
+g\left(y, \mu, \sigma^{2}\right)=\left(\begin{array}{c}
+y-\mu \\
+(y-\mu)^{2}-\sigma^{2}
+\end{array}\right) .
+\]</span></p>
+<p>令 <span class="math inline">\(\left(\widehat{\mu}, \widehat{\sigma}^{2}\right)\)</span> 为 <span class="math inline">\(\bar{g}_{n}\left(\widehat{\mu}, \widehat{\sigma}^{2}\right)=0\)</span> where <span class="math inline">\(\bar{g}_{n}(m, s)=n^{-1} \sum_{i=1}^{n} g\left(y_{i}, m, s\right)\)</span> 的值。证明 <span class="math inline">\(\widehat{\mu}\)</span> 和 <span class="math inline">\(\widehat{\sigma}^{2}\)</span> 是样本均值和方差。</p>
+<p>练习 3.2 考虑 <span class="math inline">\(n \times 1\)</span> 向量 <span class="math inline">\(\boldsymbol{Y}\)</span> 在 <span class="math inline">\(n \times k\)</span> 矩阵 <span class="math inline">\(\boldsymbol{X}\)</span> 上的 OLS 回归。考虑一组替代回归量 <span class="math inline">\(\boldsymbol{Z}=\boldsymbol{X} \boldsymbol{C}\)</span>，其中 <span class="math inline">\(\boldsymbol{C}\)</span> 是 <span class="math inline">\(k \times k\)</span> 非奇异矩阵。因此，<span class="math inline">\(\boldsymbol{Z}\)</span> 的每一列都是 <span class="math inline">\(\boldsymbol{X}\)</span> 的一些列的混合。比较 <span class="math inline">\(n \times 1\)</span> 对 <span class="math inline">\(n \times 1\)</span> 的回归的 OLS 估计和残差与 <span class="math inline">\(n \times 1\)</span> 对 <span class="math inline">\(n \times 1\)</span> 的回归的 OLS 估计。</p>
+<p>练习 3.3 使用矩阵代数，显示 <span class="math inline">\(\boldsymbol{X}^{\prime} \widehat{\boldsymbol{e}}=0\)</span>。</p>
+<p>练习 3.4 令 <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> 是 <span class="math inline">\(\boldsymbol{Y}\)</span> 对 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> 的回归的 OLS 残差。找到 <span class="math inline">\(\boldsymbol{X}_{2}^{\prime} \widehat{\boldsymbol{e}}\)</span>。</p>
+<p>练习 3.5 令 <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> 是 <span class="math inline">\(\boldsymbol{Y}\)</span> 对 <span class="math inline">\(\boldsymbol{X}\)</span> 的回归的 OLS 残差。从 <span class="math inline">\(\widehat{\boldsymbol{e}}\)</span> 对 <span class="math inline">\(\boldsymbol{X}\)</span> 的回归中找到 OLS 系数。</p>
+<p>练习 3.6 设 <span class="math inline">\(\widehat{\boldsymbol{Y}}=\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}\)</span>。从 <span class="math inline">\(\widehat{\boldsymbol{Y}}\)</span> 对 <span class="math inline">\(\boldsymbol{X}\)</span> 的回归中找到 OLS 系数。</p>
+<p>练习 3.7 证明如果 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> 那么 <span class="math inline">\(\boldsymbol{P} \boldsymbol{X}_{1}=\boldsymbol{X}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{M} \boldsymbol{X}_{1}=0 .\)</span></p>
+<p>练习 3.8 证明 <span class="math inline">\(M\)</span> 是幂等的：<span class="math inline">\(M M=M\)</span>。</p>
+<p>练习 3.9 证明 <span class="math inline">\(\operatorname{tr} M=n-k\)</span>。</p>
+<p>练习 3.10 证明如果 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1} \boldsymbol{X}_{2}\right]\)</span> 和 <span class="math inline">\(\boldsymbol{X}_{1}^{\prime} \boldsymbol{X}_{2}=0\)</span> 那么 <span class="math inline">\(\boldsymbol{P}=\boldsymbol{P}_{1}+\boldsymbol{P}_{2}\)</span>。</p>
+<p>练习 3.11 证明当 <span class="math inline">\(X\)</span> 包含一个常数 <span class="math inline">\(n^{-1} \sum_{i=1}^{n} \widehat{Y}_{i}=\bar{Y}\)</span>。</p>
+<p>练习 3.12 一个虚拟变量只取值 0 和 1 。它用于分类变量。令 <span class="math inline">\(\boldsymbol{D}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{D}_{2}\)</span> 为 1 和 0 的向量，如果此人是男性，<span class="math inline">\(\boldsymbol{D}_{1}\)</span> 的 <span class="math inline">\(i^{\text {th }}\)</span> 元素等于 1，<span class="math inline">\(\boldsymbol{D}_{2}\)</span> 的元素等于 0，如果此人是男性，则相反女士。假设样本中有 <span class="math inline">\(n_{1}\)</span> 男性和 <span class="math inline">\(n_{2}\)</span> 女性。考虑通过 OLS 拟合以下三个方程</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{Y}=\mu+\boldsymbol{D}_{1} \alpha_{1}+\boldsymbol{D}_{2} \alpha_{2}+\boldsymbol{e} \\
+&amp;\boldsymbol{Y}=\boldsymbol{D}_{1} \alpha_{1}+\boldsymbol{D}_{2} \alpha_{2}+\boldsymbol{e} \\
+&amp;\boldsymbol{Y}=\mu+\boldsymbol{D}_{1} \phi+\boldsymbol{e}
+\end{aligned}
+\]</span></p>
+<p>OLS 可以估计所有三个方程 (3.52)、(3.53) 和 (3.54) 吗？如果不是，请解释。</p>
+<ol type="a">
+<li><p>比较回归 (3.53) 和 (3.54)。一个比另一个更通用吗？解释（3.53）和（3.54）中参数之间的关系。</p></li>
+<li><p>计算 <span class="math inline">\(\mathbf{1}_{n}^{\prime} \boldsymbol{D}_{1}\)</span> 和 <span class="math inline">\(\mathbf{1}_{n}^{\prime} \boldsymbol{D}_{2}\)</span>，其中 <span class="math inline">\(\mathbf{1}_{n}\)</span> 是向量的 <span class="math inline">\(n \times 1\)</span>。</p></li>
+</ol>
+<p>练习 3.13 让 <span class="math inline">\(\boldsymbol{D}_{1}\)</span> 和 <span class="math inline">\(\boldsymbol{D}_{2}\)</span> 被定义为在前面的练习中。</p>
+<ol type="a">
+<li>在 OLS 回归中</li>
+</ol>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{D}_{1} \widehat{\gamma}_{1}+\boldsymbol{D}_{2} \widehat{\gamma}_{2}+\widehat{\boldsymbol{u}}
+\]</span></p>
+<p>表明 <span class="math inline">\(\widehat{\gamma}_{1}\)</span> 是样本 <span class="math inline">\(\left(\bar{Y}_{1}\right)\)</span> 的男性中因变量的样本均值，<span class="math inline">\(\widehat{\gamma}_{2}\)</span> 是女性 <span class="math inline">\(\left(\bar{Y}_{2}\right)\)</span> 中的样本均值。</p>
+<ol start="2" type="a">
+<li>令 <span class="math inline">\(\boldsymbol{X}(n \times k)\)</span> 是一个附加的回归矩阵。用文字描述转变</li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{Y}^{*}=\boldsymbol{Y}-\boldsymbol{D}_{1} \bar{Y}_{1}-\boldsymbol{D}_{2} \bar{Y}_{2} \\
+&amp;\boldsymbol{X}^{*}=\boldsymbol{X}-\boldsymbol{D}_{1} \bar{X}_{1}^{\prime}-\boldsymbol{D}_{2} \bar{X}_{2}^{\prime}
+\end{aligned}
+\]</span></p>
+<p>其中 <span class="math inline">\(\bar{X}_{1}\)</span> 和 <span class="math inline">\(\bar{X}_{2}\)</span> 分别是男性和女性回归量的 <span class="math inline">\(k \times 1\)</span> 均值。 (c) 比较 OLS 回归中的 <span class="math inline">\(\widetilde{\beta}\)</span></p>
+<p><span class="math display">\[
+\boldsymbol{Y}^{*}=\boldsymbol{X}^{*} \widetilde{\boldsymbol{\beta}}+\widetilde{\boldsymbol{e}}
+\]</span></p>
+<p>来自 OLS 回归的 <span class="math inline">\(\widehat{\beta}\)</span></p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{D}_{1} \widehat{\alpha}_{1}+\boldsymbol{D}_{2} \widehat{\alpha}_{2}+\boldsymbol{X} \widehat{\boldsymbol{\beta}}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>练习 3.14 当 <span class="math inline">\(\boldsymbol{Y}_{n}\)</span> 是 <span class="math inline">\(n \times 1\)</span> 并且 <span class="math inline">\(\boldsymbol{X}_{n}\)</span> 是 <span class="math inline">\(n \times k\)</span> 时，让 <span class="math inline">\(\widehat{\beta}_{n}=\left(\boldsymbol{X}_{n}^{\prime} \boldsymbol{X}_{n}\right)^{-1} \boldsymbol{X}_{n}^{\prime} \boldsymbol{Y}_{n}\)</span> 表示 OLS 估计。一个新的观察 <span class="math inline">\(\left(Y_{n+1}, X_{n+1}\right)\)</span> 变得可用。证明使用这个额外观察计算的 OLS 估计是</p>
+<p><span class="math display">\[
+\widehat{\beta}_{n+1}=\widehat{\beta}_{n}+\frac{1}{1+X_{n+1}^{\prime}\left(\boldsymbol{X}_{n}^{\prime} \boldsymbol{X}_{n}\right)^{-1} X_{n+1}}\left(\boldsymbol{X}_{n}^{\prime} \boldsymbol{X}_{n}\right)^{-1} X_{n+1}\left(Y_{n+1}-X_{n+1}^{\prime} \widehat{\beta}_{n}\right)
+\]</span></p>
+<p>练习 3.15 证明 <span class="math inline">\(R^{2}\)</span> 是 <span class="math inline">\(\boldsymbol{Y}\)</span> 和 <span class="math inline">\(\widehat{\boldsymbol{Y}}\)</span> 之间样本相关性的平方。</p>
+<p>练习 3.16 考虑两个最小二乘回归</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X}_{1} \widetilde{\beta}_{1}+\widetilde{\boldsymbol{e}}
+\]</span></p>
+<p>和</p>
+<p><span class="math display">\[
+\boldsymbol{Y}=\boldsymbol{X}_{1} \widehat{\beta}_{1}+\boldsymbol{X}_{2} \widehat{\beta}_{2}+\widehat{\boldsymbol{e}} .
+\]</span></p>
+<p>让 <span class="math inline">\(R_{1}^{2}\)</span> 和 <span class="math inline">\(R_{2}^{2}\)</span> 是来自两个回归的 <span class="math inline">\(R\)</span>-squared。显示 <span class="math inline">\(R_{2}^{2} \geq R_{1}^{2}\)</span>。是否存在相等 <span class="math inline">\(R_{2}^{2}=R_{1}^{2}\)</span> 的情况（解释）？</p>
+<p>练习 3.17 对于 (3.46) 中定义的 <span class="math inline">\(\widetilde{\sigma}^{2}\)</span>，证明 <span class="math inline">\(\widetilde{\sigma}^{2} \geq \widehat{\sigma}^{2}\)</span>。平等可能吗？</p>
+<p>习题 3.18 <span class="math inline">\(\widehat{\beta}_{(-i)}=\widehat{\beta}\)</span> 对哪些观察结果？</p>
+<p>练习 3.19 对于仅截距模型 <span class="math inline">\(Y_{i}=\beta+e_{i}\)</span>，证明留一法预测误差为</p>
+<p><span class="math display">\[
+\widetilde{e}_{i}=\left(\frac{n}{n-1}\right)\left(Y_{i}-\bar{Y}\right) .
+\]</span></p>
+<p>练习 3.20 定义 <span class="math inline">\(\sigma^{2}\)</span> 的留一估计量，</p>
+<p><span class="math display">\[
+\widehat{\sigma}_{(-i)}^{2}=\frac{1}{n-1} \sum_{j \neq i}\left(Y_{j}-X_{j}^{\prime} \widehat{\beta}_{(-i)}\right)^{2} .
+\]</span></p>
+<p>这是从样本中获得的估计量，省略了观察 <span class="math inline">\(i\)</span>。显示</p>
+<p><span class="math display">\[
+\widehat{\sigma}_{(-i)}^{2}=\frac{n}{n-1} \widehat{\sigma}^{2}-\frac{\widehat{e}_{i}^{2}}{(n-1)\left(1-h_{i i}\right)} .
+\]</span></p>
+<p>练习 3.21 考虑最小二乘回归估计量</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i} \widehat{\beta}_{1}+X_{2 i} \widehat{\beta}_{2}+\widehat{e}_{i}
+\]</span></p>
+<p>和“一次一个回归器”回归估计器</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i} \widetilde{\beta}_{1}+\widetilde{e}_{1 i}, \quad Y_{i}=X_{2 i} \widetilde{\beta}_{2}+\widetilde{e}_{2 i}
+\]</span></p>
+<p>在什么条件下 <span class="math inline">\(\widetilde{\beta}_{1}=\widehat{\beta}_{1}\)</span> 和 <span class="math inline">\(\widetilde{\beta}_{2}=\widehat{\beta}_{2}\)</span> ？练习 3.22 你估计一个最小二乘回归</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i}^{\prime} \widetilde{\beta}_{1}+\widetilde{u}_{i}
+\]</span></p>
+<p>然后在另一组回归器上回归残差</p>
+<p><span class="math display">\[
+\widetilde{u}_{i}=X_{2 i}^{\prime} \widetilde{\beta}_{2}+\widetilde{e}_{i}
+\]</span></p>
+<p>这第二个回归是否为您提供与两组回归量的最小二乘回归估计相同的估计系数？</p>
+<p><span class="math display">\[
+Y_{i}=X_{1 i}^{\prime} \widehat{\beta}_{1}+X_{2 i}^{\prime} \widehat{\beta}_{2}+\widehat{e}_{i}
+\]</span></p>
+<p>换句话说，<span class="math inline">\(\widetilde{\beta}_{2}=\widehat{\beta}_{2}\)</span> 是真的吗？解释你的推理。</p>
+<p>练习 3.23 数据矩阵是 <span class="math inline">\((\boldsymbol{Y}, \boldsymbol{X})\)</span> 和 <span class="math inline">\(\boldsymbol{X}=\left[\boldsymbol{X}_{1}, \boldsymbol{X}_{2}\right]\)</span>，考虑转换后的回归矩阵 <span class="math inline">\(\boldsymbol{Z}=\left[\boldsymbol{X}_{1}, \boldsymbol{X}_{2}-\boldsymbol{X}_{1}\right]\)</span>。假设您对 <span class="math inline">\(\boldsymbol{X}\)</span> 进行 <span class="math inline">\(\boldsymbol{Y}\)</span> 的最小二乘回归，并在 <span class="math inline">\(\boldsymbol{Z}\)</span> 上进行 <span class="math inline">\(\boldsymbol{Y}\)</span> 的最小二乘回归。让 <span class="math inline">\(\widehat{\sigma}^{2}\)</span> 和 <span class="math inline">\(\widetilde{\sigma}^{2}\)</span> 表示来自两个回归的残差方差估计。给出一个有关 <span class="math inline">\((\boldsymbol{Y}, \boldsymbol{X})\)</span> 和 <span class="math inline">\((\boldsymbol{Y}, \boldsymbol{X})\)</span> 的公式？ （解释你的理由。）</p>
+<p>练习 3.24 使用 <span class="math inline">\(3.22\)</span> 节中描述的 cps09mar 数据集，该数据集可在教科书网站上找到。取用于方程（3.49）的子样本（见第 3.25 节）进行数据构建）</p>
+<ol type="a">
+<li><p>估计方程 (3.49) 并计算方程 <span class="math inline">\(R^{2}\)</span> 和误差平方和。</p></li>
+<li><p>使用残差回归法重新估计教育的斜率。经验及其平方的回归日志（工资），经验及其平方的回归教育，以及残差的残差。报告最终回归的估计值，以及方程 <span class="math inline">\(R^{2}\)</span> 和误差平方和。斜率系数是否等于（3.49）中的值？解释。</p></li>
+<li><ol type="a">
+<li>和 (b) 部分的 <span class="math inline">\(R^{2}\)</span> 和平方和误差是否相等？解释。</li>
+</ol></li>
+</ol>
+<p>练习 3.25 估计方程（3.49），如上题的（a）部分。令 <span class="math inline">\(\widehat{e}_{i}\)</span> 为 OLS 残差，<span class="math inline">\(\widehat{Y}_{i}\)</span> 为回归的预测值，<span class="math inline">\(X_{1 i}\)</span> 为教育，<span class="math inline">\(X_{2 i}\)</span> 为经验。数值计算如下：\ (a) <span class="math inline">\(\sum_{i=1}^{n} \widehat{e}_{i}\)</span>\ (b) <span class="math inline">\(\sum_{i=1}^{n} X_{1 i} \widehat{e}_{i}\)</span>\ (c) <span class="math inline">\(\sum_{i=1}^{n} X_{2 i} \widehat{e}_{i}\)</span>\ (d) <span class="math inline">\(\sum_{i=1}^{n} X_{1 i}^{2} \widehat{e}_{i}\)</span>\ (e) <span class="math inline">\(\sum_{i=1}^{n} X_{2 i}^{2} \widehat{e}_{i}\)</span>\ (f) <span class="math inline">\(\sum_{i=1}^{n} \widehat{Y}_{i} \widehat{e}_{i}\)</span>\ (g) <span class="math inline">\(\sum_{i=1}^{n} \widehat{e}_{i}^{2}\)</span></p>
+<p>这些计算是否与 OLS 的理论性质一致？解释。</p>
+<p>练习 3.26 使用 cps09mar 数据集。 (a) 估计西班牙裔白人男性子样本的对数工资回归。除了教育、经验及其平方之外，还包括一组用于地区和婚姻状况的二元变量。对于区域，为 Northeast、South 和 West 创建虚拟变量，以便将 Midwest 排除在外。对于婚姻状况，为已婚、丧偶或离婚和分居创建变量，因此单身（从未结婚）是被排除的组。</p>
+<ol start="2" type="a">
+<li>重复使用不同的计量经济学包。比较你的结果。他们同意吗？</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt03-algebra.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt04-lsr.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

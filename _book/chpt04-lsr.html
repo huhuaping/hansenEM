@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Hansen中高级计量体系 - 5&nbsp; Least Squares Regression</title>
+<title>Hansen中高级计量体系 - 4&nbsp; Least Squares Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,7 +26,7 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./chpt05-normal-reg.html" rel="next">
-<link href="./chpt03-algebra.html" rel="prev">
+<link href="./chpt03-algebra-chn.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -66,7 +66,7 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -107,6 +107,11 @@ ul.task-list{list-style: none;}
   <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
@@ -122,22 +127,27 @@ ul.task-list{list-style: none;}
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">条件预期和预测</span></a>
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
   </div>
 </li>
       </ul>
@@ -152,27 +162,27 @@ ul.task-list{list-style: none;}
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
   </div>
 </li>
       </ul>
@@ -187,17 +197,17 @@ ul.task-list{list-style: none;}
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
   </div>
 </li>
       </ul>
@@ -236,31 +246,31 @@ ul.task-list{list-style: none;}
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">5.1</span> Introduction</a></li>
-  <li><a href="#random-sampling" id="toc-random-sampling" class="nav-link" data-scroll-target="#random-sampling"> <span class="header-section-number">5.2</span> Random Sampling</a></li>
-  <li><a href="#sample-mean" id="toc-sample-mean" class="nav-link" data-scroll-target="#sample-mean"> <span class="header-section-number">5.3</span> Sample Mean</a></li>
-  <li><a href="#linear-regression-model" id="toc-linear-regression-model" class="nav-link" data-scroll-target="#linear-regression-model"> <span class="header-section-number">5.4</span> Linear Regression Model</a></li>
-  <li><a href="#expectation-of-least-squares-estimator" id="toc-expectation-of-least-squares-estimator" class="nav-link" data-scroll-target="#expectation-of-least-squares-estimator"> <span class="header-section-number">5.5</span> Expectation of Least Squares Estimator</a></li>
-  <li><a href="#variance-of-least-squares-estimator" id="toc-variance-of-least-squares-estimator" class="nav-link" data-scroll-target="#variance-of-least-squares-estimator"> <span class="header-section-number">5.6</span> Variance of Least Squares Estimator</a></li>
-  <li><a href="#unconditional-moments" id="toc-unconditional-moments" class="nav-link" data-scroll-target="#unconditional-moments"> <span class="header-section-number">5.7</span> Unconditional Moments</a></li>
-  <li><a href="#gauss-markov-theorem" id="toc-gauss-markov-theorem" class="nav-link" data-scroll-target="#gauss-markov-theorem"> <span class="header-section-number">5.8</span> Gauss-Markov Theorem</a></li>
-  <li><a href="#generalized-least-squares" id="toc-generalized-least-squares" class="nav-link" data-scroll-target="#generalized-least-squares"> <span class="header-section-number">5.9</span> Generalized Least Squares</a></li>
-  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals"> <span class="header-section-number">5.10</span> Residuals</a></li>
-  <li><a href="#estimation-of-error-variance" id="toc-estimation-of-error-variance" class="nav-link" data-scroll-target="#estimation-of-error-variance"> <span class="header-section-number">5.11</span> Estimation of Error Variance</a></li>
-  <li><a href="#mean-square-forecast-error" id="toc-mean-square-forecast-error" class="nav-link" data-scroll-target="#mean-square-forecast-error"> <span class="header-section-number">5.12</span> Mean-Square Forecast Error</a></li>
-  <li><a href="#covariance-matrix-estimation-under-homoskedasticity" id="toc-covariance-matrix-estimation-under-homoskedasticity" class="nav-link" data-scroll-target="#covariance-matrix-estimation-under-homoskedasticity"> <span class="header-section-number">5.13</span> Covariance Matrix Estimation Under Homoskedasticity</a></li>
-  <li><a href="#covariance-matrix-estimation-under-heteroskedasticity" id="toc-covariance-matrix-estimation-under-heteroskedasticity" class="nav-link" data-scroll-target="#covariance-matrix-estimation-under-heteroskedasticity"> <span class="header-section-number">5.14</span> Covariance Matrix Estimation Under Heteroskedasticity</a></li>
-  <li><a href="#standard-errors" id="toc-standard-errors" class="nav-link" data-scroll-target="#standard-errors"> <span class="header-section-number">5.15</span> Standard Errors</a></li>
-  <li><a href="#estimation-with-sparse-dummy-variables" id="toc-estimation-with-sparse-dummy-variables" class="nav-link" data-scroll-target="#estimation-with-sparse-dummy-variables"> <span class="header-section-number">5.16</span> Estimation with Sparse Dummy Variables</a></li>
-  <li><a href="#computation" id="toc-computation" class="nav-link" data-scroll-target="#computation"> <span class="header-section-number">5.17</span> Computation</a></li>
-  <li><a href="#measures-of-fit" id="toc-measures-of-fit" class="nav-link" data-scroll-target="#measures-of-fit"> <span class="header-section-number">5.18</span> Measures of Fit</a></li>
-  <li><a href="#empirical-example" id="toc-empirical-example" class="nav-link" data-scroll-target="#empirical-example"> <span class="header-section-number">5.19</span> Empirical Example</a></li>
-  <li><a href="#multicollinearity" id="toc-multicollinearity" class="nav-link" data-scroll-target="#multicollinearity"> <span class="header-section-number">5.20</span> Multicollinearity</a></li>
-  <li><a href="#clustered-sampling" id="toc-clustered-sampling" class="nav-link" data-scroll-target="#clustered-sampling"> <span class="header-section-number">5.21</span> Clustered Sampling</a></li>
-  <li><a href="#inference-with-clustered-samples" id="toc-inference-with-clustered-samples" class="nav-link" data-scroll-target="#inference-with-clustered-samples"> <span class="header-section-number">5.22</span> Inference with Clustered Samples</a></li>
-  <li><a href="#at-what-level-to-cluster" id="toc-at-what-level-to-cluster" class="nav-link" data-scroll-target="#at-what-level-to-cluster"> <span class="header-section-number">5.23</span> At What Level to Cluster?</a></li>
-  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"> <span class="header-section-number">5.24</span> Technical Proofs*</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">5.25</span> Exercises</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"> <span class="header-section-number">4.1</span> Introduction</a></li>
+  <li><a href="#random-sampling" id="toc-random-sampling" class="nav-link" data-scroll-target="#random-sampling"> <span class="header-section-number">4.2</span> Random Sampling</a></li>
+  <li><a href="#sample-mean" id="toc-sample-mean" class="nav-link" data-scroll-target="#sample-mean"> <span class="header-section-number">4.3</span> Sample Mean</a></li>
+  <li><a href="#linear-regression-model" id="toc-linear-regression-model" class="nav-link" data-scroll-target="#linear-regression-model"> <span class="header-section-number">4.4</span> Linear Regression Model</a></li>
+  <li><a href="#expectation-of-least-squares-estimator" id="toc-expectation-of-least-squares-estimator" class="nav-link" data-scroll-target="#expectation-of-least-squares-estimator"> <span class="header-section-number">4.5</span> Expectation of Least Squares Estimator</a></li>
+  <li><a href="#variance-of-least-squares-estimator" id="toc-variance-of-least-squares-estimator" class="nav-link" data-scroll-target="#variance-of-least-squares-estimator"> <span class="header-section-number">4.6</span> Variance of Least Squares Estimator</a></li>
+  <li><a href="#unconditional-moments" id="toc-unconditional-moments" class="nav-link" data-scroll-target="#unconditional-moments"> <span class="header-section-number">4.7</span> Unconditional Moments</a></li>
+  <li><a href="#gauss-markov-theorem" id="toc-gauss-markov-theorem" class="nav-link" data-scroll-target="#gauss-markov-theorem"> <span class="header-section-number">4.8</span> Gauss-Markov Theorem</a></li>
+  <li><a href="#generalized-least-squares" id="toc-generalized-least-squares" class="nav-link" data-scroll-target="#generalized-least-squares"> <span class="header-section-number">4.9</span> Generalized Least Squares</a></li>
+  <li><a href="#residuals" id="toc-residuals" class="nav-link" data-scroll-target="#residuals"> <span class="header-section-number">4.10</span> Residuals</a></li>
+  <li><a href="#estimation-of-error-variance" id="toc-estimation-of-error-variance" class="nav-link" data-scroll-target="#estimation-of-error-variance"> <span class="header-section-number">4.11</span> Estimation of Error Variance</a></li>
+  <li><a href="#mean-square-forecast-error" id="toc-mean-square-forecast-error" class="nav-link" data-scroll-target="#mean-square-forecast-error"> <span class="header-section-number">4.12</span> Mean-Square Forecast Error</a></li>
+  <li><a href="#covariance-matrix-estimation-under-homoskedasticity" id="toc-covariance-matrix-estimation-under-homoskedasticity" class="nav-link" data-scroll-target="#covariance-matrix-estimation-under-homoskedasticity"> <span class="header-section-number">4.13</span> Covariance Matrix Estimation Under Homoskedasticity</a></li>
+  <li><a href="#covariance-matrix-estimation-under-heteroskedasticity" id="toc-covariance-matrix-estimation-under-heteroskedasticity" class="nav-link" data-scroll-target="#covariance-matrix-estimation-under-heteroskedasticity"> <span class="header-section-number">4.14</span> Covariance Matrix Estimation Under Heteroskedasticity</a></li>
+  <li><a href="#standard-errors" id="toc-standard-errors" class="nav-link" data-scroll-target="#standard-errors"> <span class="header-section-number">4.15</span> Standard Errors</a></li>
+  <li><a href="#estimation-with-sparse-dummy-variables" id="toc-estimation-with-sparse-dummy-variables" class="nav-link" data-scroll-target="#estimation-with-sparse-dummy-variables"> <span class="header-section-number">4.16</span> Estimation with Sparse Dummy Variables</a></li>
+  <li><a href="#computation" id="toc-computation" class="nav-link" data-scroll-target="#computation"> <span class="header-section-number">4.17</span> Computation</a></li>
+  <li><a href="#measures-of-fit" id="toc-measures-of-fit" class="nav-link" data-scroll-target="#measures-of-fit"> <span class="header-section-number">4.18</span> Measures of Fit</a></li>
+  <li><a href="#empirical-example" id="toc-empirical-example" class="nav-link" data-scroll-target="#empirical-example"> <span class="header-section-number">4.19</span> Empirical Example</a></li>
+  <li><a href="#multicollinearity" id="toc-multicollinearity" class="nav-link" data-scroll-target="#multicollinearity"> <span class="header-section-number">4.20</span> Multicollinearity</a></li>
+  <li><a href="#clustered-sampling" id="toc-clustered-sampling" class="nav-link" data-scroll-target="#clustered-sampling"> <span class="header-section-number">4.21</span> Clustered Sampling</a></li>
+  <li><a href="#inference-with-clustered-samples" id="toc-inference-with-clustered-samples" class="nav-link" data-scroll-target="#inference-with-clustered-samples"> <span class="header-section-number">4.22</span> Inference with Clustered Samples</a></li>
+  <li><a href="#at-what-level-to-cluster" id="toc-at-what-level-to-cluster" class="nav-link" data-scroll-target="#at-what-level-to-cluster"> <span class="header-section-number">4.23</span> At What Level to Cluster?</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"> <span class="header-section-number">4.24</span> Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"> <span class="header-section-number">4.25</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt04-lsr.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
     </div>
@@ -269,7 +279,7 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></h1>
 </div>
 
 
@@ -283,12 +293,12 @@ ul.task-list{list-style: none;}
 
 </header>
 
-<section id="introduction" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">5.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
 <p>In this chapter we investigate some finite-sample properties of the least squares estimator in the linear regression model. In particular we calculate its finite-sample expectation and covariance matrix and propose standard errors for the coefficient estimators.</p>
 </section>
-<section id="random-sampling" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="random-sampling"><span class="header-section-number">5.2</span> Random Sampling</h2>
+<section id="random-sampling" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="random-sampling"><span class="header-section-number">4.2</span> Random Sampling</h2>
 <p>Assumption <span class="math inline">\(3.1\)</span> specified that the observations have identical distributions. To derive the finitesample properties of the estimators we will need to additionally specify the dependence structure across the observations.</p>
 <p>The simplest context is when the observations are mutually independent in which case we say that they are independent and identically distributed or i.i.d. It is also common to describe i.i.d. observations as a random sample. Traditionally, random sampling has been the default assumption in crosssection (e.g.&nbsp;survey) contexts. It is quite convenient as i.i.d. sampling leads to straightforward expressions for estimation variance. The assumption seems appropriate (meaning that it should be approximately valid) when samples are small and relatively dispersed. That is, if you randomly sample 1000 people from a large country such as the United States it seems reasonable to model their responses as mutually independent.</p>
 <p>Assumption 4.1 The random variables <span class="math inline">\(\left\{\left(Y_{1}, X_{1}\right), \ldots,\left(Y_{i}, X_{i}\right), \ldots,\left(Y_{n}, X_{n}\right)\right\}\)</span> are independent and identically distributed.</p>
@@ -296,8 +306,8 @@ ul.task-list{list-style: none;}
 <p>Assumption <span class="math inline">\(4.1\)</span> means that if you take any two individuals <span class="math inline">\(i \neq j\)</span> in a sample, the values <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are independent of the values <span class="math inline">\(\left(Y_{j}, X_{j}\right)\)</span> yet have the same distribution. Independence means that the decisions and choices of individual <span class="math inline">\(i\)</span> do not affect the decisions of individual <span class="math inline">\(j\)</span> and conversely.</p>
 <p>This assumption may be violated if individuals in the sample are connected in some way, for example if they are neighbors, members of the same village, classmates at a school, or even firms within a specific industry. In this case it seems plausible that decisions may be inter-connected and thus mutually dependent rather than independent. Allowing for such interactions complicates inference and requires specialized treatment. A currently popular approach which allows for mutual dependence is known as clustered dependence which assumes that that observations are grouped into “clusters” (for example, schools). We will discuss clustering in more detail in Section 4.21.</p>
 </section>
-<section id="sample-mean" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="sample-mean"><span class="header-section-number">5.3</span> Sample Mean</h2>
+<section id="sample-mean" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="sample-mean"><span class="header-section-number">4.3</span> Sample Mean</h2>
 <p>We start with the simplest setting of the intercept-only model</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -329,8 +339,8 @@ Y &amp;=\mu+e \\
 <p>The second-to-last inequality is because <span class="math inline">\(\mathbb{E}\left[e_{i} e_{j}\right]=\sigma^{2}\)</span> for <span class="math inline">\(i=j\)</span> yet <span class="math inline">\(\mathbb{E}\left[e_{i} e_{j}\right]=0\)</span> for <span class="math inline">\(i \neq j\)</span> due to independence.</p>
 <p>We have shown that <span class="math inline">\(\operatorname{var}[\bar{Y}]=\frac{1}{n} \sigma^{2}\)</span>. This is the familiar formula for the variance of the sample mean.</p>
 </section>
-<section id="linear-regression-model" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="linear-regression-model"><span class="header-section-number">5.4</span> Linear Regression Model</h2>
+<section id="linear-regression-model" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="linear-regression-model"><span class="header-section-number">4.4</span> Linear Regression Model</h2>
 <p>We now consider the linear regression model. Throughout this chapter we maintain the following.</p>
 <p>Assumption 4.2 Linear Regression Model The variables <span class="math inline">\((Y, X)\)</span> satisfy the linear regression equation</p>
 <p><span class="math display">\[
@@ -357,8 +367,8 @@ Y &amp;=X^{\prime} \beta+e \\
 \]</span></p>
 <p>is independent of <span class="math inline">\(X\)</span>.</p>
 </section>
-<section id="expectation-of-least-squares-estimator" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="expectation-of-least-squares-estimator"><span class="header-section-number">5.5</span> Expectation of Least Squares Estimator</h2>
+<section id="expectation-of-least-squares-estimator" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="expectation-of-least-squares-estimator"><span class="header-section-number">4.5</span> Expectation of Least Squares Estimator</h2>
 <p>In this section we show that the OLS estimator is unbiased in the linear regression model. This calculation can be done using either summation notation or matrix notation. We will use both.</p>
 <p>First take summation notation. Observe that under (4.1)-(4.2)</p>
 <p><span class="math display">\[
@@ -431,8 +441,8 @@ X_{i}^{\prime} \beta \\
 <p>Equation (4.7) says that the estimator <span class="math inline">\(\widehat{\beta}\)</span> is unbiased for <span class="math inline">\(\beta\)</span>, conditional on <span class="math inline">\(\boldsymbol{X}\)</span>. This means that the conditional distribution of <span class="math inline">\(\widehat{\beta}\)</span> is centered at <span class="math inline">\(\beta\)</span>. By “conditional on <span class="math inline">\(X\)</span>” this means that the distribution is unbiased for any realization of the regressor matrix <span class="math inline">\(\boldsymbol{X}\)</span>. In conditional models we simply refer to this as saying <span class="math inline">\(" \widehat{\beta}\)</span> is unbiased for <span class="math inline">\(\beta\)</span> “.</p>
 <p>It is worth mentioning that Theorem 4.1, and all finite sample results in this chapter, make the implicit assumption that <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> is full rank with probability one.</p>
 </section>
-<section id="variance-of-least-squares-estimator" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="variance-of-least-squares-estimator"><span class="header-section-number">5.6</span> Variance of Least Squares Estimator</h2>
+<section id="variance-of-least-squares-estimator" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="variance-of-least-squares-estimator"><span class="header-section-number">4.6</span> Variance of Least Squares Estimator</h2>
 <p>In this section we calculate the conditional variance of the OLS estimator.</p>
 <p>For any <span class="math inline">\(r \times 1\)</span> random vector <span class="math inline">\(Z\)</span> define the <span class="math inline">\(r \times r\)</span> covariance matrix</p>
 <p><span class="math display">\[
@@ -485,8 +495,8 @@ X_{i}^{\prime} \beta \\
 \]</span></p>
 <p>where <span class="math inline">\(\boldsymbol{D}\)</span> is defined in (4.8). If in addition the error is homoskedastic (Assumption 4.3) then (4.10) simplifies to <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}=\sigma^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\)</span>.</p>
 </section>
-<section id="unconditional-moments" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="unconditional-moments"><span class="header-section-number">5.7</span> Unconditional Moments</h2>
+<section id="unconditional-moments" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="unconditional-moments"><span class="header-section-number">4.7</span> Unconditional Moments</h2>
 <p>The previous sections derived the form of the conditional expectation and variance of the least squares estimator where we conditioned on the regressor matrix <span class="math inline">\(\boldsymbol{X}\)</span>. What about the unconditional expectation and variance?</p>
 <p>Indeed, it is not obvious if <span class="math inline">\(\widehat{\beta}\)</span> has a finite expectation or variance. Take the case of a single dummy variable regressor <span class="math inline">\(D_{i}\)</span> with no intercept. Assume <span class="math inline">\(\mathbb{P}\left[D_{i}=1\right]=p&lt;1\)</span>. Then</p>
 <p><span class="math display">\[
@@ -511,8 +521,8 @@ X_{i}^{\prime} \beta \\
 \]</span></p>
 <p>In both cases the expectation cannot pass through the matrix inverse because this is a nonlinear function. Thus there is not a simple expression for the unconditional variance, other than stating that is it the expectation of the conditional variance.</p>
 </section>
-<section id="gauss-markov-theorem" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="gauss-markov-theorem"><span class="header-section-number">5.8</span> Gauss-Markov Theorem</h2>
+<section id="gauss-markov-theorem" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="gauss-markov-theorem"><span class="header-section-number">4.8</span> Gauss-Markov Theorem</h2>
 <p>The Gauss-Markov Theorem is one of the most celebrated results in econometric theory. It provides a classical justification for the least squares estimator, showing that it is lowest variance among unbiased estimators.</p>
 <p>Write the homoskedastic linear regression model in vector format as</p>
 <p><span class="math display">\[
@@ -588,8 +598,8 @@ S_{i}=\left.\frac{\partial}{\partial \beta}\left(\log f_{\beta}\left(Y_{i}\right
 <p>This is the variance lower bound, completing the proof of Theorem 4.4.</p>
 <p>The above argument is rather tricky. At its core is the observation that the model <span class="math inline">\(f_{\beta}\)</span> is a submodel of the set of all linear regression models. The Cramér-Rao bound over any regular parametric submodel is a lower bound on the variance of any unbiased estimator. This means that the Cramér-Rao bound over <span class="math inline">\(f_{\beta}\)</span> is a lower bound for unbiased estimation of the regression coefficient. The model <span class="math inline">\(f_{\beta}\)</span> was selected judiciously so that its Cramér-Rao bound equals the variance of the least squares estimator, and this is sufficient to establish the bound.</p>
 </section>
-<section id="generalized-least-squares" class="level2" data-number="5.9">
-<h2 data-number="5.9" class="anchored" data-anchor-id="generalized-least-squares"><span class="header-section-number">5.9</span> Generalized Least Squares</h2>
+<section id="generalized-least-squares" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="generalized-least-squares"><span class="header-section-number">4.9</span> Generalized Least Squares</h2>
 <p>Take the linear regression model in matrix format</p>
 <p><span class="math display">\[
 \boldsymbol{Y}=\boldsymbol{X} \beta+\boldsymbol{e} .
@@ -643,8 +653,8 @@ S_{i}=\left.\frac{\partial}{\partial \beta}\left(\log f_{\beta}\left(Y_{i}\right
 <p>The assumption <span class="math inline">\(\Sigma&gt;0\)</span> in this case reduces to <span class="math inline">\(\sigma_{i}^{2}&gt;0\)</span> for <span class="math inline">\(i=1, \ldots n\)</span>.</p>
 <p>In most settings the matrix <span class="math inline">\(\Sigma\)</span> is unknown so the GLS estimator is not feasible. However, the form of the GLS estimator motivates feasible versions, effectively by replacing <span class="math inline">\(\Sigma\)</span> with a suitable estimator.</p>
 </section>
-<section id="residuals" class="level2" data-number="5.10">
-<h2 data-number="5.10" class="anchored" data-anchor-id="residuals"><span class="header-section-number">5.10</span> Residuals</h2>
+<section id="residuals" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="residuals"><span class="header-section-number">4.10</span> Residuals</h2>
 <p>What are some properties of the residuals <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}\)</span> and prediction errors <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{(-i)}\)</span> in the context of the linear regression model?</p>
 <p>Recall from (3.24) that we can write the residuals in vector notation as <span class="math inline">\(\widehat{\boldsymbol{e}}=\boldsymbol{M} \boldsymbol{e}\)</span> where <span class="math inline">\(\boldsymbol{M}=\boldsymbol{I}_{n}-\)</span> <span class="math inline">\(\boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime}\)</span> is the orthogonal projection matrix. Using the properties of conditional expectation</p>
 <p><span class="math display">\[
@@ -706,8 +716,8 @@ S_{i}=\left.\frac{\partial}{\partial \beta}\left(\log f_{\beta}\left(Y_{i}\right
 \]</span></p>
 <p>and thus these standardized residuals have the same bias and variance as the original errors when the latter are homoskedastic.</p>
 </section>
-<section id="estimation-of-error-variance" class="level2" data-number="5.11">
-<h2 data-number="5.11" class="anchored" data-anchor-id="estimation-of-error-variance"><span class="header-section-number">5.11</span> Estimation of Error Variance</h2>
+<section id="estimation-of-error-variance" class="level2" data-number="4.11">
+<h2 data-number="4.11" class="anchored" data-anchor-id="estimation-of-error-variance"><span class="header-section-number">4.11</span> Estimation of Error Variance</h2>
 <p>The error variance <span class="math inline">\(\sigma^{2}=\mathbb{E}\left[e^{2}\right]\)</span> can be a parameter of interest even in a heteroskedastic regression or a projection model. <span class="math inline">\(\sigma^{2}\)</span> measures the variation in the “unexplained” part of the regression. Its method of moments estimator (MME) is the sample average of the squared residuals:</p>
 <p><span class="math display">\[
 \widehat{\sigma}^{2}=\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
@@ -751,8 +761,8 @@ s^{2}=\frac{1}{n-k} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
 <p>and thus <span class="math inline">\(\bar{\sigma}^{2}\)</span> is unbiased for <span class="math inline">\(\sigma^{2}\)</span> (in the homoskedastic linear regression model).</p>
 <p>When <span class="math inline">\(k / n\)</span> is small the estimators <span class="math inline">\(\widehat{\sigma}^{2}, s^{2}\)</span> and <span class="math inline">\(\bar{\sigma}^{2}\)</span> are likely to be similar to one another. However, if <span class="math inline">\(k / n\)</span> is large then <span class="math inline">\(s^{2}\)</span> and <span class="math inline">\(\bar{\sigma}^{2}\)</span> are generally preferred to <span class="math inline">\(\widehat{\sigma}^{2}\)</span>. Consequently it is best to use one of the biascorrected variance estimators in applications.</p>
 </section>
-<section id="mean-square-forecast-error" class="level2" data-number="5.12">
-<h2 data-number="5.12" class="anchored" data-anchor-id="mean-square-forecast-error"><span class="header-section-number">5.12</span> Mean-Square Forecast Error</h2>
+<section id="mean-square-forecast-error" class="level2" data-number="4.12">
+<h2 data-number="4.12" class="anchored" data-anchor-id="mean-square-forecast-error"><span class="header-section-number">4.12</span> Mean-Square Forecast Error</h2>
 <p>One use of an estimated regression is to predict out-of-sample. Consider an out-of-sample realization <span class="math inline">\(\left(Y_{n+1}, X_{n+1}\right)\)</span> where <span class="math inline">\(X_{n+1}\)</span> is observed but not <span class="math inline">\(Y_{n+1}\)</span>. Given the coefficient estimator <span class="math inline">\(\widehat{\beta}\)</span> the standard point estimator of <span class="math inline">\(\mathbb{E}\left[Y_{n+1} \mid X_{n+1}\right]=X_{n+1}^{\prime} \beta\)</span> is <span class="math inline">\(\widetilde{Y}_{n+1}=X_{n+1}^{\prime} \widehat{\beta}\)</span>. The forecast error is the difference between the actual value <span class="math inline">\(Y_{n+1}\)</span> and the point forecast <span class="math inline">\(\widetilde{Y}_{n+1}\)</span>. This is the forecast error <span class="math inline">\(\widetilde{e}_{n+1}=Y_{n+1}-\widetilde{Y}_{n+1}\)</span>. The meansquared forecast error (MSFE) is its expected squared value <span class="math inline">\(\operatorname{MSFE}_{n}=\mathbb{E}\left[\widetilde{e}_{n+1}^{2}\right]\)</span>. In the linear regression model <span class="math inline">\(\widetilde{e}_{n+1}=e_{n+1}-X_{n+1}^{\prime}(\widehat{\beta}-\beta)\)</span> so</p>
 <p><span class="math display">\[
 \operatorname{MSFE}_{n}=\mathbb{E}\left[e_{n+1}^{2}\right]-2 \mathbb{E}\left[e_{n+1} X_{n+1}^{\prime}(\widehat{\beta}-\beta)\right]+\mathbb{E}\left[X_{n+1}^{\prime}(\widehat{\beta}-\beta)(\widehat{\beta}-\beta)^{\prime} X_{n+1}\right] .
@@ -798,8 +808,8 @@ s^{2}=\frac{1}{n-k} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
 \]</span></p>
 <p>where <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}=\operatorname{var}[\widehat{\beta} \mid \boldsymbol{X}]\)</span>. Furthermore, <span class="math inline">\(\widetilde{\sigma}^{2}\)</span> defined in (3.46) is an unbiased estimator of <span class="math inline">\(\operatorname{MSFE}_{n-1}\)</span>, because <span class="math inline">\(\mathbb{E}\left[\widetilde{\sigma}^{2}\right]=\operatorname{MSFE}_{n-1}\)</span>.</p>
 </section>
-<section id="covariance-matrix-estimation-under-homoskedasticity" class="level2" data-number="5.13">
-<h2 data-number="5.13" class="anchored" data-anchor-id="covariance-matrix-estimation-under-homoskedasticity"><span class="header-section-number">5.13</span> Covariance Matrix Estimation Under Homoskedasticity</h2>
+<section id="covariance-matrix-estimation-under-homoskedasticity" class="level2" data-number="4.13">
+<h2 data-number="4.13" class="anchored" data-anchor-id="covariance-matrix-estimation-under-homoskedasticity"><span class="header-section-number">4.13</span> Covariance Matrix Estimation Under Homoskedasticity</h2>
 <p>For inference we need an estimator of the covariance matrix <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}\)</span> of the least squares estimator. In this section we consider the homoskedastic regression model (Assumption 4.3).</p>
 <p>Under homoskedasticity the covariance matrix takes the simple form</p>
 <p><span class="math display">\[
@@ -819,8 +829,8 @@ s^{2}=\frac{1}{n-k} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
 \]</span></p>
 <p>(Notice that we use the fact that <span class="math inline">\(\sigma_{i}^{2}=X_{i}^{2}\)</span> implies <span class="math inline">\(\sigma^{2}=\mathbb{E}\left[\sigma_{i}^{2}\right]=\mathbb{E}\left[X^{2}\right]\)</span>.) The constant <span class="math inline">\(\kappa\)</span> is the standardized fourth moment (or kurtosis) of the regressor <span class="math inline">\(X\)</span> and can be any number greater than one. For example, if <span class="math inline">\(X \sim \mathrm{N}\left(0, \sigma^{2}\right)\)</span> then <span class="math inline">\(\kappa=3\)</span>, so the true variance <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}\)</span> is three times larger than the expected homoskedastic estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{0}\)</span>. But <span class="math inline">\(\kappa\)</span> can be much larger. Take, for example, the variable wage in the CPS data set. It satisfies <span class="math inline">\(\kappa=30\)</span> so that if the conditional variance equals <span class="math inline">\(\sigma_{i}^{2}=X_{i}^{2}\)</span> then the true variance <span class="math inline">\(\boldsymbol{V}_{\widehat{\beta}}\)</span> is 30 times larger than the expected homoskedastic estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}^{0}\)</span>. While this is an extreme case the point is that the classic covariance matrix estimator (4.35) may be quite biased when the homoskedasticity assumption fails.</p>
 </section>
-<section id="covariance-matrix-estimation-under-heteroskedasticity" class="level2" data-number="5.14">
-<h2 data-number="5.14" class="anchored" data-anchor-id="covariance-matrix-estimation-under-heteroskedasticity"><span class="header-section-number">5.14</span> Covariance Matrix Estimation Under Heteroskedasticity</h2>
+<section id="covariance-matrix-estimation-under-heteroskedasticity" class="level2" data-number="4.14">
+<h2 data-number="4.14" class="anchored" data-anchor-id="covariance-matrix-estimation-under-heteroskedasticity"><span class="header-section-number">4.14</span> Covariance Matrix Estimation Under Heteroskedasticity</h2>
 <p>In the previous section we showed that that the classic covariance matrix estimator can be highly biased if homoskedasticity fails. In this section we show how to construct covariance matrix estimators which do not require homoskedasticity.</p>
 <p>Recall that the general form for the covariance matrix is</p>
 <p><span class="math display">\[
@@ -918,8 +928,8 @@ s^{2}=\frac{1}{n-k} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
 <p>Of the four robust estimators <span class="math inline">\(\mathrm{HCl}\)</span> is the most commonly used as it is the default robust covariance matrix option in Stata. However, HC2 and HC3 are preferred. HC2 is unbiased (under homoskedasticity) and HC3 is conservative for any <span class="math inline">\(\boldsymbol{X}\)</span>. In most applications <span class="math inline">\(\mathrm{HC} 1, \mathrm{HC} 2\)</span>, and <span class="math inline">\(\mathrm{HC} 3\)</span> will be similar so this choice will not matter. The context where the estimators can differ substantially is when the sample has a large leverage value <span class="math inline">\(h_{i i}\)</span> for at least one observation. You can see this by comparing the formulas (4.37), (4.38), and (4.39) and noting that the only difference is the scaling by the leverage values <span class="math inline">\(h_{i i}\)</span>. If there is an observation with <span class="math inline">\(h_{i i}\)</span> close to one, then <span class="math inline">\(\left(1-h_{i i}\right)^{-1}\)</span> and <span class="math inline">\(\left(1-h_{i i}\right)^{-2}\)</span> will be large, giving this observation much greater weight in the covariance matrix formula.</p>
 <p><img src="images//2022_09_17_46fafb30295495354ae2g-19.jpg" class="img-fluid"></p>
 </section>
-<section id="standard-errors" class="level2" data-number="5.15">
-<h2 data-number="5.15" class="anchored" data-anchor-id="standard-errors"><span class="header-section-number">5.15</span> Standard Errors</h2>
+<section id="standard-errors" class="level2" data-number="4.15">
+<h2 data-number="4.15" class="anchored" data-anchor-id="standard-errors"><span class="header-section-number">4.15</span> Standard Errors</h2>
 <p>A variance estimator such as <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}\)</span> is an estimator of the variance of the distribution of <span class="math inline">\(\widehat{\beta}\)</span>. A more easily interpretable measure of spread is its square root - the standard deviation. This is so important when discussing the distribution of parameter estimators we have a special name for estimates of their standard deviation.</p>
 <p>Definition <span class="math inline">\(4.2\)</span> A standard error <span class="math inline">\(s(\widehat{\beta})\)</span> for a real-valued estimator <span class="math inline">\(\widehat{\beta}\)</span> is an estimator of the standard deviation of the distribution of <span class="math inline">\(\widehat{\beta}\)</span>.</p>
 <p>When <span class="math inline">\(\beta\)</span> is a vector with estimator <span class="math inline">\(\widehat{\beta}\)</span> and covariance matrix estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}\)</span>, standard errors for individual elements are the square roots of the diagonal elements of <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}\)</span>. That is,</p>
@@ -1009,8 +1019,8 @@ s\left(\widehat{\beta}_{j}\right)=s \sqrt{\left[\left(\boldsymbol{X}^{\prime} \b
 </table>
 <p>The homoskedastic standard errors are noticeably different (larger in this case) than the others. The robust standard errors are reasonably close to one another though the HC3 standard errors are larger than the others.</p>
 </section>
-<section id="estimation-with-sparse-dummy-variables" class="level2" data-number="5.16">
-<h2 data-number="5.16" class="anchored" data-anchor-id="estimation-with-sparse-dummy-variables"><span class="header-section-number">5.16</span> Estimation with Sparse Dummy Variables</h2>
+<section id="estimation-with-sparse-dummy-variables" class="level2" data-number="4.16">
+<h2 data-number="4.16" class="anchored" data-anchor-id="estimation-with-sparse-dummy-variables"><span class="header-section-number">4.16</span> Estimation with Sparse Dummy Variables</h2>
 <p>The heteroskedasticity-robust covariance matrix estimators can be quite imprecise in some contexts. One is in the presence of sparse dummy variables - when a dummy variable only takes the value 1 or 0 for very few observations. In these contexts one component of the covariance matrix is estimated on just those few observations and will be imprecise. This is effectively hidden from the user. To see the problem, let <span class="math inline">\(D\)</span> be a dummy variable (takes on the values 1 and 0 ) and consider the dummy variable regression</p>
 <p><span class="math display">\[
 Y=\beta_{1} D+\beta_{2}+e .
@@ -1087,8 +1097,8 @@ n &amp; -1 \\
 <p>A possible solution is to replace the biased covariance matrix estimator <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC1}}\)</span> with the unbiased estimator <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC} 2}\)</span> (unbiased under homoskedasticity) or the conservative estimator <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC}} .\)</span> Neither approach can be done in the extreme sparse case <span class="math inline">\(n_{1}=1\)</span> (for <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC} 2}\)</span> and <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC}}\)</span> cannot be calculated if <span class="math inline">\(h_{i i}=1\)</span> for any observation) but applies otherwise. When <span class="math inline">\(h_{i i}=1\)</span> for an observation then <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC} 2}\)</span> and <span class="math inline">\(\widehat{V}_{\widehat{\beta}_{1}}^{\mathrm{HC} 3}\)</span> cannot be calculated. In this case unbiased covariance matrix estimation appears to be impossible.</p>
 <p>It is unclear if there is a best practice to avoid this situation. Once possibility is to calculate the maximum leverage value. If it is very large calculate the standard errors using several methods to see if variation occurs.</p>
 </section>
-<section id="computation" class="level2" data-number="5.17">
-<h2 data-number="5.17" class="anchored" data-anchor-id="computation"><span class="header-section-number">5.17</span> Computation</h2>
+<section id="computation" class="level2" data-number="4.17">
+<h2 data-number="4.17" class="anchored" data-anchor-id="computation"><span class="header-section-number">4.17</span> Computation</h2>
 <p>We illustrate methods to compute standard errors for equation (3.13) extending the code of Section <span class="math inline">\(3.25 .\)</span></p>
 <p>Stata do File (continued)</p>
 <ul>
@@ -1110,8 +1120,8 @@ n &amp; -1 \\
 <p><img src="images//2022_09_17_46fafb30295495354ae2g-23.jpg" class="img-fluid"></p>
 <p><img src="images//2022_09_17_46fafb30295495354ae2g-23(1).jpg" class="img-fluid"></p>
 </section>
-<section id="measures-of-fit" class="level2" data-number="5.18">
-<h2 data-number="5.18" class="anchored" data-anchor-id="measures-of-fit"><span class="header-section-number">5.18</span> Measures of Fit</h2>
+<section id="measures-of-fit" class="level2" data-number="4.18">
+<h2 data-number="4.18" class="anchored" data-anchor-id="measures-of-fit"><span class="header-section-number">4.18</span> Measures of Fit</h2>
 <p>As we described in the previous chapter a commonly reported measure of regression fit is the regression <span class="math inline">\(R^{2}\)</span> defined as</p>
 <p><span class="math display">\[
 R^{2}=1-\frac{\sum_{i=1}^{n} \widehat{e}_{i}^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}=1-\frac{\widehat{\sigma}^{2}}{\widehat{\sigma}_{Y}^{2}} .
@@ -1134,8 +1144,8 @@ R^{2}=1-\frac{\sum_{i=1}^{n} \widehat{e}_{i}^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar
 <p>In summary, it is recommended to omit <span class="math inline">\(R^{2}\)</span> and <span class="math inline">\(\bar{R}^{2}\)</span>. If a measure of fit is desired, report <span class="math inline">\(\widetilde{R}^{2}\)</span> or <span class="math inline">\(\widetilde{\sigma}^{2}\)</span>.</p>
 <p><img src="images//2022_09_17_46fafb30295495354ae2g-24.jpg" class="img-fluid"></p>
 </section>
-<section id="empirical-example" class="level2" data-number="5.19">
-<h2 data-number="5.19" class="anchored" data-anchor-id="empirical-example"><span class="header-section-number">5.19</span> Empirical Example</h2>
+<section id="empirical-example" class="level2" data-number="4.19">
+<h2 data-number="4.19" class="anchored" data-anchor-id="empirical-example"><span class="header-section-number">4.19</span> Empirical Example</h2>
 <p>We again return to our wage equation but use a much larger sample of all individuals with at least 12 years of education. For regressors we include years of education, potential work experience, experience squared, and dummy variable indicators for the following: female, female union member, male union member, married female <span class="math inline">\({ }^{1}\)</span>, married male, formerly married female <span class="math inline">\({ }^{2}\)</span>, formerly married male, Hispanic, Black, American Indian, Asian, and mixed race <span class="math inline">\({ }^{3}\)</span>. The available sample is 46,943 so the parameter estimates are quite precise and reported in Table 4.2. For standard errors we use the unbiased HC2 formula.</p>
 <p>Table <span class="math inline">\(4.2\)</span> displays the parameter estimates in a standard tabular format. Parameter estimates and standard errors are reported for all coefficients. In addition to the coefficient estimates the table also reports the estimated error standard deviation and the sample size. These are useful summary measures of fit which aid readers.</p>
 <p>Table 4.2: OLS Estimates of Linear Equation for <span class="math inline">\(\log (\)</span> wage <span class="math inline">\()\)</span></p>
@@ -1247,8 +1257,8 @@ R^{2}=1-\frac{\sum_{i=1}^{n} \widehat{e}_{i}^{2}}{\sum_{i=1}^{n}\left(Y_{i}-\bar
 <p><span class="math inline">\({ }^{2}\)</span> Defining “formerly married” as marital code 4,5 , or 6 .</p>
 <p><span class="math inline">\({ }^{3}\)</span> Race code 6 or higher. are wage premiums for men who are members of a labor union (about <span class="math inline">\(10 %\)</span> ), married (about 21%) or formerly married (about <span class="math inline">\(8 %\)</span> ), but no similar premiums are apparent for women.</p>
 </section>
-<section id="multicollinearity" class="level2" data-number="5.20">
-<h2 data-number="5.20" class="anchored" data-anchor-id="multicollinearity"><span class="header-section-number">5.20</span> Multicollinearity</h2>
+<section id="multicollinearity" class="level2" data-number="4.20">
+<h2 data-number="4.20" class="anchored" data-anchor-id="multicollinearity"><span class="header-section-number">4.20</span> Multicollinearity</h2>
 <p>As discussed in Section 3.24, if <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> is singular then <span class="math inline">\(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\)</span> and <span class="math inline">\(\widehat{\beta}\)</span> are not defined. This situation is called strict multicollinearity as the columns of <span class="math inline">\(\boldsymbol{X}\)</span> are linearly dependent, i.e., there is some <span class="math inline">\(\alpha \neq 0\)</span> such that <span class="math inline">\(\boldsymbol{X} \alpha=0\)</span>. Most commonly this arises when sets of regressors are included which are identically related. In Section <span class="math inline">\(3.24\)</span> we discussed possible causes of strict multicollinearity and discussed the related problem of ill-conditioning which can cause numerical inaccuracies in severe cases.</p>
 <p>A related common situation is near multicollinearity which is often called “multicollinearity” for brevity. This is the situation when the regressors are highly correlated. An implication of near multicollinearity is that individual coefficient estimates will be imprecise. This is not necessarily a problem for econometric analysis if the reported standard errors are accurate. However, robust standard errors can be sensitive to large leverage values which can occur under near multicollinearity. This leads to the undesirable situation where the coefficient estimates are imprecise yet the standard errors are misleadingly small.</p>
 <p>We can see the impact of near multicollinearity on precision in a simple homoskedastic linear regression model with two regressors</p>
@@ -1319,8 +1329,8 @@ Y=X_{1} \beta_{1}+X_{2} \beta_{2}+e
 </tbody>
 </table>
 </section>
-<section id="clustered-sampling" class="level2" data-number="5.21">
-<h2 data-number="5.21" class="anchored" data-anchor-id="clustered-sampling"><span class="header-section-number">5.21</span> Clustered Sampling</h2>
+<section id="clustered-sampling" class="level2" data-number="4.21">
+<h2 data-number="4.21" class="anchored" data-anchor-id="clustered-sampling"><span class="header-section-number">4.21</span> Clustered Sampling</h2>
 <p>In Section <span class="math inline">\(4.2\)</span> we briefly mentioned clustered sampling as an alternative to the assumption of random sampling. We now introduce the framework in more detail and extend the primary results of this chapter to encompass clustered dependence.</p>
 <p>It might be easiest to understand the idea of clusters by considering a concrete example. Duflo, Dupas, and Kremer (2011) investigate the impact of tracking (assigning students based on initial test score) on educational attainment in a randomized experiment. An extract of their data set is available on the textbook webpage in the file DDK2011.</p>
 <p>In 2005, 140 primary schools in Kenya received funding to hire an extra first grade teacher to reduce class sizes. In half of the schools (selected randomly) students were assigned to classrooms based on an initial test score (“tracking”); in the remaining schools the students were randomly assigned to classrooms. For their analysis the authors restricted attention to the 121 schools which initially had a single first-grade class.</p>
@@ -1445,16 +1455,16 @@ a_{n}=\left(\frac{n-1}{n-k}\right)\left(\frac{G}{G-1}\right) .
 <p><img src="images//2022_09_17_46fafb30295495354ae2g-33.jpg" class="img-fluid"></p>
 <p>Here we see that programming clustered standard errors in MATLAB is less convenient than the other packages but still can be executed with just a few lines of code. This example uses the accumarray command which is similar to the rowsum command in <span class="math inline">\(\mathrm{R}\)</span> but only can be applied to vectors (hence the loop across the regressors) and works best if the clusterid variable are indices (which is why the original schoolid variable is transformed into indices in schoolidx. Application of these commands requires care and attention.</p>
 </section>
-<section id="inference-with-clustered-samples" class="level2" data-number="5.22">
-<h2 data-number="5.22" class="anchored" data-anchor-id="inference-with-clustered-samples"><span class="header-section-number">5.22</span> Inference with Clustered Samples</h2>
+<section id="inference-with-clustered-samples" class="level2" data-number="4.22">
+<h2 data-number="4.22" class="anchored" data-anchor-id="inference-with-clustered-samples"><span class="header-section-number">4.22</span> Inference with Clustered Samples</h2>
 <p>In this section we give some cautionary remarks and general advice about cluster-robust inference in econometric practice. There has been remarkably little theoretical research about the properties of cluster-robust methods - until quite recently - so these remarks may become dated rather quickly.</p>
 <p>In many respects cluster-robust inference should be viewed similarly to heteroskedaticity-robust inference where a “cluster” in the cluster-robust case is interpreted similarly to an “observation” in the heteroskedasticity-robust case. In particular, the effective sample size should be viewed as the number of clusters, not the “sample size” <span class="math inline">\(n\)</span>. This is because the cluster-robust covariance matrix estimator effectively treats each cluster as a single observation and estimates the covariance matrix based on the variation across cluster means. Hence if there are only <span class="math inline">\(G=50\)</span> clusters inference should be viewed as (at best) similar to heteroskedasticity-robust inference with <span class="math inline">\(n=50\)</span> observations. This is a bit unsettling when the number of regressors is large (say <span class="math inline">\(k=20\)</span> ) for then the covariance matrix will be estimated imprecisely.</p>
 <p>Furthermore, most cluster-robust theory (for example, the work of Chris Hansen (2007)) assumes that the clusters are homogeneous including the assumption that the cluster sizes are all identical. This turns out to be a very important simplication. When this is violated - when, for example, cluster sizes are highly heterogeneous - the regression should be viewed as roughly equivalent to the heteroskedastic case with an extremely high degree of heteroskedasticity. Cluster sums have variances which are proportional to the cluster sizes so if the latter is heterogeneous so will be the variances of the cluster sums. This also has a large effect on finite sample inference. When clusters are heterogeneous then cluster-robust inference is similar to heteroskedasticity-robust inference with highly heteroskedastic observations.</p>
 <p>Put together, if the number of clusters <span class="math inline">\(G\)</span> is small and the number of observations per cluster is highly varied then we should interpret inferential statements with a great degree of caution. Unfortunately, small <span class="math inline">\(G\)</span> with heterogeneous cluster sizes is commonplace. Many empirical studies on U.S. data cluster at the “state” level meaning that there are 50 or 51 clusters (the District of Columbia is typically treated as a state). The number of observations vary considerably across states since the populations are highly unequal. Thus when you read empirical papers with individual-level data but clustered at the “state” level you should be cautious and recognize that this is equivalent to inference with a small number of extremely heterogeneous observations.</p>
 <p>A further complication occurs when we are interested in treatment as in the tracking example given in the previous section. In many cases (including Duflo, Dupas, and Kremer (2011)) the interest is in the effect of a treatment applied at the cluster level (e.g., schools). In many cases (not, however, Duflo, Dupas, and Kremer (2011)), the number of treated clusters is small relative to the total number of clusters; in an extreme case there is just a single treated cluster. Based on the reasoning given above these applications should be interpreted as equivalent to heteroskedasticity-robust inference with a sparse dummy variable as discussed in Section 4.16. As discussed there, standard error estimates can be erroneously small. In the extreme of a single treated cluster (in the example, if only a single school was tracked) then the estimated coefficient on tracking will be very imprecisely estimated yet will have a misleadingly small cluster standard error. In general, reported standard errors will greatly understate the imprecision of parameter estimates.</p>
 </section>
-<section id="at-what-level-to-cluster" class="level2" data-number="5.23">
-<h2 data-number="5.23" class="anchored" data-anchor-id="at-what-level-to-cluster"><span class="header-section-number">5.23</span> At What Level to Cluster?</h2>
+<section id="at-what-level-to-cluster" class="level2" data-number="4.23">
+<h2 data-number="4.23" class="anchored" data-anchor-id="at-what-level-to-cluster"><span class="header-section-number">4.23</span> At What Level to Cluster?</h2>
 <p>A practical question which arises in the context of cluster-robust inference is “At what level should we cluster?” In some examples you could cluster at a very fine level, such as families or classrooms, or at higher levels of aggregation, such as neighborhoods, schools, towns, counties, or states. What is the correct level at which to cluster? Rules of thumb have been advocated by practitioners but at present there is little formal analysis to provide useful guidance. What do we know?</p>
 <p>First, suppose cluster dependence is ignored or imposed at too fine a level (e.g.&nbsp;clustering by households instead of villages). Then variance estimators will be biased as they will omit covariance terms. As correlation is typically positive, this suggests that standard errors will be too small giving rise to spurious indications of significance and precision.</p>
 <p>Second, suppose cluster dependence is imposed at too aggregate a measure (e.g.&nbsp;clustering by states rather than villages). This does not cause bias. But the variance estimators will contain many extra components so the precision of the covariance matrix estimator will be poor. This means that reported standard errors will be imprecise - more random - than if clustering had been less aggregate.</p>
@@ -1462,8 +1472,8 @@ a_{n}=\left(\frac{n-1}{n-k}\right)\left(\frac{G}{G-1}\right) .
 <p>In any event a researcher should be aware of the number of clusters used in the reported calculations and should treat the number of clusters as the effective sample size for assessing inference. If the number of clusters is, say, <span class="math inline">\(G=20\)</span>, this should be treated as a very small sample.</p>
 <p>To illustrate the thought experiment consider the empirical example of Duflo, Dupas, and Kremer (2011). They reported standard errors clustered at the school level and the application uses 111 schools. Thus <span class="math inline">\(G=111\)</span> is the effective sample size. The number of observations (students) ranges from 19 to 62 , which is reasonably homogeneous. This seems like a well balanced application of clustered variance estimation. However, one could imagine clustering at a different level of aggregation. We might consider clustering at a less aggregate level such as the classroom level, but this cannot be done in this particular application as there was only one classroom per school. Clustering at a more aggregate level could be done in this application at the level of the “zone”. However, there are only 9 zones. Thus if we cluster by zone, <span class="math inline">\(G=9\)</span> is the effective sample size which would lead to imprecise standard errors. In this particular example clustering at the school level (as done by the authors) is indeed the prudent choice.</p>
 </section>
-<section id="technical-proofs" class="level2" data-number="5.24">
-<h2 data-number="5.24" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">5.24</span> Technical Proofs*</h2>
+<section id="technical-proofs" class="level2" data-number="4.24">
+<h2 data-number="4.24" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">4.24</span> Technical Proofs*</h2>
 <p>Proof of Theorems <span class="math inline">\(\mathbf{4 . 4}\)</span> and <span class="math inline">\(\mathbf{4 . 5}\)</span> Theorem <span class="math inline">\(4.4\)</span> is a special case so we focus on Theorem 4.5. This argument is taken from B. E. Hansen (2021).</p>
 <p>Our approach is to calculate the Cramér-Rao bound for a carefully crafted parametric model. This is based on an insight of Newey (1990, Appendix B) for the simpler context of a population expectation.</p>
 <p>Without loss of generality, assume that the true coefficient equals <span class="math inline">\(\beta_{0}=0\)</span> and that <span class="math inline">\(\sigma^{2}=1\)</span>. These are merely normalizations which simplify the notation. Also assume that <span class="math inline">\(\boldsymbol{Y}\)</span> has a joint density <span class="math inline">\(f(\boldsymbol{y})\)</span>. This assumption can be avoided through use of the Radon-Nikodym derivative.</p>
@@ -1546,8 +1556,8 @@ S &amp;=\left.\frac{\partial}{\partial \beta} \log f_{\beta}(\boldsymbol{Y})\rig
 \]</span></p>
 <p>This is the variance lower bound.</p>
 </section>
-<section id="exercises" class="level2" data-number="5.25">
-<h2 data-number="5.25" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.25</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="4.25">
+<h2 data-number="4.25" class="anchored" data-anchor-id="exercises"><span class="header-section-number">4.25</span> Exercises</h2>
 <p>Exercise 4.1 For some integer <span class="math inline">\(k\)</span>, set <span class="math inline">\(\mu_{k}=\mathbb{E}\left[Y^{k}\right]\)</span>.</p>
 <ol type="a">
 <li><p>Construct an estimator <span class="math inline">\(\widehat{\mu}_{k}\)</span> for <span class="math inline">\(\mu_{k}\)</span>.</p></li>
@@ -1785,13 +1795,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chpt03-algebra.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></span>
+      <a href="./chpt03-algebra-chn.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">最小二乘代数</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chpt05-normal-reg.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Normal Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

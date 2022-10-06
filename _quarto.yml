@@ -14,11 +14,13 @@ book:
     - index.qmd
     - participate.qmd
     - chpt01-intro.qmd
+    - chpt01-intro-chn.qmd
     - part: part01-reg.qmd
       chapters: 
         - chpt02-ce.qmd
         - chpt02-ce-chn.qmd
         - chpt03-algebra.qmd
+        - chpt03-algebra-chn.qmd
         - chpt04-lsr.qmd
         - chpt05-normal-reg.qmd
     - part: part02-LSM.qmd
@@ -47,6 +49,12 @@ format:
     theme: cosmo
     cover-image: pic/cover-hansen.jpg
     code-link: true
+    toc: true
+    toc-depth: 3
+    toc_float: true
+    toc-location: left
+    toc-title: 目录
+    #css: mycss/layout-style.css
 
 
 

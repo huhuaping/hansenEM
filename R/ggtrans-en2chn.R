@@ -10,7 +10,8 @@ require(here)
 require(googleLanguageR)
 
 # ==== read file ====
-file_path <- here("chpt01-intro.qmd")
+# file_path <- here("chpt01-intro.qmd")
+file_path <- chpt_path
 tbl_tex <- readLines(file_path) %>%
   as_tibble() %>%
   rename("text" = "value") %>%

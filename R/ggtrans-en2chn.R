@@ -1,170 +1,24 @@
----
-title: "Untitled"
-format: 
-  html:
-    self-contained: true
-    self-contained-math: true
-    
----
 
-
-## 准备R包
-
-```{r}
+# ==== pkgs ====
 require(knitr)
 require(tidyverse)
 require(stringr)
+require(mgsub)
 require(purrr)
 require(here)
 #renv::install("ropensci/googleLanguageR")
 require(googleLanguageR)
 
-#renv::install("keyring")
-library("keyring")
-# the package is not on cran now
-#renv::install("ChristopherLucas/translateR")
-require("translateR")
-#renv::install("textreadr")
-require("textreadr")
-
-```
-
-## 准备测试文本
-
-```{r}
-file_path <- here("chpt02-ce.qmd")
+# ==== read file ====
+file_path <- here("chpt01-intro.qmd")
 tbl_tex <- readLines(file_path) %>%
   as_tibble() %>%
   rename("text" = "value") %>%
   add_column(row = 1:nrow(.), 
              .before = "text")
 
-# tibble contains all contents
-tbl_text <- tbl_tex %>%
-  filter(text!="")
+# ==== step 1 handle math environment ====
 
-# string of vector
-text_vector <- tbl_text %>%
-  filter(str_detect(text, "An alternative notation which includes both discrete and continuous")) %>%
-  pull(text)
-
-# string of data frame
-text_dt <- tbl_text %>%
-  .[178:181,]
-
-
-```
-
-
-## 方法1：translateR::translate
-
-### 设置翻译接口
-
-google clound平台的相关准备工作。
-
-- `id`为project id（项目 ID）。
-
-- `token`为API密钥：my project $\Rightarrow$ API和服务 $\Rightarrow$ 凭据 $\Rightarrow$ API密钥 $\Rightarrow$ 显示密钥
-
-```{r, eval=FALSE}
-# this will run only once
-# make secretes
-keyring::keyring_create("gg-translation2022")
-keyring::key_set("token", keyring = "gg-translation2022")
-
-### donot forget to lock the keyring after use
-keyring::keyring_lock("gg-translation22")
-
-# make secretes
-keyring::keyring_create("ms-translation22")
-keyring::key_set("id", keyring = "ms-translation22")
-keyring::key_set("secret", keyring = "ms-translation22")
-### donot forget to lock the keyring after use
-keyring::keyring_lock("ms-translation22")
-```
-
-### 文本翻译：dataframe
-
-```{r, eval=FALSE, echo=TRUE}
-# translate the data frame
-result <- translateR::translate(
-  dataset = text_dt, 
-  content.field = "text",
-  google.api.key = list(
-    key=keyring::key_get(
-      "token", 
-      keyring = "gg-translation2022")
-    ),
-  source.lang = "en",
-  target.lang = "zh-CN") 
-
-file_path <- here("data/ggtrans/trans2dt.rds")
-write_rds(result, file_path)
-```
-
-```{r, echo=TRUE}
-file_path <- here("data/ggtrans/trans2dt.rds")
-string_dt <- read_rds(file_path)
-
-kable(string_dt)
-```
-
-
-### 文本翻译：vector
-
-```{r, eval=FALSE, echo=TRUE}
-# translate the data frame
-result <- translateR::translate(
-  content.vec = text_dt$text, 
-  google.api.key = list(
-    key=keyring::key_get(
-      "token", 
-      keyring = "gg-translation2022")
-    ),
-  source.lang = "en",
-  target.lang = "zh-CN") 
-
-
-file_path <- here("data/ggtrans/trans2vec.rds")
-write_rds(result, file_path)
-```
-
-```{r, echo=TRUE}
-file_path <- here("data/ggtrans/trans2vec.rds")
-string_vec <- read_rds(file_path)
-
-string_vec
-```
-
-
-## 方法2：googleLanguageR
-
-```{r, eval=FALSE, echo=TRUE}
-# translate with google translate API
-#renv::install("ropensci/googleLanguageR")
-#gl_auth("C:/Users/huhua/json/googleLanguageR.json")
-library(googleLanguageR)
-gl_auth("C:/Users/huhua/json/googleLanguageR.json")
-
-result <- gl_translate(
-  t_string = text_vector, 
-  target = "zh-CN")$translatedText
-
-file_path <- here("data/ggtrans/trans2vec_open.rds")
-write_rds(result, file_path)
-```
-
-```{r, echo=TRUE}
-file_path <- here("data/ggtrans/trans2vec_open.rds")
-string_vec <- read_rds(file_path)
-
-string_vec
-```
-
-
-## 处理公式环境（双美元符号对）
-
-```{r}
 tbl_dollar <- tbl_tex %>%
   mutate(
     double_dollar = str_detect(text, "^\\$\\$$"),
@@ -172,38 +26,52 @@ tbl_dollar <- tbl_tex %>%
     index_detect = ifelse(
       double_dollar==TRUE, 
       index_raw,NA)
-    ) 
+  ) 
 
 # identify position
 lines <- tbl_dollar %>% 
   filter(!is.na(index_detect)) %>%
   pull(index_detect)
 
-# assumes existing perfect paired double dollar symbols
-row_tar <- seq_len(length(lines))%%2  # row indicator
-lines_star <- lines[row_tar==1]   # start row (odd)
-lines_end <- lines[row_tar==0]   # end row (enven)
 
-lines_tar <- NULL
-for (i in 1:length(lines_star)){
-  lines_tem <- lines_star[i]:lines_end[i]
-  lines_tar <- c(lines_tar, lines_tem)
+
+if (length(lines) >0) {
+  # case exist math environment
+  # assumes existing perfect paired double dollar symbols
+  row_tar <- seq_len(length(lines))%%2  # row indicator
+  lines_star <- lines[row_tar==1]   # start row (odd)
+  lines_end <- lines[row_tar==0]   # end row (enven)
+  
+  lines_tar <- NULL
+  for (i in 1:length(lines_star)){
+    lines_tem <- lines_star[i]:lines_end[i]
+    lines_tar <- c(lines_tar, lines_tem)
+  }
+  
+  tbl_dollar  <- tbl_dollar %>%
+    # tag lines within double dollar pairs
+    mutate(
+      dollars = ifelse(
+        index_raw %in% lines_tar, 
+        TRUE, FALSE)
+    )
+} else {
+  # case no math environment
+  tbl_dollar  <- tbl_dollar %>%
+    # tag lines within double dollar pairs
+    mutate( dollars = FALSE )
 }
+
+
 
 # tag it 
 tbl_work <- tbl_dollar  %>%
-  # tag lines within double dollar pairs
-  mutate(
-    dollars = ifelse(
-      index_raw %in% lines_tar, 
-      TRUE, FALSE)
-    ) %>%
   mutate(
     tabs = str_detect(text, "^\\|.*?\\|$")) %>%
   # tag lines of markdown image
   mutate(
     img = str_detect(text, "^\\!\\[\\]\\(images")
-    ) %>%
+  ) %>%
   # tag empty lines
   mutate(
     empty = ifelse(text=="", TRUE, FALSE)
@@ -215,21 +83,20 @@ tbl_work <- tbl_dollar  %>%
       TRUE, FALSE)
   ) %>%
   # tag heading
-  mutate(heading = str_extract(text, "^#{1,3}"),
-         text_nohash = str_replace_all(text, "(^#{1,3})", ""))
-```
+  mutate(
+    heading = str_extract(text, "^#{1,3}"),
+    text_nohash = str_replace_all(text, "(^#{1,3})", "")
+    )
 
+# ===== Helper Translate paragraph =====
 
-## (辅助函数)翻译段落
-
-```{r}
 #' Translate paragraph contains math symbol whin sigle dollar symbol pairs.
 #'
 #' @param text character. Target character paragraph.
 #' @param auth character. File path of googleLanguageR API authorized json file
 #'
 #' @return
-#' @export
+#' @export trans_mathParagraph
 #'
 #' @examples
 #' math_complex <- tbl_work$text[1]
@@ -252,12 +119,12 @@ trans_mathParagraph <- function(text, auth) {
     string =  text, 
     pattern = "\\\\\\$",
     replacement = "us_dollar"
-    )
+  )
   
   # now we split whole paragraph
   split_raw <- strsplit(text,
-              split = "(?=[\\$])",
-              perl = TRUE) %>% 
+                        split = "(?=[\\$])",
+                        perl = TRUE) %>% 
     unlist()
   lines <- grep("\\$", split_raw)
   
@@ -281,7 +148,7 @@ trans_mathParagraph <- function(text, auth) {
     # text of handle math
     lines_handle[i] <- lines_eq
   }
-   
+  
   # paste as paragraphs
   paragraph_handle <- paste0(split_handle, collapse = "")
   # now translate it
@@ -292,8 +159,8 @@ trans_mathParagraph <- function(text, auth) {
   
   # then re-split the paragraph
   split_trans <- strsplit(trans_result,
-              split = "(?=[\\$])",
-              perl = TRUE) %>% 
+                          split = "(?=[\\$])",
+                          perl = TRUE) %>% 
     unlist()
   
   # bug fix: inline math with chn characters, such as "$matheq4 之间$"
@@ -328,15 +195,12 @@ trans_mathParagraph <- function(text, auth) {
     string =  paragraph_final, 
     pattern = "us_dollar",
     replacement = "\\\\\\$"
-    )
+  )
   return(paragraph_final)
 }
 
-```
+# ==== step 2 translate paragraphs ====
 
-## 翻译公式段落
-
-```{r}
 n_pars <- sum(tbl_work$gotrans)
 auth_json <- "C:/Users/huhua/json/googleLanguageR.json"
 
@@ -349,16 +213,16 @@ tbl_trans <- tbl_work %>%
       .x = text_nohash, .y = gotrans,
       .f = function(x,y){
         if(y==TRUE) {
-          out <- trans_mathParagraph(
+          out <- trans_mathParagraph( #custom function
             text = x,
             auth = auth_json)
-          } else{
+        } else{
           out <- ""
-          }
-      return(out)
+        }
+        return(out)
       }
-      )
     )
+  )
 
 # now tidy the result
 tbl_tidy <- tbl_trans %>%
@@ -367,88 +231,40 @@ tbl_tidy <- tbl_trans %>%
       str_detect(heading,"^#{1,3}"),
       str_c(heading, chn, sep = " "),
       chn)
-    ) %>%
+  ) %>%
   mutate( # add other chn
     text_tidy = ifelse(
       is.na(text_tidy),
       chn, text_tidy
-      )
+    )
   ) %>%
   mutate(     # fill other lines
     text_tidy = ifelse(
       text_tidy=="",
       text, text_tidy
-      )
+    )
   )
 
-```
-
-## 导出为qmd文件（翻译后）
-
-```{r}
+# ==== write out qmd file ====
 file_base <- basename(path = file_path)
 file_out <- here(
   paste0(
     "trans/",
     str_replace(file_base, "\\.qmd$","-chn\\.qmd")
-    )
   )
+)
 # write out all modified text
 writeLines(unlist(tbl_tidy$text_tidy), file_out)
-  
-```
 
+# ==== export out final table ====
 
-## 导出翻译后的表格
-
-考虑到google translation API 需要收费。
-
-
-```{r}
 file_base <- basename(path = file_path)
 file_out <- here(
   paste0(
     "trans/",
     str_replace(file_base, "\\.qmd$","-chn\\.rds")
-    )
   )
+)
 
 # write table
 write_rds(tbl_tidy, file_out)
-```
-
-
-# bug fix
-
-
-
-
-```{r}
-file_path <- here("trans/bug-fix.qmd")
-txt <- readLines(file_path)
-
-library(mgsub)
-txt <- mgsub::mgsub(
-  txt[1], 
-  "\\\\\\$",
-  "us_dollar"
-  )
-
-txt <- unlist(strsplit(
-  x = txt,
-  split = "(?=[\\$])",
-  perl =TRUE))
-
-
-txt <- mgsub::mgsub(txt, "us_dollar","\\\\\\$")
-
-txt <- paste0(txt, collapse = "")
-cat(txt)
-
-gl_auth("C:/Users/huhua/json/googleLanguageR.json")
-result <- gl_translate(
-  t_string = txt, 
-  target = "zh-CN")$translatedText
-
-```
-

@@ -840,6 +840,14 @@
         "nlme"
       ]
     },
+    "mgsub": {
+      "Package": "mgsub",
+      "Version": "1.7.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5b5167274e8a738ecb62ed6aa8bb664d",
+      "Requirements": []
+    },
     "mime": {
       "Package": "mime",
       "Version": "0.12",
@@ -1294,17 +1302,22 @@
     },
     "tex2rmd": {
       "Package": "tex2rmd",
-      "Version": "0.0.21",
+      "Version": "0.0.22",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteUsername": "huhuaping",
       "RemoteRepo": "tex2rmd",
       "RemoteRef": "master",
-      "RemoteSha": "b033fa1fb68ee1f39e77975f951d343effaede3c",
-      "Hash": "b9c8b952d089bd27339bbaa6a44d519d",
+      "RemoteSha": "b30d6eaddcec11398803a52ca9a3b5055e591a3b",
+      "Hash": "dbaa7697ac3fc1b1f19558a19e5eaa0b",
       "Requirements": [
-        "stringr"
+        "magrittr",
+        "purrr",
+        "stringr",
+        "tidyr",
+        "tidyselect",
+        "tidyverse"
       ]
     },
     "textreadr": {

@@ -7,13 +7,12 @@ require(stringr)
 
 files_tar <- list.files("mathpix/")
 qmd_tar <- str_replace_all(files_tar, "\\.tex","\\.qmd")
-paste0(qmd_tar,collapse = " ")
-
+#paste0(qmd_tar,collapse = " ")
 
 input_md <- list.files("mathpix/",full.names = T)
 
-i <- 2
-for (i in 1:length(input_md)) {
+i <- 29
+for (i in 26:length(input_md)) {
   
   tex2rmd::tex2rmd(infile = input_md[i],
           ext_out = ".qmd",

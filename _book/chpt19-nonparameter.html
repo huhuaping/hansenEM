@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 18&nbsp; Nonparametric Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt20-series-reg.html" rel="next">
+<link href="./part05-nonpar.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">18.1</span>  Introduction</a></li>
+  <li><a href="#binned-means-estimator" id="toc-binned-means-estimator" class="nav-link" data-scroll-target="#binned-means-estimator"><span class="toc-section-number">18.2</span>  Binned Means Estimator</a></li>
+  <li><a href="#kernel-regression" id="toc-kernel-regression" class="nav-link" data-scroll-target="#kernel-regression"><span class="toc-section-number">18.3</span>  Kernel Regression</a></li>
+  <li><a href="#local-linear-estimator" id="toc-local-linear-estimator" class="nav-link" data-scroll-target="#local-linear-estimator"><span class="toc-section-number">18.4</span>  Local Linear Estimator</a></li>
+  <li><a href="#local-polynomial-estimator" id="toc-local-polynomial-estimator" class="nav-link" data-scroll-target="#local-polynomial-estimator"><span class="toc-section-number">18.5</span>  Local Polynomial Estimator</a></li>
+  <li><a href="#asymptotic-bias" id="toc-asymptotic-bias" class="nav-link" data-scroll-target="#asymptotic-bias"><span class="toc-section-number">18.6</span>  Asymptotic Bias</a></li>
+  <li><a href="#asymptotic-variance" id="toc-asymptotic-variance" class="nav-link" data-scroll-target="#asymptotic-variance"><span class="toc-section-number">18.7</span>  Asymptotic Variance</a></li>
+  <li><a href="#aimse" id="toc-aimse" class="nav-link" data-scroll-target="#aimse"><span class="toc-section-number">18.8</span>  AIMSE</a></li>
+  <li><a href="#reference-bandwidth" id="toc-reference-bandwidth" class="nav-link" data-scroll-target="#reference-bandwidth"><span class="toc-section-number">18.9</span>  Reference Bandwidth</a></li>
+  <li><a href="#estimation-at-a-boundary" id="toc-estimation-at-a-boundary" class="nav-link" data-scroll-target="#estimation-at-a-boundary"><span class="toc-section-number">18.10</span>  Estimation at a Boundary</a></li>
+  <li><a href="#nonparametric-residuals-and-prediction-errors" id="toc-nonparametric-residuals-and-prediction-errors" class="nav-link" data-scroll-target="#nonparametric-residuals-and-prediction-errors"><span class="toc-section-number">18.11</span>  Nonparametric Residuals and Prediction Errors</a></li>
+  <li><a href="#cross-validation-bandwidth-selection" id="toc-cross-validation-bandwidth-selection" class="nav-link" data-scroll-target="#cross-validation-bandwidth-selection"><span class="toc-section-number">18.12</span>  Cross-Validation Bandwidth Selection</a></li>
+  <li><a href="#asymptotic-distribution" id="toc-asymptotic-distribution" class="nav-link" data-scroll-target="#asymptotic-distribution"><span class="toc-section-number">18.13</span>  Asymptotic Distribution</a></li>
+  <li><a href="#undersmoothing" id="toc-undersmoothing" class="nav-link" data-scroll-target="#undersmoothing"><span class="toc-section-number">18.14</span>  Undersmoothing</a></li>
+  <li><a href="#conditional-variance-estimation" id="toc-conditional-variance-estimation" class="nav-link" data-scroll-target="#conditional-variance-estimation"><span class="toc-section-number">18.15</span>  Conditional Variance Estimation</a></li>
+  <li><a href="#variance-estimation-and-standard-errors" id="toc-variance-estimation-and-standard-errors" class="nav-link" data-scroll-target="#variance-estimation-and-standard-errors"><span class="toc-section-number">18.16</span>  Variance Estimation and Standard Errors</a></li>
+  <li><a href="#confidence-bands" id="toc-confidence-bands" class="nav-link" data-scroll-target="#confidence-bands"><span class="toc-section-number">18.17</span>  Confidence Bands</a></li>
+  <li><a href="#the-local-nature-of-kernel-regression" id="toc-the-local-nature-of-kernel-regression" class="nav-link" data-scroll-target="#the-local-nature-of-kernel-regression"><span class="toc-section-number">18.18</span>  The Local Nature of Kernel Regression</a></li>
+  <li><a href="#application-to-wage-regression" id="toc-application-to-wage-regression" class="nav-link" data-scroll-target="#application-to-wage-regression"><span class="toc-section-number">18.19</span>  Application to Wage Regression</a></li>
+  <li><a href="#clustered-observations" id="toc-clustered-observations" class="nav-link" data-scroll-target="#clustered-observations"><span class="toc-section-number">18.20</span>  Clustered Observations</a></li>
+  <li><a href="#application-to-testscores" id="toc-application-to-testscores" class="nav-link" data-scroll-target="#application-to-testscores"><span class="toc-section-number">18.21</span>  Application to Testscores</a></li>
+  <li><a href="#multiple-regressors" id="toc-multiple-regressors" class="nav-link" data-scroll-target="#multiple-regressors"><span class="toc-section-number">18.22</span>  Multiple Regressors</a></li>
+  <li><a href="#curse-of-dimensionality" id="toc-curse-of-dimensionality" class="nav-link" data-scroll-target="#curse-of-dimensionality"><span class="toc-section-number">18.23</span>  Curse of Dimensionality</a></li>
+  <li><a href="#partially-linear-regression" id="toc-partially-linear-regression" class="nav-link" data-scroll-target="#partially-linear-regression"><span class="toc-section-number">18.24</span>  Partially Linear Regression</a></li>
+  <li><a href="#computation" id="toc-computation" class="nav-link" data-scroll-target="#computation"><span class="toc-section-number">18.25</span>  Computation</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">18.26</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">18.27</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt19-nonparameter.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">18.1</span> Introduction</h2>
+<p>We now turn to nonparametric estimation of the conditional expectation function (CEF)</p>
+<p><span class="math display">\[
+\mathbb{E}[Y \mid X=x]=m(x) .
+\]</span></p>
+<p>Unless an economic model restricts the form of <span class="math inline">\(m(x)\)</span> to a parametric function, <span class="math inline">\(m(x)\)</span> can take any nonlinear shape and is therefore nonparametric. In this chapter we discuss nonparametric kernel smoothing estimators of <span class="math inline">\(m(x)\)</span>. These are related to the nonparametric density estimators of Chapter 17 of Probability and Statistics for Economists. In Chapter 20 of this textbook we explore estimation by series methods.</p>
+<p>There are many excellent monographs written on nonparametric regression estimation, including Härdle (1990), Fan and Gijbels (1996), Pagan and Ullah (1999), and Li and Racine (2007).</p>
+<p>To get started, suppose that there is a single real-valued regressor <span class="math inline">\(X\)</span>. We consider the case of vectorvalued regressors later. The nonparametric regression model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=m(X)+e \\
+\mathbb{E}[e \mid X] &amp;=0 \\
+\mathbb{E}\left[e^{2} \mid X\right] &amp;=\sigma^{2}(X) .
+\end{aligned}
+\]</span></p>
+<p>We assume that we have <span class="math inline">\(n\)</span> observations for the pair <span class="math inline">\((Y, X)\)</span>. The goal is to estimate <span class="math inline">\(m(x)\)</span> either at a single point <span class="math inline">\(x\)</span> or at a set of points. For most of our theory we focus on estimation at a single point <span class="math inline">\(x\)</span> which is in the interior of the support of <span class="math inline">\(X\)</span>.</p>
+<p>In addition to the conventional regression assumptions we assume that both <span class="math inline">\(m(x)\)</span> and <span class="math inline">\(f(x)\)</span> (the marginal density of <span class="math inline">\(X\)</span> ) are continuous in <span class="math inline">\(x\)</span>. For our theoretical treatment we assume that the observations are i.i.d. The methods extend to dependent observations but the theory is more advanced. See Fan and Yao (2003). We discuss clustered observations in Section 19.20.</p>
+</section>
+<section id="binned-means-estimator" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="binned-means-estimator"><span class="header-section-number">18.2</span> Binned Means Estimator</h2>
+<p>For clarity, fix the point <span class="math inline">\(x\)</span> and consider estimation of <span class="math inline">\(m(x)\)</span>. This is the expectation of <span class="math inline">\(Y\)</span> for random pairs <span class="math inline">\((Y, X)\)</span> such that <span class="math inline">\(X=x\)</span>. If the distribution of <span class="math inline">\(X\)</span> were discrete then we could estimate <span class="math inline">\(m(x)\)</span> by taking the average of the sub-sample of observations <span class="math inline">\(Y_{i}\)</span> for which <span class="math inline">\(X_{i}=x\)</span>. But when <span class="math inline">\(X\)</span> is continuous then the probability is zero that <span class="math inline">\(X\)</span> exactly equals <span class="math inline">\(x\)</span>. So there is no sub-sample of observations with <span class="math inline">\(X=x\)</span> and this estimation idea is infeasible. However, if <span class="math inline">\(m(x)\)</span> is continuous then it should be possible to get a good approximation by taking the average of the observations for which <span class="math inline">\(X_{i}\)</span> is close to <span class="math inline">\(x\)</span>, perhaps for the observations for which <span class="math inline">\(\left|X_{i}-x\right| \leq h\)</span> for some small <span class="math inline">\(h&gt;0\)</span>. As for the case of density estimation we call <span class="math inline">\(h\)</span> a bandwidth. This binned means estimator can be written as</p>
+<p><span class="math display">\[
+\widehat{m}(x)=\frac{\sum_{i=1}^{n} \mathbb{1}\left\{\left|X_{i}-x\right| \leq h\right\} Y_{i}}{\sum_{i=1}^{n} \mathbb{1}\left\{\left|X_{i}-x\right| \leq h\right\}} .
+\]</span></p>
+<p>This is an step function estimator of the regression function <span class="math inline">\(m(x)\)</span>.</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-02.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Nadaraya-Watson</li>
+</ol>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-02(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Local Linear</li>
+</ol>
+<p>Figure 19.1: Nadaraya-Watson and Local Linear Regression</p>
+<p>To visualize, Figure 19.1(a) displays a scatter plot of 100 random pairs <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> generated by simulation. The observations are displayed as the open circles. The estimator (19.1) of <span class="math inline">\(m(x)\)</span> at <span class="math inline">\(x=1\)</span> with <span class="math inline">\(h=1\)</span> is the average of the <span class="math inline">\(Y_{i}\)</span> for the observations such that <span class="math inline">\(X_{i}\)</span> falls in the interval [ <span class="math inline">\(\left.0 \leq X_{i} \leq 2\right]\)</span>. This estimator is <span class="math inline">\(\widehat{m}(1)\)</span> and is shown on Figure 19.1(a) by the first solid square. We repeat the calculation (19.1) for <span class="math inline">\(x=3\)</span>, 5,7 , and 9, which is equivalent to partitioning the support of <span class="math inline">\(X\)</span> into the bins <span class="math inline">\([0,2]\)</span>, [2,4], <span class="math inline">\([4,6],[6,8]\)</span>, and <span class="math inline">\([8,10]\)</span>. These bins are shown in Figure 19.1(a) by the vertical dotted lines and the estimates <span class="math inline">\((19.1)\)</span> by the five solid squares.</p>
+<p>The binned estimator <span class="math inline">\(\widehat{m}(x)\)</span> is the step function which is constant within each bin and equals the binned mean. In Figure 19.1(a) it is displayed by the horizontal dashed lines which pass through the solid squares. This estimate roughly tracks the central tendency of the scatter of the observations <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span>. However, the huge jumps at the edges of the partitions are disconcerting, counter-intuitive, and clearly an artifact of the discrete binning.</p>
+<p>If we take another look at the estimation formula (19.1) there is no reason why we need to evaluate (19.1) only on a course grid. We can evaluate <span class="math inline">\(\widehat{m}(x)\)</span> for any set of values of <span class="math inline">\(x\)</span>. In particular, we can evaluate (19.1) on a fine grid of values of <span class="math inline">\(x\)</span> and thereby obtain a smoother estimate of the CEF. This estimator is displayed in Figure 19.1(a) with the solid line. We call this estimator “Rolling Binned Means”. This is a generalization of the binned estimator and by construction passes through the solid squares. It turns out that this is a special case of the Nadaraya-Watson estimator considered in the next section. This estimator, while less abrupt than the Binned Means estimator, is still quite jagged.</p>
+</section>
+<section id="kernel-regression" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="kernel-regression"><span class="header-section-number">18.3</span> Kernel Regression</h2>
+<p>One deficiency with the estimator (19.1) is that it is a step function in <span class="math inline">\(x\)</span> even when evaluated on a fine grid. That is why its plot in Figure <span class="math inline">\(19.1\)</span> is jagged. The source of the discontinuity is that the weights are discontinuous indicator functions. If instead the weights are continuous functions then <span class="math inline">\(\widehat{m}(x)\)</span> will also be continuous in <span class="math inline">\(x\)</span>. Appropriate weight functions are called kernel functions.</p>
+<p>Definition 19.1 A (second-order) kernel function <span class="math inline">\(K(u)\)</span> satisfies</p>
+<ol type="1">
+<li><p><span class="math inline">\(0 \leq K(u) \leq \bar{K}&lt;\infty\)</span></p></li>
+<li><p><span class="math inline">\(K(u)=K(-u)\)</span>,</p></li>
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty} K(u) d u=1\)</span>,</p></li>
+<li><p><span class="math inline">\(\int_{-\infty}^{\infty}|u|^{r} K(u) d u&lt;\infty\)</span> for all positive integers <span class="math inline">\(r\)</span>.</p></li>
+</ol>
+<p>Essentially, a kernel function is a bounded probability density function which is symmetric about zero. Assumption 19.1.4 is not essential for most results but is a convenient simplification and does not exclude any kernel function used in standard empirical practice. Some of the mathematical expressions are simplified if we restrict attention to kernels whose variance is normalized to unity.</p>
+<p>Definition 19.2 A normalized kernel function satisfies <span class="math inline">\(\int_{-\infty}^{\infty} u^{2} K(u) d u=1\)</span>.</p>
+<p>There are a large number of functions which satisfy Definition 19.1, and many are programmed as options in statistical packages. We list the most important in Table <span class="math inline">\(19.1\)</span> below: the Rectangular, Gaussian, Epanechnikov, Triangular, and Biweight kernels. In practice it is unnecessary to consider kernels beyond these five. For nonparametric regression we recommend either the Gaussian or Epanechnikov kernel, and either will give similar results. In Table <span class="math inline">\(19.1\)</span> we express the kernels in normalized form.</p>
+<p>For more discussion on kernel functions see Chapter 17 of Probability and Statistics for Economists. A generalization of (19.1) is obtained by replacing the indicator function with a kernel function:</p>
+<p><span class="math display">\[
+\widehat{m}_{\mathrm{nw}}(x)=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Y_{i}}{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)} .
+\]</span></p>
+<p>The estimator (19.2) is known as the Nadaraya-Watson estimator, the kernel regression estimator, or the local constant estimator, and was introduced independently by Nadaraya (1964) and Watson (1964).</p>
+<p>The rolling binned means estimator (19.1) is the Nadarya-Watson estimator with the rectangular kernel. The Nadaraya-Watson estimator (19.2) can be used with any standard kernel and is typically estimated using the Gaussian or Epanechnikov kernel. In general we recommend the Gaussian kernel because it produces an estimator <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(x)\)</span> which possesses derivatives of all orders.</p>
+<p>The bandwidth <span class="math inline">\(h\)</span> plays a similar role in kernel regression as in kernel density estimation. Namely, larger values of <span class="math inline">\(h\)</span> will result in estimates <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(x)\)</span> which are smoother in <span class="math inline">\(x\)</span>, and smaller values of <span class="math inline">\(h\)</span> will result in estimates which are more erratic. It might be helpful to consider the two extreme cases <span class="math inline">\(h \rightarrow 0\)</span> Table 19.1: Common Normalized Second-Order Kernels</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-04.jpg" class="img-fluid"></p>
+<p>and <span class="math inline">\(h \rightarrow \infty\)</span>. As <span class="math inline">\(h \rightarrow 0\)</span> we can see that <span class="math inline">\(\widehat{m}_{\mathrm{nw}}\left(X_{i}\right) \rightarrow Y_{i}\)</span> (if the values of <span class="math inline">\(X_{i}\)</span> are unique), so that <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(x)\)</span> is simply the scatter of <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(X_{i}\)</span>. In contrast, as <span class="math inline">\(h \rightarrow \infty\)</span> then <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(x) \rightarrow \bar{Y}\)</span>, the sample mean. For intermediate values of <span class="math inline">\(h, \widehat{m}_{\mathrm{nw}}(x)\)</span> will smooth between these two extreme cases.</p>
+<p>The estimator (19.2) using the Gaussian kernel and <span class="math inline">\(h=1 / \sqrt{3}\)</span> is also displayed in Figure 19.1(a) with the long dashes. As you can see, this estimator appears to be much smoother than the binned estimator but tracks exactly the same path. The bandwidth <span class="math inline">\(h=1 / \sqrt{3}\)</span> for the Gaussian kernel is equivalent to the bandwidth <span class="math inline">\(h=1\)</span> for the binned estimator because the latter is a kernel estimator using the rectangular kernel scaled to have a standard deviation of <span class="math inline">\(1 / 3\)</span>.</p>
+</section>
+<section id="local-linear-estimator" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="local-linear-estimator"><span class="header-section-number">18.4</span> Local Linear Estimator</h2>
+<p>The Nadaraya-Watson (NW) estimator is often called a local constant estimator as it locally (about <span class="math inline">\(x\)</span> ) approximates <span class="math inline">\(m(x)\)</span> as a constant function. One way to see this is to observe that <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(x)\)</span> solves the minimization problem</p>
+<p><span class="math display">\[
+\widehat{m}_{\mathrm{nw}}(x)=\underset{m}{\operatorname{argmin}} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)\left(Y_{i}-m\right)^{2} .
+\]</span></p>
+<p>This is a weighted regression of <span class="math inline">\(Y\)</span> on an intercept only.</p>
+<p>This means that the NW estimator is making the local approximation <span class="math inline">\(m(X) \simeq m(x)\)</span> for <span class="math inline">\(X \simeq x\)</span>, which means it is making the approximation</p>
+<p><span class="math display">\[
+Y=m(X)+e \simeq m(x)+e .
+\]</span></p>
+<p>The NW estimator is a local estimator of this approximate model using weighted least squares.</p>
+<p>This interpretation suggests that we can construct alternative nonparametric estimators of <span class="math inline">\(m(x)\)</span> by alternative local approximations. Many such local approximations are possible. A popular choice is the Local Linear (LL) approximation. Instead of the approximation <span class="math inline">\(m(X) \simeq m(x)\)</span>, LL uses the linear approximation <span class="math inline">\(m(X) \simeq m(x)+m^{\prime}(x)(X-x)\)</span>. Thus</p>
+<p><span class="math display">\[
+Y=m(X)+e \simeq m(x)+m^{\prime}(x)(X-x)+e .
+\]</span></p>
+<p>The LL estimator then applies weighted least squares similarly as in NW estimation.</p>
+<p>One way to represent the LL estimator is as the solution to the minimization problem</p>
+<p><span class="math display">\[
+\left\{\widehat{m}_{\mathrm{LL}}(x), \widehat{m}_{\mathrm{LL}}^{\prime}(x)\right\}=\underset{\alpha, \beta}{\operatorname{argmin}} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)\left(Y_{i}-\alpha-\beta\left(X_{i}-x\right)\right)^{2} .
+\]</span></p>
+<p>Another is to write the approximating model as</p>
+<p><span class="math display">\[
+Y \simeq Z(X, x)^{\prime} \beta(x)+e
+\]</span></p>
+<p>where <span class="math inline">\(\beta(x)=\left(m(x), m^{\prime}(x)\right)^{\prime}\)</span> and</p>
+<p><span class="math display">\[
+Z(X, x)=\left(\begin{array}{c}
+1 \\
+X-x
+\end{array}\right) .
+\]</span></p>
+<p>This is a linear regression with regressor vector <span class="math inline">\(Z_{i}(x)=Z\left(X_{i}, x\right)\)</span> and coefficient vector <span class="math inline">\(\beta(x)\)</span>. Applying weighted least squares with the kernel weights we obtain the LL estimator</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{\mathrm{LL}}(x) &amp;=\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Z_{i}(x)^{\prime}\right)^{-1} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Y_{i} \\
+&amp;=\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Y}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{K}=\operatorname{diag}\left\{K\left(\left(X_{1}-x\right) / h\right), \ldots, K\left(\left(X_{n}-x\right) / h\right)\right\}, \boldsymbol{Z}\)</span> is the stacked <span class="math inline">\(Z_{i}(x)^{\prime}\)</span>, and <span class="math inline">\(\boldsymbol{Y}\)</span> is the stacked <span class="math inline">\(Y_{i}\)</span>. This expression generalizes the Nadaraya-Watson estimator as the latter is obtained by setting <span class="math inline">\(Z_{i}(x)=1\)</span> or constraining <span class="math inline">\(\beta=0\)</span>. Notice that the matrices <span class="math inline">\(\boldsymbol{Z}\)</span> and <span class="math inline">\(\boldsymbol{K}\)</span> depend on <span class="math inline">\(x\)</span> and <span class="math inline">\(h\)</span>.</p>
+<p>The local linear estimator was first suggested by Stone (1977) and came into prominence through the work of Fan (1992, 1993).</p>
+<p>To visualize, Figure 19.1(b) displays the scatter plot of the same 100 observations from panel (a) divided into the same five bins. A linear regression is fit to the observations in each bin. These five fitted regression lines are displayed by the short dashed lines. This “binned regression estimator” produces a flexible appromation for the CEF but has large jumps at the edges of the partitions. The midpoints of each of these five regression lines are displayed by the solid squares and could be viewed as the target estimate for the binned regression estimator. A rolling version of the binned regression estimator moves these estimation windows continuously across the support of <span class="math inline">\(X\)</span> and is displayed by the solid line. This corresponds to the local linear estimator with a rectangular kernel and a bandwidth of <span class="math inline">\(h=1 / \sqrt{3}\)</span>. By construction this line passes through the solid squares. To obtain a smoother estimator we replace the rectangular with the Gaussian kernel (using the same bandwidth <span class="math inline">\(h=1 / \sqrt{3}\)</span> ). We display these estimates with the long dashes. This has the same shape as the rectangular kernel estimate (rolling binned regression) but is visually much smoother. We label this the “Local Linear” estimator because it is the standard implementation. One interesting feature is that as <span class="math inline">\(h \rightarrow \infty\)</span> the LL estimator approaches the full-sample least squares estimator <span class="math inline">\(\widehat{m}_{\mathrm{LL}}(x) \rightarrow \widehat{\alpha}+\widehat{\beta} x\)</span>. That is because as <span class="math inline">\(h \rightarrow \infty\)</span> all observations receive equal weight. In this sense the LL estimator is a flexible generalization of the linear OLS estimator.</p>
+<p>Another useful property of the LL estimator is that it simultaneously provides estimates of the regression function <span class="math inline">\(m(x)\)</span> and its slope <span class="math inline">\(m^{\prime}(x)\)</span> at <span class="math inline">\(x\)</span>.</p>
+</section>
+<section id="local-polynomial-estimator" class="level2" data-number="18.5">
+<h2 data-number="18.5" class="anchored" data-anchor-id="local-polynomial-estimator"><span class="header-section-number">18.5</span> Local Polynomial Estimator</h2>
+<p>The NW and LL estimators are both special cases of the local polynomial estimator. The idea is to approximate the regression function <span class="math inline">\(m(x)\)</span> by a polynomial of fixed degree <span class="math inline">\(p\)</span>, and then estimate locally using kernel weights.</p>
+<p>The approximating model is a <span class="math inline">\(p^{\text {th }}\)</span> order Taylor series approximation</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=m(X)+e \\
+&amp; \simeq m(x)+m^{\prime}(x)(X-x)+\cdots+m^{(p)}(x) \frac{(X-x)^{p}}{p !}+e \\
+&amp;=Z(X, x)^{\prime} \beta(x)+e_{i}
+\end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+Z(X, x)=\left(\begin{array}{c}
+1 \\
+X-x \\
+\vdots \\
+\frac{(X-x)^{p}}{p !}
+\end{array}\right) \quad \beta(x)=\left(\begin{array}{c}
+m(x) \\
+m^{\prime}(x) \\
+\vdots \\
+m^{(p)}(x)
+\end{array}\right)
+\]</span></p>
+<p>The estimator is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{\mathrm{LP}}(x) &amp;=\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Z_{i}(x)^{\prime}\right)^{-1}\left(\sum_{i=1}^{n} K\left(\frac{Y_{i}-x}{h}\right) Z_{i}(x) Y_{i}\right) \\
+&amp;=\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Y}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(Z_{i}(x)=Z\left(X_{i}, x\right)\)</span> Notice that this expression includes the Nadaraya-Watson and local linear estimators as special cases with <span class="math inline">\(p=0\)</span> and <span class="math inline">\(p=1\)</span>, respectively.</p>
+<p>There is a trade-off between the polynomial order <span class="math inline">\(p\)</span> and the local smoothing bandwidth <span class="math inline">\(h\)</span>. By increasing <span class="math inline">\(p\)</span> we improve the model approximation and thereby can use a larger bandwidth <span class="math inline">\(h\)</span>. On the other hand, increasing <span class="math inline">\(p\)</span> increases estimation variance.</p>
+</section>
+<section id="asymptotic-bias" class="level2" data-number="18.6">
+<h2 data-number="18.6" class="anchored" data-anchor-id="asymptotic-bias"><span class="header-section-number">18.6</span> Asymptotic Bias</h2>
+<p>Since <span class="math inline">\(\mathbb{E}[Y \mid X=x]=m(x)\)</span>, the conditional expectation of the Nadaraya-Watson estimator is</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\widehat{m}_{\mathrm{nw}}(x) \mid \boldsymbol{X}\right]=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) \mathbb{E}\left[Y_{i} \mid X_{i}\right]}{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)}=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) m\left(X_{i}\right)}{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)} .
+\]</span></p>
+<p>We can simplify this expression as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>The following regularity conditions will be maintained through the chapter. Let <span class="math inline">\(f(x)\)</span> denote the marginal density of <span class="math inline">\(X\)</span> and let <span class="math inline">\(\sigma^{2}(x)=\mathbb{E}\left[e^{2} \mid X=x\right]\)</span> denote the conditional variance of <span class="math inline">\(e=Y-m(X)\)</span>.</p>
+<p>Assumption $19.1</p>
+<ol type="1">
+<li><p><span class="math inline">\(h \rightarrow 0\)</span>.</p></li>
+<li><p><span class="math inline">\(n h \rightarrow \infty\)</span>.</p></li>
+<li><p><span class="math inline">\(m(x), f(x)\)</span>, and <span class="math inline">\(\sigma^{2}(x)\)</span> are continuous in some neighborhood <span class="math inline">\(\mathscr{N}\)</span> of <span class="math inline">\(x\)</span>.</p></li>
+<li><p><span class="math inline">\(f(x)&gt;0\)</span>.</p></li>
+</ol>
+<p>These conditions are similar to those used for the asymptotic theory for kernel density estimation. The assumptions <span class="math inline">\(h \rightarrow 0\)</span> and <span class="math inline">\(n h \rightarrow \infty\)</span> means that the bandwidth gets small yet the number of observations in the estimation window diverges to infinity. Assumption 19.1.3 are minimal smoothness conditions on the conditional expectation <span class="math inline">\(m(x)\)</span>, marginal density <span class="math inline">\(f(x)\)</span>, and conditional variance <span class="math inline">\(\sigma^{2}(x)\)</span>. Assumption 19.1.4 specifies that the marginal density is non-zero. This is required because we are estimating the conditional expectation at <span class="math inline">\(x\)</span>, so there needs to be a non-trivial number of observations for <span class="math inline">\(X_{i}\)</span> near <span class="math inline">\(x\)</span>.</p>
+<p>Theorem 19.1 Suppose Assumption <span class="math inline">\(19.1\)</span> holds and <span class="math inline">\(m^{\prime \prime}(x)\)</span> and <span class="math inline">\(f^{\prime}(x)\)</span> are continuous in <span class="math inline">\(\mathscr{N}\)</span>. Then as <span class="math inline">\(n n \rightarrow \infty\)</span> with <span class="math inline">\(h \rightarrow 0\)</span></p>
+<ol type="1">
+<li><span class="math inline">\(\mathbb{E}\left[\widehat{m}_{\mathrm{nw}}(x) \mid \boldsymbol{X}\right]=m(x)+h^{2} B_{\mathrm{nw}}(x)+o_{p}\left(h^{2}\right)+O_{p}\left(\sqrt{\frac{h}{n}}\right)\)</span></li>
+</ol>
+<p>where</p>
+<p><span class="math display">\[
+B_{\mathrm{nw}}(x)=\frac{1}{2} m^{\prime \prime}(x)+f(x)^{-1} f^{\prime}(x) m^{\prime}(x) .
+\]</span></p>
+<p> 1. <span class="math inline">\(\mathbb{E}\left[\widehat{m}_{\mathrm{LL}}(x) \mid \boldsymbol{X}\right]=m(x)+h^{2} B_{\mathrm{LL}}(x)+o_{p}\left(h^{2}\right)+O_{p}\left(\sqrt{\frac{h}{n}}\right)\)</span></p>
+<p>where</p>
+<p><span class="math display">\[
+B_{\mathrm{LL}}(x)=\frac{1}{2} m^{\prime \prime}(x) .
+\]</span></p>
+<p>The proof for the Nadaraya-Watson estimator is presented in Section 19.26. For a proof for the local linear estimator see Fan and Gijbels (1996).</p>
+<p>We call the terms <span class="math inline">\(h^{2} B_{\mathrm{nw}}(x)\)</span> and <span class="math inline">\(h^{2} B_{\mathrm{LL}}(x)\)</span> the asymptotic bias of the estimators.</p>
+<p>Theorem 19.1 shows that the asymptotic bias of the Nadaraya-Watson and local linear estimators is proportional to the squared bandwidth <span class="math inline">\(h^{2}\)</span> (the degree of smoothing) and to the functions <span class="math inline">\(B_{\mathrm{nw}}(x)\)</span> and <span class="math inline">\(B_{\mathrm{LL}}(x)\)</span>. The asymptotic bias of the local linear estimator depends on the curvature (second derivative) of the CEF function <span class="math inline">\(m(x)\)</span> similarly to the asymptotic bias of the kernel density estimator in Theorem <span class="math inline">\(17.1\)</span> of Probability and Statistics for Economists. When <span class="math inline">\(m^{\prime \prime}(x)&lt;0\)</span> then <span class="math inline">\(\hat{m}_{\mathrm{LL}}(x)\)</span> is downwards biased. When <span class="math inline">\(m^{\prime \prime}(x)&gt;0\)</span> then <span class="math inline">\(\widehat{m}_{\mathrm{LL}}(x)\)</span> is upwards biased. Local averaging smooths <span class="math inline">\(m(x)\)</span>, inducing bias, and this bias is increasing in the level of curvature of <span class="math inline">\(m(x)\)</span>. This is called smoothing bias.</p>
+<p>The asymptotic bias of the Nadaraya-Watson estimator adds a second term which depends on the first derivatives of <span class="math inline">\(m(x)\)</span> and <span class="math inline">\(f(x)\)</span>. This is because the Nadaraya-Watson estimator is a local average. If the density is upward sloped at <span class="math inline">\(x\)</span> (if <span class="math inline">\(f^{\prime}(x)&gt;0\)</span> ) then there are (on average) more observations to the right of <span class="math inline">\(x\)</span> than to the left so a local average will be biased if <span class="math inline">\(m(x)\)</span> has a non-zero slope. In contrast the bias of the local linear estimator does not depend on the local slope <span class="math inline">\(m^{\prime}(x)\)</span> because it locally fits a linear regression. The fact that the bias of the local linear estimator has fewer terms than the bias of the Nadaraya-Watson estimator (and is invariant to the slope <span class="math inline">\(m^{\prime}(x)\)</span> ) justifies the claim that the local linear estimator has generically reduced bias relative to Nadaraya-Watson.</p>
+<p>We illustrate asymptotic smoothing bias in Figure 19.2. The solid line is the true CEF for the data displayed in Figure 19.1. The dashed lines are the asymptotic approximations to the expectation <span class="math inline">\(m(x)+\)</span> <span class="math inline">\(h^{2} B(x)\)</span> for bandwidths <span class="math inline">\(h=1 / 2, h=1\)</span>, and <span class="math inline">\(h=3 / 2\)</span>. (The asymptotic biases of the NW and LL estimators are the same because <span class="math inline">\(X\)</span> has a uniform distribution.) You can see that there is minimal bias for the smallest bandwidth but considerable bias for the largest. The dashed lines are smoothed versions of the CEF, attenuating the peaks and valleys.</p>
+<p>Smoothing bias is a natural by-product of nonparametric estimation of nonlinear functions. It can only be reduced by using a small bandwidth. As we see in the following section this will result in high estimation variance.</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-08.jpg" class="img-fluid"></p>
+<p>Figure 19.2: Smoothing Bias</p>
+</section>
+<section id="asymptotic-variance" class="level2" data-number="18.7">
+<h2 data-number="18.7" class="anchored" data-anchor-id="asymptotic-variance"><span class="header-section-number">18.7</span> Asymptotic Variance</h2>
+<p>From (19.3) we deduce that</p>
+<p><span class="math display">\[
+\widehat{m}_{\mathrm{nw}}(x)-\mathbb{E}\left[\widehat{m}_{\mathrm{nw}}(x) \mid \boldsymbol{X}\right]=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) e_{i}}{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)} .
+\]</span></p>
+<p>Since the denominator is a function only of <span class="math inline">\(X_{i}\)</span> and the numerator is linear in <span class="math inline">\(e_{i}\)</span> we can calculate that the finite sample variance of <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(x)\)</span> is</p>
+<p><span class="math display">\[
+\operatorname{var}\left[\widehat{m}_{\mathrm{nw}}(x) \mid \boldsymbol{X}\right]=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)^{2} \sigma^{2}\left(X_{i}\right)}{\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)\right)^{2}} .
+\]</span></p>
+<p>We can simplify this expression as <span class="math inline">\(n \rightarrow \infty\)</span>. Let <span class="math inline">\(\sigma^{2}(x)=\mathbb{E}\left[e^{2} \mid X=x\right]\)</span> denote the conditional variance of <span class="math inline">\(e=Y-m(X)\)</span>.</p>
+<p>Theorem 19.2 Under Assumption 19.1,</p>
+<ol type="1">
+<li><p><span class="math inline">\(\operatorname{var}\left[\widehat{m}_{\mathrm{nw}}(x) \mid \boldsymbol{X}\right]=\frac{R_{K} \sigma^{2}(x)}{f(x) n h}+o_{p}\left(\frac{1}{n h}\right)\)</span>.</p></li>
+<li><p><span class="math inline">\(\operatorname{var}\left[\hat{m}_{\mathrm{LL}}(x) \mid \boldsymbol{X}\right]=\frac{R_{K} \sigma^{2}(x)}{f(x) n h}+o_{p}\left(\frac{1}{n h}\right)\)</span>.</p></li>
+</ol>
+<p>In these expressions</p>
+<p><span class="math display">\[
+R_{K}=\int_{-\infty}^{\infty} K(u)^{2} d u
+\]</span></p>
+<p>is the roughness of the kernel <span class="math inline">\(K(u)\)</span>.</p>
+<p>The proof for the Nadaraya-Watson estimator is presented in Section 19.26. For the local linear estimator see Fan and Gijbels (1996).</p>
+<p>We call the leading terms in Theorem <span class="math inline">\(19.2\)</span> the asymptotic variance of the estimators. Theorem <span class="math inline">\(19.2\)</span> shows that the asymptotic variance of the two estimators are identical. The asymptotic variance is proportional to the roughness <span class="math inline">\(R_{K}\)</span> of the kernel <span class="math inline">\(K(u)\)</span> and to the conditional variance <span class="math inline">\(\sigma^{2}(x)\)</span> of the regression error. It is inversely proportional to the effective number of observations <span class="math inline">\(n h\)</span> and to the marginal density <span class="math inline">\(f(x)\)</span>. This expression reflects the fact that the estimators are local estimators. The precision of <span class="math inline">\(\widehat{m}(x)\)</span> is low for regions where <span class="math inline">\(e\)</span> has a large conditional variance and/or <span class="math inline">\(X\)</span> has a low density (where there are relatively few observations).</p>
+</section>
+<section id="aimse" class="level2" data-number="18.8">
+<h2 data-number="18.8" class="anchored" data-anchor-id="aimse"><span class="header-section-number">18.8</span> AIMSE</h2>
+<p>We define the asymptotic MSE (AMSE) of an estimator <span class="math inline">\(\widehat{m}(x)\)</span> as the sum of its squared asymptotic bias and asymptotic variance. Using Theorems <span class="math inline">\(19.1\)</span> and <span class="math inline">\(19.2\)</span> for the Nadaraya-Watson and local linear estimators, we obtain</p>
+<p><span class="math display">\[
+\operatorname{AMSE}(x) \stackrel{\text { def }}{=} h^{4} B(x)^{2}+\frac{R_{K} \sigma^{2}(x)}{n h f(x)}
+\]</span></p>
+<p>where <span class="math inline">\(B(x)=B_{\mathrm{nw}}(x)\)</span> for the Nadaraya-Watson estimator and <span class="math inline">\(B(x)=B_{\mathrm{LL}}(x)\)</span> for the local linear estimator. This is the asymptotic MSE for the estimator <span class="math inline">\(\widehat{m}(x)\)</span> for a single point <span class="math inline">\(x\)</span>.</p>
+<p>A global measure of fit can be obtained by integrating AMSE <span class="math inline">\((x)\)</span>. It is standard to weight the AMSE by <span class="math inline">\(f(x) w(x)\)</span> for some integrable weight function <span class="math inline">\(w(x)\)</span>. This is called the asymptotic integrated MSE (AIMSE). Let <span class="math inline">\(S\)</span> be the support of <span class="math inline">\(X\)</span> (the region where <span class="math inline">\(f(x)&gt;0\)</span> ).</p>
+<p><span class="math display">\[
+\operatorname{AIMSE} \stackrel{\text { def }}{=} \int_{S} \operatorname{AMSE}(x) f(x) w(x) d x=\int_{S}\left(h^{4} B(x)^{2}+\frac{R_{K} \sigma^{2}(x)}{n h f(x)}\right) f(x) w(x) d x=h^{4} \bar{B}+\frac{R_{K}}{n h} \bar{\sigma}^{2}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar{B} &amp;=\int_{S} B(x)^{2} f(x) w(x) d x \\
+\bar{\sigma}^{2} &amp;=\int_{S} \sigma^{2}(x) w(x) d x .
+\end{aligned}
+\]</span></p>
+<p>The weight function <span class="math inline">\(w(x)\)</span> can be omitted if <span class="math inline">\(S\)</span> is bounded. Otherwise, a common choice is <span class="math inline">\(w(x)=\)</span> <span class="math inline">\(\mathbb{1}\left\{\xi_{1} \leq x \leq \xi_{2}\right\}\)</span>. An integrable weight function is needed when <span class="math inline">\(X\)</span> has unbounded support to ensure that <span class="math inline">\(\bar{\sigma}^{2}&lt;\infty\)</span></p>
+<p>The form of the AIMSE is similar to that for kernel density estimation (Theorem <span class="math inline">\(17.3\)</span> of Probability and Statistics for Economists). It has two terms (squared bias and variance). The first is increasing in the bandwidth <span class="math inline">\(h\)</span> and the second is decreasing in <span class="math inline">\(h\)</span>. Thus the choice of <span class="math inline">\(h\)</span> affects AIMSE with a trade-off between these two components. Similarly to density estimation we can calculate the bandwidth which minimizes the AIMSE. (See Exercise 19.2.) The solution is given in the following theorem.</p>
+<p>Theorem 19.3 The bandwidth which minimizes the AIMSE (19.5) is</p>
+<p><span class="math display">\[
+h_{0}=\left(\frac{R_{K} \bar{\sigma}^{2}}{4 \bar{B}}\right)^{1 / 5} n^{-1 / 5} .
+\]</span></p>
+<p>With <span class="math inline">\(h \sim n^{-1 / 5}\)</span> then AIMSE <span class="math inline">\([\widehat{m}(x)]=O\left(n^{-4 / 5}\right)\)</span>.</p>
+<p>This result characterizes the AIMSE-optimal bandwidth. This bandwidth satisfies the rate <span class="math inline">\(h=\mathrm{cn}^{-1 / 5}\)</span> which is the same rate as for kernel density estimation. The optimal constant <span class="math inline">\(c\)</span> depends on the kernel <span class="math inline">\(K(x)\)</span>, the weighted average squared bias <span class="math inline">\(\bar{B}\)</span>, and the weighted average variance <span class="math inline">\(\bar{\sigma}^{2}\)</span>. The constant <span class="math inline">\(c\)</span> is different, however, from that for density estimation.</p>
+<p>Inserting (19.6) into (19.5) plus some algebra we find that the AIMSE using the optimal bandwidth is</p>
+<p><span class="math display">\[
+\operatorname{AIMSE}_{0} \simeq 1.65\left(R_{K}^{4} \bar{B} \bar{\sigma}^{8}\right)^{1 / 5} n^{-4 / 5} .
+\]</span></p>
+<p>This depends on the kernel <span class="math inline">\(K(u)\)</span> only through the constant <span class="math inline">\(R_{K}\)</span>. Since the Epanechnikov kernel has the smallest value <span class="math inline">\({ }^{1}\)</span> of <span class="math inline">\(R_{K}\)</span> it is also the kernel which produces the smallest AIMSE. This is true for both the NW and LL estimators.</p>
+<p><span class="math inline">\({ }^{1}\)</span> See Theorem <span class="math inline">\(17.4\)</span> of Probability and Statistics for Economists. Theorem 19.4 The AIMSE (19.5) of the Nadaraya-Watson and Local Linear regression estimators is minimized by the Epanechnikov kernel.</p>
+<p>The efficiency loss by using the other standard kernels, however, is small. The relative efficiency <span class="math inline">\({ }^{2}\)</span> of estimation using the another kernel is <span class="math inline">\(\left(R_{K} / R_{K} \text { (Epanechnikov) }\right)^{2 / 5}\)</span>. Using the values of <span class="math inline">\(R_{K}\)</span> from Table <span class="math inline">\(19.1\)</span> we calculate that the efficiency loss from using the Triangle, Gaussian, and Rectangular kernels are <span class="math inline">\(1 %, 2 %\)</span>, and <span class="math inline">\(3 %\)</span>, respectively, which are minimal. Since the Gaussian kernel produces the smoothest estimates, which is important for estimation of marginal effects, our overall recommendation is the Gaussian kernel.</p>
+</section>
+<section id="reference-bandwidth" class="level2" data-number="18.9">
+<h2 data-number="18.9" class="anchored" data-anchor-id="reference-bandwidth"><span class="header-section-number">18.9</span> Reference Bandwidth</h2>
+<p>The NW, LL and LP estimators depend on a bandwidth and without an empirical rule for selection of <span class="math inline">\(h\)</span> the methods are incomplete. It is useful to have a reference bandwith which mimics the optimal bandwidth in a simplified setting and provides a baseline for further investigations.</p>
+<p>Theorem <span class="math inline">\(19.3\)</span> and a little re-writing reveals that the optimal bandwidth equals</p>
+<p><span class="math display">\[
+h_{0}=\left(\frac{R_{K}}{4}\right)^{1 / 5}\left(\frac{\bar{\sigma}^{2}}{n \bar{B}}\right)^{1 / 5} \simeq 0.58\left(\frac{\bar{\sigma}^{2}}{n \bar{B}}\right)^{1 / 5}
+\]</span></p>
+<p>where the approximation holds for all single-peaked kernels by similar calculations <span class="math inline">\({ }^{3}\)</span> as in Section <span class="math inline">\(17.9\)</span> of Probability and Statistics for Economists.</p>
+<p>A reference approach can be used to develop a rule-of-thumb for regression estimation. In particular, Fan and Gijbels (1996, Section 4.2) develop what they call the ROT (rule of thumb) bandwidth for the local linear estimator. We now describe their derivation.</p>
+<p>First, set <span class="math inline">\(w(x)=\mathbb{1}\left\{\xi_{1} \leq x \leq \xi_{2}\right\}\)</span>. Second, form a pilot or preliminary estimator of the regression function <span class="math inline">\(m(x)\)</span> using a <span class="math inline">\(q^{t h}\)</span>-order polynomial regression</p>
+<p><span class="math display">\[
+m(x)=\beta_{0}+\beta_{1} x+\beta_{2} x^{2}+\cdots+\beta_{q} x^{q}
+\]</span></p>
+<p>for <span class="math inline">\(q \geq 2\)</span>. (Fan and Gijbels (1996) suggest <span class="math inline">\(q=4\)</span> but this is not essential.) By least squares we obtain the coefficient estimates <span class="math inline">\(\widehat{\beta}_{0}, \ldots, \widehat{\beta}_{\underline{q}}\)</span> and implied second derivative <span class="math inline">\(\widehat{m}^{\prime \prime}(x)=2 \widehat{\beta}_{2}+6 \widehat{\beta}_{3} x+12 \widehat{\beta}_{4} x^{2}+\cdots+q(q-\)</span> 1) <span class="math inline">\(\widehat{\beta}_{q} x^{q-2}\)</span>. Third, notice that <span class="math inline">\(\frac{q}{B}\)</span> can be written as an expectation</p>
+<p><span class="math display">\[
+\bar{B}=\mathbb{E}\left[B(X)^{2} w(X)\right]=\mathbb{E}\left[\left(\frac{1}{2} m^{\prime \prime}(X)\right)^{2} \mathbb{1}\left\{\xi_{1} \leq X \leq \xi_{2}\right\}\right] .
+\]</span></p>
+<p>A moment estimator is</p>
+<p><span class="math display">\[
+\widehat{B}=\frac{1}{n} \sum_{i=1}^{n}\left(\frac{1}{2} \widehat{m}^{\prime \prime}\left(X_{i}\right)\right)^{2} \mathbb{1}\left\{\xi_{1} \leq X_{i} \leq \xi_{2}\right\} .
+\]</span></p>
+<p>Fourth, assume that the regression error is homoskedastic <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span> so that <span class="math inline">\(\bar{\sigma}^{2}=\sigma^{2}\left(\xi_{2}-\xi_{1}\right)\)</span>. Estimate <span class="math inline">\(\sigma^{2}\)</span> by the error variance estimate <span class="math inline">\(\widehat{\sigma}^{2}\)</span> from the preliminary regression. Plugging these into (19.7) we obtain the reference bandwidth</p>
+<p><span class="math display">\[
+h_{\mathrm{rot}}=0.58\left(\frac{\widehat{\sigma}^{2}\left(\xi_{2}-\xi_{1}\right)}{n \widehat{B}}\right)^{1 / 5} .
+\]</span></p>
+<p><span class="math inline">\({ }^{2}\)</span> Measured by root AIMSE.</p>
+<p><span class="math inline">\({ }^{3}\)</span> The constant <span class="math inline">\(\left(R_{K} / 4\right)^{1 / 5}\)</span> is bounded between <span class="math inline">\(0.58\)</span> and <span class="math inline">\(0.59\)</span>. Fan and Gijbels (1996) call this the Rule-of-Thumb (ROT) bandwidth.</p>
+<p>Fan and Gijbels developed similar rules for higher-order odd local polynomial estimators but not for the local constant (Nadaraya-Watson) estimator. However, we can derive a ROT for the NW as well by using a reference model for the marginal density <span class="math inline">\(f(x)\)</span>. A convenient choice is the uniform density under which <span class="math inline">\(f^{\prime}(x)=0\)</span> and the optimal bandwidths for NW and LL coincide. This motivates using (19.9) as a ROT bandwidth for both the LL and NW estimators.</p>
+<p>As we mentioned above, Fan and Gijbels suggest using a <span class="math inline">\(4^{t h}\)</span>-order polynomial for the pilot estimator but this specific choice is not essential. In applications it may be prudent to assess sensitivity of the ROT bandwith to the choice of <span class="math inline">\(q\)</span> and to examine the estimated pilot regression for precision of the estimated higher-order polynomial terms.</p>
+<p>We now comment on the choice of the weight region <span class="math inline">\(\left[\xi_{1}, \xi_{2}\right]\)</span>. When <span class="math inline">\(X\)</span> has bounded support then <span class="math inline">\(\left[\xi_{1}, \xi_{2}\right]\)</span> can be set equal to this support. Otherwise, <span class="math inline">\(\left[\xi_{1}, \xi_{2}\right]\)</span> can be set equal to the region of interest for <span class="math inline">\(\widehat{m}(x)\)</span>, or the endpoints can be set to equal fixed quantiles (e.g.&nbsp;<span class="math inline">\(0.05\)</span> and <span class="math inline">\(0.95\)</span> ) of the distribution of <span class="math inline">\(X\)</span>.</p>
+<p>To illustrate, take the data shown in Figure 19.1. If we fit a <span class="math inline">\(4^{\text {th }}\)</span> order polynomial we find <span class="math inline">\(\widehat{m}(x)=\)</span> <span class="math inline">\(.49+.70 x-.28 x^{2}-.033 x^{3}-.0012 x^{4}\)</span> which implies <span class="math inline">\(\widehat{m}^{\prime \prime}(x)=-.56-.20 x-.014 x^{2}\)</span>. Setting <span class="math inline">\(\left[\xi_{1}, \xi_{2}\right]=[0,10]\)</span> from the support of <span class="math inline">\(X\)</span> we find <span class="math inline">\(\widehat{B}=0.00889\)</span>. The residuals from the polynomial regression have variance <span class="math inline">\(\widehat{\sigma}^{2}=0.0687\)</span>. Plugging these into (19.9) we find <span class="math inline">\(h_{\mathrm{rot}}=0.551\)</span> which is similar that used in Figure 19.1.</p>
+</section>
+<section id="estimation-at-a-boundary" class="level2" data-number="18.10">
+<h2 data-number="18.10" class="anchored" data-anchor-id="estimation-at-a-boundary"><span class="header-section-number">18.10</span> Estimation at a Boundary</h2>
+<p>One advantage of the local linear over the Nadaraya-Watson estimator is that the LL has better performance at the boundary of the support of <span class="math inline">\(X\)</span>. The NW estimator has excessive smoothing bias near the boundaries. In many contexts in econometrics the boundaries are of great interest. In such cases it is strongly recommended to use the local linear estimator (or a local polynomial estimator with <span class="math inline">\(p \geq 1\)</span> ).</p>
+<p>To understand the problem it may be helpful to examine Figure 19.3. This shows a scatter plot of 100 observations generated as <span class="math inline">\(X \sim U[0,10]\)</span> and <span class="math inline">\(Y \sim \mathrm{N}(X, 1)\)</span> so that <span class="math inline">\(m(x)=x\)</span>. Suppose we are interested in the CEF <span class="math inline">\(m(0)\)</span> at the lower boundary <span class="math inline">\(x=0\)</span>. The Nadaraya-Watson estimator equals a weighted average of the <span class="math inline">\(Y\)</span> observations for small values of <span class="math inline">\(|X|\)</span>. Since <span class="math inline">\(X \geq 0\)</span>, these are all observations for which <span class="math inline">\(m(X) \geq m(0)\)</span>, and therefore <span class="math inline">\(\hat{m}_{\mathrm{nw}}(0)\)</span> is biased upwards. Symmetrically, the Nadaraya-Watson estimator at the upper boundary <span class="math inline">\(x=10\)</span> is a weighted average of observations for which <span class="math inline">\(m(X) \leq m(10)\)</span> and therefore <span class="math inline">\(\widehat{m}_{\mathrm{nw}}(10)\)</span> is biased downwards.</p>
+<p>In contrast, the local linear estimators <span class="math inline">\(\widehat{m}_{\mathrm{LL}}(0)\)</span> and <span class="math inline">\(\widehat{m}_{\mathrm{LL}}(10)\)</span> are unbiased in this example because <span class="math inline">\(m(x)\)</span> is linear in <span class="math inline">\(x\)</span>. The local linear estimator fits a linear regression line. Since the expectation is correctly specified there is no estimation bias.</p>
+<p>The exact bias <span class="math inline">\({ }^{4}\)</span> of the NW estimator is shown in Figure <span class="math inline">\(19.3\)</span> by the dashed lines. The long dashes is the expectation <span class="math inline">\(\mathbb{E}\left[\widehat{m}_{\mathrm{nw}}(x)\right]\)</span> for <span class="math inline">\(h=1\)</span> and the short dashes is the expectation <span class="math inline">\(\mathbb{E}\left[\widehat{m}_{\mathrm{nw}}(x)\right]\)</span> for <span class="math inline">\(h=2\)</span>. We can see that the bias is substantial. For <span class="math inline">\(h=2\)</span> the bias is visible for all values of <span class="math inline">\(x\)</span>. For the smaller bandwidth <span class="math inline">\(h=1\)</span> the bias is minimal for <span class="math inline">\(x\)</span> in the central range of the support, but is still quite substantial for <span class="math inline">\(x\)</span> near the boundaries.</p>
+<p>To calculate the asymptotic smoothing bias we can revisit the proof of Theorem 19.1.1 which calculated the asymptotic bias at interior points. Equation (19.29) calculates the bias of the numerator of the estimator expressed as an integral over the marginal density. Evaluated at a lower boundary the density is positive only for <span class="math inline">\(u \geq 0\)</span> so the integral is over the positive region <span class="math inline">\([0, \infty)\)</span>. This applies as well to equation (19.31) and the equations which follow. In this case the leading term of this expansion is the first term (19.32) which is proportional to <span class="math inline">\(h\)</span> rather than <span class="math inline">\(h^{2}\)</span>. Completing the calculations we find the following. Define <span class="math inline">\(m(x+)=\lim _{z \downarrow x} m(z)\)</span> and <span class="math inline">\(m(x-)=\lim _{z \uparrow x} m(z)\)</span>.</p>
+<p><span class="math inline">\({ }^{4}\)</span> Calculated by simulation from 10,000 simulation replications.</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-13.jpg" class="img-fluid"></p>
+<p>Figure 19.3: Boundary Bias</p>
+<p>Theorem 19.5 Suppose Assumption <span class="math inline">\(19.1\)</span> holds. Set <span class="math inline">\(\mu_{K}=2 \int_{0}^{\infty} K(u) d u\)</span>. Let the support of <span class="math inline">\(X\)</span> be <span class="math inline">\(S=[\underline{x}, \bar{x}]\)</span>.</p>
+<p>If <span class="math inline">\(m^{\prime \prime}(\underline{x}+), \sigma^{2}(\underline{x}+)\)</span> and <span class="math inline">\(f^{\prime}(\underline{x}+)\)</span> exist, and <span class="math inline">\(f(\underline{x}+)&gt;0\)</span> then</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\hat{m}_{\mathrm{nw}}(\underline{x}) \mid \boldsymbol{X}\right]=m(\underline{x})+h m^{\prime}(\underline{x}) \mu_{K}+o_{p}(h)+O_{p}\left(\sqrt{\frac{h}{n}}\right) .
+\]</span></p>
+<p>If <span class="math inline">\(m^{\prime \prime}(\bar{x}-), \sigma^{2}(\bar{x}-)\)</span> and <span class="math inline">\(f^{\prime}(\bar{x}-)\)</span> exist, and <span class="math inline">\(f(\bar{x}-)&gt;0\)</span> then</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\widehat{m}_{\mathrm{nw}}(\bar{x}) \mid \boldsymbol{X}\right]=m(\bar{x})-h m^{\prime}(\bar{x}) \mu_{K}+o_{p}(h)+O_{p}\left(\sqrt{\frac{h}{n}}\right) .
+\]</span></p>
+<p>Theorem <span class="math inline">\(19.5\)</span> shows that the asymptotic bias of the NW estimator at the boundary is <span class="math inline">\(O(h)\)</span> and depends on the slope of <span class="math inline">\(m(x)\)</span> at the boundary. When the slope is positive the NW estimator is upward biased at the lower boundary and downward biased at the upper boundary. The standard interpretation of Theorem <span class="math inline">\(19.5\)</span> is that the NW estimator has high bias near boundary points.</p>
+<p>Similarly we can evaluate the performance of the LL estimator. We summarize the results without derivation (as they are more technically challenging) and instead refer interested readers to Cheng, Fan and Marron (1997) and Imbens and Kalyahnaraman (2012).</p>
+<p>Define the kernel moments <span class="math inline">\(v_{j}=\int_{0}^{\infty} u^{j} K(u) d u, \pi_{j}=\int_{0}^{\infty} u^{j} K(u)^{2} d u\)</span>, and projected kernel</p>
+<p><span class="math display">\[
+K^{*}(u)=\left[\begin{array}{ll}
+1 &amp; 0
+\end{array}\right]\left[\begin{array}{ll}
+v_{0} &amp; v_{1} \\
+v_{1} &amp; v_{2}
+\end{array}\right]^{-1}\left[\begin{array}{c}
+1 \\
+u
+\end{array}\right] K(u)=\frac{v_{2}-v_{1} u}{v_{0} v_{2}-v_{1}^{2}} K(u) .
+\]</span></p>
+<p>Define its second moment</p>
+<p><span class="math display">\[
+\sigma_{K^{*}}^{2}=\int_{0}^{\infty} u^{2} K^{*}(u) d u=\frac{v_{2}^{2}-v_{1} v_{3}}{v_{0} v_{2}-v_{1}^{2}}
+\]</span></p>
+<p>and roughness</p>
+<p><span class="math display">\[
+R_{K}^{*}=\int_{0}^{\infty} K^{*}(u)^{2} d u=\frac{v_{2}^{2} \pi_{0}-2 v_{1} v_{2} \pi_{1}+v_{1}^{2} \pi_{2}}{\left(v_{0} v_{2}-v_{1}^{2}\right)^{2}}
+\]</span></p>
+<p>Theorem 19.6 Under the assumptions of Theorem 19.5, at a boundary point <span class="math inline">\(\underline{x}\)</span></p>
+<ol type="1">
+<li><p><span class="math inline">\(\mathbb{E}\left[\hat{m}_{\mathrm{LL}}(\underline{x}) \mid \boldsymbol{X}\right]=m(\underline{x})+\frac{h^{2} m^{\prime \prime}(\underline{x}) \sigma_{K^{*}}^{2}}{2}+o_{p}\left(h^{2}\right)+O_{p}\left(\sqrt{\frac{h}{n}}\right)\)</span></p></li>
+<li><p><span class="math inline">\(\operatorname{var}\left[\widehat{m}_{\mathrm{LL}}(\underline{x}) \mid \boldsymbol{X}\right]=\frac{R_{K}^{*} \sigma^{2}(\underline{x})}{f(\underline{x}) n h}+o_{p}\left(\frac{1}{n h}\right)\)</span></p></li>
+</ol>
+<p>Theorem 19.6 shows that the asymptotic bias of the LL estimator at a boundary is <span class="math inline">\(O\left(h^{2}\right.\)</span> ), the same as at interior points and is invariant to the slope of <span class="math inline">\(m(x)\)</span>. The theorem also shows that the asymptotic variance has the same rate as at interior points.</p>
+<p>Taking Theorems 19.1, 19.2, 19.5, and <span class="math inline">\(19.6\)</span> together we conclude that the local linear estimator has superior asymptotic properties relative to the NW estimator. At interior points the two estimators have the same asymptotic variance. The bias of the LL estimator is invariant to the slope of <span class="math inline">\(m(x)\)</span> and its asymptotic bias only depends on the second derivative while the bias of the NW estimator depends on both the first and second derivatives. At boundary points the asymptotic bias of the NW estimator is <span class="math inline">\(O(h)\)</span> which is of higher order than the <span class="math inline">\(O\left(h^{2}\right)\)</span> bias of the LL estimator. For these reasons we recommend the local linear estimator over the Nadaraya-Watson estimator. A similar argument can be made to recommend the local cubic estimator, but this is not widely used.</p>
+<p>The asymptotic bias and variance of the LL estimator at the boundary is slightly different than in the interior. The difference is that the bias and variance depend on the moments of the kernel-like function <span class="math inline">\(K^{*}(u)\)</span> rather than the original kernel <span class="math inline">\(K(u)\)</span>.</p>
+<p>An interesting question is to find the optimal kernel function for boundary estimation. By the same calculations as for Theorem <span class="math inline">\(19.4\)</span> we find that the optimal kernel <span class="math inline">\(K^{*}(u)\)</span> minimizes the roughness <span class="math inline">\(R_{K}^{*}\)</span> given the second moment <span class="math inline">\(\sigma_{K^{*}}^{2}\)</span> and as argued for Theorem <span class="math inline">\(19.4\)</span> this is achieved when <span class="math inline">\(K^{*}(u)\)</span> equals a quadratic function in <span class="math inline">\(u\)</span>. Since <span class="math inline">\(K^{*}(u)\)</span> is the product of <span class="math inline">\(K(u)\)</span> and a linear function this means that <span class="math inline">\(K(u)\)</span> must be linear in <span class="math inline">\(|u|\)</span>, implying that the optimal kernel <span class="math inline">\(K(u)\)</span> is the Triangular kernel. See Cheng, Fan, and Marron (1997). Calculations similar to those following Theorem <span class="math inline">\(19.4\)</span> show that efficiency loss <span class="math inline">\({ }^{5}\)</span> of estimation using the Epanechnikov, Gaussian, and Rectangular kernels are 1%, 1%, and 3%, respectively.</p>
+<p><span class="math inline">\({ }^{5}\)</span> Measured by root AIMSE.</p>
+</section>
+<section id="nonparametric-residuals-and-prediction-errors" class="level2" data-number="18.11">
+<h2 data-number="18.11" class="anchored" data-anchor-id="nonparametric-residuals-and-prediction-errors"><span class="header-section-number">18.11</span> Nonparametric Residuals and Prediction Errors</h2>
+<p>Given any nonparametric regression estimator <span class="math inline">\(\widehat{m}(x)\)</span> the fitted regression at <span class="math inline">\(x=X_{i}\)</span> is <span class="math inline">\(\widehat{m}\left(X_{i}\right)\)</span> and the fitted residual is <span class="math inline">\(\widehat{e}_{i}=Y_{i}-\widehat{m}\left(X_{i}\right)\)</span>. As a general rule, but especially when the bandwidth <span class="math inline">\(h\)</span> is small, it is hard to view <span class="math inline">\(\widehat{e}_{i}\)</span> as a good measure of the fit of the regression. For the NW and LL estimators, as <span class="math inline">\(h \rightarrow 0\)</span> then <span class="math inline">\(\widehat{m}\left(X_{i}\right) \rightarrow Y_{i}\)</span> and therefore <span class="math inline">\(\widehat{e}_{i} \rightarrow 0\)</span>. This is clear overfitting as the true error <span class="math inline">\(e_{i}\)</span> is not zero. In general, because <span class="math inline">\(\widehat{m}\left(X_{i}\right)\)</span> is a local average which includes <span class="math inline">\(Y_{i}\)</span>, the fitted value will be necessarily close to <span class="math inline">\(Y_{i}\)</span> and the residual <span class="math inline">\(\widehat{e}_{i}\)</span> small, and the degree of this overfitting increases as <span class="math inline">\(h\)</span> decreases.</p>
+<p>A standard solution is to measure the fit of the regression at <span class="math inline">\(x=X_{i}\)</span> by re-estimating the model excluding the <span class="math inline">\(i^{t h}\)</span> observation. Let <span class="math inline">\(\widetilde{m}_{-i}(x)\)</span> be the leave-one-out nonparametric estimator computed without observation <span class="math inline">\(i\)</span>. For example, for Nadaraya-Watson regression, this is</p>
+<p><span class="math display">\[
+\widetilde{Y}_{i}=\widetilde{m}_{-i}(x)=\frac{\sum_{j \neq i} K\left(\frac{X_{j}-x}{h}\right) Y_{j}}{\sum_{j \neq i} K\left(\frac{X_{j}-x}{h}\right)} .
+\]</span></p>
+<p>Notationally, the “-i” subscript is used to indicate that the <span class="math inline">\(i^{t h}\)</span> observation is omitted.</p>
+<p>The leave-one-out predicted value for <span class="math inline">\(Y_{i}\)</span> at <span class="math inline">\(x=X_{i}\)</span> is <span class="math inline">\(\widetilde{Y}_{i}=\widetilde{m}_{-i}\left(X_{i}\right)\)</span> and the leave-one-out prediction error is</p>
+<p><span class="math display">\[
+\widetilde{e}_{i}=Y_{i}-\widetilde{Y}_{i} .
+\]</span></p>
+<p>Since <span class="math inline">\(\widetilde{Y}_{i}\)</span> is not a function of <span class="math inline">\(Y_{i}\)</span> there is no tendency for <span class="math inline">\(\widetilde{Y}_{i}\)</span> to overfit for small <span class="math inline">\(h\)</span>. Consequently, <span class="math inline">\(\widetilde{e}_{i}\)</span> is a good measure of the fit of the estimated nonparametric regression.</p>
+<p>When possible the leave-one-out prediction errors should be used instead of the residuals <span class="math inline">\(\widehat{e}_{i}\)</span>.</p>
+</section>
+<section id="cross-validation-bandwidth-selection" class="level2" data-number="18.12">
+<h2 data-number="18.12" class="anchored" data-anchor-id="cross-validation-bandwidth-selection"><span class="header-section-number">18.12</span> Cross-Validation Bandwidth Selection</h2>
+<p>The most popular method in applied statistics to select bandwidths is cross-validation. The general idea is to estimate the model fit based on leave-one-out estimation. Here we describe the method as typically applied for regression estimation. The method applies to NW, LL, and LP estimation, as well as other nonparametric estimators.</p>
+<p>To be explicit about the dependence of the estimator on the bandwidth let us write an estimator of <span class="math inline">\(m(x)\)</span> with a given bandwidth <span class="math inline">\(h\)</span> as <span class="math inline">\(\widehat{m}(x, h)\)</span>.</p>
+<p>Ideally, we would like to select <span class="math inline">\(h\)</span> to minimize the integrated mean-squared error (IMSE) of <span class="math inline">\(\widehat{m}(x, h)\)</span> as a estimator of <span class="math inline">\(m(x)\)</span> :</p>
+<p><span class="math display">\[
+\operatorname{IMSE}_{n}(h)=\int_{S} \mathbb{E}\left[(\widehat{m}(x, h)-m(x))^{2}\right] f(x) w(x) d x
+\]</span></p>
+<p>where <span class="math inline">\(f(x)\)</span> is the marginal density of <span class="math inline">\(X\)</span> and <span class="math inline">\(w(x)\)</span> is an integrable weight function. The weight <span class="math inline">\(w(x)\)</span> is the same as used in (19.5) and can be omitted when <span class="math inline">\(X\)</span> has bounded support.</p>
+<p>The difference <span class="math inline">\(\widehat{m}(x, h)-m(x)\)</span> at <span class="math inline">\(x=X_{i}\)</span> can be estimated by the leave-one-out prediction errors <span class="math inline">\((19.10)\)</span></p>
+<p><span class="math display">\[
+\widetilde{e}_{i}(h)=Y_{i}-\widetilde{m}_{-i}\left(X_{i}, h\right)
+\]</span></p>
+<p>where we are being explicit about the dependence on the bandwidth <span class="math inline">\(h\)</span>. A reasonable estimator of IMSE <span class="math inline">\({ }_{n}(h)\)</span> is the weighted average mean squared prediction errors</p>
+<p><span class="math display">\[
+\mathrm{CV}(h)=\frac{1}{n} \sum_{i=1}^{n} \widetilde{e}_{i}(h)^{2} w\left(X_{i}\right) .
+\]</span></p>
+<p>This function of <span class="math inline">\(h\)</span> is known as the cross-validation criterion. Once again, if <span class="math inline">\(X\)</span> has bounded support then the weights <span class="math inline">\(w\left(X_{i}\right)\)</span> can be omitted and this is typically done in practice.</p>
+<p>It turns out that the cross-validation criterion is an unbiased estimator of the IMSE plus a constant for a sample with <span class="math inline">\(n-1\)</span> observations.</p>
+<p>Theorem $19.7</p>
+<p><span class="math display">\[
+\mathbb{E}[\mathrm{CV}(h)]=\bar{\sigma}^{2}+\operatorname{IMSE}_{n-1}(h)
+\]</span></p>
+<p>where <span class="math inline">\(\bar{\sigma}^{2}=\mathbb{E}\left[e^{2} w(X)\right]\)</span></p>
+<p>The proof of Theorem <span class="math inline">\(19.7\)</span> is presented in Section 19.26.</p>
+<p>Since <span class="math inline">\(\bar{\sigma}^{2}\)</span> is a constant independent of the bandwidth <span class="math inline">\(h, \mathbb{E}[\mathrm{CV}(h)]\)</span> is a shifted version of <span class="math inline">\(\operatorname{IMSE}_{n-1}(h)\)</span>. In particular, the <span class="math inline">\(h\)</span> which minimizes <span class="math inline">\(\mathbb{E}[\mathrm{CV}(h)]\)</span> and <span class="math inline">\(\operatorname{IMSE}_{n-1}(h)\)</span> are identical. When <span class="math inline">\(n\)</span> is large the bandwidth which minimizes <span class="math inline">\(\operatorname{IMSE}_{n-1}(h)\)</span> and <span class="math inline">\(\operatorname{IMSE}_{n}(h)\)</span> are nearly identical so <span class="math inline">\(\mathrm{CV}(h)\)</span> is essentially unbiased as an estimator of <span class="math inline">\(\operatorname{IMSE}_{n}(h)+\bar{\sigma}^{2}\)</span>. This considerations lead to the recommendation to select <span class="math inline">\(h\)</span> as the value which minimizes <span class="math inline">\(\mathrm{CV}(h)\)</span>.</p>
+<p>The cross-validation bandwidth <span class="math inline">\(h_{\mathrm{cv}}\)</span> is the value which minimizes <span class="math inline">\(\mathrm{CV}(h)\)</span></p>
+<p><span class="math display">\[
+h_{\mathrm{cv}}=\underset{h \geq h_{\ell}}{\operatorname{argmin}} \mathrm{CV}(h)
+\]</span></p>
+<p>for some <span class="math inline">\(h_{\ell}&gt;0\)</span>. The restriction <span class="math inline">\(h \geq h_{\ell}\)</span> can be imposed so that <span class="math inline">\(\mathrm{CV}(h)\)</span> is not evaluated over unreasonably small bandwidths.</p>
+<p>There is not an explicit solution to the minimization problem (19.13), so it must be solved numerically. One method is grid search. Create a grid of values for <span class="math inline">\(h\)</span>, e.g.&nbsp;[ <span class="math inline">\(\left.h_{1}, h_{2}, \ldots, h_{J}\right]\)</span>, evaluate <span class="math inline">\(C V\left(h_{j}\right)\)</span> for <span class="math inline">\(j=1, \ldots, J\)</span>, and set</p>
+<p><span class="math display">\[
+h_{\mathrm{cv}}=\underset{h \in\left[h_{1}, h_{2}, \ldots, h_{J}\right]}{\operatorname{argmin}} \mathrm{CV}(h) .
+\]</span></p>
+<p>Evaluation using a coarse grid is typically sufficient for practical application. Plots of CV( <span class="math inline">\(h)\)</span> against <span class="math inline">\(h\)</span> are a useful diagnostic tool to verify that the minimum of <span class="math inline">\(\mathrm{CV}(h)\)</span> has been obtained. A computationally more efficient method for obtaining the solution (19.13) is Golden-Section Search. See Section <span class="math inline">\(12.4\)</span> of Probability and Statistics for Economists.</p>
+<p>It is possible for the solution (19.13) to be unbounded, that is, <span class="math inline">\(\mathrm{CV}(h)\)</span> is decreasing for large <span class="math inline">\(h\)</span> so that <span class="math inline">\(h_{\mathrm{cv}}=\infty\)</span>. This is okay. It simply means that the regression estimator simplifies to its full-sample version. For Nadaraya-Watson estimator this is <span class="math inline">\(\hat{m}_{\mathrm{nw}}(x)=\bar{Y}\)</span>. For the local linear estimator this is <span class="math inline">\(\hat{m}_{\mathrm{LL}}(x)=\widehat{\alpha}+\widehat{\beta} x\)</span>.</p>
+<p>For NW and LL estimation, the criterion (19.11) requires leave-one-out estimation of the conditional mean at each observation <span class="math inline">\(X_{i}\)</span>. This is different from calculation of the estimator <span class="math inline">\(\widehat{m}(x)\)</span> as the latter is typically done at a set of fixed values of <span class="math inline">\(x\)</span> for purposes of display.</p>
+<p>To illustrate, Figure 19.4(a) displays the cross-validation criteria <span class="math inline">\(\mathrm{CV}(h)\)</span> for the Nadaraya-Watson and Local Linear estimators using the data from Figure 19.1, both using the Gaussian kernel. The CV functions are computed on a grid on <span class="math inline">\(\left[h_{\mathrm{rot}} / 3,3 h_{\mathrm{rot}}\right]\)</span> with 200 gridpoints. The CV-minimizing bandwidths are <span class="math inline">\(h_{\mathrm{nw}}=0.830\)</span> for the Nadaraya-Watson estimator and <span class="math inline">\(h_{\mathrm{LL}}=0.764\)</span> for the local linear estimator. These are somewhat higher than the rule of thumb <span class="math inline">\(h_{\mathrm{rot}}=0.551\)</span> value calculated earlier. Figure 19.4(a) shows the minimizing bandwidths by the arrows.</p>
+<p>The CV criterion can also be used to select between different nonparametric estimators. The CVselected estimator is the one with the lowest minimized CV criterion. For example, in Figure 19.4(a), you can see that the LL estimator has a minimized CV criterion of <span class="math inline">\(0.0699\)</span> which is lower than the minimum</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-17.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Cross-Validation Criterion</li>
+</ol>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-17(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Nonparametric Estimates</li>
+</ol>
+<p>Figure 19.4: Bandwidth Selection</p>
+<p><span class="math inline">\(0.0703\)</span> obtained by the NW estimator. Since the LL estimator achieves a lower value of the CV criterion, LL is the CV-selected estimator. The difference, however, is small, indicating that the two estimators achieve similar IMSE.</p>
+<p>Figure 19.4(b) displays the local linear estimates <span class="math inline">\(\widehat{m}(x)\)</span> using the ROT and CV bandwidths along with the true conditional mean <span class="math inline">\(m(x)\)</span>. The estimators track the true function quite well, and the difference between the bandwidths is relatively minor in this application.</p>
+</section>
+<section id="asymptotic-distribution" class="level2" data-number="18.13">
+<h2 data-number="18.13" class="anchored" data-anchor-id="asymptotic-distribution"><span class="header-section-number">18.13</span> Asymptotic Distribution</h2>
+<p>We first provide a consistency result.</p>
+<p>Theorem 19.8 Under Assumption 19.1, <span class="math inline">\(\hat{m}_{\mathrm{nw}}(x) \underset{p}{\rightarrow} m(x)\)</span> and <span class="math inline">\(\hat{m}_{\mathrm{LL}}(x) \underset{p}{\longrightarrow}\)</span> <span class="math inline">\(m(x)\)</span></p>
+<p>A proof for the Nadaraya-Watson estimator is presented in Section 19.26. For the local linear estimator see Fan and Gijbels (1996).</p>
+<p>Theorem <span class="math inline">\(19.8\)</span> shows that the estimators are consistent for <span class="math inline">\(m(x)\)</span> under mild continuity assumptions. In particular, no smoothness conditions on <span class="math inline">\(m(x)\)</span> are required beyond continuity.</p>
+<p>We next present an asymptotic distribution result. The following shows that the kernel regression estimators are asymptotically normal with a nonparametric rate of convergence, a non-trivial asymptotic bias, and a non-degenerate asymptotic variance. Theorem 19.9 Suppose Assumption <span class="math inline">\(19.1\)</span> holds. Assume in addition that <span class="math inline">\(m^{\prime \prime}(x)\)</span> and <span class="math inline">\(f^{\prime}(x)\)</span> are continuous in <span class="math inline">\(\mathscr{N}\)</span>, that for some <span class="math inline">\(r&gt;2\)</span> and <span class="math inline">\(x \in \mathscr{N}\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{E}\left[|e|^{r} \mid X=x\right] \leq \bar{\sigma}&lt;\infty,
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+n h^{5}=O(1) .
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+\sqrt{n h}\left(\widehat{m}_{\mathrm{nw}}(x)-m(x)-h^{2} B_{\mathrm{nw}}(x)\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \frac{R_{K} \sigma^{2}(x)}{f(x)}\right) .
+\]</span></p>
+<p>Similarly,</p>
+<p><span class="math display">\[
+\sqrt{n h}\left(\widehat{m}_{\mathrm{LL}}(x)-m(x)-h^{2} B_{\mathrm{LL}}(x)\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \frac{R_{K} \sigma^{2}(x)}{f(x)}\right) .
+\]</span></p>
+<p>A proof for the Nadaraya-Watson estimator appears in Section 19.26. For the local linear estimator see Fan and Gijbels (1996).</p>
+<p>Relative to Theorem 19.8, Theorem <span class="math inline">\(19.9\)</span> requires stronger smoothness conditions on the conditional mean and marginal density. There are also two technical regularity conditions. The first is a conditional moment bound (19.14) (which is used to verify the Lindeberg condition for the CLT) and the second is the bandwidth bound <span class="math inline">\(n h^{5}=O(1)\)</span>. The latter means that the bandwidth must decline to zero at least at the rate <span class="math inline">\(n^{-1 / 5}\)</span> and is used <span class="math inline">\({ }^{6}\)</span> to ensure that higher-order bias terms do not enter the asymptotic distribution (19.16).</p>
+<p>There are several interesting features about the asymptotic distribution which are noticeably different than for parametric estimators. First, the estimators converge at the rate <span class="math inline">\(\sqrt{n h}\)</span> not <span class="math inline">\(\sqrt{n}\)</span>. Since <span class="math inline">\(h \rightarrow 0\)</span>, <span class="math inline">\(\sqrt{n h}\)</span> diverges slower than <span class="math inline">\(\sqrt{n}\)</span>, thus the nonparametric estimators converge more slowly than a parametric estimator. Second, the asymptotic distribution contains a non-negligible bias term <span class="math inline">\(h^{2} B(x)\)</span>. Third, the distribution (19.16) is identical in form to that for the kernel density estimator (Theorem <span class="math inline">\(17.7\)</span> of Probability and Statistics for Economists).</p>
+<p>The fact that the estimators converge at the rate <span class="math inline">\(\sqrt{n h}\)</span> has led to the interpretation of <span class="math inline">\(n h\)</span> as the “effective sample size”. This is because the number of observations being used to construct <span class="math inline">\(\widehat{m}(x)\)</span> is proportional to <span class="math inline">\(n h\)</span>, not <span class="math inline">\(n\)</span> as for a parametric estimator.</p>
+<p>It is helpful to understand that the nonparametric estimator has a reduced convergence rate relative to parametric asymptotic theory because the object being estimated - <span class="math inline">\(m(x)-\)</span> is nonparametric. This is harder than estimating a finite dimensional parameter, and thus comes at a cost.</p>
+<p>Unlike parametric estimation the asymptotic distribution of the nonparametric estimator includes a term representing the bias of the estimator. The asymptotic distribution (19.16) shows the form of this bias. It is proportional to the squared bandwidth <span class="math inline">\(h^{2}\)</span> (the degree of smoothing) and to the function <span class="math inline">\(B_{\mathrm{nw}}(x)\)</span> or <span class="math inline">\(B_{\mathrm{LL}}(x)\)</span> which depends on the slope and curvature of the CEF <span class="math inline">\(m(x)\)</span>. Interestingly, when <span class="math inline">\(m(x)\)</span> is constant then <span class="math inline">\(B_{\mathrm{nw}}(x)=B_{\mathrm{LL}}(x)=0\)</span> and the kernel estimator has no asymptotic bias. The bias is essentially increasing in the curvature of the CEF function <span class="math inline">\(m(x)\)</span>. This is because the local averaging smooths <span class="math inline">\(m(x)\)</span>, and the smoothing induces more bias when <span class="math inline">\(m(x)\)</span> is curved. Since the bias terms are multiplied by <span class="math inline">\(h^{2}\)</span></p>
+<p><span class="math inline">\({ }^{6}\)</span> This could be weakened if stronger smoothness conditions are assumed. For example, if <span class="math inline">\(m^{(4)}(x)\)</span> and <span class="math inline">\(f^{(3)}(x)\)</span> are continuous then (19.15) can be weakened to <span class="math inline">\(n h^{9}=O(1)\)</span>, which means that the bandwidth must decline to zero at least at the rate <span class="math inline">\(n^{-1 / 9}\)</span>. which tends to zero it might be thought that the bias terms are asymptotically negligible and can be omitted, but this is mistaken because they are within the parentheses which are mutiplied by the factor <span class="math inline">\(\sqrt{n h}\)</span>. The bias terms can only be omitted if <span class="math inline">\(\sqrt{n h} h^{2} \rightarrow 0\)</span>, which is known as an undersmoothing condition and is discussed in the next section.</p>
+<p>The asymptotic variance of <span class="math inline">\(\widehat{m}(x)\)</span> is inversely proportional to the marginal density <span class="math inline">\(f(x)\)</span>. This means that <span class="math inline">\(\widehat{m}(x)\)</span> has relatively low precision for regions where <span class="math inline">\(X\)</span> has a low density. This makes sense because these are regions where there are relatively few observations. An implication is that the nonparametric estimator <span class="math inline">\(\widehat{m}(x)\)</span> will be relatively inaccurate in the tails of the distribution of <span class="math inline">\(X\)</span>.</p>
+</section>
+<section id="undersmoothing" class="level2" data-number="18.14">
+<h2 data-number="18.14" class="anchored" data-anchor-id="undersmoothing"><span class="header-section-number">18.14</span> Undersmoothing</h2>
+<p>The bias term in the asymptotic distribution of the kernel density estimator can be technically eliminated if the bandwidth is selected to converge to zero faster than the optimal rate <span class="math inline">\(n^{-1 / 5}\)</span>, thus <span class="math inline">\(h=\)</span> <span class="math inline">\(o\left(n^{-1 / 5}\right)\)</span>. This is called an under-smoothing bandwidth. By using a small bandwidth the bias is reduced and the variance is increased. Thus the random component dominates the bias component (asymptotically). The following is the technical statement.</p>
+<p>Theorem 19.10 Under the conditions of Theorem 19.9, and <span class="math inline">\(n h^{5}=o(1)\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\sqrt{n h}\left(\widehat{m}_{\mathrm{nw}}(x)-m(x)\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \frac{R_{K} \sigma^{2}(x)}{f(x)}\right) \\
+&amp;\sqrt{n h}\left(\widehat{m}_{\mathrm{LL}}(x)-m(x)\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \frac{R_{K} \sigma^{2}(x)}{f(x)}\right) .
+\end{aligned}
+\]</span></p>
+<p>Theorem <span class="math inline">\(19.10\)</span> has the advantage of no bias term. Consequently this theorem is popular with some authors. There are also several disadvantages. First, the assumption of an undersmoothing bandwidth does not really eliminate the bias, it simply assumes it away. Thus in any finite sample there is always bias. Second, it is not clear how to set a bandwidth so that it is undersmoothing. Third, a undersmoothing bandwidth implies that the estimator has increased variance and is inefficient. Finally, the theory is simply misleading as a characterization of the distribution of the estimator.</p>
+</section>
+<section id="conditional-variance-estimation" class="level2" data-number="18.15">
+<h2 data-number="18.15" class="anchored" data-anchor-id="conditional-variance-estimation"><span class="header-section-number">18.15</span> Conditional Variance Estimation</h2>
+<p>The conditional variance is</p>
+<p><span class="math display">\[
+\sigma^{2}(x)=\operatorname{var}[Y \mid X=x]=\mathbb{E}\left[e^{2} \mid X=x\right] .
+\]</span></p>
+<p>There are a number of contexts where it is desirable to estimate <span class="math inline">\(\sigma^{2}(x)\)</span> including prediction intervals and confidence intervals for the estimated CEF. In general the conditional variance function is nonparametric as economic models rarely specify the form of <span class="math inline">\(\sigma^{2}(x)\)</span>. Thus estimation of <span class="math inline">\(\sigma^{2}(x)\)</span> is typically done nonparametrically. Since <span class="math inline">\(\sigma^{2}(x)\)</span> is the CEF of <span class="math inline">\(e^{2}\)</span> given <span class="math inline">\(X\)</span> it can be estimated by nonparametric regression. For example, the ideal NW estimator (if <span class="math inline">\(e\)</span> were observed) is</p>
+<p><span class="math display">\[
+\bar{\sigma}^{2}(x)=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) e_{i}^{2}}{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)} .
+\]</span></p>
+<p>Since the errors <span class="math inline">\(e\)</span> are not observed, we need to replace them with an estimator. A simple choice are the residuals <span class="math inline">\(\widehat{e}_{i}=Y_{i}-\widehat{m}\left(X_{i}\right)\)</span>. A better choice are the leave-one-out prediction errors <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-\widehat{m}_{-i}\left(X_{i}\right)\)</span>. The latter are recommended for variance estimation as they are not subject to overfitting. With this substitution the NW estimator of the conditional variance is</p>
+<p><span class="math display">\[
+\widehat{\sigma}^{2}(x)=\frac{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) \widetilde{e}_{i}^{2}}{\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)} .
+\]</span></p>
+<p>This estimator depends on a bandwidth <span class="math inline">\(h\)</span> but there is no reason for this bandwidth to be the same as that used to estimate the CEF. The ROT or cross-validation using <span class="math inline">\(\widetilde{e}_{i}^{2}\)</span> as the dependent variable can be used to select the bandwidth for estimation of <span class="math inline">\(\widehat{\sigma}^{2}(x)\)</span> separately from the choice for estimation of <span class="math inline">\(\widehat{m}(x)\)</span>.</p>
+<p>There is one subtle difference between CEF and conditional variance estimation. The conditional variance is inherently non-negative <span class="math inline">\(\sigma^{2}(x) \geq 0\)</span> and it is desirable for the estimator to satisfy this property. The NW estimator (19.17) is necessarily non-negative because it is a smoothed average of the nonnegative squared residuals. The LL estimator, however, is not guaranteed to be non-negative for all <span class="math inline">\(x\)</span>. Furthermore, the NW estimator has as a special case the homoskedastic estimator <span class="math inline">\(\widehat{\sigma}^{2}(x)=\widehat{\sigma}^{2}\)</span> (full sample variance) which may be a relevant selection. For these reasons, the NW estimator may be preferred for conditional variance estimation.</p>
+<p>Fan and Yao (1998) derive the asymptotic distribution of the estimator (19.17). They obtain the surprising result that the asymptotic distribution of the two-step estimator <span class="math inline">\(\widehat{\sigma}^{2}(x)\)</span> is identical to that of the one-step idealized estimator <span class="math inline">\(\bar{\sigma}^{2}(x)\)</span>.</p>
+</section>
+<section id="variance-estimation-and-standard-errors" class="level2" data-number="18.16">
+<h2 data-number="18.16" class="anchored" data-anchor-id="variance-estimation-and-standard-errors"><span class="header-section-number">18.16</span> Variance Estimation and Standard Errors</h2>
+<p>It is relatively straightforward to calculate the exact conditional variance of the Nadaraya-Watson, local linear, or local polynomial estimator. The estimators can be written as</p>
+<p><span class="math display">\[
+\widehat{\beta}(x)=\left(Z^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1}\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Y}\right)=\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1}\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{m}\right)+\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1}\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{e}\right)
+\]</span></p>
+<p>where <span class="math inline">\(m\)</span> is the <span class="math inline">\(n \times 1\)</span> vector of means <span class="math inline">\(m\left(X_{i}\right)\)</span>. The first component is a function only of the regressors and the second is linear in the error <span class="math inline">\(\boldsymbol{e}\)</span>. Thus conditionally on the regressors <span class="math inline">\(\boldsymbol{X}\)</span>,</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\widehat{\beta}}(x)=\operatorname{var}[\widehat{\beta} \mid \boldsymbol{X}]=\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1}\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{D} \boldsymbol{K} \boldsymbol{Z}\right)\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{D}=\operatorname{diag}\left(\sigma^{2}\left(X_{1}\right), \ldots \sigma^{2}\left(X_{n}\right)\right)\)</span></p>
+<p>A White-type estimator can be formed by replacing <span class="math inline">\(\sigma^{2}\left(X_{i}\right)\)</span> with the squared residuals <span class="math inline">\(\widehat{e}_{i}^{2}\)</span> or prediction errors <span class="math inline">\(\widetilde{e}_{i}^{2}\)</span></p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{\beta}}(x)=\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1}\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)^{2} Z_{i}(x) Z_{i}(x)^{\prime} \widetilde{e}_{i}^{2}\right)\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1} .
+\]</span></p>
+<p>Alternatively, <span class="math inline">\(\sigma^{2}\left(X_{i}\right)\)</span> could be replaced with an estimator such as (19.17) evaluated at <span class="math inline">\(\widehat{\sigma}^{2}\left(X_{i}\right)\)</span> or <span class="math inline">\(\widehat{\sigma}^{2}(x)\)</span>.</p>
+<p>A simple option is the asymptotic formula</p>
+<p><span class="math display">\[
+\widehat{V}_{\widehat{m}(x)}=\frac{R_{K} \widehat{\sigma}^{2}(x)}{n h \widehat{f}(x)}
+\]</span></p>
+<p>with <span class="math inline">\(\widehat{\sigma}^{2}(x)\)</span> from (19.17) and <span class="math inline">\(\widehat{f}(x)\)</span> a density estimator such as</p>
+<p><span class="math display">\[
+\widehat{f}(x)=\frac{1}{n b} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{b}\right)
+\]</span></p>
+<p>where <span class="math inline">\(b\)</span> is a bandwidth. (See Chapter 17 of Probability and Statistics for Economists.)</p>
+<p>In general we recommend (19.18) calculated with prediction errors as this is the closest analog of the finite sample covariance matrix.</p>
+<p>For local linear and local polynomial estimators the estimator <span class="math inline">\(\widehat{V}_{\widehat{m}(x)}\)</span> is the first diagonal element of the matrix <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}(x)\)</span>. For any of the variance estimators a standard error for <span class="math inline">\(\widehat{m}(x)\)</span> is the square root of <span class="math inline">\(\widehat{V}_{\widehat{m}(x)}\)</span>.</p>
+</section>
+<section id="confidence-bands" class="level2" data-number="18.17">
+<h2 data-number="18.17" class="anchored" data-anchor-id="confidence-bands"><span class="header-section-number">18.17</span> Confidence Bands</h2>
+<p>We can construct asymptotic confidence intervals. An 95% interval for <span class="math inline">\(m(x)\)</span> is</p>
+<p><span class="math display">\[
+\widehat{m}(x) \pm 1.96 \sqrt{\widehat{V}_{\widehat{m}(x)}} .
+\]</span></p>
+<p>This confidence interval can be plotted along with <span class="math inline">\(\widehat{m}(x)\)</span> to assess precision.</p>
+<p>It should be noted, however, that this confidence interval has two unusual properties. First, it is pointwise in <span class="math inline">\(x\)</span>, meaning that it is designed to have coverage probability at each <span class="math inline">\(x\)</span> not uniformly across <span class="math inline">\(x\)</span>. Thus they are typically called pointwise confidence intervals.</p>
+<p>Second, because it does not account for the bias it is not an asymptotically valid confidence interval for <span class="math inline">\(m(x)\)</span>. Rather, it is an asymptotically valid confidence interval for the pseudo-true (smoothed) value, e.g.&nbsp;<span class="math inline">\(m(x)+h^{2} B(x)\)</span>. One way of thinking about this is that the confidence intervals account for the variance of the estimator but not its bias. A technical trick which solves this problem is to assume an undersmoothing bandwidth. In this case the above confidence intervals are technically asymptotically valid. This is only a technical trick as it does not really eliminate the bias only assumes it away. The plain fact is that once we honestly acknowledge that the true CEF is nonparametric it then follows that any finite sample estimator will have finite sample bias and this bias will be inherently unknown and thus difficult to incorporate into confidence intervals.</p>
+<p>Despite these unusual properties we can still use the interval (19.20) to display uncertainty and as a check on the precision of the estimates.</p>
+</section>
+<section id="the-local-nature-of-kernel-regression" class="level2" data-number="18.18">
+<h2 data-number="18.18" class="anchored" data-anchor-id="the-local-nature-of-kernel-regression"><span class="header-section-number">18.18</span> The Local Nature of Kernel Regression</h2>
+<p>The kernel regression estimators (Nadaraya-Watson, Local Linear, and Local Polynomial) are all essentially local estimators in that given <span class="math inline">\(h\)</span> the estimator <span class="math inline">\(\widehat{m}(x)\)</span> is a function only of the sub-sample for which <span class="math inline">\(X\)</span> is close to <span class="math inline">\(x\)</span>. The other observations do not directly affect the estimator. This is reflected in the distribution theory as well. Theorem <span class="math inline">\(19.8\)</span> shows that <span class="math inline">\(\widehat{m}(x)\)</span> is consistent for <span class="math inline">\(m(x)\)</span> if the latter is continuous at <span class="math inline">\(x\)</span>. Theorem <span class="math inline">\(19.9\)</span> shows that the asymptotic distribution of <span class="math inline">\(\widehat{m}(x)\)</span> depends only on the functions <span class="math inline">\(m(x)\)</span>, <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(\sigma^{2}(x)\)</span> at the point <span class="math inline">\(x\)</span>. The distribution does not depend on the global behavior of <span class="math inline">\(m(x)\)</span>. Global features do affect the estimator <span class="math inline">\(\widehat{m}(x)\)</span>, however, through the bandwidth <span class="math inline">\(h\)</span>. The bandwidth selection methods described here are global in nature as they attempt to minimize AIMSE. Local bandwidths (designed to minimize the AMSE at a single point <span class="math inline">\(x\)</span> ) can alternatively be employed but these are less commonly used, in part because such bandwidth estimators have high imprecision. Picking local bandwidths adds extra noise.</p>
+<p>Furthermore, selected bandwidths may be meaningfully large so that the estimation window may be a large portion of the sample. In this case estimation is neither local nor fully global.</p>
+</section>
+<section id="application-to-wage-regression" class="level2" data-number="18.19">
+<h2 data-number="18.19" class="anchored" data-anchor-id="application-to-wage-regression"><span class="header-section-number">18.19</span> Application to Wage Regression</h2>
+<p>We illustrate the methods with an application to the the CPS data set. We are interested in the nonparametric regression of <span class="math inline">\(\log\)</span> (wage) on experience. To illustrate we take the subsample of Black men with 12 years of education (high school graduates). This sample has 762 observations.</p>
+<p>We first need to decide on the region of interest (range of experience) for which we will calculate the regression estimator. We select the range <span class="math inline">\([0,40]\)</span> because most observations (90%) have experience levels below 40 years.</p>
+<p>To avoid boundary bias we use the local linear estimator.</p>
+<p>We next calculate the Fan-Gijbels rule-of-thumb bandwidth (19.9) and find <span class="math inline">\(h_{\text {rot }}=5.14\)</span>. We then calculate the cross-validation criterion using the rule-of-thumb as a baseline. The CV criterion is displayed in Figure 19.5(a). The minimizer is <span class="math inline">\(h_{\mathrm{cv}}=4.32\)</span> which is somewhat smaller than the ROT bandwidth.</p>
+<p>We calculate the local linear estimator using both bandwidths and display the estimates in Figure 19.5(b). The regression functions are increasing for experience levels up to 20 years and then become flat. While the functions are roughly concave they are noticably different than a traditional quadratic specification. Comparing the estimates, the smaller CV-selected bandwidth produces a regression estimate which is a bit too wavy while the ROT bandwidth produces a regression estimate which is much smoother yet captures the same essential features. Based on this inspection we select the estimate based on the ROT bandwidth (the solid line in panel (b)).</p>
+<p>We next consider estimation of the conditional variance function. We calculate the ROT bandwidth for a regression using the squared prediction errors and find <span class="math inline">\(h_{\mathrm{rot}}=6.77\)</span> which is larger than the bandwidth used for conditional mean estimation. We next calculate the cross-validation functions for conditional variance estimation (regression of squared prediction errors on experience) using both NW and LL regression. The CV functions are displayed in Figure 19.6(a). The CV plots are quite interesting. For the LL estimator the CV function has a local minimum around <span class="math inline">\(h=5\)</span> but the global minimizer is unbounded. The CV function for the NW estimator is globally decreasing with an unbounded minimizer. The NW also achieves a considerably lower CV value than the LL estimator. This means that the CV-selected variance estimator is the NW estimator with <span class="math inline">\(h=\infty\)</span>, which is the simple full-sample estimator <span class="math inline">\(\widehat{\sigma}^{2}\)</span> calculated with the prediction errors.</p>
+<p>We next compute standard errors for the regression function estimates using formula (19.18). In Figure 19.6(b) we display the estimated regression (the same as Figure <span class="math inline">\(19.5\)</span> using the ROT bandwidth) along with <span class="math inline">\(95 %\)</span> asymptotic confidence bands computed as in (19.20). By displaying the confidence bands we can see that there is considerable imprecision in the estimator for low experience levels. We can still see that the estimates and confidence bands show that the experience profile is increasing up to about 20 years of experience and then flattens above 20 years. The estimates imply that for this population (Black men who are high school graduates) the average wage rises for the first 20 years of work experience (from 18 to 38 years of age) and then flattens with no further increases in average wages for the next 20 years of work experience (from 38 to 58 years of age).</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-23.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Cross-Validation Criterion</li>
+</ol>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-23(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Local Linear Regression</li>
+</ol>
+<p>Figure 19.5: Log Wage Regression on Experience</p>
+</section>
+<section id="clustered-observations" class="level2" data-number="18.20">
+<h2 data-number="18.20" class="anchored" data-anchor-id="clustered-observations"><span class="header-section-number">18.20</span> Clustered Observations</h2>
+<p>Clustered observations are <span class="math inline">\(\left(Y_{i g}, X_{i g}\right)\)</span> for individuals <span class="math inline">\(i=1, \ldots, n_{g}\)</span> in cluster <span class="math inline">\(g=1, \ldots, G\)</span>. The model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_{i g} &amp;=m\left(X_{i g}\right)+e_{i g} \\
+\mathbb{E}\left[e_{i g} \mid \boldsymbol{X}_{g}\right] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{X}_{g}\)</span> is the stacked <span class="math inline">\(X_{i g}\)</span>. The assumption is that the clusters are mutually independent. Dependence within each cluster is unstructured.</p>
+<p>Write</p>
+<p><span class="math display">\[
+Z_{i g}(x)=\left(\begin{array}{c}
+1 \\
+X_{i g}-x
+\end{array}\right) .
+\]</span></p>
+<p>Stack <span class="math inline">\(Y_{i g}, e_{i g}\)</span> and <span class="math inline">\(Z_{i g}(x)\)</span> into cluster-level variables <span class="math inline">\(\boldsymbol{Y}_{g}, \boldsymbol{e}_{g}\)</span> and <span class="math inline">\(Z_{g}(x)\)</span>. Let <span class="math inline">\(\boldsymbol{K}_{g}(x)=\operatorname{diag}\left\{K\left(\frac{X_{i g}-x}{h}\right)\right\}\)</span>. The local linear estimator can be written as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}(x) &amp;=\left(\sum_{g=1}^{G} \sum_{i=1}^{n_{g}} K\left(\frac{X_{i g}-x}{h}\right) Z_{i g}(x) Z_{i g}(x)^{\prime}\right)^{-1}\left(\sum_{g=1}^{G} \sum_{i=1}^{n_{g}} K\left(\frac{X_{i g}-x}{h}\right) Z_{i g}(x) Y_{i g}\right) \\
+&amp;=\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x)^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)^{-1}\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x)^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{Y}_{g}\right) .
+\end{aligned}
+\]</span></p>
+<p>The local linear estimator <span class="math inline">\(\widehat{m}(x)=\widehat{\beta}_{1}(x)\)</span> is the intercept in (19.21).</p>
+<p>The natural method to obtain prediction errors is by delete-cluster regression. The delete-cluster estimator of <span class="math inline">\(\beta\)</span> is</p>
+<p><span class="math display">\[
+\widetilde{\beta}_{(-g)}(x)=\left(\sum_{j \neq g} \boldsymbol{Z}_{j}(x)^{\prime} \boldsymbol{K}_{j}(x) \boldsymbol{Z}_{j}(x)\right)^{-1}\left(\sum_{j \neq g} \boldsymbol{Z}_{j}(x)^{\prime} \boldsymbol{K}_{j}(x) \boldsymbol{Y}_{j}\right) .
+\]</span></p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-24.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Cross-Validation for Conditional Variance</li>
+</ol>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-24(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Regression with Confidence Bands</li>
+</ol>
+<p>Figure 19.6: Confidence Band Construction</p>
+<p>The delete-cluster estimator of <span class="math inline">\(m(x)\)</span> is the intercept <span class="math inline">\(\widetilde{m}_{1}(x)=\widetilde{\beta}_{1(-g)}(x)\)</span> from (19.22). The delete-cluster prediction error for observation <span class="math inline">\(i g\)</span> is</p>
+<p><span class="math display">\[
+\widetilde{e}_{i g}=Y_{i g}-\widetilde{\beta}_{1(-g)}\left(X_{i g}\right) .
+\]</span></p>
+<p>Let <span class="math inline">\(\widetilde{\boldsymbol{e}}_{g}\)</span> be the stacked <span class="math inline">\(\widetilde{e}_{i g}\)</span> for cluster <span class="math inline">\(g\)</span>.</p>
+<p>The variance of (19.21), conditional on the regressors <span class="math inline">\(\boldsymbol{X}\)</span>, is</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\widehat{\beta}}(x)=\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x)^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)^{-1}\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x)^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{S}_{g}(x) \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x)^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{S}_{g}=\mathbb{E}\left[\boldsymbol{e}_{g} \boldsymbol{e}_{g}^{\prime} \mid \boldsymbol{X}_{g}\right]\)</span>. The covariance matrix (19.24) can be estimated by replacing <span class="math inline">\(\boldsymbol{S}_{g}\)</span> with an estimator of <span class="math inline">\(\boldsymbol{e}_{g} \boldsymbol{e}_{g}^{\prime}\)</span>. Based on analogy with regression estimation we suggest the delete-cluster prediction errors <span class="math inline">\(\widetilde{\boldsymbol{e}}_{g}\)</span> as they are not subject to over-fitting. This covariance matrix estimator using this choice is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{\beta}}(x)=\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x)^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)^{-1}\left(\sum_{g=1}^{G} Z_{g}(x) \boldsymbol{K}_{g}(x) \widetilde{\boldsymbol{e}}_{g} \widetilde{\boldsymbol{e}}_{g}^{\prime} \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)\left(\sum_{g=1}^{G} \boldsymbol{Z}_{g}(x) \boldsymbol{K}_{g}(x) \boldsymbol{Z}_{g}(x)\right)^{-1} .
+\]</span></p>
+<p>The standard error for <span class="math inline">\(\widehat{m}(x)\)</span> is the square root of the first diagonal element of <span class="math inline">\(\widehat{\boldsymbol{V}}_{\widehat{\beta}}(x)\)</span>.</p>
+<p>There is no current theory on how to select the bandwidth <span class="math inline">\(h\)</span> for nonparametric regression using clustered observations. The Fan-Ghybels ROT bandwidth <span class="math inline">\(h_{\text {rot }}\)</span> is designed for independent observations so is likely to be a crude choice in the case of clustered observations. Standard cross-validation has similar limitations. A practical alternative is to select the bandwidth <span class="math inline">\(h\)</span> to minimize a delete-cluster crossvaliation criterion. While there is no formal theory to justify this choice, it seems like a reasonable option. The delete-cluster CV criterion is</p>
+<p><span class="math display">\[
+\mathrm{CV}(h)=\frac{1}{n} \sum_{g=1}^{G} \sum_{i=1}^{n_{g}} \widetilde{e}_{i g}^{2}
+\]</span></p>
+<p>where <span class="math inline">\(\widetilde{e}_{i g}\)</span> are the delete-cluster prediction errors (19.23). The delete-cluster CV bandwidth is the value which minimizes this function:</p>
+<p><span class="math display">\[
+h_{\mathrm{cV}}=\underset{h \geq h_{\ell}}{\operatorname{argmin}} \mathrm{CV}(h) .
+\]</span></p>
+<p>As for the case of conventional cross-validation, it may be valuable to plot <span class="math inline">\(\mathrm{CV}(h)\)</span> against <span class="math inline">\(h\)</span> to verify that the minimum has been obtained and to assess sensitivity.</p>
+</section>
+<section id="application-to-testscores" class="level2" data-number="18.21">
+<h2 data-number="18.21" class="anchored" data-anchor-id="application-to-testscores"><span class="header-section-number">18.21</span> Application to Testscores</h2>
+<p>We illustrate kernel regression with clustered observations by using the Duflo, Dupas, and Kremer (2011) investigation of the effect of student tracking on testscores. Recall that the core question was effect of the dummy variable tracking on the continuous variable testscore. A set of controls were included including a continuous variable percentile which recorded the student’s initial test score (as a percentile). We investigate the authors’ specification of this control using local linear regression.</p>
+<p>We took the subsample of 1487 girls who experienced tracking and estimated the regression of testscores on percentile. For this application we used unstandardized <span class="math inline">\({ }^{7}\)</span> test scores which range from 0 to about 40 . We used local linear regression with a Gaussian kernel.</p>
+<p>First consider bandwidth selection. The Fan-Ghybels ROT and conventional cross-validation bandwidths are <span class="math inline">\(h_{\mathrm{rot}}=6.7\)</span> and <span class="math inline">\(h_{\mathrm{cv}}=12.3\)</span>. We then calculated the clustered cross-validation criterion which has minimizer <span class="math inline">\(h_{\mathrm{cv}}=6.2\)</span>. To understand the differences we plot the standard and clustered cross-validation functions in Figure 19.7(a). In order to plot on the same graph we normalize each by subtracting their minimized value (so each is minimized at zero). What we can see from Figure 19.7(a) is that while the conventional CV criterion is sharply minimized at <span class="math inline">\(h=12.3\)</span>, the clustered CV criterion is essentially flat between 5 and 11. This means that the clustered CV criterion has difficulty discriminating between these bandwidth choices.</p>
+<p>Using the bandwidth selected by clustered cross-validation, we calculate the local linear estimator <span class="math inline">\(\hat{m}_{\mathrm{LL}}(x)\)</span> of the regression function. The estimate is plotted in Figure 19.7(b). We calculate the deletecluster prediction errors <span class="math inline">\(\widetilde{\boldsymbol{e}}_{g}\)</span> and use these to calculate the standard errors for the local linear estimator <span class="math inline">\(\widehat{m}_{\mathrm{LL}}(x)\)</span> using formula (19.25). (These standard errors are roughly twice as large as those calculated using the non-clustered formula.) We use the standard errors to calculate <span class="math inline">\(95 %\)</span> asymptotic pointwise confidence bands as in (19.20). These are plotted in Figure 19.7(b) along with the point estimate. Also plotted for comparison is an estimated linear regression line. The local linear estimator is similar to the global linear regression for initial percentiles below <span class="math inline">\(80 %\)</span>. But for initial percentiles above <span class="math inline">\(80 %\)</span> the two lines diverge. The confidence bands suggest that these differences are statistically meaningful. Students with initial testscores at the top of the initial distribution have higher final testscores on average than predicted by a linear specification.</p>
+</section>
+<section id="multiple-regressors" class="level2" data-number="18.22">
+<h2 data-number="18.22" class="anchored" data-anchor-id="multiple-regressors"><span class="header-section-number">18.22</span> Multiple Regressors</h2>
+<p>Our analysis has focused on the case of real-valued <span class="math inline">\(X\)</span> for simplicity, but the methods of kernel regression extend to the multiple regressor case at the cost of a reduced rate of convergence. In this section we</p>
+<p><span class="math inline">\({ }^{7}\)</span> In Section 4.21, following Duflo, Dupas and Kremer (2011) the dependent variable was standardized testscores (normalized to have mean zero and variance one).</p>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-26.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Cross-Validation Criterion</li>
+</ol>
+<p><img src="images//2022_10_23_027876b875523fa3ea56g-26(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Local Linear Regression</li>
+</ol>
+<p>Figure 19.7: Testscore as a Function of Initial Percentile</p>
+<p>consider the case of estimation of the conditional expectation function <span class="math inline">\(\mathbb{E}[Y \mid X=x]=m(x)\)</span> where</p>
+<p><span class="math display">\[
+X=\left(\begin{array}{c}
+X_{1} \\
+\vdots \\
+X_{d}
+\end{array}\right) \in \mathbb{R}^{d} .
+\]</span></p>
+<p>For any evaluation point <span class="math inline">\(x\)</span> and observation <span class="math inline">\(i\)</span> define the kernel weights</p>
+<p><span class="math display">\[
+K_{i}(x)=K\left(\frac{X_{1 i}-x_{1}}{h_{1}}\right) K\left(\frac{X_{2 i}-x_{2}}{h_{2}}\right) \cdots K\left(\frac{X_{d i}-x_{d}}{h_{d}}\right),
+\]</span></p>
+<p>a <span class="math inline">\(d\)</span>-fold product kernel. The kernel weights <span class="math inline">\(K_{i}(x)\)</span> assess if the regressor vector <span class="math inline">\(X_{i}\)</span> is close to the evaluation point <span class="math inline">\(x\)</span> in the Euclidean space <span class="math inline">\(\mathbb{R}^{d}\)</span>.</p>
+<p>These weights depend on a set of <span class="math inline">\(d\)</span> bandwidths, <span class="math inline">\(h_{j}\)</span>, one for each regressor. Given these weights, the Nadaraya-Watson estimator takes the form</p>
+<p><span class="math display">\[
+\widehat{m}(x)=\frac{\sum_{i=1}^{n} K_{i}(x) Y_{i}}{\sum_{i=1}^{n} K_{i}(x)} .
+\]</span></p>
+<p>For the local-linear estimator, define</p>
+<p><span class="math display">\[
+Z_{i}(x)=\left(\begin{array}{c}
+1 \\
+X_{i}-x
+\end{array}\right)
+\]</span></p>
+<p>and then the local-linear estimator can be written as <span class="math inline">\(\widehat{m}(x)=\widehat{\alpha}(x)\)</span> where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left(\begin{array}{c}
+\widehat{\alpha}(x) \\
+\widehat{\beta}(x)
+\end{array}\right) &amp;=\left(\sum_{i=1}^{n} K_{i}(x) Z_{i}(x) Z_{i}(x)^{\prime}\right)^{-1} \sum_{i=1}^{n} K_{i}(x) Z_{i}(x) Y_{i} \\
+&amp;=\left(\boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Z}\right)^{-1} \boldsymbol{Z}^{\prime} \boldsymbol{K} \boldsymbol{Y}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(K=\operatorname{diag}\left\{K_{1}(x), \ldots, K_{n}(x)\right\}\)</span>.</p>
+<p>In multiple regressor kernel regression cross-validation remains a recommended method for bandwidth selection. The leave-one-out residuals <span class="math inline">\(\widetilde{e}_{i}\)</span> and cross-validation criterion <span class="math inline">\(\mathrm{CV}\left(h_{1}, \ldots, h_{d}\right)\)</span> are defined identically as in the single regressor case. The only difference is that now the CV criterion is a function over the <span class="math inline">\(d\)</span> bandwidths <span class="math inline">\(h_{1}, \ldots, h_{d}\)</span>. This means that numerical minimization needs to be done more efficiently than by a simple grid search.</p>
+<p>The asymptotic distribution of the estimators in the multiple regressor case is an extension of the single regressor case. Let <span class="math inline">\(f(x)\)</span> denote the marginal density of <span class="math inline">\(X, \sigma^{2}(x)=\mathbb{E}\left[e^{2} \mid X=x\right]\)</span> denote the conditional variance of <span class="math inline">\(e=Y-m(X)\)</span>, and set <span class="math inline">\(|h|=h_{1} h_{2} \cdots h_{d}\)</span>.</p>
+<p>Proposition 19.1 Let <span class="math inline">\(\hat{m}(x)\)</span> denote either the Nadarya-Watson or Local Linear estimator of <span class="math inline">\(m(x)\)</span>. As <span class="math inline">\(n \rightarrow \infty\)</span> and <span class="math inline">\(h_{j} \rightarrow 0\)</span> such that <span class="math inline">\(n|h| \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+\sqrt{n|h|}\left(\widehat{m}(x)-m(x)-\sum_{j=1}^{d} h_{j}^{2} B_{j}(x)\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \frac{R_{K}^{d} \sigma^{2}(x)}{f(x)}\right) .
+\]</span></p>
+<p>For the Nadaraya-Watson estimator</p>
+<p><span class="math display">\[
+B_{j}(x)=\frac{1}{2} \frac{\partial^{2}}{\partial x_{j}^{2}} m(x)+f(x)^{-1} \frac{\partial}{\partial x_{j}} f(x) \frac{\partial}{\partial x_{j}} m(x)
+\]</span></p>
+<p>and for the Local Linear estimator</p>
+<p><span class="math display">\[
+B_{j}(x)=\frac{1}{2} \frac{\partial^{2}}{\partial x_{j}^{2}} m(x) .
+\]</span></p>
+<p>We do not provide regularity conditions or a formal proof but instead refer interested readers to Fan and Gijbels (1996).</p>
+</section>
+<section id="curse-of-dimensionality" class="level2" data-number="18.23">
+<h2 data-number="18.23" class="anchored" data-anchor-id="curse-of-dimensionality"><span class="header-section-number">18.23</span> Curse of Dimensionality</h2>
+<p>The term “curse of dimensionality” is used to describe the phenomenon that the convergence rate of nonparametric estimators slows as the dimension increases.</p>
+<p>When <span class="math inline">\(X\)</span> is vector-valued we define the AIMSE as the integral of the squared bias plus variance, integrating with respect to <span class="math inline">\(f(x) w(x)\)</span> where <span class="math inline">\(w(x)\)</span> is an integrable weight function. For notational simplicity consider the case that there is a single common bandwidth <span class="math inline">\(h\)</span>. In this case the AIMSE of <span class="math inline">\(\widehat{m}(x)\)</span> equals</p>
+<p><span class="math display">\[
+\text { AIMSE }=h^{4} \int_{S}\left(\sum_{j=1}^{d} B_{j}(x)\right)^{2} f(x) w(x) d x+\frac{R_{K}^{d}}{n h^{d}} \int_{S} \sigma^{2}(x) w(x) d x
+\]</span></p>
+<p>We see that the squared bias is of order <span class="math inline">\(h^{4}\)</span>, the same as in the single regressor case. The variance, however, is of larger order <span class="math inline">\(\left(n h^{d}\right)^{-1}\)</span>.</p>
+<p>If pick the bandwith to minimizing the AIMSE we find that it equals <span class="math inline">\(h=\mathrm{cn}^{-1 /(4+d)}\)</span> for some constant c.&nbsp;This generalizes the formula for the one-dimensional case. The rate <span class="math inline">\(n^{-1 /(4+d)}\)</span> is slower than the <span class="math inline">\(n^{-1 / 5}\)</span> rate. This effectively means that with multiple regressors a larger bandwidth is required. When the bandwidth is set as <span class="math inline">\(h=c n^{-1 /(4+d)}\)</span> then the AIMSE is of order <span class="math inline">\(O\left(n^{-4 /(4+d)}\right)\)</span>. This is a slower rate of convergence than in the one-dimensional case.</p>
+<p>Theorem 19.11 For vector-valued <span class="math inline">\(X\)</span> the bandwidth which minimizes the AIMSE is of order <span class="math inline">\(h \sim n^{-1 /(4+d)}\)</span>. With <span class="math inline">\(h \sim n^{-1 /(4+d)}\)</span> then AIMSE <span class="math inline">\(=O\left(n^{-4 /(4+d)}\right)\)</span>.</p>
+<p>See Exercise 19.6.</p>
+<p>We see that the optimal AIMSE rate <span class="math inline">\(O\left(n^{-4 /(4+d)}\right)\)</span> depends on the dimension <span class="math inline">\(d\)</span>. As <span class="math inline">\(d\)</span> increases this rate slows. Thus the precision of kernel regression estimators worsens with multiple regressors. The reason is the estimator <span class="math inline">\(\widehat{m}(x)\)</span> is a local average of <span class="math inline">\(Y\)</span> for observations such that <span class="math inline">\(X\)</span> is close to <span class="math inline">\(x\)</span>, and when there are multiple regressors the number of such observations is inherently smaller.</p>
+<p>This phenomenon - that the rate of convergence of nonparametric estimation decreases as the dimension increases - is called the curse of dimensionality. It is common across most nonparametric estimation problems and is not specific to kernel regression.</p>
+<p>The curse of dimensionality has led to the practical rule that most applications of nonparametric regression have a single regressor. Some have two regressors; on occassion, three. More is uncommon.</p>
+</section>
+<section id="partially-linear-regression" class="level2" data-number="18.24">
+<h2 data-number="18.24" class="anchored" data-anchor-id="partially-linear-regression"><span class="header-section-number">18.24</span> Partially Linear Regression</h2>
+<p>To handle discrete regressors and/or reduce the dimensionality we can separate the regression function into a nonparametric and a parametric part. Let the regressors be partitioned as <span class="math inline">\((X, Z)\)</span> where <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> are <span class="math inline">\(d\)</span> - and <span class="math inline">\(k\)</span>-dimensional, respectively. A partially linear regression model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=m(X)+Z^{\prime} \beta+e \\
+\mathbb{E}[e \mid X, Z] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>This model combines two elements. One, it specifies that the CEF is separable between <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> (there are no nonparametric interactions). Two, it specifies that the CEF is linear in the regressors <span class="math inline">\(Z\)</span>. These are assumptions which may be true or may be false. In practice it is best to think of the assumptions as approximations.</p>
+<p>When some regressors are discrete (as is common in econometric applications) they belong in <span class="math inline">\(Z\)</span>. The regressors <span class="math inline">\(X\)</span> must be continuously distributed. In typical applications <span class="math inline">\(X\)</span> is either scalar or twodimensional. This may not be a restriction in practice as many econometric applications only have a small number of continuously distributed regressors.</p>
+<p>The seminal contribution for estimation of (19.26) is Robinson (1988) who proposed a nonparmametric version of residual regression. His key insight was to see that the nonparametric component can be eliminated by transformation. Take the expectation of equation (19.26) conditional on <span class="math inline">\(X\)</span>. This is</p>
+<p><span class="math display">\[
+\mathbb{E}[Y \mid X]=m(X)+\mathbb{E}[Z \mid X]^{\prime} \beta .
+\]</span></p>
+<p>Subtract this from (19.26), obtaining</p>
+<p><span class="math display">\[
+Y-\mathbb{E}[Y \mid X]=(Z-\mathbb{E}[Z \mid X])^{\prime} \beta+e .
+\]</span></p>
+<p>The model is now a linear regression of the nonparametric regression error <span class="math inline">\(Y-\mathbb{E}[Y \mid X]\)</span> on the vector of nonparametric regression errors <span class="math inline">\(Z-\mathbb{E}[Z \mid X]\)</span>.</p>
+<p>Robinson’s estimator replaces the infeasible regression errors by nonparametric counterparts. The result is a three-step estimator. 1. Using nonparametric regression (NW or LL), regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(X_{i}, Z_{1 i}\)</span> on <span class="math inline">\(X_{i}, Z_{2 i}\)</span> on <span class="math inline">\(X_{i}, \ldots\)</span>, and <span class="math inline">\(Z_{k i}\)</span> on <span class="math inline">\(X_{i}\)</span>, obtaining the fitted values <span class="math inline">\(\widehat{g}_{0 i}, \widehat{g}_{1 i}, \ldots\)</span>, and <span class="math inline">\(\widehat{g}_{k i}\)</span>.</p>
+<p> 1. Regress <span class="math inline">\(Y_{i}-\widehat{g}_{0 i}\)</span> on <span class="math inline">\(Z_{1 i}-\widehat{g}_{1 i}, \ldots, Z_{k i}-\widehat{g}_{k i}\)</span> to obtain the coefficient estimate <span class="math inline">\(\widehat{\beta}\)</span> and standard errors.</p>
+<ol start="2" type="1">
+<li>Use nonparametric regression to regress <span class="math inline">\(Y_{i}-Z_{i}^{\prime} \widehat{\beta}\)</span> on <span class="math inline">\(X_{i}\)</span> to obtain the nonparametric estimator <span class="math inline">\(\widehat{m}(x)\)</span> and confidence intervals.</li>
+</ol>
+<p>The resulting estimators and standard errors have conventional asymptotic distributions under specific assumptions on the bandwidths. A full proof is provided by Robinson (1988). Andrews (2004) provides a more general treatment with insight to the general structure of semiparametric estimators.</p>
+<p>The most difficult challenge is to show that the asymptotic distribution <span class="math inline">\(\widehat{\beta}\)</span> is unaffected by the first step estimation. Briefly, these are the steps of the argument. First, the first-step error <span class="math inline">\(Z-\mathbb{E}[Z \mid X]\)</span> has zero covariance with the regression error <span class="math inline">\(e\)</span>. Second, the asymptotic distribution will be unaffected by the firststep estimation if replacing (in this covariance) the expectation <span class="math inline">\(\mathbb{E}[Z \mid X]\)</span> with its first-step nonparametric estimator induces an error of order <span class="math inline">\(o_{p}\left(n^{-1 / 2}\right)\)</span>. Third, because the covariance is a product, this holds when the first-step estimator has a convergence rate of <span class="math inline">\(o_{p}\left(n^{-1 / 4}\right)\)</span>. Fourth, this holds under Theorem <span class="math inline">\(19.11\)</span> if <span class="math inline">\(h \sim n^{-1 /(4+d)}\)</span> and <span class="math inline">\(d&lt;4\)</span>.</p>
+<p>The reason why the third step estimator has a conventional asymptotic distribution is a bit simpler to explain. The estimator <span class="math inline">\(\widehat{\beta}\)</span> converges at a conventional <span class="math inline">\(O_{p}\left(n^{-1 / 2}\right)\)</span> rate. The nonparametric estimator <span class="math inline">\(\widehat{m}(x)\)</span> converges at a rate slower than <span class="math inline">\(O_{p}\left(n^{-1 / 2}\right)\)</span>. Thus the sampling error for <span class="math inline">\(\widehat{\beta}\)</span> is of lower order and does not affect the first-order asymptotic distribution of <span class="math inline">\(\widehat{m}(x)\)</span>.</p>
+<p>Once again, the theory is advanced so the above two paragraphs should not be taken as an explanation. The good news is that the estimation method is straightforward.</p>
+</section>
+<section id="computation" class="level2" data-number="18.25">
+<h2 data-number="18.25" class="anchored" data-anchor-id="computation"><span class="header-section-number">18.25</span> Computation</h2>
+<p>Stata has two commands which implement kernel regression: lpoly and npregress. 1poly implements local polynomial estimation for any <span class="math inline">\(p\)</span>, including Nadaraya-Watson (the default) and local linear estimation, and selects the bandwidth using the Fan-Gijbels ROT method. It uses the Epanechnikov kernel by default but the Gaussian can be selected as an option. The l poly command automatically displays the estimated CEF along with 95% confidence bands with standard errors computed using (19.18).</p>
+<p>The Stata command npregress estimates local linear (the default) or Nadaraya-Watson regression. By default it selects the bandwidth by cross-validation. It uses the Epanechnikov kernel by default but the Gaussian can be selected as an option. Confidence intervals may be calculated using the percentile bootstrap. A display of the estimated CEF and 95% confidence bands at specific points (computed using the percentile bootstrap) may be obtained with the postestimation command margins.</p>
+<p>There are several R packages which implement kernel regression. One flexible choice is npreg available in the np package. Its default method is Nadaraya-Watson estimation using a Gaussian kernel with bandwidth selected by cross-validation. There are options which allow local linear and local polynomial estimation, alternative kernels, and alternative bandwidth selection methods.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="18.26">
+<h2 data-number="18.26" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">18.26</span> Technical Proofs*</h2>
+<p>For all technical proofs we make the simplifying assumption that the kernel function <span class="math inline">\(K(u)\)</span> has bounded support, thus <span class="math inline">\(K(u)=0\)</span> for <span class="math inline">\(|u|&gt;a\)</span>. The results extend to the Gaussian kernel but with addition technical arguments. Proof of Theorem 19.1.1. Equation (19.3) shows that</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\widehat{m}_{\mathrm{nW}}(x) \mid \boldsymbol{X}\right]=m(x)+\frac{\widehat{b}(x)}{\widehat{f}(x)}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{f}(x)\)</span> is the kernel density estimator (19.19) of <span class="math inline">\(f(x)\)</span> with <span class="math inline">\(b=h\)</span> and</p>
+<p><span class="math display">\[
+\widehat{b}(x)=\frac{1}{n h} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)\left(m\left(x_{i}\right)-m(x)\right) .
+\]</span></p>
+<p>Theorem <span class="math inline">\(17.6\)</span> of Probability and Statistics for Economists established that <span class="math inline">\(\widehat{f}(x) \underset{p}{\longrightarrow} f(x)\)</span>. The proof is completed by showing that <span class="math inline">\(\widehat{b}(x)=h^{2} f(x) B_{\mathrm{nw}}(x)+o_{p}\left(h^{2}+1 / \sqrt{n h}\right)\)</span>.</p>
+<p>Since <span class="math inline">\(\widehat{b}(x)\)</span> is a sample average it has the expectation</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}[\widehat{b}(x)] &amp;=\frac{1}{h} \mathbb{E}\left[K\left(\frac{X-x}{h}\right)(m(X)-m(x))\right] \\
+&amp;=\int_{-\infty}^{\infty} \frac{1}{h} K\left(\frac{v-x}{h}\right)(m(v)-m(x)) f(v) d v \\
+&amp;=\int_{-\infty}^{\infty} K(u)(m(x+h u)-m(x)) f(x+h u) d u .
+\end{aligned}
+\]</span></p>
+<p>The second equality writes the expectation as an integral with respect to the density of <span class="math inline">\(X\)</span>. The third uses the change-of-variables <span class="math inline">\(v=x+h u\)</span>. We next use the two Taylor series expansions</p>
+<p><span class="math display">\[
+\begin{gathered}
+m(x+h u)-m(x)=m^{\prime}(x) h u+\frac{1}{2} m^{\prime \prime}(x) h^{2} u^{2}+o\left(h^{2}\right) \\
+f(x+h u)=f(x)+f^{\prime}(x) h u+o(h)
+\end{gathered}
+\]</span></p>
+<p>Inserted into (19.29) we find that (19.29) equals</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\int_{-\infty}^{\infty} K(u)\left(m^{\prime}(x) h u+\frac{1}{2} m^{\prime \prime}(x) h^{2} u^{2}+o\left(h^{2}\right)\right)\left(f(x)+f^{\prime}(x) h u+o(h)\right) d u \\
+&amp;=h\left(\int_{-\infty}^{\infty} u K(u) d u\right) m^{\prime}(x)(f(x)+o(h)) \\
+&amp;+h^{2}\left(\int_{-\infty}^{\infty} u^{2} K(u) d u\right)\left(\frac{1}{2} m^{\prime \prime}(x) f(x)+m^{\prime}(x) f^{\prime}(x)\right) \\
+&amp;+h^{3}\left(\int_{-\infty}^{\infty} u^{3} K(u) d u\right) \frac{1}{2} m^{\prime \prime}(x) f^{\prime}(x)+o\left(h^{2}\right) \\
+&amp;=h^{2}\left(\frac{1}{2} m^{\prime \prime}(x) f(x)+m^{\prime}(x) f^{\prime}(x)\right)+o\left(h^{2}\right) \\
+&amp;=h^{2} B_{\mathrm{nw}}(x) f(x)+o\left(h^{2}\right) .
+\end{aligned}
+\]</span></p>
+<p>The second equality uses the fact that the kernel <span class="math inline">\(K(x)\)</span> integrates to one, its odd moments are zero, and the kernel variance is one. We have shown that <span class="math inline">\(\mathbb{E}[\widehat{b}(x)]=B_{\mathrm{nw}}(x) f(x) h^{2}+o\left(h^{2}\right)\)</span>.</p>
+<p>Now consider the variance of <span class="math inline">\(\widehat{b}(x)\)</span>. Since <span class="math inline">\(\widehat{b}(x)\)</span> is a sample average of independent components and the variance is smaller than the second moment</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{var}[\widehat{b}(x)] &amp;=\frac{1}{n h^{2}} \operatorname{var}\left[K\left(\frac{X-x}{h}\right)(m(X)-m(x))\right] \\
+&amp; \leq \frac{1}{n h^{2}} \mathbb{E}\left[K\left(\frac{X-x}{h}\right)^{2}(m(X)-m(x))^{2}\right] \\
+&amp;=\frac{1}{n h} \int_{-\infty}^{\infty} K(u)^{2}(m(x+h u)-m(x))^{2} f(x+h u) d u \\
+&amp;=\frac{1}{n h} \int_{-\infty}^{\infty} u^{2} K(u)^{2} d u\left(m^{\prime}(x)\right)^{2} f(x)\left(h^{2}+o(1)\right) \\
+&amp; \leq \frac{h}{n} \bar{K}\left(m^{\prime}(x)\right)^{2} f(x)+o\left(\frac{h}{n}\right)
+\end{aligned}
+\]</span></p>
+<p>The second equality writes the expectation as an integral. The third uses (19.30). The final inequality uses <span class="math inline">\(K(u) \leq \bar{K}\)</span> from Definition 19.1.1 and the fact that the kernel variance is one. This shows that</p>
+<p><span class="math display">\[
+\operatorname{var}[\widehat{b}(x)] \leq O\left(\frac{h}{n}\right) .
+\]</span></p>
+<p>Together we conclude that</p>
+<p><span class="math display">\[
+\widehat{b}(x)=h^{2} f(x) B_{\mathrm{nw}}(x)+o\left(h^{2}\right)+O_{p}\left(\sqrt{\frac{h}{n}}\right)
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\frac{\widehat{b}(x)}{\widehat{f}(x)}=h^{2} B_{\mathrm{nw}}(x)+o_{p}\left(h^{2}\right)+O_{p}\left(\sqrt{\frac{h}{n}}\right) .
+\]</span></p>
+<p>Together with (19.27) this implies Theorem 19.1.1.</p>
+<p>Proof of Theorem 19.2.1. Equation (19.4) states that</p>
+<p><span class="math display">\[
+n h \operatorname{var}\left[\widehat{m}_{\mathrm{nw}}(x) \mid \boldsymbol{X}\right]=\frac{\widehat{v}(x)}{\widehat{f}(x)^{2}}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\widehat{v}(x)=\frac{1}{n h} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right)^{2} \sigma^{2}\left(X_{i}\right)
+\]</span></p>
+<p>and <span class="math inline">\(\widehat{f}(x)\)</span> is the estimator (19.19) of <span class="math inline">\(f(x)\)</span>. Theorem <span class="math inline">\(17.6\)</span> of Probability and Statistics for Economists established <span class="math inline">\(\widehat{f}(x) \underset{p}{\longrightarrow} f(x)\)</span>. The proof is completed by showing <span class="math inline">\(\widehat{v}(x) \underset{p}{\rightarrow} R_{K} \sigma^{2}(x) f(x)\)</span>.</p>
+<p>First, writing the expectation as an integral with respect to <span class="math inline">\(f(x)\)</span>, making the change-of-variables <span class="math inline">\(v=x+h u\)</span>, and appealing to the continuity of <span class="math inline">\(\sigma^{2}(x)\)</span> and <span class="math inline">\(f(x)\)</span> at <span class="math inline">\(x\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}[\widehat{v}(x)] &amp;=\int_{-\infty}^{\infty} \frac{1}{h} K\left(\frac{v-x}{h}\right)^{2} \sigma^{2}(v) f(v) d v \\
+&amp;=\int_{-\infty}^{\infty} K(u)^{2} \sigma^{2}(x+h u) f(x+h u) d u \\
+&amp;=\int_{-\infty}^{\infty} K(u)^{2} \sigma^{2}(x) f(x)+o(1) \\
+&amp;=R_{K} \sigma^{2}(x) f(x) .
+\end{aligned}
+\]</span></p>
+<p>Second, because <span class="math inline">\(\widehat{v}(x)\)</span> is an average of independent random variables and the variance is smaller than the second moment</p>
+<p><span class="math display">\[
+\begin{aligned}
+n h \operatorname{var}[\widehat{v}(x)] &amp;=\frac{1}{h} \operatorname{var}\left[K\left(\frac{X-x}{h}\right)^{2} \sigma^{2}(X)\right] \\
+&amp; \leq \frac{1}{h} \int_{-\infty}^{\infty} K\left(\frac{v-x}{h}\right)^{4} \sigma^{4}(v) f(v) d v \\
+&amp;=\int_{-\infty}^{\infty} K(u)^{4} \sigma^{4}(x+h u) f(x+h u) d u \\
+&amp; \leq \bar{K}^{2} R_{k} \sigma^{4}(x) f(x)+o(1)
+\end{aligned}
+\]</span></p>
+<p>so <span class="math inline">\(\operatorname{var}[\widehat{v}(x)] \rightarrow 0\)</span>.</p>
+<p>We deduce from Markov’s inequality that <span class="math inline">\(\widehat{v}(x) \underset{p}{\longrightarrow} R_{K} \sigma^{2}(x) f(x)\)</span>, completing the proof.</p>
+<p>Proof of Theorem 19.7. Observe that <span class="math inline">\(m\left(X_{i}\right)-\tilde{m}_{-i}\left(X_{i}, h\right)\)</span> is a function only of <span class="math inline">\(\left(X_{1}, \ldots, X_{n}\right)\)</span> and <span class="math inline">\(\left(e_{1}, \ldots, e_{n}\right)\)</span> excluding <span class="math inline">\(e_{i}\)</span>, and is thus uncorrelated with <span class="math inline">\(e_{i}\)</span>. Since <span class="math inline">\(\widetilde{e}_{i}(h)=m\left(X_{i}\right)-\widetilde{m}_{-i}\left(X_{i}, h\right)+e_{i}\)</span>, then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}[\mathrm{CV}(h)] &amp;=\mathbb{E}\left(\widetilde{e}_{i}(h)^{2} w\left(X_{i}\right)\right) \\
+&amp;=\mathbb{E}\left[e_{i}^{2} w\left(X_{i}\right)\right]+\mathbb{E}\left[\left(\widetilde{m}_{-i}\left(X_{i}, h\right)-m\left(X_{i}\right)\right)^{2} w\left(X_{i}\right)\right] \\
+&amp;+2 \mathbb{E}\left[\left(\widetilde{m}_{-i}\left(X_{i}, h\right)-m\left(X_{i}\right)\right) w\left(X_{i}\right) e_{i}\right] \\
+&amp;=\bar{\sigma}^{2}+\mathbb{E}\left[\left(\widetilde{m}_{-i}\left(X_{i}, h\right)-m\left(X_{i}\right)\right)^{2} w\left(X_{i}\right)\right] .
+\end{aligned}
+\]</span></p>
+<p>The second term is an expectation over the random variables <span class="math inline">\(X_{i}\)</span> and <span class="math inline">\(\widetilde{m}_{-i}(x, h)\)</span>, which are independent as the second is not a function of the <span class="math inline">\(i^{t h}\)</span> observation. Thus taking the conditional expectation given the sample excluding the <span class="math inline">\(i^{t h}\)</span> observation, this is the expectation over <span class="math inline">\(X_{i}\)</span> only, which is the integral with respect to its density</p>
+<p><span class="math display">\[
+\mathbb{E}_{-i}\left[\left(\widetilde{m}_{-i}\left(X_{i}, h\right)-m\left(X_{i}\right)\right)^{2} w\left(X_{i}\right)\right]=\int\left(\widetilde{m}_{-i}(x, h)-m(x)\right)^{2} f(x) w(x) d x .
+\]</span></p>
+<p>Taking the unconditional expecation yields</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left[\left(\widetilde{m}_{-i}\left(X_{i}, h\right)-m\left(X_{i}\right)\right)^{2} w\left(X_{i}\right)\right] &amp;=\mathbb{E}\left[\int\left(\widetilde{m}_{-i}(x, h)-m(x)\right)^{2} f(x) w(x) d x\right] \\
+&amp;=\operatorname{IMSE}_{n-1}(h)
+\end{aligned}
+\]</span></p>
+<p>where this is the IMSE of a sample of size <span class="math inline">\(n-1\)</span> as the estimator <span class="math inline">\(\widetilde{m}_{-i}\)</span> uses <span class="math inline">\(n-1\)</span> observations. Combined with (19.35) we obtain (19.12), as desired.</p>
+<p>Proof of Theorem 19.8. We can write the Nadaraya-Watson estimator as</p>
+<p><span class="math display">\[
+\widehat{m}_{\mathrm{nw}}(x)=m(x)+\frac{\widehat{b}(x)}{\widehat{f}(x)}+\frac{\widehat{g}(x)}{\widehat{f}(x)}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{f}(x)\)</span> is the estimator (19.19), <span class="math inline">\(\widehat{b}(x)\)</span> is defined in (19.28), and</p>
+<p><span class="math display">\[
+\widehat{g}(x)=\frac{1}{n h} \sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) e_{i} .
+\]</span></p>
+<p>Since <span class="math inline">\(\widehat{f}(x) \underset{p}{\longrightarrow} f(x)&gt;0\)</span> by Theorem <span class="math inline">\(17.6\)</span> of Probability and Statistics for Economists, the proof is completed by showing <span class="math inline">\(\widehat{b}(x) \underset{p}{\longrightarrow} 0\)</span> and <span class="math inline">\(\widehat{g}(x) \underset{p}{\longrightarrow} 0\)</span>. Take <span class="math inline">\(\widehat{b}(x)\)</span>. From (19.29) and the continuity of <span class="math inline">\(m(x)\)</span> and <span class="math inline">\(f(x)\)</span></p>
+<p><span class="math display">\[
+\mathbb{E}[\widehat{b}(x)]=\int_{-\infty}^{\infty} K(u)(m(x+h u)-m(x)) f(x+h u) d u=o(1)
+\]</span></p>
+<p>as <span class="math inline">\(h \rightarrow \infty\)</span>. From (19.33),</p>
+<p><span class="math display">\[
+n h \operatorname{var}[\widehat{b}(x)] \leq \int_{-\infty}^{\infty} K(u)^{2}(m(x+h u)-m(x))^{2} f(x+h u) d u=o(1)
+\]</span></p>
+<p>as <span class="math inline">\(h \rightarrow \infty\)</span>. Thus <span class="math inline">\(\operatorname{var}[\widehat{b}(x)] \longrightarrow 0\)</span>. By Markov’s inequality we conclude <span class="math inline">\(\widehat{b}(x) \stackrel{p}{\longrightarrow} 0\)</span>.</p>
+<p>Take <span class="math inline">\(\widehat{g}(x)\)</span>. Since <span class="math inline">\(\widehat{g}(x)\)</span> is linear in <span class="math inline">\(e_{i}\)</span> and <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span>, we find <span class="math inline">\(\mathbb{E}[\widehat{g}(x)]=0\)</span>. Since <span class="math inline">\(\widehat{g}(x)\)</span> is an average of independent random variables, the variance is smaller than the second moment, and the definition <span class="math inline">\(\sigma^{2}(X)=\mathbb{E}\left[e^{2} \mid X\right]\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+n h \operatorname{var}[\widehat{g}(x)] &amp;=\frac{1}{h} \operatorname{var}\left[K\left(\frac{X-x}{h}\right) e\right] \\
+&amp; \leq \frac{1}{h} \mathbb{E}\left[K\left(\frac{X-x}{h}\right)^{2} e^{2}\right] \\
+&amp;=\frac{1}{h} \mathbb{E}\left[K\left(\frac{X-x}{h}\right)^{2} \sigma^{2}(X)\right] \\
+&amp;=\int_{-\infty}^{\infty} K(u)^{2} \sigma^{2}(x+h u) f(x+h u) d u \\
+&amp;=R_{K} \sigma^{2}(x) f(x)+o(1)
+\end{aligned}
+\]</span></p>
+<p>because <span class="math inline">\(\sigma^{2}(x)\)</span> and <span class="math inline">\(f(x)\)</span> are continuous in <span class="math inline">\(x\)</span>. Thus <span class="math inline">\(\operatorname{var}[\widehat{g}(x)] \longrightarrow 0\)</span>. By Markov’s inequality we conclude <span class="math inline">\(\widehat{g}(x) \underset{p}{\longrightarrow} 0\)</span>, completing the proof.</p>
+<p>Proof of Theorem 19.9. From (19.36), Theorem <span class="math inline">\(17.6\)</span> of Probability and Statistics for Economists, and (19.34) we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{n h}\left(\widehat{m}_{\mathrm{nw}}(x)-m(x)-h^{2} B_{\mathrm{nw}}(x)\right) &amp;=\sqrt{n h}\left(\frac{\widehat{g}(x)}{\widehat{f}(x)}\right)+\sqrt{n h}\left(\frac{\widehat{b}(x)}{\widehat{f}(x)}-h^{2} B_{\mathrm{nw}}(x)\right) \\
+&amp;=\sqrt{n h}\left(\frac{\widehat{g}(x)}{f(x)}\right)\left(1+o_{p}(1)\right)+\sqrt{n h}\left(o_{p}\left(h^{2}\right)+O_{p}\left(\sqrt{\frac{h}{n}}\right)\right) \\
+&amp;=\sqrt{n h}\left(\frac{\widehat{g}(x)}{f(x)}\right)\left(1+o_{p}(1)\right)+\left(o_{p}\left(\sqrt{n h^{5}}\right)+O_{p}(h)\right) \\
+&amp;=\sqrt{n h}\left(\frac{\widehat{g}(x)}{f(x)}\right)+o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>where the final equality holds because <span class="math inline">\(\sqrt{n h} \widehat{g}(x)=O_{p}(1)\)</span> by (19.38) and the assumption <span class="math inline">\(n h^{5}=O(1)\)</span>. The proof is completed by showing <span class="math inline">\(\sqrt{n h} \widehat{g}(x) \underset{d}{\longrightarrow} \mathrm{N}\left(0, R_{K} \sigma^{2}(x) f(x)\right)\)</span>.</p>
+<p>Define <span class="math inline">\(Y_{n i}=h^{-1 / 2} K\left(\frac{X_{i}-x}{h}\right) e_{i}\)</span> which are independent and mean zero. We can write <span class="math inline">\(\sqrt{n h} \widehat{g}(x)=\sqrt{n} \bar{Y}\)</span> as a standardized sample average. We verify the conditions for the Lindeberg CLT (Theorem 6.4). In the notation of Theorem 6.4, set <span class="math inline">\(\bar{\sigma}_{n}^{2}=\operatorname{var}[\sqrt{n} \bar{Y}] \rightarrow R_{K} f(x) \sigma^{2}(x)\)</span> as <span class="math inline">\(h \rightarrow 0\)</span>. The CLT holds if we can verify the Lindeberg condition.</p>
+<p>This is an advanced calculation and will not interest most readers. It is provided for those interested in a complete derivation. Fix <span class="math inline">\(\epsilon&gt;0\)</span> and <span class="math inline">\(\delta&gt;0\)</span>. Since <span class="math inline">\(K(u)\)</span> is bounded we can write <span class="math inline">\(K(u) \leq \bar{K}\)</span>. Let <span class="math inline">\(n h\)</span> be sufficiently large so that</p>
+<p><span class="math display">\[
+\left(\frac{\epsilon n h}{\bar{K}^{2}}\right)^{(r-2) / 2} \geq \frac{\bar{\sigma}}{\delta} .
+\]</span></p>
+<p>The conditional moment bound (19.14) implies that for <span class="math inline">\(x \in \mathscr{N}\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left[e^{2} \mathbb{1}\left\{e^{2}&gt;\frac{\epsilon n h}{\bar{K}^{2}}\right\} \mid X=x\right] &amp;=\mathbb{E}\left[\frac{|e|^{r}}{|e|^{r-2}} \mathbb{1}\left\{e^{2}&gt;\frac{\epsilon n h}{\bar{K}^{2}}\right\} \mid X=x\right] \\
+&amp; \leq \mathbb{E}\left[\frac{|e|^{r}}{\left(\epsilon n h / \bar{K}^{2}\right)^{(r-2) / 2}} \mid X=x\right] \\
+&amp; \leq \delta .
+\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(Y_{n i}^{2} \leq h^{-1} \bar{K}^{2} e_{i}^{2}\)</span> we find</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left[Y_{n i}^{2} \mathbb{1}\left\{Y_{n i}^{2}&gt;\epsilon n\right\}\right] &amp; \leq \frac{1}{h} \mathbb{E}\left[K\left(\frac{X-x}{h}\right)^{2} e^{2} \mathbb{1}\left\{e^{2}&gt;\frac{\epsilon n h}{\bar{K}^{2}}\right\}\right] \\
+&amp;=\frac{1}{h} \mathbb{E}\left[K\left(\frac{X-x}{h}\right)^{2} \mathbb{E}\left(e^{2} \mathbb{1}\left\{e^{2}&gt;\frac{\epsilon n h}{\bar{K}^{2}}\right\} \mid X\right)\right] \\
+&amp;=\int_{-\infty}^{\infty} K(u)^{2} \mathbb{E}\left[e^{2} \mathbb{1}\left\{e^{2}&gt;\epsilon n h / \bar{K}^{2}\right\} \mid X=x+h u\right] f(x+h u) d u \\
+&amp; \leq \delta \int_{-\infty}^{\infty} K(u)^{2} f(x+h u) d u \\
+&amp;=\delta R_{K} f(x)+o(1) \\
+&amp;=o(1)
+\end{aligned}
+\]</span></p>
+<p>because <span class="math inline">\(\delta\)</span> is arbitrary. This is the Lindeberg condition (6.2). The Lindeberg CLT (Theorem 6.4) shows that</p>
+<p><span class="math display">\[
+\sqrt{n h} \widehat{g}(x)=\sqrt{n} \bar{Y} \underset{d}{\longrightarrow} \mathrm{N}\left(0, R_{K} \sigma^{2}(x) f(x)\right)
+\]</span></p>
+<p>This completes the proof.</p>
+</section>
+<section id="exercises" class="level2" data-number="18.27">
+<h2 data-number="18.27" class="anchored" data-anchor-id="exercises"><span class="header-section-number">18.27</span> Exercises</h2>
+<p>Exercise 19.1 For kernel regression suppose you rescale <span class="math inline">\(Y\)</span>, for example replace <span class="math inline">\(Y\)</span> with <span class="math inline">\(100 Y\)</span>. How should the bandwidth <span class="math inline">\(h\)</span> change? To answer this, first address how the functions <span class="math inline">\(m(x)\)</span> and <span class="math inline">\(\sigma^{2}(x)\)</span> change under rescaling, and then calculate how <span class="math inline">\(\bar{B}\)</span> and <span class="math inline">\(\bar{\sigma}^{2}\)</span> change. Deduce how the optimal <span class="math inline">\(h_{0}\)</span> changes due to rescaling <span class="math inline">\(Y\)</span>. Does your answer make intuitive sense?</p>
+<p>Exercise 19.2 Show that (19.6) minimizes the AIMSE (19.5).</p>
+<p>Exercise 19.3 Describe in words how the bias of the local linear estimator changes over regions of convexity and concavity in <span class="math inline">\(m(x)\)</span>. Does this make intuitive sense?</p>
+<p>Exercise 19.4 Suppose the true regression function is linear <span class="math inline">\(m(x)=\alpha+\beta x\)</span> and we estimate the function using the Nadaraya-Watson estimator. Calculate the bias function <span class="math inline">\(B(x)\)</span>. Suppose <span class="math inline">\(\beta&gt;0\)</span>. For which regions is <span class="math inline">\(B(x)&gt;0\)</span> and for which regions is <span class="math inline">\(B(x)&lt;0\)</span> ? Now suppose that <span class="math inline">\(\beta&lt;0\)</span> and re-answer the question. Can you intuitively explain why the NW estimator is positively and negatively biased for these regions? Exercise 19.5 Suppose <span class="math inline">\(m(x)=\alpha\)</span> is a constant function. Find the AIMSE-optimal bandwith (19.6) for NW estimation? Explain.</p>
+<p>Exercise 19.6 Prove Theorem 19.11: Show that when <span class="math inline">\(d \geq 1\)</span> the AIMSE optimal bandwidth takes the form <span class="math inline">\(h_{0}=c n^{-1 /(4+d)}\)</span> and AIMSE is <span class="math inline">\(O\left(n^{-4 /(4+d)}\right)\)</span>.</p>
+<p>Exercise 19.7 Take the DDK2011 dataset and the subsample of boys who experienced tracking. As in Section <span class="math inline">\(19.21\)</span> use the Local Linear estimator to estimate the regression of testscores on percentile but now with the subsample of boys. Plot with <span class="math inline">\(95 %\)</span> confidence intervals. Comment on the similarities and differences with the estimate for the subsample of girls.</p>
+<p>Exercise 19.8 Take the cps09mar dataset and the subsample of individuals with education=20 (professional degree or doctorate), with experience between 0 and 40 years.</p>
+<ol type="a">
+<li><p>Use Nadaraya-Watson to estimate the regression of log(wage) on experience, separately for men and women. Plot with <span class="math inline">\(95 %\)</span> confidence intervals. Comment on how the estimated wage profiles vary with experience. In particular, do you think the evidence suggests that expected wages fall for experience levels above 20 for this education group?</p></li>
+<li><p>Repeat using the Local Linear estimator. How do the estimates and confidence intervals change?</p></li>
+</ol>
+<p>Exercise 19.9 Take the Invest1993 dataset and the subsample of observations with <span class="math inline">\(Q \leq 5\)</span>. (In the dataset <span class="math inline">\(Q\)</span> is the variable vala.)</p>
+<ol type="a">
+<li><p>Use Nadaraya-Watson to estimate the regression of <span class="math inline">\(I\)</span> on <span class="math inline">\(Q\)</span>. (In the dataset <span class="math inline">\(I\)</span> is the variable inva.) Plot with <span class="math inline">\(95 %\)</span> confidence intervals.</p></li>
+<li><p>Repeat using the Local Linear estimator.</p></li>
+<li><p>Is there evidence to suggest that the regression function is nonlinear?</p></li>
+</ol>
+<p>Exercise 19.10 The RR2010 dataset is from Reinhart and Rogoff (2010). It contains observations on annual U.S. GDP growth rates, inflation rates, and the debt/gdp ratio for the long time span 1791-2009. The paper made the strong claim that gdp growth slows as debt/gdp increases and in particular that this relationship is nonlinear with debt negatively affecting growth for debt ratios exceeding <span class="math inline">\(90 %\)</span>. Their full dataset includes 44 countries. Our extract only includes the United States.</p>
+<ol type="a">
+<li><p>Use Nadaraya-Watson to estimate the regression of gdp growth on the debt ratio. Plot with 95% confidence intervals.</p></li>
+<li><p>Repeat using the Local Linear estimator.</p></li>
+<li><p>Do you see evidence of nonlinearity and/or a change in the relationship at <span class="math inline">\(90 %\)</span> ?</p></li>
+<li><p>Now estimate a regression of gdp growth on the inflation rate. Comment on what you find.</p></li>
+</ol>
+<p>Exercise 19.11 We will consider a nonlinear AR(1) model for gdp growth rates</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;Y_{t}=m\left(Y_{t-1}\right)+e_{t} \\
+&amp;Y_{t}=100\left(\left(\frac{G D P_{t}}{G D P_{t-1}}\right)^{4}-1\right)
+\end{aligned}
+\]</span></p>
+<ol type="a">
+<li><p>Create GDP growth rates <span class="math inline">\(Y_{t}\)</span>. Extract the level of real U.S. GDP ( <span class="math inline">\(\left.g d p c 1\right)\)</span> from FRED-QD and make the above transformation to growth rates.</p></li>
+<li><p>Use Nadaraya-Watson to estimate <span class="math inline">\(m(x)\)</span>. Plot with 95% confidence intervals.</p></li>
+<li><p>Repeat using the Local Linear estimator.</p></li>
+<li><p>Do you see evidence of nonlinearity?</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./part05-nonpar.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">非参方法</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt20-series-reg.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

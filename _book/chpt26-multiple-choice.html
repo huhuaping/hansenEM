@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 24&nbsp; Multiple Choice</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt27-censor-selection.html" rel="next">
+<link href="./chpt24-quantile-reg.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">24.1</span>  Introduction</a></li>
+  <li><a href="#multinomial-response" id="toc-multinomial-response" class="nav-link" data-scroll-target="#multinomial-response"><span class="toc-section-number">24.2</span>  Multinomial Response</a></li>
+  <li><a href="#multinomial-logit" id="toc-multinomial-logit" class="nav-link" data-scroll-target="#multinomial-logit"><span class="toc-section-number">24.3</span>  Multinomial Logit</a></li>
+  <li><a href="#conditional-logit" id="toc-conditional-logit" class="nav-link" data-scroll-target="#conditional-logit"><span class="toc-section-number">24.4</span>  Conditional Logit</a></li>
+  <li><a href="#independence-of-irrelevant-alternatives" id="toc-independence-of-irrelevant-alternatives" class="nav-link" data-scroll-target="#independence-of-irrelevant-alternatives"><span class="toc-section-number">24.5</span>  Independence of Irrelevant Alternatives</a></li>
+  <li><a href="#nested-logit" id="toc-nested-logit" class="nav-link" data-scroll-target="#nested-logit"><span class="toc-section-number">24.6</span>  Nested Logit</a></li>
+  <li><a href="#mixed-logit" id="toc-mixed-logit" class="nav-link" data-scroll-target="#mixed-logit"><span class="toc-section-number">24.7</span>  Mixed Logit</a></li>
+  <li><a href="#simple-multinomial-probit" id="toc-simple-multinomial-probit" class="nav-link" data-scroll-target="#simple-multinomial-probit"><span class="toc-section-number">24.8</span>  Simple Multinomial Probit</a></li>
+  <li><a href="#general-multinomial-probit" id="toc-general-multinomial-probit" class="nav-link" data-scroll-target="#general-multinomial-probit"><span class="toc-section-number">24.9</span>  General Multinomial Probit</a></li>
+  <li><a href="#ordered-response" id="toc-ordered-response" class="nav-link" data-scroll-target="#ordered-response"><span class="toc-section-number">24.10</span>  Ordered Response</a></li>
+  <li><a href="#count-data" id="toc-count-data" class="nav-link" data-scroll-target="#count-data"><span class="toc-section-number">24.11</span>  Count Data</a></li>
+  <li><a href="#blp-demand-model" id="toc-blp-demand-model" class="nav-link" data-scroll-target="#blp-demand-model"><span class="toc-section-number">24.12</span>  BLP Demand Model</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">24.13</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">24.14</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt26-multiple-choice.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">24.1</span> Introduction</h2>
+<p>This chapter surveys multinomial models. This includes multinomial response, multinomial logit, conditional logit, nested logit, mixed logit, multinomial probit, ordered response, count data, and the BLP demand model.</p>
+<p>For more detailed treatments see Maddala (1983), Cameron and Trivedi (1998), Cameron and Trivedi (2005), Train (2009), and Wooldridge (2010).</p>
+</section>
+<section id="multinomial-response" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="multinomial-response"><span class="header-section-number">24.2</span> Multinomial Response</h2>
+<p>A multinomial random variable <span class="math inline">\(Y\)</span> takes values in a finite set, typically written as <span class="math inline">\(Y \in\{1,2, \ldots, J\}\)</span>. The elements of the set are often called alternatives. In most applications the alternatives are categorical (car, bicycle, airplane, train) and unordered. When there are no regressors the model is fully described by the <span class="math inline">\(J\)</span> probabilities <span class="math inline">\(P_{j}=\mathbb{P}[Y=j]\)</span>.</p>
+<p>We typically describe the pair <span class="math inline">\((Y, X)\)</span> as multinomial response when <span class="math inline">\(Y\)</span> is multinomial and <span class="math inline">\(X \in \mathbb{R}^{k}\)</span> are regressors. The conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is summarized by the response probability</p>
+<p><span class="math display">\[
+P_{j}(x)=\mathbb{P}[Y=j \mid X=x] .
+\]</span></p>
+<p>The response probabilities are nonparametrically identified and can be arbitrary functions of <span class="math inline">\(x\)</span>.</p>
+<p>We illustrate by extending the marriage status example of the previous chapter. The CPS variable marital records seven categories. We partition these into four alternatives: “married”1 , “divorced”, “separated”, and “never married”. Let <span class="math inline">\(X\)</span> be age. <span class="math inline">\(P_{j}(x)\)</span> for <span class="math inline">\(j=1, \ldots, 4\)</span> is the probability of each marriage status as a function of age. For our illustration we take the population of college-educated women.</p>
+<p>Since the response probabilities <span class="math inline">\(P_{j}(x)\)</span> are nonparametrically identified a simple estimation method is binary response separately for each category. We plot in Figure 26.1 (a) logit estimates using a quadratic spline in age and a single knot at age 40 . The estimates show that the probability of “never married” decreases monotonically with age, that for “married” increases until around 38 and then decreases slowly, the probability of “divorced” increases monotonically with age, and the probability of “separated” is low for all age groups.</p>
+<p>A defect of the estimates of Figure 26.1(a) is that the sum of the four estimated probabilities (displayed as “Total”) does not equal one. This shows that separate estimation of the response probabilities neglects system information. For the remainder of this chapter the estimators discussed do not have this defect.</p>
+<p><span class="math inline">\({ }^{1}\)</span> marital <span class="math inline">\(=1,2,3,4\)</span>, which includes widowed.</p>
+<p><img src="images//2022_10_23_114e68a1ccdd7fb263a3g-02.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Binary Response Estimates</li>
+</ol>
+<p><img src="images//2022_10_23_114e68a1ccdd7fb263a3g-02(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Multinomial Logit</li>
+</ol>
+<p>Figure 26.1: Probability of Marital Status Given Age for College Educated Women</p>
+<p>Multinomial response is typically motivated and derived from a model of latent utility. The utility of alternative <span class="math inline">\(j\)</span> is assumed to equal</p>
+<p><span class="math display">\[
+U_{j}^{*}=X^{\prime} \beta_{j}+\varepsilon_{j}
+\]</span></p>
+<p>where <span class="math inline">\(\beta_{j}\)</span> are coefficients and <span class="math inline">\(\varepsilon_{j}\)</span> is an alternative-specific error. The coefficients <span class="math inline">\(\beta_{j}\)</span> describe how the variable <span class="math inline">\(X\)</span> affects an individual’s utility of alternative <span class="math inline">\(j\)</span>. The error <span class="math inline">\(\varepsilon_{j}\)</span> is individual-specific and contains unobserved factors affecting an individual’s utility. In the marriage status example (where <span class="math inline">\(X\)</span> is age) the coefficients <span class="math inline">\(\beta_{j}\)</span> describe how the utility of each marriage status varies with age, while the error <span class="math inline">\(\varepsilon_{j}\)</span> contains the individual factors which are not captured by age.</p>
+<p>In the latent utility model an individual is assumed to select the alternative with the highest utility <span class="math inline">\(U_{j}^{*}\)</span>. Thus <span class="math inline">\(Y=j\)</span> if <span class="math inline">\(U_{j}^{*} \geq U_{\ell}^{*}\)</span> for all <span class="math inline">\(\ell\)</span>. In model (26.1) this choice is unaltered if we add <span class="math inline">\(X^{\prime} \gamma\)</span> to each utility. This means that the coefficients <span class="math inline">\(\beta_{j}\)</span> are not separately identified, at best the differences between alternatives <span class="math inline">\(\beta_{j}-\beta_{\ell}\)</span> are identified. Identification is achieved by imposing a normalization; the standard choice is to set <span class="math inline">\(\beta_{j}=0\)</span> for a base alternative <span class="math inline">\(j\)</span>, often taken as the last category <span class="math inline">\(J\)</span>. Reported coefficients <span class="math inline">\(\beta_{j}\)</span> should be interpreted as differences relative to the base alternative.</p>
+<p>The choice is also unchanged if each utility (26.1) is multiplied by positive constant. This means that the scale of the coefficients <span class="math inline">\(\beta_{j}\)</span> is not identified. To achieve identification it is typical to fix the scale of the errors <span class="math inline">\(\varepsilon_{j}\)</span>. Consequently the scale of the coefficients <span class="math inline">\(\beta_{j}\)</span> has no interpretive meaning.</p>
+<p>Two classical multinomial response models are logit and probit. We introduce multinomial logit in the next section and multinomial probit in Section <span class="math inline">\(26.8\)</span>.</p>
+</section>
+<section id="multinomial-logit" class="level2" data-number="24.3">
+<h2 data-number="24.3" class="anchored" data-anchor-id="multinomial-logit"><span class="header-section-number">24.3</span> Multinomial Logit</h2>
+<p>The simple multinomial logit model is</p>
+<p><span class="math display">\[
+P_{j}(x)=\frac{\exp \left(x^{\prime} \beta_{j}\right)}{\sum_{\ell=1}^{J} \exp \left(x^{\prime} \beta_{\ell}\right)} .
+\]</span></p>
+<p>The model includes binary logit <span class="math inline">\((J=2)\)</span> as a special case. We call (26.2) the simple multinomial logit to distinguish it from the conditional logit model of the next section.</p>
+<p>The multinomial logit arises from the latent utility model (26.1) for the following error distributions.</p>
+<p>Definition 26.1 The Type I Extreme Value distribution function is</p>
+<p><span class="math display">\[
+F(\varepsilon)=\exp (-\exp (-\varepsilon)) .
+\]</span></p>
+<p>Definition 26.2 The Generalized Extreme Value (GEV) joint distribution is</p>
+<p><span class="math display">\[
+F\left(\varepsilon_{1}, \varepsilon_{2}, \ldots, \varepsilon_{J}\right)=\exp \left(-\left[\sum_{j=1}^{J} \exp \left(-\frac{\varepsilon_{j}}{\tau}\right)\right]^{\tau}\right)
+\]</span></p>
+<p>for <span class="math inline">\(0&lt;\tau \leq 1\)</span>.</p>
+<p>For <span class="math inline">\(J=1\)</span> the GEV distribution (26.3) equals the Type I extreme value. For <span class="math inline">\(J&gt;1\)</span> and <span class="math inline">\(\tau=1\)</span> the GEV distribution equals the product of independent Type I extreme value distributions. For <span class="math inline">\(J&gt;1\)</span> and <span class="math inline">\(\tau&lt;1\)</span> GEV random variables are dependent with correlation equal to <span class="math inline">\(1-\tau^{2}\)</span> (see Kotz and Nadarajah (2000)). The parameter <span class="math inline">\(\tau\)</span> is known as the dissimilarity parameter. The distribution (26.3) is a special case of the “GEV distribution” introduced by McFadden (1981). Furthermore, there is heterogeneity among authors regarding the choice of notation and labeling. The notation used above is consistent with the Stata manual. In contrast, McFadden <span class="math inline">\((1978,1981)\)</span> used <span class="math inline">\(1-\sigma\)</span> in place of <span class="math inline">\(\tau\)</span> and called <span class="math inline">\(\sigma\)</span> the similarity parameter. Cameron and Trivedi (2005) used <span class="math inline">\(\rho\)</span> instead of <span class="math inline">\(\tau\)</span> and called <span class="math inline">\(\rho\)</span> the scale parameter.</p>
+<p>The following result is due to McFadden <span class="math inline">\((1978,1981)\)</span>.</p>
+<p>Theorem 26.1 Assume the utility of alternative <span class="math inline">\(j\)</span> is <span class="math inline">\(U_{j}^{*}=X^{\prime} \beta_{j}+\varepsilon_{j}\)</span> and the error vector <span class="math inline">\(\left(\varepsilon_{1}, \ldots, \varepsilon_{j}\right)\)</span> has GEV distribution (26.3). Then the response probabilities equal</p>
+<p><span class="math display">\[
+P_{j}(X)=\frac{\exp \left(X^{\prime} \beta_{j} / \tau\right)}{\sum_{\ell=1}^{J} \exp \left(X^{\prime} \beta_{\ell} / \tau\right)} .
+\]</span></p>
+<p>The proof is in Section 26.13. The response probabilities in Theorem <span class="math inline">\(26.1\)</span> are multinomial logit (26.2) with coefficients <span class="math inline">\(\beta_{j}^{*}=\beta_{j} / \tau\)</span>. The dissimilarity parameter <span class="math inline">\(\tau\)</span> only affects the scale of the coefficients, which is not identified. Thus GEV errors imply a multinomial logit model and <span class="math inline">\(\tau\)</span> is not identified.</p>
+<p>As discussed above, when <span class="math inline">\(\tau=1\)</span> the GEV distribution (26.3) specializes to i.i.d. Type I extreme value. Thus a special case of Theorem <span class="math inline">\(26.1\)</span> is the following: If the errors <span class="math inline">\(\varepsilon_{j}\)</span> are i.i.d. Type I extreme value then the response probabilities are multinomial logit (26.2) with coefficients <span class="math inline">\(\beta_{j}\)</span>. This is the most commonly-used and commonly-stated implication of Theorem <span class="math inline">\(26.1\)</span>.</p>
+<p>In contemporary choice modelling a commonly-used assumption is that utility is extreme value distributed. This is done so that Theorem <span class="math inline">\(26.1\)</span> can be invoked to deduce that the choice probabilities are multinomial logit. A reasonable deduction is that this assumption is made for algebraic convenience, not because anyone believes that utility is actually extreme valued distributed.</p>
+<p>The likelihood function given a random sample <span class="math inline">\(\left\{Y_{i}, X_{i}\right\}\)</span> is straightforward to construct. Write the response probabilities <span class="math inline">\(P_{j}(X \mid \beta)\)</span> as functions of the parameter vector <span class="math inline">\(\beta=\left(\beta_{1}, \ldots, \beta_{J}\right)\)</span>. The probability mass function for <span class="math inline">\(Y\)</span> is</p>
+<p><span class="math display">\[
+\pi(Y \mid X, \beta)=\prod_{j=1}^{J} P_{j}(X \mid \beta)^{\mathbb{1}\{Y=j\}} .
+\]</span></p>
+<p>The log-likelihood function is</p>
+<p><span class="math display">\[
+\ell_{n}(\beta)=\sum_{i=1}^{n} \sum_{j=1}^{J} \mathbb{1}\left\{Y_{i}=j\right\} \log P_{j}\left(X_{i} \mid \beta\right)
+\]</span></p>
+<p>The maximum likelihood estimator (MLE) is:</p>
+<p><span class="math display">\[
+\widehat{\beta}=\underset{\beta}{\operatorname{argmax}} \ell_{n}(\beta) .
+\]</span></p>
+<p>There is no algebraic solution so <span class="math inline">\(\widehat{\beta}\)</span> needs to be found numerically. The log-likelihood function is globally concave so maximization is numerically straightforward.</p>
+<p>To illustrate, we estimate the marriage status example of the previous section using multinomial logit and display the estimated response probabilities in Figure 26.1(b). The estimates are similar to the binary choice estimates in panel (a) but by construction sum to one.</p>
+<p>The coefficients of a multinomial choice model can be difficult to interpret. Therefore in applications it may be useful to examine and report marginal effects. We can calculate <span class="math inline">\({ }^{2}\)</span> that the marginal effects are</p>
+<p><span class="math display">\[
+\delta_{j}(x)=\frac{\partial}{\partial x} P_{j}(x)=P_{j}(x)\left(\beta_{j}-\sum_{\ell=1}^{J} \beta_{\ell} P_{\ell}(x)\right) .
+\]</span></p>
+<p>This is estimated by</p>
+<p><span class="math display">\[
+\widehat{\delta}_{j}(x)=\widehat{P}_{j}(x)\left(\widehat{\beta}_{j}-\sum_{\ell=1}^{J} \widehat{\beta}_{\ell} \widehat{P}_{\ell}(x)\right) .
+\]</span></p>
+<p>The average marginal effect <span class="math inline">\(\operatorname{AME}_{j}=\mathbb{E}\left[\delta_{j}(X)\right]\)</span> can be estimated by</p>
+<p><span class="math display">\[
+\widehat{\mathrm{AME}}_{j}=\frac{1}{n} \sum_{i=1}^{n} \widehat{\delta}_{j}\left(X_{i}\right) .
+\]</span></p>
+<p>In Stata, multinomial logit can be implemented using the mlogit command. Probabilities can be calculated by predict and average marginal effects by margins, dydx. In R, multinomial logit can be implemented using the mlogit command.</p>
+<p><span class="math inline">\({ }^{2}\)</span> See Exercise 26.3.</p>
+</section>
+<section id="conditional-logit" class="level2" data-number="24.4">
+<h2 data-number="24.4" class="anchored" data-anchor-id="conditional-logit"><span class="header-section-number">24.4</span> Conditional Logit</h2>
+<p>In the simple multinomial logit model of the previous section the regressors <span class="math inline">\(X\)</span> (e.g., age) are specific to the individual but not the alternative (they do not have a <span class="math inline">\(j\)</span> subscript). In most applications, however, there are regressors which vary across alternatives. A typical example is the price or cost of an alternative. In a latent utility model it is reasonable to assume that these alternative-specific regressors only affect an individual’s utility if that specific alternative is selected. A choice model which allows for regressors which differ across alternatives was developed by McFadden in the 1970s, which he called the Conditional Logit model.</p>
+<p>An example will help illustrate the setting. Suppose you (a student) need to select a mode of travel from your apartment to the university. Travel alternatives may include: walk, bicycle, bus, train, or car. Which will you select? Your choice will undoubtedly depend on a number of factors, and of particular importance is the <span class="math inline">\(\operatorname{cost}^{3}\)</span> of each alternative. We can model this by specifying that the utility <span class="math inline">\(Y_{j}^{*}\)</span> (26.1) of alternative <span class="math inline">\(j\)</span> is a function of its cost <span class="math inline">\(X_{j}\)</span>.</p>
+<p>As a concrete example consider the dataset Koppelman on the textbook webpage. This is an abridged version of the dataset ModeCanada distributed with the R package mlogit, and used in the papers Forinash and Koppelman (1993), Koppelman and Wen (2000), and Wen and Koppelman (2001). The data are responses to a survey <span class="math inline">\({ }^{4}\)</span> of Canadian business travelers concerning their actual travel choices in the Toronto-Montreal corridor. Each observation <span class="math inline">\((n=2779)\)</span> is a specific individual making a specific trip. Four travel alternatives were considered: train, air, bus, and car. Available regressors include the cost of each alternative, the in-vehicle travel time (intime) of each alternative, household income, and an indicator if one of the trip endpoints is an urban center.</p>
+<p>The conditional logit model posits that the utility of alternative <span class="math inline">\(j\)</span> is a function of regressors <span class="math inline">\(X_{j}\)</span> which vary across alternative <span class="math inline">\(j\)</span> :</p>
+<p><span class="math display">\[
+U_{j}^{*}=X_{j}^{\prime} \gamma+\varepsilon_{j} .
+\]</span></p>
+<p>Here, <span class="math inline">\(\gamma\)</span> are coefficients and <span class="math inline">\(\varepsilon_{j}\)</span> is an alternative-specific error. Notice that in contrast to (26.1) that <span class="math inline">\(X_{j}\)</span> varies across <span class="math inline">\(j\)</span> while the coefficients <span class="math inline">\(\gamma\)</span> are common. For example, in the Koppelman data set the variables cost and intime are recorded for each individual/alternative pair. (For example, the first observation in the sample is a traveler who could have selected train travel for <span class="math inline">\(\$ 58.25\)</span> and a travel time of 215 minutes, air travel for <span class="math inline">\(\$ 142.80\)</span> and 56 minutes, bus travel for <span class="math inline">\(\$ 27.52\)</span> and 301 minutes, or car travel for <span class="math inline">\(\$ 71.63\)</span> and 262 minutes. This traveler selected to travel by air.)</p>
+<p>To understand the difference between the multinomial logit and the conditional logit models, (26.1) describes how the utility of a specific alternative (e.g.&nbsp;married or divorced) is affected by a variable such as age. This requires a separate coefficient for each alternative to have an impact. In contrast, (26.6) describes how the utility of an alternative (e.g.&nbsp;train or car) is affected by factors such as cost and time. These variables have common meanings across alternatives so the restriction that the coefficients are common appears reasonable.</p>
+<p>More generally the conditional logit model allows some regressors <span class="math inline">\(X_{j}\)</span> to vary across alternatives while other regressors <span class="math inline">\(W\)</span> do not vary across <span class="math inline">\(j\)</span>. This model is</p>
+<p><span class="math display">\[
+U_{j}^{*}=W^{\prime} \beta_{j}+X_{j}^{\prime} \gamma+\varepsilon_{j} .
+\]</span></p>
+<p>For example, in the Koppelman dataset the variables cost and intime are components of <span class="math inline">\(X_{j}\)</span> while the variables income and urban are components of <span class="math inline">\(W\)</span>.</p>
+<p>In model (26.7) the coefficients <span class="math inline">\(\gamma\)</span> and coefficient differences <span class="math inline">\(\beta_{j}-\beta_{\ell}\)</span> are identified up to scale. Identification is achieved by normalizing the scale of <span class="math inline">\(\varepsilon_{j}\)</span> and setting <span class="math inline">\(\beta_{J}=0\)</span> for a base alternative <span class="math inline">\(J\)</span>.</p>
+<p><span class="math inline">\({ }^{3}\)</span> Cost can be multi-dimensional, for example including monetary cost and travel time.</p>
+<p><span class="math inline">\({ }^{4}\)</span> The survey was conducted by the Canadian national rail carrier to assess the demand for high-speed rail. The conditional logit model is (26.6) or (26.7) plus the assumption that the errors <span class="math inline">\(\varepsilon_{j}\)</span> are distributed i.i.d. Type I extreme value <span class="math inline">\({ }^{5}\)</span>. From Theorem <span class="math inline">\(26.1\)</span> we deduce that the probability response functions equal</p>
+<p><span class="math display">\[
+P_{j}(w, x)=\frac{\exp \left(w^{\prime} \beta_{j}+x_{j}^{\prime} \gamma\right)}{\sum_{\ell=1}^{J} \exp \left(w^{\prime} \beta_{\ell}+x_{\ell}^{\prime} \gamma\right)} .
+\]</span></p>
+<p>This is multinomial logit but with regressors and coefficients <span class="math inline">\(W^{\prime} \beta_{j}+X_{j}^{\prime} \gamma\)</span>.</p>
+<p>Let <span class="math inline">\(\theta=\left(\beta_{1}, \ldots \beta_{J}, \gamma\right)\)</span>. Given the observations <span class="math inline">\(\left\{Y_{i}, W_{i}, X_{i}\right\}\)</span> where <span class="math inline">\(X_{i}=\left\{X_{1 i}, \ldots, X_{J i}\right\}\)</span>, the log-likelihood function is</p>
+<p><span class="math display">\[
+\ell_{n}(\theta)=\sum_{i=1}^{n} \sum_{j=1}^{J} \mathbb{1}\left\{Y_{i}=j\right\} \log P_{j}\left(W_{i}, X_{i} \mid \theta\right) .
+\]</span></p>
+<p>The maximum likelihood estimator (MLE) <span class="math inline">\(\widehat{\theta}\)</span> maximizes <span class="math inline">\(\ell_{n}(\theta)\)</span>. There is no algebraic solution so <span class="math inline">\(\widehat{\theta}\)</span> needs to be found numerically.</p>
+<p>Using the Koppelman dataset we estimate a conditional logit model. Estimates are reported in Table 26.1. Included as regressors are cost, intime, income, and urban. The base alternative is travel by train. The first two coefficient estimates are negative, meaning that the probability of selecting any mode of transport is decreasing in the monetary and time cost of this mode of travel. The income and urban variables are not alternative-specific so have coefficients which vary by alternative. The urban coefficient for air is positive and that for car is negative, indicating that the probability of air travel is increased relative to train travel if an endpoint is urban, and conversely for car travel. The income coefficient is positive for air travel and negative for bus travel, indicating that transportation choice is affected by a traveler’s income in the expected way.</p>
+<p>As discussed previously, coefficient estimates can be difficult to interpret. It may be useful to calculate transformations such as average marginal effects. The average marginal effects with respect to the input <span class="math inline">\(W\)</span> are estimated as in (26.5) with <span class="math inline">\(\widehat{P}_{\ell}\left(X_{i}\right)\)</span> replaced by <span class="math inline">\(\widehat{P}_{\ell}\left(W_{i}, X_{i}\right)\)</span>. For the inputs <span class="math inline">\(X_{j}\)</span> we calculate <span class="math inline">\({ }^{6}\)</span> that</p>
+<p><span class="math display">\[
+\delta_{j j}(w, x)=\frac{\partial}{\partial x_{j}} P_{j}(w, x)=\gamma P_{j}(w, x)\left(1-P_{j}(w, x)\right)
+\]</span></p>
+<p>and for <span class="math inline">\(j \neq \ell\)</span></p>
+<p><span class="math display">\[
+\delta_{j \ell}(w, x)=\frac{\partial}{\partial x_{\ell}} P_{j}(w, x)=-\gamma P_{j}(w, x) P_{\ell}(w, x) .
+\]</span></p>
+<p>Note that these are double indexed ( <span class="math inline">\(j\)</span> and <span class="math inline">\(\ell\)</span> ). For example for <span class="math inline">\(X=\operatorname{cost}, j=\)</span> train and <span class="math inline">\(\ell=\)</span> air, <span class="math inline">\(\delta_{j \ell}\)</span> is the marginal effect of a change in the cost of air travel on the probability of train travel. In the conditional logit model, calculation (26.10) implies the symmetric response <span class="math inline">\(\delta_{j \ell}(w, x)=\delta_{\ell j}(w, x)\)</span>. This means that the marginal effect of (for example) air cost on train travel equals the marginal effect of train cost on air travel <span class="math inline">\(^{7}\)</span>. The average marginal effects <span class="math inline">\(\mathrm{AME}_{j \ell}=\mathbb{E}\left[\delta_{j \ell}(W, X)\right]\)</span> can be estimated by the analogous sample averages as in (26.5). One useful implication of (26.9) and (26.10) is that the components of AME <span class="math inline">\({ }_{j j}\)</span> have the same signs as the components of <span class="math inline">\(\gamma\)</span> and the components of <span class="math inline">\(\mathrm{AME}_{j \ell}\)</span> have the opposite signs. Thus, for example, if the coefficient <span class="math inline">\(\gamma\)</span> on a cost variable is negative then the own-price effect is negative and the cross-price effects are positive.</p>
+<p>To illustrate, we report a set of estimated AME of cost and time factors on the probability of train travel in Table 26.2. We focus on train travel because the demand for high-speed rail was the focus of the</p>
+<p><span class="math inline">\({ }^{5}\)</span> The model is unaltered if the errors are jointly GEV with dissimilarity parameter <span class="math inline">\(\tau\)</span>. However, <span class="math inline">\(\tau\)</span> is not identified so without loss of generality it is assumed that <span class="math inline">\(\tau=1\)</span>.</p>
+<p><span class="math inline">\({ }^{6}\)</span> See Exercise <span class="math inline">\(26.5\)</span>.</p>
+<p><span class="math inline">\({ }^{7}\)</span> This symmetry breaks down if nonlinear transformations are included in the model. Table 26.1: Multinomial Models for Transportation Choice</p>
+<p><img src="images//2022_10_23_114e68a1ccdd7fb263a3g-07.jpg" class="img-fluid"></p>
+<p>original study. We calculate and report the AME of the monetary cost and travel time of train, air, and car travel. To convert the AME into approximate elasticities (which may be easier to interpret), divide each AME by the probability of train travel (0.17) and multiply by the sample mean of the factor, reported in the first column. You can calculate that the estimated approximate elasticity of train travel with respect to train cost is <span class="math inline">\(-0.9\)</span>, with respect to train travel time is <span class="math inline">\(-2.5\)</span>, with respect to air cost is <span class="math inline">\(1.0\)</span>, with respect to air travel time is <span class="math inline">\(0.25\)</span>, with respect to car cost is <span class="math inline">\(0.6\)</span>, and with respect to car travel time is <span class="math inline">\(1.5\)</span>. These estimates indicate that train travel is sensitive to its travel time, is sensitive with respect to its monetary cost and that of airfare, and is sensitive to the travel time of car travel. We can use the estimated AME to calculate the rough effects of cost and travel time changes. For example, suppose high-speed rail reduces train travel time by <span class="math inline">\(33 %\)</span> - an average reduction of 75 minutes - while price is unchanged. The estimates imply this will increase train travel probability by <span class="math inline">\(0.14\)</span>, that is, from <span class="math inline">\(17 %\)</span> to <span class="math inline">\(31 %\)</span>, which is close to a doubling of usage.</p>
+<p>In many cases it is natural to expect that the coefficients <span class="math inline">\(\gamma\)</span> will vary across individuals. We discuss models with random <span class="math inline">\(\gamma\)</span> in Section 26.7. A simpler specification is to allow <span class="math inline">\(\gamma\)</span> to vary with the individual Table 26.2: AME of Cost and Time on Train Travel</p>
+<table class="table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 5%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 26%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Effect of</th>
+<th>Mean</th>
+<th>Cond. Logit</th>
+<th>Mixed Logit</th>
+<th>Simple Multi. Probit</th>
+<th>Multi. Probit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Train Cost ($)</td>
+<td>{56</td>
+<td><span class="math inline">\(-0.27\)</span></td>
+<td><span class="math inline">\(-0.28\)</span></td>
+<td><span class="math inline">\(-0.32\)</span></td>
+<td><span class="math inline">\(-0.08\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\((0.04)\)</span></td>
+<td><span class="math inline">\((0.05)\)</span></td>
+<td><span class="math inline">\((0.04)\)</span></td>
+<td><span class="math inline">\((0.03)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Train Time (min.)</td>
+<td>{224</td>
+<td><span class="math inline">\(-0.19\)</span></td>
+<td><span class="math inline">\(-0.20\)</span></td>
+<td><span class="math inline">\(-0.19\)</span></td>
+<td><span class="math inline">\(-0.09\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Air Cost ($)</td>
+<td>{153</td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.13\)</span></td>
+<td><span class="math inline">\(0.05\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td>{</td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Air Time (min.)</td>
+<td>{54</td>
+<td><span class="math inline">\(0.08\)</span></td>
+<td><span class="math inline">\(0.08\)</span></td>
+<td><span class="math inline">\(0.08\)</span></td>
+<td><span class="math inline">\(0.06\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Car Cost ($)</td>
+<td>{65</td>
+<td><span class="math inline">\(0.16\)</span></td>
+<td><span class="math inline">\(0.17\)</span></td>
+<td><span class="math inline">\(0.18\)</span></td>
+<td><span class="math inline">\(0.02\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.03)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Car Time (min.)</td>
+<td>{232</td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.12\)</span></td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.02\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+<td><span class="math inline">\((0.01)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Note: For ease of reading, the reported AME estimates have been multiplied by 100.</p>
+<p>characteristic <span class="math inline">\(W\)</span>. For example in the transportation application the opportunity cost of travel time is likely related to an individual’s wage which can be proxied by household income. We can write this as <span class="math inline">\(\gamma=\gamma_{1}+\gamma_{2} X\)</span>. Substituted into (26.7) we obtain the model</p>
+<p><span class="math display">\[
+U_{j}^{*}=W \beta_{j}+X_{j} \gamma_{1}+X_{j} W \gamma_{2}+\varepsilon_{j}
+\]</span></p>
+<p>where for simplicity we assume <span class="math inline">\(W\)</span> and <span class="math inline">\(X_{j}\)</span> are scalar. This can be written in form (26.7) by redefining <span class="math inline">\(X_{j}\)</span> as <span class="math inline">\(\left(X_{j}, X_{j} W\right)\)</span> and the same estimation methods apply. In our application this model yields a negative estimate for <span class="math inline">\(\gamma_{2}\)</span>, indicating that the cost of travel time is indeed increasing in income.</p>
+<p>In Stata, model (26.7) can be estimated using cmclogit. Probabilities can be calculated by predict, and marginal effects by margins. In R, use mlogit.</p>
+</section>
+<section id="independence-of-irrelevant-alternatives" class="level2" data-number="24.5">
+<h2 data-number="24.5" class="anchored" data-anchor-id="independence-of-irrelevant-alternatives"><span class="header-section-number">24.5</span> Independence of Irrelevant Alternatives</h2>
+<p>The multinomial logit model has an undesirable restriction. For fixed parameters and regressors the ratio of the probability of two alternatives is</p>
+<p><span class="math display">\[
+\frac{P_{j}(W, X \mid \theta)}{P_{\ell}(W, X \mid \theta)}=\frac{\exp \left(W^{\prime} \beta_{j}+X_{j}^{\prime} \gamma\right)}{\exp \left(W^{\prime} \beta_{\ell}+X_{\ell}^{\prime} \gamma\right)} .
+\]</span></p>
+<p>This odds ratio is a function only of the inputs <span class="math inline">\(X_{j}\)</span> and <span class="math inline">\(X_{\ell}\)</span>, does not depend on any of the inputs specific to the other alternatives, and is unaltered by the presence of other alternatives. This property is called independence of irrelevant alternatives (IIA), meaning that the choice between option <span class="math inline">\(j\)</span> and <span class="math inline">\(\ell\)</span> is independent of the other alternatives and hence the latter are irrelevant to the bivariate choice. This property is strongly tied to the multinomial logit model as the latter was derived axiomatically by Luce (1959) from an IIA assumption.</p>
+<p>To understand why IIA may be problematic it is helpful to think through specific examples. Take the transportation choice problem of the previous section. The IIA condition means that the ratio of the probability of selecting train to that of selecting car is unaffected by the price of an airplane ticket. This may make sense if individuals view the set of choices as similarly substitutable, but does not make sense if train and air are close substitutes. In this latter setting a low airplane ticket may make it highly unlikely that an individual will select train travel while unaffecting their likelihood of selecting car travel.</p>
+<p>A famous example of this problem is the following setting. Suppose the alternatives are car and bus and suppose that the probability of the alternatives is split <span class="math inline">\(50 %-50 %\)</span>. Now suppose that we can split the bus alternative into “red bus” and “blue bus” so there are a total of three alternatives. Suppose the blue bus and red bus are close equivalents: they have similar schedules, convenience, and cost. In this context most individuals would be near indifferent between the blue and red bus so these alternatives would receive similar probabilities. It would thus seem reasonable to expect that the probabilities of these three choices would be close to <span class="math inline">\(50 %-25 %-25 %\)</span>. The IIA condition, however, implies that the ratio of the first two probabilities must remain 1, so this implies that the probabilities of the three choices would be 33%-33%-33%. We deduce that the multinomial logit model implies that adding “red bus” to the choice list results in the reduction of car usage from <span class="math inline">\(50 %\)</span> to <span class="math inline">\(33 %\)</span>. This doesn’t make sense; it is an unreasonable implication. This example is known as the “red bus/blue bus puzzle”.</p>
+<p>The source of the problem is that the IIA structure and multinomial logit model exclude differentiated substitutability among the alternatives. This may be appropriate when the alternatives (e.g.&nbsp;bus, train, and car) are clearly differentiated and have reasonably similar degrees of substitutability. It is not appropriate when a subset of alternatives (e.g.&nbsp;red bus and blue bus) are close substitutes.</p>
+<p>Part of the problem is due to the restrictive correlation pattern imposed on the errors by the generalized extreme value distribution. To allow for cases such as red bus/blue bus we require a more flexible correlation structure which allows subsets of alternatives to have differential correlations.</p>
+</section>
+<section id="nested-logit" class="level2" data-number="24.6">
+<h2 data-number="24.6" class="anchored" data-anchor-id="nested-logit"><span class="header-section-number">24.6</span> Nested Logit</h2>
+<p>The nested logit model circumvents the IIA problem described in the previous section by separating the alternatives into groups. Alternatives within groups are allowed to be correlated but are assumed uncorrelated across groups.</p>
+<p>The model posits that there are <span class="math inline">\(J\)</span> groups each with <span class="math inline">\(K_{j}\)</span> alternatives. We use <span class="math inline">\(j\)</span> to denote the group, <span class="math inline">\(k\)</span> to denote the alternative within a group, and ” <span class="math inline">\(j k\)</span> ” to denote a specific alternative. Let <span class="math inline">\(W\)</span> denote individualspecific regressors and <span class="math inline">\(X_{j k}\)</span> denote regressors which vary by alternative. The utility of the <span class="math inline">\(j k^{t h}\)</span> alternative is a function of the regressors plus an error:</p>
+<p><span class="math display">\[
+U_{j k}^{*}=W^{\prime} \beta_{j k}+X_{j k}^{\prime} \gamma+\varepsilon_{j k} .
+\]</span></p>
+<p>The model assumes that the individual selects the alternative <span class="math inline">\(j k\)</span> with the highest utility <span class="math inline">\(U_{j k}^{*}\)</span>.</p>
+<p>McFadden’s Nested Logit model assumes that the errors have the following GEV joint distribution</p>
+<p><span class="math display">\[
+F\left(\varepsilon_{11}, \ldots, \varepsilon_{J K_{J}}\right)=\exp \left(-\sum_{j=1}^{J}\left[\sum_{k=1}^{K_{j}} \exp \left(-\frac{\varepsilon_{j k}}{\tau_{j}}\right)\right]^{\tau_{j}}\right) .
+\]</span></p>
+<p>This is a generalization of the GEV distribution (26.3). The distribution (26.13) is the product of <span class="math inline">\(J\)</span> GEV distributions (26.3) each with dissimilarity parameter <span class="math inline">\(\tau_{j}\)</span>, which means that the errors within each group are GEV distributed with dissimilarity parameter <span class="math inline">\(\tau_{j}\)</span>. Across groups the errors are independent. When <span class="math inline">\(\tau_{j}=1\)</span> for all <span class="math inline">\(j\)</span> the errors are mutually independent and the joint model equals conditional logit. When <span class="math inline">\(\tau_{j}&lt;1\)</span> for some <span class="math inline">\(j\)</span> the errors within group <span class="math inline">\(j\)</span> are correlated but not with the other errors. If a group has a single alternative its dissimilarity parameter is not identified so should be set to one.</p>
+<p>The nested logit model (26.12)-(26.13) is structurally identical to the conditional logit model except that the error distribution is (26.13) instead of (26.3). The coefficients <span class="math inline">\(\beta_{j k}\)</span> and <span class="math inline">\(\gamma\)</span> have the same interpretation as in the conditional logit model. As written, (26.12) allows the coefficients <span class="math inline">\(\beta_{j k}\)</span> to vary across alternatives <span class="math inline">\(j k\)</span> while the coefficients <span class="math inline">\(\gamma\)</span> are common across <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. Other specifications are possible. For example, the model can be altered to allow the coefficients <span class="math inline">\(\beta_{j}\)</span> and/or <span class="math inline">\(\gamma_{j}\)</span> to vary across groups but not alternatives. The degree of variability is a modeling choice with a flexibility/parsimony trade-off. It is also possible (but less common in practice) to have variables <span class="math inline">\(W_{j}\)</span> which vary by group but not by alternative. These can be included in the model with common coefficients.</p>
+<p>The partition of alternatives into groups is a modeling decision. Alternatives with a high degree of substitutability should be placed in the same group. Alternatives with a low degree of substitutability should be placed in different groups.</p>
+<p>To illustrate, consider a consumer choice of an automobile purchase. For simplicity suppose there are four choices: Honda Civic, Ford Fusion, Honda CR-V, and Ford Escape. The first two are compact cars and the last two are sports utility vehicles (SUVs). Consequently it is reasonable to think of the first two as substitutes and the last two as substitutes. We display this nesting as a tree diagram as in Figure 26.2. This shows the division of the decision “Car” into “Compact” and “Sports Utility Vehicle” and the further division by model.</p>
+<p><img src="images//2022_10_23_114e68a1ccdd7fb263a3g-10.jpg" class="img-fluid"></p>
+<p>Figure 26.2: Nested Choice</p>
+<p>Only the differences between the coefficients <span class="math inline">\(\beta_{j k}\)</span> are identified. Identification is achieved by setting one alternative <span class="math inline">\(j k\)</span> as the base alternative. If the coefficients <span class="math inline">\(\beta_{j}\)</span> are constrained to vary by by group then identification is achieved by setting a base group. The scale of the coefficients is not identified separately from the scaling of the errors implicit in the GEV distribution (26.13).</p>
+<p>Some authors interpret model (26.12) as a nested sequential choice. An individual first selects a group and second selects the best option within the group. For example, in the car choice example you could imagine first deciding on the style of car (compact or SUV) and then deciding on the specific car within each category (e.g.&nbsp;Civic vs.&nbsp;Fusion or CR-V vs.&nbsp;Escape). The sequential choice interpretation may help structure the groupings. However, sequential choice should be used cautiously as it is not technically correct. The correct interpretation is degree of substitutability not the timing of decisions.</p>
+<p>If the coefficients <span class="math inline">\(\beta_{j}\)</span> on <span class="math inline">\(W\)</span> are constrained to only vary across groups (this, for example, is the default in Stata) then the effect <span class="math inline">\(W^{\prime} \beta_{j}\)</span> in (26.12) shifts the utilities of all alternatives within a group, and thus does not affect the choice of an alternative within a group. In this case the variable <span class="math inline">\(W\)</span> can be described as “affecting the choice of group”.</p>
+<p>We now describe the nested logit response probabilities.</p>
+<p>Theorem 26.2 Assume the utility of alternative <span class="math inline">\(j k\)</span> is <span class="math inline">\(U_{j k}^{*}=\mu_{j k}+\varepsilon_{j k}\)</span> and the error vector has distribution function (26.13). Then the response probabilities equal <span class="math inline">\(P_{j k}=P_{k \mid j} P_{j}\)</span> where</p>
+<p><span class="math display">\[
+P_{k \mid j}=\frac{\exp \left(\mu_{j k} / \tau_{j}\right)}{\sum_{m=1}^{K_{j}} \exp \left(\mu_{j m} / \tau_{j}\right)}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+P_{j}=\frac{\left(\sum_{m=1}^{K_{j}} \exp \left(\mu_{j m} / \tau_{j}\right)\right)^{\tau_{j}}}{\sum_{\ell=1}^{J}\left(\sum_{m=1}^{K_{\ell}} \exp \left(\mu_{\ell m} / \tau_{\ell}\right)\right)^{\tau_{\ell}}} .
+\]</span></p>
+<p>Theorem <span class="math inline">\(26.2\)</span> shows that the response probabilities equal the product of two terms: <span class="math inline">\(P_{k \mid j}\)</span> and <span class="math inline">\(P_{j}\)</span>. The first, <span class="math inline">\(P_{k \mid j}\)</span>, is the conditional probability of alternative <span class="math inline">\(k\)</span> given the group <span class="math inline">\(j\)</span> and takes the standard conditional logit form. The second, <span class="math inline">\(P_{j}\)</span>, is the probability of group <span class="math inline">\(j\)</span>.</p>
+<p>Let <span class="math inline">\(\theta\)</span> be the parameters. The log-likelihood function is</p>
+<p><span class="math display">\[
+\ell_{n}(\theta)=\sum_{i=1}^{n} \sum_{j=1}^{J} \sum_{k=1}^{K_{j}} \mathbb{1}\left\{Y_{i}=j k\right\}\left(\log P_{k \mid j}\left(W_{i}, X_{i} \mid \theta\right)+\log P_{j}\left(W_{i}, X_{i} \mid \theta\right)\right) .
+\]</span></p>
+<p>The MLE <span class="math inline">\(\widehat{\theta}\)</span> maximizes <span class="math inline">\(\ell_{n}(\theta)\)</span>. There is no algebraic solution so <span class="math inline">\(\widehat{\theta}\)</span> needs to be found numerically.</p>
+<p>Because the probability structure of a nested logit model is more complicated than the conditional logit model it may be difficult to interpret the coefficient estimates. Marginal effects can (in principle) be calculated but these are complicated functions of the coefficients.</p>
+<p>To illustrate, we estimate a nested logit model of transportation choice using the Koppelman dataset. To facilitate comparisons we estimate the same specification as for conditional logit. The difference is that we use the GEV distribution (26.13) with the groupings <span class="math inline">\(\{\)</span> car, air <span class="math inline">\(\}\)</span> and <span class="math inline">\(\{\)</span> train, bus <span class="math inline">\(\}\)</span>. This adds two dissimilarity parameters. The results are reported in the second column of Table <span class="math inline">\(26.1\)</span>.</p>
+<p>The dissimilarity parameter estimate for <span class="math inline">\(\{\)</span> car, air <span class="math inline">\(\}\)</span> is <span class="math inline">\(0.24\)</span> which is small. It implies a correlation of <span class="math inline">\(0.94\)</span> between the car and air utility shocks. This suggests that the conditional logit model - which assumes the utility errors are independent - is misspecified. The dissimilarity parameter estimate for {train, bus} is on the boundary <span class="math inline">\({ }^{8} 1.00\)</span> so has no standard error.</p>
+<p>Nested logit modeling is limited by the necessity of selecting the groupings. Typically there is not a unique obvious structure; consequently any proposed grouping is subject to misspecification.</p>
+<p>In this section we described the nested logit model with one nested layer. The model extends to multiple nesting layers. The difference is that the joint distribution (26.13) is modified to allow higher levels of interactions with additional dissimilarity parameters. An applied example is Goldberg (1995) who used a five-level nested logit model to estimate the demand for automobilies. The levels used in her analysis were (1) Buy/Not Buy; (2) New/Used; (3) Car Class; (4) Foreign/Domestic; and (5) Car Model.</p>
+<p>In Stata, nested logit models can be estimated by nlogit.</p>
+</section>
+<section id="mixed-logit" class="level2" data-number="24.7">
+<h2 data-number="24.7" class="anchored" data-anchor-id="mixed-logit"><span class="header-section-number">24.7</span> Mixed Logit</h2>
+<p>A generalization of the conditional logit model which allows the coefficients <span class="math inline">\(\gamma\)</span> on the alternativevarying regressors to be random across individuals is known as mixed logit. The model is also known as conditional mixed logit and random parameters logit.</p>
+<p>Recall that the conditional logit model is <span class="math inline">\(U_{j}^{*}=W^{\prime} \beta_{j}+X_{j}^{\prime} \gamma+\varepsilon_{j}\)</span> with <span class="math inline">\(\varepsilon_{j}\)</span> i.i.d. extreme value. Now replace <span class="math inline">\(\gamma\)</span> with an individual-specific random variable <span class="math inline">\(\eta\)</span> with distribution <span class="math inline">\(F(\eta \mid \alpha)\)</span> and parameters <span class="math inline">\(\alpha\)</span>. This model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+U_{j}^{*} &amp;=W^{\prime} \beta_{j}+X_{j}^{\prime} \eta+\varepsilon_{j} \\
+\eta &amp; \sim F(\eta \mid \alpha) .
+\end{aligned}
+\]</span></p>
+<p>For example, in our transportation choice application the variables <span class="math inline">\(X_{j}\)</span> are the cost and travel time of each alternative. The above model allows the effect of cost and time on utility to be heterogeneous across individuals.</p>
+<p>The most common distributional assumption for <span class="math inline">\(\eta\)</span> is <span class="math inline">\(\mathrm{N}(\gamma, D)\)</span> with diagonal covariance matrix <span class="math inline">\(D\)</span>. Other common specifications include <span class="math inline">\(\mathrm{N}(\gamma, \Sigma)\)</span> with unconstrained covariance matrix <span class="math inline">\(\Sigma\)</span>, and log-normallydistributed <span class="math inline">\(\eta\)</span> to enforce <span class="math inline">\(\eta \geq 0\)</span>. (A constraint <span class="math inline">\(\eta \leq 0\)</span> can be imposed by first multiplying the relevant regressor <span class="math inline">\(X_{j}\)</span> by -1.) It is also common to partition <span class="math inline">\(X_{j}\)</span> so that some variables have random coefficients and others have fixed coefficients. The reason why these constraints may be desirable is parsimony and simpler computation.</p>
+<p>Under the normality specifications <span class="math inline">\(\eta \sim \mathrm{N}(\gamma, D)\)</span> and <span class="math inline">\(\eta \sim \mathrm{N}(\gamma, \Sigma)\)</span> the mean <span class="math inline">\(\gamma\)</span> equals the average random coefficient in the population and has a similar interpretation to the coefficient <span class="math inline">\(\gamma\)</span> in the conditional logit model. The variances in <span class="math inline">\(D\)</span> or <span class="math inline">\(\Sigma\)</span> control the dispersion of the distribution of <span class="math inline">\(\eta\)</span> in the population. Smaller variances mean that <span class="math inline">\(\eta\)</span> is mildly dispersed; larger variances mean high dispersion and heterogeneity.</p>
+<p>A useful feature of the mixed logit model is that the random coefficients induce correlation among the alternatives. To see this, write <span class="math inline">\(\gamma=\mathbb{E}[\eta]\)</span> and <span class="math inline">\(V_{j}=X_{j}^{\prime}(\eta-\gamma)+\varepsilon_{j}\)</span>. Then the model can be written as</p>
+<p><span class="math display">\[
+Y_{j}^{*}=W^{\prime} \beta_{j}+X_{j}^{\prime} \gamma+V_{j}
+\]</span></p>
+<p>which is the conventional random utility framework but with errors <span class="math inline">\(V_{j}\)</span> instead of <span class="math inline">\(\varepsilon_{j}\)</span>. An important difference is that these errors are conditionally heteroskedastic and correlated across alternatives:</p>
+<p><span class="math display">\[
+\mathbb{E}\left[V_{j} V_{\ell} \mid X_{j}, X_{\ell}\right]=X_{j}^{\prime} \operatorname{var}[\eta] X_{\ell} .
+\]</span></p>
+<p><span class="math inline">\({ }^{8}\)</span> The uncontrained maximizer exceeds one which violates the parameter space so the the model is effectively estimated constraining this dissimilarity parameter to equal one. This non-zero correlation means that the IIA property is partially broken, giving the mixed logit model more flexibility than the conditional logit model to capture choice behavior.</p>
+<p>Conditional on <span class="math inline">\(\eta\)</span> the response probabilities follow from (26.8)</p>
+<p><span class="math display">\[
+P_{j}(w, x \mid \eta)=\frac{\exp \left(w^{\prime} \beta_{j}+x_{j}^{\prime} \eta\right)}{\sum_{\ell=1}^{J} \exp \left(w^{\prime} \beta_{\ell}+x_{\ell}^{\prime} \eta\right)} .
+\]</span></p>
+<p>The unconditional response probabilities are found by integration.</p>
+<p><span class="math display">\[
+P_{j}(w, x)=\int P_{j}(w, x \mid \eta) d F(\eta \mid \alpha) .
+\]</span></p>
+<p>The log-likelihood function is</p>
+<p><span class="math display">\[
+\ell_{n}(\theta)=\sum_{i=1}^{n} \sum_{j=1}^{J} \mathbb{1}\left\{Y_{i}=j\right\} \log P_{j}\left(W_{i}, X_{i} \mid \theta\right)
+\]</span></p>
+<p>where <span class="math inline">\(\theta\)</span> is the list of all parameters including <span class="math inline">\(\eta\)</span>.</p>
+<p>The integral in (26.14) is not available in closed form. A standard numerical implementation <span class="math inline">\({ }^{9}\)</span> is Monte Carlo integration (estimation by simulation). This technique works as follows.Let <span class="math inline">\(\left\{\eta_{1}, \ldots, \eta_{G}\right\}\)</span> be a set of i.i.d. pseudo-random draws from <span class="math inline">\(F(\eta \mid \alpha)\)</span>. The simulation estimator of (26.14) is</p>
+<p><span class="math display">\[
+\widetilde{P}_{j}(w, x)=\frac{1}{G} \sum_{g=1}^{G} P_{j}\left(w, x \mid \eta_{g}\right)
+\]</span></p>
+<p>As <span class="math inline">\(G\)</span> increases this converges in probability to (26.14). Monte Carlo integration is computationally more efficient than numerical integration when the dimension of <span class="math inline">\(\eta\)</span> is three or larger, but is considerably more computationally intensive than non-random conditional logit.</p>
+<p>To illustrate, we estimate a mixed logit model for the transportation application treating the coefficient on travel time as a normal random variable. The coefficient estimates are reported in Table <span class="math inline">\(26.1\)</span> with estimated marginal effects in Table <span class="math inline">\(26.2\)</span>. The results are similar to the conditional logit model. The coefficient on travel time has a mean <span class="math inline">\(-0.014\)</span> which is nearly identical to the conditional logit estimate and a standard deviation of <span class="math inline">\(0.005\)</span> which is about one-third of the value of the mean. This suggests that the coefficient is mildly heterogenous among travelers. An interpretation of this random coefficient is that travelers have heterogeneous costs associated with travel time.</p>
+<p>In Stata, mixed logit can be estimated by cmmixlogit.</p>
+</section>
+<section id="simple-multinomial-probit" class="level2" data-number="24.8">
+<h2 data-number="24.8" class="anchored" data-anchor-id="simple-multinomial-probit"><span class="header-section-number">24.8</span> Simple Multinomial Probit</h2>
+<p>The simple multinomial probit and simple conditional multinomial probit models combine the latent utility model</p>
+<p><span class="math display">\[
+U_{j}^{*}=W^{\prime} \beta_{j}+\varepsilon_{j}
+\]</span></p>
+<p>or</p>
+<p><span class="math display">\[
+U_{j}^{*}=W^{\prime} \beta_{j}+X_{j}^{\prime} \gamma+\varepsilon_{j}
+\]</span></p>
+<p>with the assumption that <span class="math inline">\(\varepsilon_{j}\)</span> is i.i.d. <span class="math inline">\(\mathrm{N}(0,1)\)</span>. These are identical to the simple multinomial logit model of Section <span class="math inline">\(26.3\)</span> and the conditional logit model of Section <span class="math inline">\(26.4\)</span> except that the error distribution is normal instead of extreme value.</p>
+<p><span class="math inline">\({ }^{9}\)</span> If the random coefficient <span class="math inline">\(\eta\)</span> is scalar a computationally more efficient method is integration by quadrature. Simple multinomial probit does not precisely satisfy IIA but its properties are similar to IIA. The model assumes that the errors are independent and thus does not allow two alternatives, e.g.&nbsp;“red bus” and “blue bus”, to be close substitutes. This means that in practice the simple multinomial probit will produce results which are similar to simple multinomial logit.</p>
+<p>Identification is identical to multinomial logit. The coefficients <span class="math inline">\(\beta_{j}\)</span> and <span class="math inline">\(\gamma\)</span> are only identified up to scale and the coefficients <span class="math inline">\(\beta_{j}\)</span> are only identified relative to a base alternative.</p>
+<p>The response probability <span class="math inline">\(P_{j}(W, X)\)</span> is not available in closed form. However, it can be expressed as a one-dimensional integral, as we now show.</p>
+<p>Theorem 26.3 In the simple multinomial probit and simple conditional multinomial probit models the response probabilities equal</p>
+<p><span class="math display">\[
+P_{j}(W, X)=\int_{-\infty}^{\infty} \prod_{\ell \neq j} \Phi\left(W^{\prime}\left(\beta_{j}-\beta_{\ell}\right)+\left(X_{j}-X_{\ell}\right)^{\prime} \gamma+v\right) \phi(v) d v
+\]</span></p>
+<p>where <span class="math inline">\(\Phi(\nu)\)</span> and <span class="math inline">\(\phi(\nu)\)</span> are the normal distribution and density functions.</p>
+<p>The proof is presented in Section 26.13. Theorem <span class="math inline">\(26.3\)</span> shows that the response probability is a onedimensional normal integral over the <span class="math inline">\(J-1\)</span>-fold product of normal distribution functions. This integral (26.18) is straightforward to numerically evaluate by quadrature methods.</p>
+<p>Let <span class="math inline">\(\theta=\left(\beta_{1}, \ldots \beta_{J}, \gamma\right)\)</span> denote the parameters. Given the sample <span class="math inline">\(\left\{Y_{i}, W_{i}, X_{i}\right\}\)</span> the log-likelihood is</p>
+<p><span class="math display">\[
+\ell_{n}(\theta)=\sum_{i=1}^{n} \sum_{j=1}^{J} \mathbb{1}\left\{Y_{i}=j\right\} \log P_{j}\left(W_{i}, X_{i} \mid \theta\right) .
+\]</span></p>
+<p>The maximum likelihood estimator (MLE) <span class="math inline">\(\widehat{\theta}\)</span> maximizes <span class="math inline">\(\ell_{n}(\theta)\)</span>.</p>
+<p>To illustrate, we estimate a simple conditional multinomial probit model for transportation choice using the same specification as before. The results are reported in the fourth column of Table 26.1. We report average marginal effects in Table <span class="math inline">\(26.2\)</span>. We see that the estimated AME are very close to those of the conditional logit model.</p>
+<p>In Stata, simple multivariate probit can be estimated by mprobit. The response probabilities and loglikelihood are calculated by applying quadrature to the integral (26.18). Simple conditional multinomial probit can be estimated by cmmprobit. The latter uses the method of simulated maximum likelihood (discussed in the next section) even though numerical calculation could be implemented efficiently using the one-dimensional integral (26.18).</p>
+</section>
+<section id="general-multinomial-probit" class="level2" data-number="24.9">
+<h2 data-number="24.9" class="anchored" data-anchor-id="general-multinomial-probit"><span class="header-section-number">24.9</span> General Multinomial Probit</h2>
+<p>A model which avoids the correlation constraints of multinomial and nested logit is general multinomial probit, which is (26.17) with the error vector <span class="math inline">\(\varepsilon \sim \mathrm{N}(0, \Sigma)\)</span> and unconstrained <span class="math inline">\(\Sigma\)</span>.</p>
+<p>Identification of the coefficients is the same as multinomial logit. The coefficients <span class="math inline">\(\beta_{j}\)</span> and <span class="math inline">\(\gamma\)</span> are only identified up to scale, and the coefficients <span class="math inline">\(\beta_{j}\)</span> are only identified relative to a base alternative <span class="math inline">\(J\)</span>.</p>
+<p>Identification of the covariance matrix <span class="math inline">\(\Sigma\)</span> requires more attention. It turns out to be useful to rewrite the model in terms of differenced utility, where differences are taken with respect to the base alternative <span class="math inline">\(J\)</span>. The differenced utilities are</p>
+<p><span class="math display">\[
+U_{j}^{*}-U_{J}^{*}=W^{\prime}\left(\beta_{j}-\beta_{J}\right)+\left(X_{j}-X_{J}\right)^{\prime} \gamma+\varepsilon_{j J}
+\]</span></p>
+<p>where <span class="math inline">\(\varepsilon_{j J}=\varepsilon_{j}-\varepsilon_{J}\)</span>. Let <span class="math inline">\(\Sigma_{J}\)</span> be the covariance matrix of <span class="math inline">\(\varepsilon_{j J}\)</span> for <span class="math inline">\(j=1, \ldots, J-1\)</span>. For example, suppose that the errors <span class="math inline">\(\varepsilon_{j}\)</span> are i.i.d. <span class="math inline">\(N(0,1)\)</span>. In this case <span class="math inline">\(\Sigma_{J}\)</span> equals</p>
+<p><span class="math display">\[
+\Sigma_{J}=\left[\begin{array}{cccc}
+2 &amp; 1 &amp; \cdots &amp; 1 \\
+1 &amp; 2 &amp; \cdots &amp; 1 \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; 1 &amp; \cdots &amp; 2
+\end{array}\right] .
+\]</span></p>
+<p>The scale of (26.19) is not identified so <span class="math inline">\(\Sigma_{J}\)</span> is normalizing by fixing one diagonal element of <span class="math inline">\(\Sigma_{J}\)</span>. In Stata, for example, cmmprobit normalizes the variance of one element - the “scale alternative” - to 2 , in order to match the case (26.20). Consequently, <span class="math inline">\(\Sigma_{J}\)</span> has <span class="math inline">\((J-1) J / 2-1\)</span> free covariance parameters.</p>
+<p>Multinomial probit with a general covariance matrix <span class="math inline">\(\Sigma_{J}\)</span> is more flexible than conditional logit and nested logit. This flexibility allows general multinomial probit to escape the IIA restrictions.</p>
+<p>The response probabilities do not have a closed-form expressions but can be written as <span class="math inline">\(J-1\)</span> dimensional integrals. Numerical evaluation of integrals in dimensions three and greater is computationally prohibitive. A feasible alternative is numerical simulation. The idea, roughly, is to simulate a large number of random draws from the model and count the frequency which satisfy the desired inequality. This gives a simulation estimate of the response probability. Brute force implementation of this idea can be inefficient, so clever tricks have been introduced to produce computationally efficient estimates. The standard implementation was developed in a series of papers by Geweke, Hajivassiliou, and Keane, and is known as the GHK simulator. See Train (2009) for a description and references. The GHK simulator provides a feasible method to estimate the likelihood function and is known as simulated maximum likelihood. While feasible, simulated maximum likelihood is computationally intensive so optimizating the likelihood to find the MLE is computationally slow. Furthermore the likelihood is not concave in the parameters so convergence can be difficult to obtain in some applications. Consequently it may be prudent to use simpler methods such as conditional and nested logit for exploratory analysis and multinomial probit for final-stage estimation.</p>
+<p>To illustrate, we estimate the general multinomial probit model for the transportation application. We set the base alternative to train and the scale alternative to air. The coefficient estimates are reported in Table <span class="math inline">\(26.1\)</span> and marginal effects in Table <span class="math inline">\(26.2\)</span>. We see that the estimated marginal effects with respect to cost and travel time are considerably smaller than in the conditional logit model. This indicates greatly reduced price elasticity <span class="math inline">\((-0.3)\)</span> and travel time elasticity <span class="math inline">\((-1.1)\)</span>. Suppose (as we considered in Section 26.4) that high-speed rail reduces train travel time by <span class="math inline">\(33 %\)</span>. The multinomial probit estimates imply that this increases train travel from <span class="math inline">\(17 %\)</span> to <span class="math inline">\(24 %\)</span> - about a <span class="math inline">\(40 %\)</span> increase. This is substantial but one-half of the increase estimated by conditional logit.</p>
+<p>A multinomial probit model with four alternatives has five covariance parameters. The estimates for the transportation application are reported in the following <span class="math inline">\(3 \times 3\)</span> table. The diagonal elements are the variance estimates, the off-diagonal elements are the correlation estimates. One interesting finding is that the estimated correlation between air and car travel is <span class="math inline">\(0.99\)</span>, which is similar to the estimate from the nested logit model. In both frameworks the estimates indicate a high correlation between air and car travel, implying that specifications with independent errors are misspecified.</p>
+<p><img src="images//2022_10_23_114e68a1ccdd7fb263a3g-15.jpg" class="img-fluid"></p>
+<p>In Stata, multivariate probit can be estimated by cmmprobit. It uses GHK simulated maximum likelihood as described above.</p>
+</section>
+<section id="ordered-response" class="level2" data-number="24.10">
+<h2 data-number="24.10" class="anchored" data-anchor-id="ordered-response"><span class="header-section-number">24.10</span> Ordered Response</h2>
+<p>A multinomial <span class="math inline">\(Y\)</span> is ordered if the alternatives have ordinal (ordered) interpretation. For example, a student may be asked to “rate your [econometrics] professor” with possible responses: poor, fair, average, good, or excellent, coded as <span class="math inline">\(\{1,2,3,4,5\}\)</span>. These responses are categorical but are also ordinally related. We could use standard multinomial methods (e.g.&nbsp;multinomial logit or probit) but this ignores the ordinal structure and is therefore inefficient.</p>
+<p>The standard approach to ordered response is based on the latent variable framework</p>
+<p><span class="math display">\[
+\begin{aligned}
+U^{*} &amp;=X^{\prime} \beta+\varepsilon \\
+\varepsilon &amp; \sim G
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(X\)</span> does not include an intercept. The model specifies that the response <span class="math inline">\(Y\)</span> is determined by <span class="math inline">\(U^{*}\)</span> crossing a series of ordered thresholds <span class="math inline">\(\alpha_{1}&lt;\alpha_{2}&lt;\cdots&lt;\alpha_{J-1}\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{array}{ccc}
+Y=1 &amp; \text { if } &amp; U^{*} \leq \alpha_{1} \\
+Y=2 &amp; \text { if } &amp; \alpha_{1}&lt;U^{*} \leq \alpha_{2} \\
+\vdots &amp; \vdots &amp; \vdots \\
+Y=J-1 &amp; \text { if } &amp; \alpha_{J-2}&lt;U^{*} \leq \alpha_{J-1} \\
+Y=J &amp; \text { if } &amp; \alpha_{J-1}&lt;U^{*} .
+\end{array}
+\]</span></p>
+<p>Writing <span class="math inline">\(\alpha_{0}=-\infty\)</span> and <span class="math inline">\(\alpha_{J}=\infty\)</span> we can write these <span class="math inline">\(J\)</span> equations more compactly as <span class="math inline">\(Y=j\)</span> if <span class="math inline">\(\alpha_{j-1}&lt;U^{*} \leq \alpha_{j}\)</span>. When <span class="math inline">\(J=2\)</span> this model specializes to binary choice.</p>
+<p>The standard interpretation is that <span class="math inline">\(U^{*}\)</span> is a latent continuous response and <span class="math inline">\(Y\)</span> is a discretized version. Consider again the example of “rate your professor”. In the model, <span class="math inline">\(U^{*}\)</span> is a student’s true assessment. The response <span class="math inline">\(Y\)</span> is a discretized version. The threshold crossing model postulates that responses are increasing in the latent variable and are determined by the thresholds.</p>
+<p>In the standard ordered response framework the distribution <span class="math inline">\(G(x)\)</span> of the error <span class="math inline">\(\varepsilon\)</span> is assumed known; in practice either the normal or logistic distribution is used. When <span class="math inline">\(\varepsilon\)</span> is normal the model is called ordered probit. When <span class="math inline">\(\varepsilon\)</span> is logistic the model is called ordered logit. The coefficients and thresholds are only identified up to scale; the standard normalization is to fix the scale of the distribution of <span class="math inline">\(\varepsilon\)</span>.</p>
+<p>The response probabilities are</p>
+<p><span class="math display">\[
+\begin{aligned}
+P_{j}(x) &amp;=\mathbb{P}[Y=j \mid X=x] \\
+&amp;=\mathbb{P}\left[\alpha_{j-1}&lt;U^{*} \leq \alpha_{j} \mid X=x\right] \\
+&amp;=\mathbb{P}\left[\alpha_{j-1}-X^{\prime} \beta&lt;\varepsilon \leq \alpha_{j}-X^{\prime} \beta \mid X=x\right] \\
+&amp;=G\left(\alpha_{j}-x^{\prime} \beta\right)-G\left(\alpha_{j-1}-x^{\prime} \beta\right) .
+\end{aligned}
+\]</span></p>
+<p>It may be easier to interpret the cumulative response probabilities</p>
+<p><span class="math display">\[
+\mathbb{P}[Y \leq j \mid X=x]=G\left(\alpha_{j}-x^{\prime} \beta\right) .
+\]</span></p>
+<p>The marginal effects are</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial x} P_{j}(x)=\beta\left(g\left(\alpha_{j-1}-x^{\prime} \beta\right)-g\left(\alpha_{j}-x^{\prime} \beta\right)\right)
+\]</span></p>
+<p>and marginal cumulative effects are</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial x} \mathbb{P}[Y \leq j \mid X=x]=-\beta g\left(\alpha_{j}-x^{\prime} \beta\right) .
+\]</span></p>
+<p>To illustrate, Figure <span class="math inline">\(26.3\)</span> displays how the response probabilities are determined. The figure plots the distribution function of latent utility <span class="math inline">\(U^{*}\)</span> with four thresholds <span class="math inline">\(\alpha_{1}, \alpha_{2}, \alpha_{3}\)</span> and <span class="math inline">\(\alpha_{4}\)</span> displayed on the xaxis. The response <span class="math inline">\(Y\)</span> is determined by <span class="math inline">\(U^{*}\)</span> crossing each threshold. Each threshold is mapped to a point on the <span class="math inline">\(y\)</span>-axis. The probability of each outcome is marked on the y-axis as the difference between each probability crossing.</p>
+<p><img src="images//2022_10_23_114e68a1ccdd7fb263a3g-17.jpg" class="img-fluid"></p>
+<p>Figure 26.3: Ordered Choice</p>
+<p>The parameters are <span class="math inline">\(\theta=\left(\beta, \alpha_{1}, \ldots \alpha_{J-1}\right)\)</span>. Given the sample <span class="math inline">\(\left\{Y_{i}, X_{i}\right\}\)</span> the log-likelihood is</p>
+<p><span class="math display">\[
+\ell_{n}(\theta)=\sum_{i=1}^{n} \sum_{j=1}^{J} \mathbb{1}\left\{Y_{i}=j\right\} \log P_{j}\left(X_{i} \mid \theta\right) .
+\]</span></p>
+<p>The maximum likelihood estimator (MLE) <span class="math inline">\(\widehat{\theta}\)</span> maximizes <span class="math inline">\(\ell_{n}(\theta)\)</span>.</p>
+<p>In Stata, ordered probit and logit can be estimated by oprobit and ologit.</p>
+</section>
+<section id="count-data" class="level2" data-number="24.11">
+<h2 data-number="24.11" class="anchored" data-anchor-id="count-data"><span class="header-section-number">24.11</span> Count Data</h2>
+<p>Count data refers to situations where the dependent variable is the number of “events” recorded as positive integers <span class="math inline">\(Y \in\{0,1,2, \ldots\}\)</span>. Examples include the number of doctor visits, the number of accidents, the number of patent registrations, the number of absences, or the number of bank failures. Count data models are typically employed in contexts where the counts are small integers.</p>
+<p>A count data model specifies the response probabilities <span class="math inline">\(P_{j}(x)=\mathbb{P}[Y=j \mid x]\)</span> for <span class="math inline">\(j=0,1,2, \ldots\)</span>, with the property <span class="math inline">\(\sum_{j=0}^{\infty} P_{j}(x)=1\)</span>. The baseline model is Poisson regression. This model specifies that <span class="math inline">\(Y\)</span> is conditionally Poisson distributed with a Poisson parameter <span class="math inline">\(\lambda\)</span> written as an exponential link of a linear function of the regressors. The exponential link is used to ensure that the Poisson parameter is strictly positive. This model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+P_{j}(x) &amp;=\frac{\exp (-\lambda(x)) \lambda(x)^{j}}{j !} \\
+\lambda(x) &amp;=\exp \left(x^{\prime} \beta\right) .
+\end{aligned}
+\]</span></p>
+<p>The Poisson distribution has the property that its mean and variance equal the Poisson parameter <span class="math inline">\(\lambda\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}[Y \mid X] &amp;=\exp \left(X^{\prime} \beta\right) \\
+\operatorname{var}[Y \mid X] &amp;=\exp \left(X^{\prime} \beta\right) .
+\end{aligned}
+\]</span></p>
+<p>The first equation shows that the conditional expectation (e.g., the regression function) equals <span class="math inline">\(\exp \left(X^{\prime} \beta\right)\)</span>. This is why the model is called Poisson regression.</p>
+<p>The log-likelihood function is</p>
+<p><span class="math display">\[
+\ell_{n}(\beta)=\sum_{i=1}^{n} \log P_{Y_{i}}\left(X_{i} \mid \beta\right)=\sum_{i=1}^{n}\left(-\exp \left(X_{i}^{\prime} \beta\right)+Y_{i} X_{i}^{\prime} \beta-\log \left(Y_{i} !\right)\right)
+\]</span></p>
+<p>The MLE <span class="math inline">\(\widehat{\beta}\)</span> is the value <span class="math inline">\(\beta\)</span> which maximizes <span class="math inline">\(\ell_{n}(\beta)\)</span>. Its first and second derivatives are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial \beta} \ell_{n}(\beta) &amp;=\sum_{i=1}^{n} X_{i}\left(Y_{i}-\exp \left(X_{i}^{\prime} \beta\right)\right) \\
+\frac{\partial^{2}}{\partial \beta \partial \beta^{\prime}} \ell_{n}(\beta) &amp;=-\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \exp \left(X_{i}^{\prime} \beta\right)
+\end{aligned}
+\]</span></p>
+<p>Since the second derivative is globally negative definite the log-likelihood function is globally concave. Hence numerical optimization to find the MLE is computationally straightforward.</p>
+<p>In general there is no reason to expect the Poisson model to be correctly specified. Hence we should view the parameter <span class="math inline">\(\beta\)</span> as the best-fitting pseudo-true value. From the first-order condition for maximization we find that this value satisfies</p>
+<p><span class="math display">\[
+\mathbb{E}\left[X\left(Y-\exp \left(X^{\prime} \beta\right)\right)\right]=0 .
+\]</span></p>
+<p>This holds under the conditional expectation assumption <span class="math inline">\(\mathbb{E}[Y \mid X]=\exp \left(X^{\prime} \beta\right)\)</span>. If the latter is correctly specified, Poisson regression correctly identifies the coeffiicent <span class="math inline">\(\beta\)</span>, the MLE is consistent for this value, and the estimated response probabilities are consistent for the true response probabilities.</p>
+<p>To explore this concept further, suppose the true CEF is nonparametric. Since it is non-negative we can write it using an exponential link <span class="math inline">\({ }^{10}\)</span> as <span class="math inline">\(\mathbb{E}[Y \mid X]=\exp (m(x))\)</span>. The function <span class="math inline">\(m(x)\)</span> is nonparametrically identified and can be approximated by a series <span class="math inline">\(x_{K}^{\prime} \beta_{K}\)</span>. Thus <span class="math inline">\(\mathbb{E}[Y \mid X] \simeq \exp \left(X_{K}^{\prime} \beta_{K}\right)\)</span>. What this shows is that if Poisson regression is implemented using a flexible set of regressors (as in series regression) the model will approximate the true CEF and hence will consistently estimate the true response probabilities. This is a broad justification for Poisson regression in count data applications if suitable attention is paid to the functional form for the included regressors.</p>
+<p>Since the model is an approximation, however, the conventional covariance matrix estimator will be inconsistent. Consequently it is advised to use the robust formula for covariance matrix and standard error estimation.</p>
+<p><span class="math inline">\({ }^{10} \mathrm{Or}\)</span>, equivalently, <span class="math inline">\(m(x)=\log (\mathbb{E}[Y \mid X])\)</span>. For a greater degree of flexibility the Poisson model can be generalized. One approach, similar to mixed logit, is to treat the parameters as random variables, thereby obtaining a mixed probit model. One particular mixed model of importance is the negative binomial model which can be obtained as a mixed model as follows. Specify the Poisson parameter as <span class="math inline">\(\lambda(X)=V \exp \left(X^{\prime} \beta\right)\)</span> where <span class="math inline">\(V\)</span> is a random variable with a Gamma distribution. This is equivalent to treating the regression intercept as random with a logGamma distribution. Integrating out <span class="math inline">\(V\)</span>, the resulting conditional distribution for <span class="math inline">\(Y\)</span> is Negative Binomial. The Negative Binomial is a popular model for count data regression and has the advantage that the CEF and variance are separately varying.</p>
+<p>For more detail see the excellent monograph on count data models by Cameron and Trivedi (1998).</p>
+<p>In Stata, Poisson and Negative Binomial regression can be estimated by poisson and nbreg. Generalizations to allow truncation, fixed effects, and random effects are also available.</p>
+</section>
+<section id="blp-demand-model" class="level2" data-number="24.12">
+<h2 data-number="24.12" class="anchored" data-anchor-id="blp-demand-model"><span class="header-section-number">24.12</span> BLP Demand Model</h2>
+<p>A major development in the 1990s was the extension of conditional logit to models of aggregate market demand. Many of the ideas were developed in the seminal papers of Berry (1994) and Berry, Levinsohn, and Pakes (1995). For a review see Ackerberg, Benkard, Berry, and Pakes (2007). This model widely known as the BLP model - has become popular in applied industrial organization. To discuss implementation we use as examples the applications in Berry, Levinsohn, and Pakes (1995) and Nevo (2001).</p>
+<p>The context is market-level observations. A “market” is typically a time period matched with a location. For example, a market in Berry, Levinsohn, and Pakes (1995) is the United States for one calendar year. A market in Nevo (2001) is one of 65 U.S. cities for one quarter of a year. An observation contains a set of <span class="math inline">\(J\)</span> goods. In Berry, Levinsohn, and Pakes (1995) the goods are 997 distinct automobile models. In Nevo (2001) the goods are 25 ready-to-eat breakfast cereals. Observations typically include the price and sale quantities of each good, a set of characteristics of each good, and possibly information on demographic characteristics of the market population.</p>
+<p>The model is derived from a conditional logit specification of individual behavior. The standard assumption is that each individual in the market purchases one of the <span class="math inline">\(J\)</span> goods or makes no purchase (the latter is called the outside alternative). This requires taking a stand on the number of individuals in the market. For example, in Berry, Levinsohn, and Pakes (1995) the number of individuals is the entire U.S. population. Their assumption is that each individual makes at most one automobile purchase during each calendar year. In Nevo (2001) the population is the number of individuals in each city. He assumes that each individual purchases a one-quarter (91-day) supply of one brand of breakfast cereal, or purchases no breakfast cereal (the outside alternative). By explicitly including the outside option as a choice these authors model aggregate demand. Alternatively, they could have excluded the outside option and examined choice among the <span class="math inline">\(J\)</span> goods. This would have modelled market shares (percentages of total purchases) but not aggregate demand. The trade-off is the need to take a stand on the number of individuals in the market.</p>
+<p>The model is that each individual purchases one of a set of <span class="math inline">\(J\)</span> goods indexed <span class="math inline">\(j=1, \ldots, J\)</span> or an unobserved outside good. The utility from good <span class="math inline">\(j\)</span> takes a mixed logit form:</p>
+<p><span class="math display">\[
+U_{j}^{*}=X_{j}^{\prime} \eta+\xi_{j}+\varepsilon_{j}
+\]</span></p>
+<p>where <span class="math inline">\(X_{j}\)</span> includes the price and characteristics of good <span class="math inline">\(j\)</span>. The coefficient <span class="math inline">\(\eta\)</span> is random (specific to an individual) as in the mixed logit model. The variables <span class="math inline">\(\xi_{j}\)</span> and <span class="math inline">\(\varepsilon_{j}\)</span> are unobserved errors. <span class="math inline">\(\xi_{j}\)</span> is market-level and <span class="math inline">\(\varepsilon_{j}\)</span> is specific to the individual. The market error <span class="math inline">\(\xi_{j}\)</span> may contain unobserved product characteristics so is likely correlated with product price. Identification requires a vector of instruments <span class="math inline">\(Z_{j}\)</span> which satisfy</p>
+<p><span class="math display">\[
+\mathbb{E}\left[Z_{j} \xi_{j}\right]=0 .
+\]</span></p>
+<p>Berry, Levinsohn, and Pakes (1995) recommend as instruments the non-price characteristics in <span class="math inline">\(X_{j}\)</span>, the sum of characteristics of goods sold by the same firm, and the sum of characteristics of goods sold by other firms. Nevo (2001) also includes the prices of goods in other markets, which is valid if demand shocks are uncorrelated across markets. There is considerable attention in the literature given to the choice and construction of instruments.</p>
+<p>Write <span class="math inline">\(\gamma=\mathbb{E}[\eta], V=\eta-\gamma\)</span>, and assume that <span class="math inline">\(V\)</span> has distribution <span class="math inline">\(F(V \mid \alpha)\)</span> with parameters <span class="math inline">\(\alpha\)</span> (typically <span class="math inline">\(\mathrm{N}(0, \Sigma))\)</span>. Set</p>
+<p><span class="math display">\[
+\delta_{j}=X_{j}^{\prime} \gamma+\xi_{j} .
+\]</span></p>
+<p>Since the model is mixed logit, (26.14) shows that the response probabilities given <span class="math inline">\(\delta=\left(\delta_{1}, \ldots, \delta_{J}\right)\)</span> are</p>
+<p><span class="math display">\[
+P_{j}(\delta, \alpha)=\int \frac{\exp \left(\delta_{j}+X_{j}^{\prime} V\right)}{\sum_{\ell=1}^{J} \exp \left(\delta_{\ell}+X_{\ell}^{\prime} V\right)} d F(V \mid \alpha) d V .
+\]</span></p>
+<p>As discussed in Section <span class="math inline">\(26.7\)</span> the integral in (26.14) is typically evaluated by numerical simulation. Let <span class="math inline">\(\left\{V_{1}, \ldots, V_{G}\right\}\)</span> be i.i.d. pseudo-random draws from <span class="math inline">\(F(V \mid \alpha)\)</span>. The simulation estimator is</p>
+<p><span class="math display">\[
+\widetilde{P}_{j}(\delta, \alpha)=\frac{1}{G} \sum_{g=1}^{G} \frac{\exp \left(\delta_{j}+X_{j}^{\prime} V_{g}\right)}{\sum_{\ell=1}^{J} \exp \left(\delta_{\ell}+X_{\ell}^{\prime} V_{g}\right)} .
+\]</span></p>
+<p>In each market we observe the quantity purchased <span class="math inline">\(Q_{j}\)</span> of each good and we are assumed to know the number of individuals <span class="math inline">\(M\)</span>. The market share of good <span class="math inline">\(j\)</span> is defined as <span class="math inline">\(S_{j}=Q_{j} / M\)</span> which is a direct estimate of the probability <span class="math inline">\(P_{j}\)</span>. If the number of individuals <span class="math inline">\(M\)</span> is large then <span class="math inline">\(S_{j}\)</span> approximately equals <span class="math inline">\(P_{j}\)</span> by the WLLN. The BLP approach assumes that <span class="math inline">\(M\)</span> is large enough that we can treat these two as equal. This implies the set of <span class="math inline">\(J\)</span> equalities</p>
+<p><span class="math display">\[
+S_{j}=\widetilde{P}_{j}(\delta, \alpha)
+\]</span></p>
+<p>where <span class="math inline">\(S=\left(S_{1}, \ldots, S_{J}\right)\)</span>. The left side of (26.25) is the observed market share of good <span class="math inline">\(j\)</span> (that is, the ratio of sales to individuals in the market). The right side is the estimated probability that the good is selected given the market attributes and parameters. As there are <span class="math inline">\(J\)</span> elements in each of <span class="math inline">\(\delta\)</span> and <span class="math inline">\(S\)</span> (and <span class="math inline">\(\widetilde{P}_{j}(\delta, \alpha)\)</span> is monotonically increasing in each element of <span class="math inline">\(\delta\)</span> ) there is a one-to-one and invertible mapping between <span class="math inline">\(\delta\)</span> and <span class="math inline">\(S\)</span>. Thus given the market shares <span class="math inline">\(S\)</span> and parameters <span class="math inline">\(\alpha\)</span> we can numerically calculate the elements <span class="math inline">\(\delta\)</span> which solve the <span class="math inline">\(J\)</span> equations (26.25). Berry, Levinsohn, and Pakes (1995) show that the solution can be obtained by iterating on</p>
+<p><span class="math display">\[
+\delta_{j}^{i}=\delta_{j}^{i-1}+\log S_{j}-\log \widetilde{P}_{j}\left(\delta^{i-1}, \alpha\right) .
+\]</span></p>
+<p>The solution is an implicit set of <span class="math inline">\(J\)</span> equations <span class="math inline">\(\delta_{j}=\delta_{j}(S, \alpha)\)</span>.</p>
+<p>We combine <span class="math inline">\(\delta_{j}=\delta_{j}(S, \alpha)\)</span> with (26.23) to obtain the regression-like expression <span class="math inline">\(\delta_{j}(S, \alpha)=X_{j}^{\prime} \gamma+\xi_{j}\)</span>. Combined with (26.22) we obtain the moment equations</p>
+<p><span class="math display">\[
+\mathbb{E}\left[Z_{j}\left(\delta_{j}(S, \alpha)-X_{j}^{\prime} \gamma\right)\right]=0
+\]</span></p>
+<p>for <span class="math inline">\(j=1, \ldots, J\)</span>. Estimation is by nonlinear GMM. The observations are markets indexed <span class="math inline">\(t=1, \ldots, T\)</span>, including quantities <span class="math inline">\(Q_{j t}\)</span>, prices and characteristics <span class="math inline">\(X_{j t}\)</span>, and instruments <span class="math inline">\(Z_{j t}\)</span>. Market shares are <span class="math inline">\(S_{j t}=Q_{j t} / M_{t}\)</span>, where <span class="math inline">\(M_{t}\)</span> is the number of individuals in the market. Let <span class="math inline">\(S_{t}=\left(S_{1 t}, \ldots, S_{J t}\right)\)</span>. The moment equation is</p>
+<p><span class="math display">\[
+\bar{g}(\gamma, \alpha)=\frac{1}{T J} \sum_{t=1}^{T} \sum_{j=1}^{J} Z_{j t}\left(\delta_{j t}\left(S_{t}, \alpha\right)-X_{j t}^{\prime} \gamma\right) .
+\]</span></p>
+<p>The GMM estimator <span class="math inline">\((\widehat{\gamma}, \widehat{\alpha})\)</span> minimizes the criterion <span class="math inline">\(\bar{g}(\gamma, \alpha)^{\prime} \boldsymbol{W} \bar{g}(\gamma, \alpha)\)</span> for a weight matrix <span class="math inline">\(\boldsymbol{W}\)</span>.</p>
+<p>We mentioned earlier that observations may include demographic information. This can be incorporated as follows. We can add individual characteristics (e.g.&nbsp;income) to the utility model (26.21) as interactions with the product characteristics <span class="math inline">\(X_{j}\)</span>. Since individual characteristics are unobserved they can be treated as random but with a known distribution (taken from the known market-level demographic data). For example, Berry, Levinsohn, and Pakes (1995) treat individual income as log-normally distributed. These random variables are then treated jointly with the random coefficients with no effective change in the estimation method.</p>
+<p>An asymptotic theory developed by Berry, Linton, and Pakes (2004) shows that this GMM estimator is consistent and asymptotically normal as <span class="math inline">\(J \rightarrow \infty\)</span> under certain assumptions. This means that the estimator can be applied in contexts with small <span class="math inline">\(T\)</span> and large <span class="math inline">\(J\)</span>, as well as in contexts with large <span class="math inline">\(T\)</span>.</p>
+<p>To estimate a BLP model in Stata there is an add-on command blp. In R there is a package BLPestimatoR. In Python there is a package PyBLP.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="24.13">
+<h2 data-number="24.13" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">24.13</span> Technical Proofs*</h2>
+<p>Proof of Theorem 26.1: Define <span class="math inline">\(\mu_{j \ell}=X^{\prime}\left(\beta_{j}-\beta_{\ell}\right)\)</span>. It will useful to observe that</p>
+<p><span class="math display">\[
+P_{j}(X)=\frac{\exp \left(X^{\prime} \beta_{j} / \tau\right)}{\sum_{\ell=1}^{J} \exp \left(X^{\prime} \beta_{\ell} / \tau\right)}=\left(\sum_{\ell=1}^{J} \exp \left(-\frac{\mu_{j \ell}}{\tau}\right)\right)^{-1} .
+\]</span></p>
+<p>Define</p>
+<p><span class="math display">\[
+\begin{aligned}
+F_{j}\left(\varepsilon_{1}, \ldots, \varepsilon_{J}\right) &amp;=\frac{\partial}{\partial \varepsilon_{j}} F\left(\varepsilon_{1}, \ldots, \varepsilon_{J}\right) \\
+&amp;=\exp \left(-\left[\sum_{\ell=1}^{J} \exp \left(-\frac{\varepsilon_{\ell}}{\tau}\right)\right]^{\tau}\right)\left[\sum_{\ell=1}^{J} \exp \left(-\frac{\varepsilon_{\ell}}{\tau}\right)\right]^{\tau-1} \exp \left(-\frac{\varepsilon_{j}}{\tau}\right)
+\end{aligned}
+\]</span></p>
+<p>The event <span class="math inline">\(Y=j\)</span> occurs if <span class="math inline">\(U_{j}^{*} \geq U_{\ell}^{*}\)</span> for all <span class="math inline">\(\ell\)</span>, which occurs when <span class="math inline">\(\varepsilon_{\ell} \leq \varepsilon_{j}+\mu_{j \ell}\)</span>. The probability <span class="math inline">\(\mathbb{P}[Y=j]\)</span> is the integral of the joint density <span class="math inline">\(f\left(\varepsilon_{1}, \ldots, \varepsilon_{J}\right)\)</span> over the region <span class="math inline">\(\varepsilon_{\ell} \leq \varepsilon_{j}+\mu_{j \ell}\)</span>. This is</p>
+<p><span class="math display">\[
+\mathbb{P}[Y=j]=\mathbb{P}\left[\varepsilon_{\ell} \leq \varepsilon_{j}+\mu_{j \ell}, \text { all } \ell\right]=\int_{-\infty}^{\infty}\left[\int_{-\infty}^{\varepsilon_{j}+\mu_{j 1}} \cdots \int_{-\infty}^{\varepsilon_{J}+\mu_{j J}} f\left(\varepsilon_{1}, \ldots, \varepsilon_{J}\right) d \varepsilon_{1} d \varepsilon_{2} \cdots d \varepsilon_{J}\right] d \varepsilon_{j}
+\]</span></p>
+<p>where the outer integral is over <span class="math inline">\(\varepsilon_{j}\)</span>. The <span class="math inline">\(J-1\)</span> inner set of integrals equals <span class="math inline">\(F_{j}\left(\varepsilon_{j}+\mu_{j 1}, \ldots, \varepsilon_{j}+\mu_{j J}\right)\)</span>. Thus</p>
+<p><span class="math display">\[
+\mathbb{P}[Y=j]=\int_{-\infty}^{\infty} F_{j}\left(\varepsilon_{j}+\mu_{j 1}, \ldots, \varepsilon_{j}+\mu_{j J}\right) d \varepsilon_{j} .
+\]</span></p>
+<p>Next, we substute the above expression for <span class="math inline">\(F_{j}\)</span> and collect terms to find that (26.27) equals</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\int_{-\infty}^{\infty} \exp \left(-\left[\sum_{\ell=1}^{J} \exp \left(-\frac{\varepsilon_{\ell}+\mu_{j \ell}}{\tau}\right)\right]^{\tau}\right)\left[\sum_{\ell=1}^{J} \exp \left(-\frac{\varepsilon_{\ell}+\mu_{j \ell}}{\tau}\right)\right]^{\tau-1} \exp \left(-\frac{\varepsilon_{j}}{\tau}\right) d \varepsilon_{j} \\
+&amp;=\int_{-\infty}^{\infty} \exp \left(-\exp \left(-\varepsilon_{j}\right) P_{j}(X)^{-\tau}\right) P_{j}(X)^{1-\tau} \exp \left(-\frac{\varepsilon_{j}}{\tau}\right)^{\tau-1} \exp \left(-\frac{\varepsilon_{j}}{\tau}\right) d \varepsilon_{j} \\
+&amp;=\int_{-\infty}^{\infty} \exp \left(-\exp \left(-\varepsilon_{j}-\log P_{j}(X)^{\tau}\right)\right) P_{j}(X)^{1-\tau} \exp \left(-\varepsilon_{j}\right) d \varepsilon_{j} \\
+&amp;=P_{j}(X)^{1-\tau} \int_{-\infty}^{\infty} \exp \left(-\exp \left(-\varepsilon_{j}-\log P_{j}(X)^{\tau}\right)\right) \exp \left(-\varepsilon_{j}\right) d \varepsilon_{j} \\
+&amp;=P_{j}(X) \int_{-\infty}^{\infty} \exp (-\exp (-u)) \exp (-u) d u \\
+&amp;=P_{j}(X)
+\end{aligned}
+\]</span></p>
+<p>The second-to-last equality makes the change of variables <span class="math inline">\(u=\varepsilon_{j}+\log P_{j}(X)^{\tau}\)</span>. The final uses the fact that <span class="math inline">\(\exp (-\exp (-u)) \exp (-u)\)</span> is the Type I extreme value density which integrates to one. This shows <span class="math inline">\(\mathbb{P}[Y=j]=P_{j}(X)\)</span>, as claimed.</p>
+<p>Proof of Theorem 26.2: The proof method is similar to that of Theorem 26.1. The joint distribution of the errors is</p>
+<p><span class="math display">\[
+F\left(\varepsilon_{11}, \ldots, \varepsilon_{J K_{J}}\right)=\exp \left(-\sum_{\ell=1}^{J}\left[\sum_{m=1}^{K_{\ell}} \exp \left(-\frac{\varepsilon_{\ell m}}{\tau_{\ell}}\right)\right]^{\tau_{\ell}}\right) .
+\]</span></p>
+<p>The derivative with respect to <span class="math inline">\(\varepsilon_{j k}\)</span> is</p>
+<p><span class="math display">\[
+\begin{aligned}
+F_{j k}\left(\varepsilon_{11}, \ldots, \varepsilon_{J K_{J}}\right) &amp;=\frac{\partial}{\partial \varepsilon_{j k}} F\left(\varepsilon_{11}, \ldots, \varepsilon_{J K_{J}}\right) \\
+&amp;=\exp \left(-\sum_{\ell=1}^{J}\left[\sum_{m=1}^{K_{\ell}} \exp \left(-\frac{\varepsilon_{\ell m}}{\tau_{\ell}}\right)\right]^{\tau_{\ell}}\right)\left[\sum_{m=1}^{K_{j}} \exp \left(-\frac{\varepsilon_{j m}}{\tau_{j}}\right)\right]^{\tau_{j}-1} \exp \left(-\frac{\varepsilon_{j k}}{\tau_{j}}\right) .
+\end{aligned}
+\]</span></p>
+<p>The event <span class="math inline">\(Y_{j k}=1\)</span> occurs if <span class="math inline">\(U_{j k}^{*} \geq U_{\ell m}^{*}\)</span> for all <span class="math inline">\(\ell\)</span> and <span class="math inline">\(m\)</span>, which occurs when <span class="math inline">\(\varepsilon_{\ell m} \leq \varepsilon_{j k}+\mu_{j k}-\mu_{l m}\)</span>. Setting <span class="math inline">\(I_{j}=\sum_{m=1}^{K_{j}} \exp \left(\mu_{j m} / \tau_{j}\right)\)</span> and <span class="math inline">\(I=\sum_{\ell=1}^{J} I_{\ell}^{\tau_{\ell}}\)</span> we find that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}\left[Y_{j k}=1\right] &amp;=\int_{-\infty}^{\infty} F_{j k}\left(v+\mu_{j k}-\mu_{11}, \ldots, v+\mu_{j k}-\mu_{J K_{J}}\right) d v \\
+&amp;=\int_{-\infty}^{\infty} \exp \left(-\sum_{\ell=1}^{J}\left[\sum_{m=1}^{K_{\ell}} \exp \left(-\frac{v+\mu_{j k}-\mu_{\ell m}}{\tau_{\ell}}\right)\right]^{\tau_{\ell}}\right)\left[\sum_{m=1}^{K_{j}} \exp \left(-\frac{v+\mu_{j k}-\mu_{j m}}{\tau_{j}}\right)\right]^{\tau_{j}-1} \exp \left(-\frac{v}{\tau_{j}}\right) d v \\
+&amp;=I_{j}^{\tau_{j}-1}\left(\exp \left(-\mu_{j k}\right)\right)^{\frac{\tau_{j}-1}{\tau_{j}}} \int_{-\infty}^{\infty} \exp \left(-\exp \left(-v-\mu_{j k}\right) \sum_{\ell=1}^{J} I_{\ell}^{\tau_{\ell}}\right) \exp (-v) d v \\
+&amp;=\frac{\exp \left(\mu_{j k} / \tau_{j}\right) I_{j}^{\tau_{j}-1}}{I} \int_{-\infty}^{\infty} \exp \left(-\exp \left(-v-\mu_{j k}+\log I\right)\right) \exp \left(-v-\mu_{j k}+\log I\right) d v \\
+&amp;=\frac{\exp \left(\mu_{j k} / \tau_{j}\right) I_{j}^{\tau_{j}-1}}{I}=P_{k \mid j} P_{j}
+\end{aligned}
+\]</span></p>
+<p>as claimed. Proof of Theorem 26.3: We follow the proof of Theorem <span class="math inline">\(26.1\)</span> through (26.27), where in this case <span class="math inline">\(\mu_{j \ell}=\)</span> <span class="math inline">\(X^{\prime}\left(\beta_{j}-\beta_{\ell}\right)+\left(Z_{j}-Z_{\ell}\right)^{\prime} \gamma\)</span> and</p>
+<p><span class="math display">\[
+F_{j}\left(\varepsilon_{1}, \ldots, \varepsilon_{J}\right)=\frac{\partial}{\partial \varepsilon_{j}} F\left(\varepsilon_{1}, \ldots, \varepsilon_{J}\right)=\prod_{\ell \neq j} \Phi\left(\mu_{j \ell}+\varepsilon_{j}\right) \phi\left(\varepsilon_{j}\right)
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\mathbb{P}[Y=j]=\int_{-\infty}^{\infty} \prod_{\ell \neq j} \Phi\left(\mu_{j \ell}+v\right) \phi(v) d v
+\]</span></p>
+<p>as claimed.</p>
+</section>
+<section id="exercises" class="level2" data-number="24.14">
+<h2 data-number="24.14" class="anchored" data-anchor-id="exercises"><span class="header-section-number">24.14</span> Exercises</h2>
+<p>Exercise 26.1 For the multinomial logit model (26.2) show that <span class="math inline">\(0 \leq P_{j}(x) \leq 1\)</span> and <span class="math inline">\(\sum_{j=1}^{J} P_{j}(x)=1\)</span>.</p>
+<p>Exercise 26.2 Show that <span class="math inline">\(P_{j}(x)\)</span> in the multinomial logit model (26.2) only depends on the coefficient differences <span class="math inline">\(\beta_{j}-\beta_{J}\)</span>.</p>
+<p>Exercise 26.3 For the multinomial logit model (26.2) show that the marginal effects equal (26.4).</p>
+<p>Exercise 26.4 Show that (26.8) holds for the conditional logit model.</p>
+<p>Exercise 26.5 For the conditional logit model (26.8) show that the marginal effects are (26.9) and (26.10).</p>
+<p>Exercise 26.6 Show that <span class="math inline">\(P_{j}(w, x)\)</span> in the conditional logit model (26.8) only depends on the coefficient differences <span class="math inline">\(\beta_{j}-\beta_{J}\)</span> and variable differences <span class="math inline">\(x_{j}-x_{J}\)</span>.</p>
+<p>Exercise 26.7 In the conditional logit model find an estimator for <span class="math inline">\(\mathrm{AME}_{j j}\)</span>.</p>
+<p>Exercise 26.8 Show (26.11).</p>
+<p>Exercise 26.9 In the conditional logit model with no alternative-invariant regressors <span class="math inline">\(W\)</span> show that (26.11) implies <span class="math inline">\(P_{j}(x) / P_{\ell}(x)=\exp \left(\left(x_{j}-x_{\ell}\right)^{\prime} \gamma\right)\)</span>.</p>
+<p>Exercise 26.10 Take the nested logit model. If <span class="math inline">\(k\)</span> and <span class="math inline">\(\ell\)</span> are alternatives in the same group <span class="math inline">\(j\)</span>, show that the ratio <span class="math inline">\(P_{j k} / P_{j \ell}\)</span> is independent of variables in the other groups. What does this mean?</p>
+<p>Exercise 26.11 Take the nested logit model. For groups <span class="math inline">\(j\)</span> and <span class="math inline">\(\ell\)</span>, show that the ratio <span class="math inline">\(P_{j} / P_{\ell}\)</span> is independent of variables in the other groups. What does this mean?</p>
+<p>Exercise 26.12 Use the cps09mar dataset and the subset of men. Estimate a multinomial logit model for marriage status similar to Figure <span class="math inline">\(26.1\)</span> as a function of age. How do your findings compare with those for women?</p>
+<p>Exercise 26.13 Use the cps09mar dataset and the subset of women with ages up to 35. Estimate a multinomial logit model for marriage status as linear functions of age and education. Interpret your results.</p>
+<p>Exercise 26.14 Use the cps09mar dataset and the subset of women. Estimate a nested logit model for marriage status as a function of age. Describe how you decide on the grouping of alternatives. Exercise 26.15 Use the Koppelman dataset. Estimate conditional logit models similar to those reported in Table <span class="math inline">\(26.1\)</span> but with the following modifications. For each case report the estimated coefficients and standard errors for the cost and time variables, the log-likelihood, and describe how the results change.</p>
+<ol type="a">
+<li><p>Replicate the results of Table <span class="math inline">\(26.1\)</span> for conditional logit with the same variables. Note: the regressors used in Table <span class="math inline">\(26.1\)</span> are cost, intime, income, and urban.</p></li>
+<li><p>Add the variable outtime, which is out-of-vehicle time.</p></li>
+<li><p>Replace intime with time=intime+outtime.</p></li>
+<li><p>Replace cost and intime with <span class="math inline">\(\log (\cos t)\)</span> and <span class="math inline">\(\log (\)</span> intime <span class="math inline">\()\)</span>.</p></li>
+</ol>
+<p>Exercise 26.16 Use the Koppelman dataset. Estimate a nested logit model similar to those reported in Table <span class="math inline">\(26.1\)</span> but with the following modifications. For each case report the estimated coefficients and standard errors for the cost and time variables, the log-likelihood, and describe how the results change.</p>
+<ol type="a">
+<li><p>Replicate the results of Table <span class="math inline">\(26.1\)</span> for nested logit with the same variables. Note: You will need to constrain the dissimilarity parameter for <span class="math inline">\(\{\)</span> train, bus <span class="math inline">\(\}\)</span>.</p></li>
+<li><p>Replace cost and intime with <span class="math inline">\(\log (\cos t)\)</span> and <span class="math inline">\(\log (\)</span> intime <span class="math inline">\()\)</span>.</p></li>
+<li><p>Use the groupings <span class="math inline">\(\{\)</span> car <span class="math inline">\(\}\)</span> and <span class="math inline">\(\{\)</span> train, bus, air <span class="math inline">\(\}\)</span>. Why (or why not) might this nesting make sense?</p></li>
+<li><p>Use the groupings {air} and {train, bus, car}.Why (or why not) might this nesting make sense?</p></li>
+</ol>
+<p>Exercise 26.17 Use the Koppelman dataset. Estimate a mixed logit model similar to that reported in Table <span class="math inline">\(26.1\)</span> but with the following modifications. For each case report the estimated coefficients and standard errors for the cost and time variables, the log-likelihood, and describe how the results change.</p>
+<ol type="a">
+<li><p>Replicate the results of Table <span class="math inline">\(26.1\)</span> for mixed logit with the same variables.</p></li>
+<li><p>Replace intime with time=intime+outtime .</p></li>
+<li><p>Treat the coefficient on intime as the negative of a lognormal random variable. (Replace intime with nintime =-intime and treat the coefficient as lognormally distributed.) How do you compare the results of the estimated models?</p></li>
+</ol>
+<p>Exercise 26.18 Use the Koppelman dataset. Estimate a general multinomial probit model similar to that reported in Table <span class="math inline">\(26.1\)</span> but with the following modifications. For each case report the estimated coefficients and standard errors for the cost and time variables, the log-likelihood, and describe how the results change.</p>
+<ol type="a">
+<li><p>Replicate the results of Table <span class="math inline">\(26.1\)</span> for multinomial probit with the same variables.</p></li>
+<li><p>Replace cost and intime with <span class="math inline">\(\log (\)</span> cost <span class="math inline">\()\)</span> and <span class="math inline">\(\log (\)</span> intime <span class="math inline">\()\)</span>.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt24-quantile-reg.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt27-censor-selection.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

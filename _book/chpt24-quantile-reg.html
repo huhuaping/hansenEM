@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 23&nbsp; Quantile Regression</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt26-multiple-choice.html" rel="next">
+<link href="./chpt23-nonliear-ls.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">23.1</span>  Introduction</a></li>
+  <li><a href="#median-regression" id="toc-median-regression" class="nav-link" data-scroll-target="#median-regression"><span class="toc-section-number">23.2</span>  Median Regression</a></li>
+  <li><a href="#least-absolute-deviations" id="toc-least-absolute-deviations" class="nav-link" data-scroll-target="#least-absolute-deviations"><span class="toc-section-number">23.3</span>  Least Absolute Deviations</a></li>
+  <li><a href="#quantile-regression" id="toc-quantile-regression" class="nav-link" data-scroll-target="#quantile-regression"><span class="toc-section-number">23.4</span>  Quantile Regression</a></li>
+  <li><a href="#example-quantile-shapes" id="toc-example-quantile-shapes" class="nav-link" data-scroll-target="#example-quantile-shapes"><span class="toc-section-number">23.5</span>  Example Quantile Shapes</a></li>
+  <li><a href="#linear-quantile-functions" id="toc-linear-quantile-functions" class="nav-link" data-scroll-target="#linear-quantile-functions"><span class="toc-section-number">23.6</span>  Linear Quantile Functions</a></li>
+  <li><a href="#parallel-quantile-functions" id="toc-parallel-quantile-functions" class="nav-link" data-scroll-target="#parallel-quantile-functions"><span class="toc-section-number">23.7</span>  Parallel Quantile Functions</a></li>
+  <li><a href="#coefficient-heterogeneity" id="toc-coefficient-heterogeneity" class="nav-link" data-scroll-target="#coefficient-heterogeneity"><span class="toc-section-number">23.8</span>  Coefficient Heterogeneity</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="toc-section-number">23.9</span>  Estimation</a></li>
+  <li><a href="#asymptotic-distribution" id="toc-asymptotic-distribution" class="nav-link" data-scroll-target="#asymptotic-distribution"><span class="toc-section-number">23.10</span>  Asymptotic Distribution</a></li>
+  <li><a href="#covariance-matrix-estimation" id="toc-covariance-matrix-estimation" class="nav-link" data-scroll-target="#covariance-matrix-estimation"><span class="toc-section-number">23.11</span>  Covariance Matrix Estimation</a></li>
+  <li><a href="#clustered-dependence" id="toc-clustered-dependence" class="nav-link" data-scroll-target="#clustered-dependence"><span class="toc-section-number">23.12</span>  Clustered Dependence</a></li>
+  <li><a href="#quantile-crossings" id="toc-quantile-crossings" class="nav-link" data-scroll-target="#quantile-crossings"><span class="toc-section-number">23.13</span>  Quantile Crossings</a></li>
+  <li><a href="#quantile-causal-effects" id="toc-quantile-causal-effects" class="nav-link" data-scroll-target="#quantile-causal-effects"><span class="toc-section-number">23.14</span>  Quantile Causal Effects</a></li>
+  <li><a href="#random-coefficient-representation" id="toc-random-coefficient-representation" class="nav-link" data-scroll-target="#random-coefficient-representation"><span class="toc-section-number">23.15</span>  Random Coefficient Representation</a></li>
+  <li><a href="#nonparametric-quantile-regression" id="toc-nonparametric-quantile-regression" class="nav-link" data-scroll-target="#nonparametric-quantile-regression"><span class="toc-section-number">23.16</span>  Nonparametric Quantile Regression</a></li>
+  <li><a href="#panel-data" id="toc-panel-data" class="nav-link" data-scroll-target="#panel-data"><span class="toc-section-number">23.17</span>  Panel Data</a></li>
+  <li><a href="#quantile-regression-1" id="toc-quantile-regression-1" class="nav-link" data-scroll-target="#quantile-regression-1"><span class="toc-section-number">23.18</span>  Quantile Regression</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">23.19</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">23.20</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt24-quantile-reg.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">23.1</span> Introduction</h2>
+<p>This chapter introduces median regression (least absolute deviations) and quantile regression. An excellent monograph on the subject is Koenker (2005).</p>
+<p>A conventional goal in econometrics is estimation of impact of a variable <span class="math inline">\(X\)</span> on another variable <span class="math inline">\(Y\)</span>. We have discussed projections and conditional expectations but these are not the only measures of impact. Alternative measures include the conditional median and conditional quantile. We will focus on the case of continuously-distributed <span class="math inline">\(Y\)</span> where quantiles are uniquely defined.</p>
+</section>
+<section id="median-regression" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="median-regression"><span class="header-section-number">23.2</span> Median Regression</h2>
+<p>Recall that the median of <span class="math inline">\(Y\)</span> is the value <span class="math inline">\(m=\operatorname{med}[Y]\)</span> such that <span class="math inline">\(\mathbb{P}[Y \leq m]=\mathbb{P}[Y \geq m]=0.5\)</span>. The median can be thought of the “typical realization”. For example, the median wage <span class="math inline">\(\$ 19.23\)</span> in the CPS dataset can be interpreted as the wage of a “typical wage-earner”. One-half of wage earners have wages less than <span class="math inline">\(\$ 19\)</span> and one-half have wages greater than <span class="math inline">\(\$ 19\)</span>.</p>
+<p>When a distribution is symmetric then the median equals the mean but when the distribution is asymmetric they differ.</p>
+<p>Throughout this textbook we have primarily focused on conditional relationships. For example, the conditional expectation is the expected value within a sub-population. Similarly we define the conditional median as the median of a sub-population.</p>
+<p>Definition 24.1 The conditional median of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is the value <span class="math inline">\(m(x)=\)</span> med <span class="math inline">\([Y \mid X=x]\)</span> such that <span class="math inline">\(\mathbb{P}[Y \leq m(x) \mid X=x]=0.5\)</span>.</p>
+<p>For example, in the CPS sample the median wage for men is <span class="math inline">\(\$ 21.15\)</span> and the median wage for women is <span class="math inline">\(\$ 16.83\)</span>. These are the wages of a “typical” man and woman.</p>
+<p>We can write the relationship between <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> as the median regression model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=m(X)+e \\
+\operatorname{med}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>As stated this is simply a definitional framework. <span class="math inline">\(m(X)\)</span> is the conditional median given the random variable <span class="math inline">\(X\)</span>. The error <span class="math inline">\(e\)</span> is the deviation of <span class="math inline">\(Y\)</span> from its conditional median and by definition has a conditional median of zero.</p>
+<p>We call <span class="math inline">\(m(x)\)</span> the median regression function. In general it can take any shape. However, for practical convenience we focus on models which are linear in parameters <span class="math inline">\(m(x)=x^{\prime} \beta\)</span>. (This is not fundamentally restrictive as it allows series approximations.) This gives rise to the linear median regression model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\operatorname{med}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>Equivalently, the model states that <span class="math inline">\(\operatorname{med}[Y \mid X]=X^{\prime} \beta\)</span>. As in the case of regression the true median regression function is not necessarily linear, so the assumption of linearity is a meaningful assumption. The model resembles the linear regression model but is different. The coefficients <span class="math inline">\(\beta\)</span> in the median and mean regression models are not necessarily equal to one another.</p>
+<p>To estimate <span class="math inline">\(\beta\)</span> it is useful to characterize <span class="math inline">\(\beta\)</span> as a function of the distribution. Recall that the least squares estimator is derived from the foundational property that the expectation minimizes the expected squared loss, that is, <span class="math inline">\(\mu=\operatorname{argmin}_{\theta} \mathbb{E}\left[(Y-\theta)^{2}\right]\)</span>. We now present analogous properties of the median.</p>
+<p>Define the sign function</p>
+<p><span class="math display">\[
+\frac{d}{d x}|x|=\operatorname{sgn}(x)=\left\{\begin{array}{cc}
+\mathbb{1}\{x&gt;0\}-\mathbb{1}\{x&lt;0\}, &amp; x \neq 0 \\
+0 &amp; x=0 .
+\end{array}\right.
+\]</span></p>
+<p>Theorem 24.1 Assume <span class="math inline">\(Y\)</span> is continuously distributed. Then the median <span class="math inline">\(m\)</span> satisfies</p>
+<p><span class="math display">\[
+\mathbb{E}[\operatorname{sgn}(Y-m)]=0 .
+\]</span></p>
+<p>If in addition <span class="math inline">\(\mathbb{E}|Y|&lt;\infty\)</span> it satisfies</p>
+<p><span class="math display">\[
+m=\underset{\theta}{\operatorname{argmin}} \mathbb{E}|Y-\theta| .
+\]</span></p>
+<p>If the conditional distribution <span class="math inline">\(F(y \mid x)\)</span> of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is continuous in <span class="math inline">\(y\)</span> the conditional median error <span class="math inline">\(e=Y-m(X)\)</span> satisfies</p>
+<p><span class="math display">\[
+\mathbb{E}[\operatorname{sgn}(e) \mid X]=0 .
+\]</span></p>
+<p>If in addition <span class="math inline">\(\mathbb{E}|Y|&lt;\infty\)</span> the conditional median satisfies</p>
+<p><span class="math display">\[
+m(x)=\underset{\theta}{\operatorname{argmin}} \mathbb{E}[|Y-\theta| \mid X=x] .
+\]</span></p>
+<p>If <span class="math inline">\((Y, X)\)</span> satisfy the linear median regression model (24.1) and <span class="math inline">\(E|Y|&lt;\infty\)</span> then the coefficient <span class="math inline">\(\beta\)</span> satisfies</p>
+<p><span class="math display">\[
+\beta=\underset{b}{\operatorname{argmin}} \mathbb{E}\left|Y-X^{\prime} b\right| .
+\]</span></p>
+<p>The proof is in Section <span class="math inline">\(24.16\)</span>. Expression (24.6) is foundational. It shows that the median regression coefficient <span class="math inline">\(\beta\)</span> minimizes the expected absolute difference between <span class="math inline">\(Y\)</span> and the predicted value <span class="math inline">\(X^{\prime} \beta\)</span>. This is foundational as it expresses the coefficient as a function of the probability distribution. This result is a direct analog of the property that the mean regression coefficient minimizes the expected squared loss. The difference between the two is the loss function - the measure of the magnitude of a prediction error. To visualize, Figure 24.1 (a) displays the two loss functions. Comparing the two, squared loss puts small penalty on small errors yet large penalty on large errors. Both are symmetric and so treat positive and negative errors identically.</p>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-03.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Quadratic and Absolute Loss Functions</li>
+</ol>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-03(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>LAD Criterion with <span class="math inline">\(n=7\)</span></li>
+</ol>
+<p>Figure 24.1: LAD Criterion</p>
+<p>In applications the linear assumption <span class="math inline">\(X^{\prime} \beta\)</span> is unlikely to be valid except in a saturated dummy variable regression. Thus in practice we should view a linear model as a useful approximation rather than a literal truth. To allow the model to be an approximation we define the coefficient <span class="math inline">\(\beta\)</span> as the best linear median predictor</p>
+<p><span class="math display">\[
+\beta \stackrel{\text { def }}{=} \underset{b}{\operatorname{argmin}} \mathbb{E}\left|Y-X^{\prime} b\right| .
+\]</span></p>
+<p>This equals the true conditional median coefficient when the conditional median is linear, but is defined for general distributions satisfying <span class="math inline">\(E|Y|&lt;\infty\)</span>. The first order condition for minimization implies that</p>
+<p><span class="math display">\[
+\mathbb{E}[X \operatorname{sgn}(e)]=0 .
+\]</span></p>
+<p>The facts that (24.4) holds for median regression and (24.8) for the best linear median predictor are analogs to the relationships <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span> and <span class="math inline">\(\mathbb{E}[X e]=0\)</span> in the conditional expectation and linear projection models.</p>
+</section>
+<section id="least-absolute-deviations" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="least-absolute-deviations"><span class="header-section-number">23.3</span> Least Absolute Deviations</h2>
+<p>Theorem <span class="math inline">\(24.1\)</span> shows that in the linear median regression model the median regression coefficient minimizes <span class="math inline">\(M(\beta)=\mathbb{E}\left|Y-X^{\prime} \beta\right|\)</span>, the expected absolute error. The sample estimator of this function is the average of absolute errors</p>
+<p><span class="math display">\[
+M_{n}(\beta)=\frac{1}{n} \sum_{i=1}^{n}\left|Y_{i}-X_{i}^{\prime} \beta\right| .
+\]</span></p>
+<p>This is similar to the classical average of squared errors function but instead is the average of absolute errors. By not squaring the errors, <span class="math inline">\(M_{n}(\beta)\)</span> puts less penalty on large errors relative to the average of squared errors function. <span class="math inline">\(M_{n}(\beta)\)</span></p>
+<p>Since <span class="math inline">\(\beta\)</span> minimizes <span class="math inline">\(M(\beta)\)</span> which is estimated by <span class="math inline">\(M_{n}(\beta)\)</span> the m-estimator for <span class="math inline">\(\beta\)</span> is the minimizer of</p>
+<p><span class="math display">\[
+\widehat{\beta}=\underset{\beta}{\operatorname{argmin}} M_{n}(\beta) .
+\]</span></p>
+<p>This is called the Least Absolute Deviations (LAD) estimator of <span class="math inline">\(\beta\)</span> as it minimizes the sum of absolute “deviations” of <span class="math inline">\(Y_{i}\)</span> from the fitted value <span class="math inline">\(X_{i}^{\prime} \beta\)</span>. The function <span class="math inline">\(\widehat{m}(x)=x^{\prime} \widehat{\beta}\)</span> is the median regression estimator. The LAD estimator <span class="math inline">\(\widehat{\beta}\)</span> does not has a closed form solution so must be found by numerical minimization.</p>
+<p>The LAD residuals are <span class="math inline">\(\widehat{e}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\beta}\)</span>. They approximately satisfy the property</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} X_{i} \operatorname{sgn}\left(\widehat{e}_{i}\right) \simeq 0 .
+\]</span></p>
+<p>The approximation holds exactly if <span class="math inline">\(\widehat{e}_{i} \neq 0\)</span> for all <span class="math inline">\(i\)</span> which can occur when <span class="math inline">\(Y\)</span> is continuously distributed. This is the sample version of (24.8).</p>
+<p>The criterion <span class="math inline">\(M_{n}(\beta)\)</span> is globally continuous and convex. Its surface resembles the surface of an inverted cut gemstone, as it is covered by a network of flat facets. The facets are joined at the <span class="math inline">\(n\)</span> lines where <span class="math inline">\(\operatorname{sgn}\left(Y_{i}-X_{i}^{\prime} \beta\right)=0\)</span>. To illustrate, Figure 24.1(b) displays the LAD criterion <span class="math inline">\(M_{n}(\beta)\)</span> for seven observations <span class="math inline">\({ }^{1}\)</span> with a single regressor and no intercept. The LAD estimator is the minimizer. As the sample size is small the criterion <span class="math inline">\(M_{n}(\beta)\)</span> is visually facetted. In large samples the facets diminish in size and the criterion approaches a smooth function.</p>
+<p>Since the criterion is faceted the minimum may be a set. Furthermore, because the criterion has discontinuous derivatives classical minimization methods fail. The minimizer can be defined by a set of linear constraints so linear programming methods are appropriate. Fortunately for applications good estimation algorithms are available and simple to use.</p>
+<p>In Stata, LAD is implemented by qreg. In R, LAD is implemented by rq in the quantreg package.</p>
+</section>
+<section id="quantile-regression" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="quantile-regression"><span class="header-section-number">23.4</span> Quantile Regression</h2>
+<p>The mean and median are measures of the central tendency of a distribution. A measure of the spread of the distribution is its quantiles. Recall that for <span class="math inline">\(\tau \in[0,1]\)</span> the <span class="math inline">\(\tau^{t h}\)</span> quantile <span class="math inline">\(q_{\tau}\)</span> of <span class="math inline">\(Y\)</span> is defined as the value such that <span class="math inline">\(\mathbb{P}\left[Y \leq q_{\tau}\right]=\tau\)</span>. The median is the special case <span class="math inline">\(\tau=0.5\)</span>. It will be convenient to define the quantile operator <span class="math inline">\(\mathbb{Q}_{\tau}[Y]\)</span> as the solution to the equation</p>
+<p><span class="math display">\[
+\mathbb{P}\left[Y \leq \mathbb{Q}_{\tau}[Y]\right]=\tau .
+\]</span></p>
+<p>As an example, take the distribution of wages from the CPS dataset. The median wage is <span class="math inline">\(\$ 21.14\)</span>. This tells us the “typical” wage rate but not the range of typical values. The <span class="math inline">\(0.2\)</span> quantile is <span class="math inline">\(\$ 11.65\)</span> and the <span class="math inline">\(0.8\)</span> quantile is <span class="math inline">\(\$ 31.25\)</span>. This shows us that <span class="math inline">\(20 %\)</span> of wage earners had wages of <span class="math inline">\(\$ 11.65\)</span> or below and <span class="math inline">\(20 %\)</span> had wages of <span class="math inline">\(\$ 31.25\)</span> and above.</p>
+<p>We are also interested in the quantiles of conditional distributions. Continuing the above example, consider the distribution of wages among men and women. The <span class="math inline">\(0.2,0.5\)</span>, and <span class="math inline">\(0.8\)</span> quantiles are displayed in Table 24.1. We see that the differences between men’s and women’s wages are increasing by quantile.</p>
+<p><span class="math inline">\({ }^{1}\)</span> These are seven of the twenty observations from Table <span class="math inline">\(3.1\)</span>. Table 24.1: Quantiles of Wage Distribution</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th></th>
+<th><span class="math inline">\(q_{.2}\)</span></th>
+<th><span class="math inline">\(q_{.5}\)</span></th>
+<th><span class="math inline">\(q_{.8}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All</td>
+<td><span class="math inline">\(\$ 11.65\)</span></td>
+<td><span class="math inline">\(\$ 19.23\)</span></td>
+<td><span class="math inline">\(\$ 31.25\)</span></td>
+</tr>
+<tr class="even">
+<td>Men</td>
+<td><span class="math inline">\(\$ 12.82\)</span></td>
+<td><span class="math inline">\(\$ 21.14\)</span></td>
+<td><span class="math inline">\(\$ 35.90\)</span></td>
+</tr>
+<tr class="odd">
+<td>Women</td>
+<td><span class="math inline">\(\$ 10.58\)</span></td>
+<td><span class="math inline">\(\$ 16.83\)</span></td>
+<td><span class="math inline">\(\$ 26.44\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Definition 24.2 The conditional quantile of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is the value <span class="math inline">\(q_{\tau}(x)\)</span> such that <span class="math inline">\(\mathbb{P}\left[Y \leq q_{\tau}(x) \mid X=x\right]=\tau\)</span>.</p>
+<p>Given this notation we define the conditional quantile operators <span class="math inline">\(\mathbb{Q}_{\tau}[Y \mid X=x]\)</span> and <span class="math inline">\(\mathbb{Q}_{\tau}[Y \mid X]\)</span>. The function <span class="math inline">\(q_{\tau}(x)\)</span> is also called the quantile regression function.</p>
+<p>The conditional quantile function <span class="math inline">\(q_{\tau}(x)\)</span> can take any shape with respect to <span class="math inline">\(x\)</span>. It is monotonically increasing in <span class="math inline">\(\tau\)</span>, thus if <span class="math inline">\(\tau_{1}&lt;\tau_{2}\)</span> then <span class="math inline">\(q_{\tau_{1}}(x) \leq q_{\tau_{2}}(x)\)</span> for all <span class="math inline">\(x\)</span>.</p>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-05.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Wage Quantile Regression</li>
+</ol>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-05(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Log Wage Quantile Regression</li>
+</ol>
+<p>Figure 24.2: Quantile Regressions</p>
+<p>To illustrate we display in Figure 24.2(a) the conditional quantile function of U.S. wages <span class="math inline">\({ }^{2}\)</span> as a function of education, for <span class="math inline">\(\tau=0.1,0.3,0.5,0.7\)</span>, and <span class="math inline">\(0.9\)</span>. The five lines plotted are the quantile regression functions <span class="math inline">\(q_{\tau}(x)\)</span> with wage on the <span class="math inline">\(y\)</span>-axis and education on the <span class="math inline">\(x\)</span>-axis. For each level of education the conditional quantiles <span class="math inline">\(q_{\tau}(x)\)</span> are strictly ranked in <span class="math inline">\(\tau\)</span>, though for low levels of education they are close to one another. The five quantile regression functions are (generally) increasing in education, though not monotonically. The quantile regression functions also spread out as education increases; thus the gap between the quantiles increases with education. These quantile regression functions provide a summary of the conditional distribution of wages given education.</p>
+<p><span class="math inline">\({ }^{2}\)</span> Calculated using the full cps <span class="math inline">\(90 \operatorname{mar}\)</span> dataset. A useful feature of quantile regression is that it is equivariant to monotone transformations. If <span class="math inline">\(Y_{2}=\)</span> <span class="math inline">\(\phi\left(Y_{1}\right)\)</span> where <span class="math inline">\(\phi(y)\)</span> is nondecreasing then <span class="math inline">\(\mathbb{Q}_{\tau}\left[Y_{2} \mid X=x\right]=\phi\left(\mathbb{Q}_{\tau}\left[Y_{1} \mid X=x\right]\right)\)</span>. Alternatively, if <span class="math inline">\(q_{\tau}^{1}(x)\)</span> and <span class="math inline">\(q_{\tau}^{2}(x)\)</span> are the quantile functions of <span class="math inline">\(Y_{1}\)</span> and <span class="math inline">\(Y_{2}\)</span> then <span class="math inline">\(q_{\tau}^{2}(x)=\phi\left(q_{\tau}^{1}(x)\right)\)</span>. For example, the quantile regression of log wages on education is the logarithm of the quantile regression of wages on eduction. This is displayed in Figure 24.2(b). Interestingly, the quantile regression functions of log wages are roughly parallel with one another and are roughly linear in education for levels above 12 years.</p>
+<p>We define the quantile regression model analogously to the median regression model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=q_{\tau}(X)+e \\
+\mathbb{Q}_{\tau}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>An important feature of the quantile regression model is that the error <span class="math inline">\(e\)</span> is not centered at zero. Instead it is centered so that its <span class="math inline">\(\tau^{t h}\)</span> quantile is zero. This is a normalization but it points out that the meaning of the intercept changes when we move from mean regression to quantile regression and as we move between quantiles. The linear quantile regression model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta_{\tau}+e \\
+\mathbb{Q}_{\tau}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>Recall that the mean minimizes the squared error loss and the median minimizes the absolute error loss. There is an analog for the quantile. Define the tilted absolute loss function:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho_{\tau}(x) &amp;=\left\{\begin{array}{cc}
+-x(1-\tau) &amp; x&lt;0 \\
+x \tau &amp; x \geq 0
+\end{array}\right.\\
+&amp;=x(\tau-\mathbb{1}\{x&lt;0\}) .
+\end{aligned}
+\]</span></p>
+<p>For <span class="math inline">\(\tau=0.5\)</span> this is the scaled absolute loss <span class="math inline">\(\frac{1}{2}|x|\)</span>. For <span class="math inline">\(\tau&lt;0.5\)</span> the function is tilted to the right. For <span class="math inline">\(\tau&gt;0\)</span> it is tilted to the left. To visualize, Figure <span class="math inline">\(24.3\)</span> displays the functions <span class="math inline">\(\rho_{\tau}(x)\)</span> for <span class="math inline">\(\tau=0.5\)</span> and <span class="math inline">\(\tau=0.2\)</span>. The latter function is a tilted version of the former. The function <span class="math inline">\(\rho_{\tau}(x)\)</span> has come to be known as the check function because it resembles a check mark <span class="math inline">\((\checkmark)\)</span>.</p>
+<p>Let <span class="math inline">\(\psi_{\tau}(x)=\frac{d}{d x} \rho_{\tau}(x)=\tau-\mathbb{1}\{x&lt;0\}\)</span> for <span class="math inline">\(x \neq 0\)</span>. We now describe some properties of the quantile regression function.</p>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-07.jpg" class="img-fluid"></p>
+<p>Figure 24.3: Quantile Loss Function</p>
+<p>Theorem 24.2 Assume <span class="math inline">\(Y\)</span> is continuously distributed. Then the quantile <span class="math inline">\(q_{\tau}\)</span> satisfies</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\psi_{\tau}\left(Y-q_{\tau}\right)\right]=0 .
+\]</span></p>
+<p>If in addition <span class="math inline">\(\mathbb{E}|Y|&lt;\infty\)</span> it satisfies</p>
+<p><span class="math display">\[
+q_{\tau}=\underset{\theta}{\operatorname{argmin}} \mathbb{E}\left[\rho_{\tau}(Y-\theta)\right] .
+\]</span></p>
+<p>If the conditional distribution <span class="math inline">\(F(y \mid x)\)</span> of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is continuous in <span class="math inline">\(y\)</span> the conditional quantile error <span class="math inline">\(e=Y-q_{\tau}(X)\)</span> satisfies</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\psi_{\tau}(e) \mid X\right]=0 .
+\]</span></p>
+<p>If in addition <span class="math inline">\(\mathbb{E}|Y|&lt;\infty\)</span> the conditional quantile function satisfies</p>
+<p><span class="math display">\[
+q_{\tau}(x)=\underset{\theta}{\operatorname{argmin}} \mathbb{E}\left[\rho_{\tau}(Y-\theta) \mid X=x\right] .
+\]</span></p>
+<p>If <span class="math inline">\((Y, X)\)</span> satisfy the linear quantile regression model (24.9) and <span class="math inline">\(\mathbb{E}|Y|&lt;\infty\)</span> then the coefficient <span class="math inline">\(\beta\)</span> satisfies</p>
+<p><span class="math display">\[
+\beta=\underset{b}{\operatorname{argmin}} \mathbb{E}\left[\rho_{\tau}\left(Y-X^{\prime} b\right)\right] .
+\]</span></p>
+<p>The proof is in Section <span class="math inline">\(24.16\)</span>.</p>
+<p>Expression (24.15) shows that the quantile regression coefficient <span class="math inline">\(\beta\)</span> minimizes the expected check function distance between <span class="math inline">\(Y\)</span> and the predicted value <span class="math inline">\(X^{\prime} \beta\)</span>. This connects quantile regression with median and mean regression.</p>
+<p>As for mean and median regression we should think of the linear model <span class="math inline">\(X^{\prime} \beta\)</span> as an approximation. In general we therefore define the coefficient <span class="math inline">\(\beta\)</span> as the best linear quantile predictor</p>
+<p><span class="math display">\[
+\beta_{\tau} \stackrel{\text { def }}{=} \underset{b}{\operatorname{argmin}} \mathbb{E}\left[\rho_{\tau}\left(Y-X^{\prime} b\right)\right] .
+\]</span></p>
+<p>This equals the true conditional quantile coefficient when true function is linear. The first order condition for minimization implies that</p>
+<p><span class="math display">\[
+\mathbb{E}\left[X \psi_{\tau}(e)\right]=0 .
+\]</span></p>
+<p>Unlike the best linear predictor we do not have an explicit expression for <span class="math inline">\(\beta_{\tau}\)</span>. However from its definition we can see that <span class="math inline">\(\beta_{\tau}\)</span> will produce an approximation <span class="math inline">\(x^{\prime} \beta_{\tau}\)</span> to the true conditional quantile function <span class="math inline">\(q_{\tau}(x)\)</span> with the approximation weighted by the probability distribution of <span class="math inline">\(X\)</span>.</p>
+</section>
+<section id="example-quantile-shapes" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="example-quantile-shapes"><span class="header-section-number">23.5</span> Example Quantile Shapes</h2>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-08.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Linear</li>
+</ol>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-08(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Parallel</li>
+</ol>
+<p>Figure 24.4: Quantile Shapes</p>
+</section>
+<section id="linear-quantile-functions" class="level2" data-number="23.6">
+<h2 data-number="23.6" class="anchored" data-anchor-id="linear-quantile-functions"><span class="header-section-number">23.6</span> Linear Quantile Functions</h2>
+<p>The linear quantile regression model implies that the the quantile functions <span class="math inline">\(q_{\tau}(x)\)</span> are linear in <span class="math inline">\(x\)</span>. An example is shown in Figure 24.4(a). Here we plot linear quantile regression functions for <span class="math inline">\(\tau=0.1,0.3,0.5\)</span>, 0.7, and 0.9. In this example the slopes are positive and increasing with <span class="math inline">\(\tau\)</span>.</p>
+<p>Linear quantile regressions are convenient as they are simple to estimate and report. Sometimes linearity can be induced by judicious choice of variable transformation. Compare the quantile regressions in Figure 24.2(a) and Figure 24.2(b). The quantile regression functions for the level of wages appear to be concave; in contrast the quantile regression functions for log wages are close to linear for education above 12 years.</p>
+</section>
+<section id="parallel-quantile-functions" class="level2" data-number="23.7">
+<h2 data-number="23.7" class="anchored" data-anchor-id="parallel-quantile-functions"><span class="header-section-number">23.7</span> Parallel Quantile Functions</h2>
+<p>Consider the model <span class="math inline">\(Y=m(X)+e\)</span> with <span class="math inline">\(e\)</span> independent of <span class="math inline">\(X\)</span>. Let <span class="math inline">\(z_{\tau}\)</span> be the <span class="math inline">\(\tau^{t h}\)</span> quantile of <span class="math inline">\(e\)</span>. In this case the conditional quantile function for <span class="math inline">\(Y\)</span> is <span class="math inline">\(q_{\tau}(x)=m(x)+z_{\tau}\)</span>. This implies that the functions <span class="math inline">\(q_{\tau_{1}}(x)\)</span> and <span class="math inline">\(q_{\tau_{2}}(x)\)</span> are parallel so all of the quantile regression functions are mutually parallel.</p>
+<p>An example is shown in Figure 24.4(b). Here we plot a set of quantile regression functions which are mutually parallel.</p>
+<p>In this context - when <span class="math inline">\(e\)</span> is independent of <span class="math inline">\(X\)</span> and/or the quantile regression functions are parallel there is little gained by quantile regression analysis relative to mean regression or median regression. The models have the same slope coefficients and only differ by their intercepts. Furthermore, a regression with <span class="math inline">\(e\)</span> independent of <span class="math inline">\(X\)</span> is a homoskedastic regression. Thus parallel quantile functions is indicative of conditional homoskedasticity.</p>
+<p>Once again examine the quantile regression functions for log wages displayed in Figure 24.2(b). These functions are visually close to parallel shifts of one another. Thus it appears that the log(wage) regression is close to a homoskedastic regression and slope coefficients should be relatively robust to estimation by least squares, LAD, or quantile regression. This is a strong motivation for applying the logarithmic transformation for a wage regression.</p>
+</section>
+<section id="coefficient-heterogeneity" class="level2" data-number="23.8">
+<h2 data-number="23.8" class="anchored" data-anchor-id="coefficient-heterogeneity"><span class="header-section-number">23.8</span> Coefficient Heterogeneity</h2>
+<p>Consider the process <span class="math inline">\(Y=\eta^{\prime} X\)</span> where <span class="math inline">\(\eta \sim \mathrm{N}(\beta, \Sigma)\)</span> is independent of <span class="math inline">\(X\)</span>. We described this earlier as a random coefficient model, as the coefficients <span class="math inline">\(\eta\)</span> are specific to the individual. In this setting the conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is <span class="math inline">\(\mathrm{N}\left(x^{\prime} \beta, x^{\prime} \Sigma x\right)\)</span> so the conditional quantile functions are <span class="math inline">\(q_{\tau}(x)=\)</span> <span class="math inline">\(x^{\prime} \beta+z_{\tau} \sqrt{x^{\prime} \Sigma x}\)</span> where <span class="math inline">\(z_{\tau}\)</span> is the <span class="math inline">\(\tau^{t h}\)</span> quantile of <span class="math inline">\(\mathrm{N}(0,1)\)</span>. These quantile functions are parabolic.</p>
+</section>
+<section id="estimation" class="level2" data-number="23.9">
+<h2 data-number="23.9" class="anchored" data-anchor-id="estimation"><span class="header-section-number">23.9</span> Estimation</h2>
+<p>Theorem <span class="math inline">\(24.2\)</span> shows that in the linear quantile regression model the coefficient <span class="math inline">\(\beta_{\tau}\)</span> minimizes <span class="math inline">\(M(\beta ; \tau)=\)</span> <span class="math inline">\(\mathbb{E}\left[\rho_{\tau}\left(Y-X^{\prime} \beta\right)\right]\)</span>, the expected check function loss. The estimator of this function is the sample average</p>
+<p><span class="math display">\[
+M_{n}(\beta ; \tau)=\frac{1}{n} \sum_{i=1}^{n} \rho_{\tau}\left(Y_{i}-X_{i}^{\prime} \beta\right) .
+\]</span></p>
+<p>Since <span class="math inline">\(\beta_{\tau}\)</span> minimizes <span class="math inline">\(M(\beta ; \tau)\)</span> which is estimated by <span class="math inline">\(M_{n}(\beta ; \tau)\)</span> the m-estimator for <span class="math inline">\(\beta_{\tau}\)</span> is the minimizer of <span class="math inline">\(M_{n}(\beta ; \tau)\)</span> :</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\tau}=\underset{\beta}{\operatorname{argmin}} M_{n}(\beta ; \tau) .
+\]</span></p>
+<p>This is called the Quantile Regression estimator of <span class="math inline">\(\beta_{\tau}\)</span>. The coefficient <span class="math inline">\(\widehat{\beta}_{\tau}\)</span> does not have a closed form solution so must be found by numerical minimization. The minimization techniques are identical to those used for median regression; hence typical software packages treat the two together.</p>
+<p>The quantile regression residuals <span class="math inline">\(\widehat{e}_{i}(\tau)=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\tau}\)</span> satisfy the approximate property</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{i=1}^{n} X_{i} \psi_{\tau}\left(\widehat{e}_{i}(\tau)\right) \simeq 0 .
+\]</span></p>
+<p>As for LAD, (24.17) holds exactly if <span class="math inline">\(\widehat{e}_{i}(\tau) \neq 0\)</span> for all <span class="math inline">\(i\)</span>, which occurs with high probability if <span class="math inline">\(Y\)</span> is continuously distributed.</p>
+<p>In Stata, quantile regression is implemented by qreg. In R, quantile regression is implemented by <span class="math inline">\(\mathrm{rq}\)</span> in the quantreg package.</p>
+</section>
+<section id="asymptotic-distribution" class="level2" data-number="23.10">
+<h2 data-number="23.10" class="anchored" data-anchor-id="asymptotic-distribution"><span class="header-section-number">23.10</span> Asymptotic Distribution</h2>
+<p>We first provide conditions for consistent estimation. Let <span class="math inline">\(\beta_{\tau}\)</span> be defined in (24.16), <span class="math inline">\(e=Y-X^{\prime} \beta_{\tau}\)</span>, and <span class="math inline">\(f_{\tau}(e \mid x)\)</span> denote the conditional density of <span class="math inline">\(e\)</span> given <span class="math inline">\(X=x\)</span>.</p>
+<p>Theorem 24.3 Consistency of Quantile Regression Estimator Assume that <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are i.i.d., <span class="math inline">\(\mathbb{E}|Y|&lt;\infty, \mathbb{E}\left[\|X\|^{2}\right]&lt;\infty, f_{\tau}(e \mid x)\)</span> exists and satisfies <span class="math inline">\(f_{\tau}(e \mid x) \leq D&lt;\infty\)</span>, and the parameter space for <span class="math inline">\(\beta\)</span> is compact. For any <span class="math inline">\(\tau \in(0,1)\)</span> such that</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_{\tau} \stackrel{\text { def }}{=} \mathbb{E}\left[X X^{\prime} f_{\tau}(0 \mid X)\right]&gt;0
+\]</span></p>
+<p>then <span class="math inline">\(\widehat{\beta}_{\tau} \underset{p}{\rightarrow} \beta_{\tau}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p>The proof is provided in Section <span class="math inline">\(24.16\)</span>.</p>
+<p>Theorem <span class="math inline">\(24.3\)</span> shows that the quantile regression estimator is consistent for the best linear quantile predictor coefficient under broad assumptions.</p>
+<p>A technical condition is (24.18) which is used to establish uniqueness of the coefficient <span class="math inline">\(\beta_{\tau}\)</span>. One sufficient condition for (24.18) occurs when the conditional density <span class="math inline">\(f_{\tau}(e \mid x)\)</span> doesn’t depend on <span class="math inline">\(x\)</span> at <span class="math inline">\(e=0\)</span>, thus <span class="math inline">\(f_{\tau}(0 \mid x)=f_{\tau}(e)\)</span> and</p>
+<p><span class="math display">\[
+\boldsymbol{Q}_{\tau}=\mathbb{E}\left[X X^{\prime}\right] f_{\tau}(0) .
+\]</span></p>
+<p>In this context, (24.18) holds if <span class="math inline">\(\mathbb{E}\left[X X^{\prime}\right]&gt;0\)</span> and <span class="math inline">\(f_{\tau}(0)&gt;0\)</span>. The assumption that <span class="math inline">\(f_{\tau}(e \mid x)\)</span> doesn’t depend on <span class="math inline">\(x\)</span> at <span class="math inline">\(e=0\)</span> (we call this quantile independence) is a traditional assumption in the early median regression/quantile regression literature, but does not make sense outside the narrow context where <span class="math inline">\(e\)</span> is independent of <span class="math inline">\(X\)</span>. Thus we should avoid (24.19) whenever possible, and if not view it as a convenient simplification rather than a literal truth. The assumption that <span class="math inline">\(f_{\tau}(0)&gt;0\)</span> means that there are a non-trivial set of observations for which the error <span class="math inline">\(e\)</span> is near zero, or equivalently for which <span class="math inline">\(Y\)</span> is close to <span class="math inline">\(X^{\prime} \beta_{\tau}\)</span>. These are the observations which provide the decisive information to pin down <span class="math inline">\(\beta_{\tau}\)</span>.</p>
+<p>A weaker way to obtain a sufficient condition for (24.18) is to assume that for some bounded set <span class="math inline">\(\mathscr{X}\)</span> in the support of <span class="math inline">\(X\)</span>, that (a) <span class="math inline">\(\mathbb{E}\left[X X^{\prime} \mid X \in \mathscr{X}\right]&gt;0\)</span> and (b) <span class="math inline">\(f_{\tau}(0 \mid x) \geq c&gt;0\)</span> for <span class="math inline">\(x \in \mathscr{X}\)</span>. This is the same as stating that if we truncate the regressor <span class="math inline">\(X\)</span> to a bounded set that the design matrix is full rank and the conditional density of the error at zero is bounded away from zero. These conditions are rather abstract but mild.</p>
+<p>We now provide the asymptotic distribution.</p>
+<p>Theorem 24.4 Asymptotic Distribution of Quantile Regression Estimator In addition to the assumptions of Theorem 24.3, assume that <span class="math inline">\(f_{\tau}(e \mid x)\)</span> is continuous in <span class="math inline">\(e\)</span>, and <span class="math inline">\(\beta_{\tau}\)</span> is in the interior of the parameter space. Then as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\beta}_{\tau}-\beta_{\tau}\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \boldsymbol{V}_{\tau}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{V}_{\tau}=\boldsymbol{Q}_{\tau}^{-1} \Omega_{\tau} \boldsymbol{Q}_{\tau}^{-1}\)</span> and <span class="math inline">\(\Omega_{\tau}=\mathbb{E}\left[X X^{\prime} \psi_{\tau}^{2}\right]\)</span> for <span class="math inline">\(\psi_{\tau}=\tau-\mathbb{1}\left\{Y&lt;X^{\prime} \beta_{\tau}\right\}\)</span>. The proof is provided in Section <span class="math inline">\(24.16\)</span>.</p>
+<p>Theorem <span class="math inline">\(24.4\)</span> shows that the quantile regression estimator is asymptotically normal with a sandwich asymptotic covariance matrix. Asymptotic normality does not rely on correct model specification, and therefore applies broadly for practical applications where linear models are approximations rather than literal truths. The proof of the asymptotic distribution relies on the theory for general m-estimators (Theorem 22.4). Theorem <span class="math inline">\(24.4\)</span> includes the least absolute deviations estimator as the special case <span class="math inline">\(\tau=0.5\)</span>.</p>
+<p>The asymptotic covariance matrix in Theorem <span class="math inline">\(24.4\)</span> simplifies under correct specification. If <span class="math inline">\(\mathbb{Q}_{\tau}[Y \mid X]=\)</span> <span class="math inline">\(X^{\prime} \beta_{\tau}\)</span> then <span class="math inline">\(\mathbb{E}\left[\psi_{\tau}^{2} \mid X\right]=\tau(1-\tau)\)</span>. It follows that <span class="math inline">\(\Omega_{\tau}=\tau(1-\tau) \boldsymbol{Q}\)</span> where <span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[X X^{\prime}\right]\)</span>.</p>
+<p>Combined with (24.19) we have three levels of asymptotic covariance matrices.</p>
+<ol type="1">
+<li><p>General: <span class="math inline">\(\boldsymbol{V}_{\tau}=\boldsymbol{Q}_{\tau}^{-1} \Omega_{\tau} \boldsymbol{Q}_{\tau}^{-1}\)</span></p></li>
+<li><p>Correct Specification: <span class="math inline">\(\boldsymbol{V}_{\tau}^{c}=\tau(1-\tau) \boldsymbol{Q}_{\tau}^{-1} \boldsymbol{Q} \boldsymbol{Q}_{\tau}^{-1}\)</span></p></li>
+<li><p>Quantile Independence: <span class="math inline">\(\boldsymbol{V}_{\tau}^{0}=\frac{\tau(1-\tau)}{f_{\tau}(0)^{2}} \boldsymbol{Q}^{-1}\)</span></p></li>
+</ol>
+<p>The quantile independence case <span class="math inline">\(\boldsymbol{V}_{\tau}^{0}\)</span> is similar to the homoskedastic least squares covariance matrix. While <span class="math inline">\(\boldsymbol{V}_{\tau}\)</span> is the generally appropriate covariance matrix formula, the simplified formula <span class="math inline">\(\boldsymbol{V}_{\tau}^{0}\)</span> is easier to interpret to obtain intuition about the precision of the quantile regression estimator. Similarly to the least squares estimator the covariance matrix is a scale multiple of <span class="math inline">\(\left(\mathbb{E}\left[X X^{\prime}\right]\right)^{-1}\)</span>. Thus it inherits the related properties of the least-squares estimator: <span class="math inline">\(\widehat{\beta}_{\tau}\)</span> is more efficient when <span class="math inline">\(X\)</span> has greater variance and is less collinear. The covariance matrix <span class="math inline">\(\boldsymbol{V}_{\tau}^{0}\)</span> is inversely proportional to <span class="math inline">\(f_{\tau}(0)^{2}\)</span>. Thus <span class="math inline">\(\widehat{\beta}_{\tau}\)</span> is more efficient when the density is high at 0 which means that there are many observations near the <span class="math inline">\(\tau^{t h}\)</span> quantile of the conditional distribution. If there are few observations near the <span class="math inline">\(\tau^{\text {th }}\)</span> quantile then <span class="math inline">\(f_{\tau}(0)\)</span> will be small and <span class="math inline">\(\boldsymbol{V}_{\tau}^{0}\)</span> large. We can also express this relationship in terms of the standard deviation <span class="math inline">\(\sigma\)</span> of <span class="math inline">\(e\)</span>. Let <span class="math inline">\(u=e / \sigma\)</span> be the error scaled to have a unit variance, which has density <span class="math inline">\(g_{\tau}(x)=\sigma f_{\tau}(\sigma u)\)</span>. Then <span class="math inline">\(\boldsymbol{V}_{\tau}^{0}=\frac{\tau(1-\tau)}{g_{\tau}(0)^{2}} \sigma^{2}\left(\mathbb{E}\left[X X^{\prime}\right]\right)^{-1}\)</span>, which is a scale of the homoskedastic least squares covariance matrix.</p>
+</section>
+<section id="covariance-matrix-estimation" class="level2" data-number="23.11">
+<h2 data-number="23.11" class="anchored" data-anchor-id="covariance-matrix-estimation"><span class="header-section-number">23.11</span> Covariance Matrix Estimation</h2>
+<p>There are multiple methods to estimate the asymptotic covariance matrix <span class="math inline">\(\boldsymbol{V}_{\tau}\)</span>. The easiest is based on the quantile independence assumption, leading to</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{\tau}^{0} &amp;=\tau(1-\tau) \widehat{f}_{\tau}(0)^{-2} \widehat{\boldsymbol{Q}}^{-1} \\
+\widehat{\boldsymbol{Q}} &amp;=\frac{1}{n} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} .
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{f}_{\tau}(0)^{-2}\)</span> is a nonparametric estimator of <span class="math inline">\(f_{\tau}(0)^{-2}\)</span>. For the latter there are several proposed methods. One uses a difference in the distribution function of <span class="math inline">\(Y\)</span>. A second uses a nonparametric estimator of <span class="math inline">\(f_{\tau}(0)\)</span>.</p>
+<p>An estimator of <span class="math inline">\(\boldsymbol{V}_{\tau}^{c}\)</span> assuming correct specification is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\tau}^{c}=\tau(1-\tau) \widehat{\boldsymbol{Q}}_{\tau}^{-1} \widehat{\boldsymbol{Q}} \widehat{\boldsymbol{Q}}_{\tau}^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\boldsymbol{Q}}_{\tau}\)</span> is a nonparametric estimator of <span class="math inline">\(\boldsymbol{Q}_{\tau}\)</span>. A feasible choice given a bandwidth <span class="math inline">\(h\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}_{\tau}=\frac{1}{2 n h} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \mathbb{1}\left\{\left|\widehat{e}_{i}\right|&lt;h\right\} .
+\]</span></p>
+<p>An estimator of <span class="math inline">\(\boldsymbol{V}_{\tau}\)</span> allowing misspecification is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{\tau} &amp;=\widehat{\boldsymbol{Q}}_{\tau}^{-1} \widehat{\Omega}_{\tau} \widehat{\boldsymbol{Q}}_{\tau}^{-1} \\
+\widehat{\Omega}_{\tau} &amp;=\frac{1}{h} \sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widehat{\psi}_{i \tau}^{2} \\
+\widehat{\psi}_{i \tau} &amp;=\tau-\mathbb{1}\left\{Y_{i}&lt;X_{i}^{\prime} \widehat{\beta}_{\tau}\right\} .
+\end{aligned}
+\]</span></p>
+<p>Of the three covariance matrix methods introduced above <span class="math inline">\(\left(\widehat{\boldsymbol{V}}_{\tau}^{0}, \widehat{\boldsymbol{V}}_{\tau}^{c}\right.\)</span>, and <span class="math inline">\(\left.\widehat{\boldsymbol{V}}_{\tau}\right)\)</span> the classical estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}^{0}\)</span> should be avoided for the same reasons why we avoid classical homoskedastic covariance matrix estimators for least squares estimation. Of the two robust estimators the better choice is <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}\)</span> (because it does not require correct specification) but unfortunately it is not programmed in standard packages. This means that in practice the estimator <span class="math inline">\(\widehat{V}_{\tau}^{c}\)</span> is recommended.</p>
+<p>The most common method for estimation of quantile regression covariance matrices, standard errors, and confidence intervals is the bootstrap. The conventional nonparametric bootstrap is appropriate for the general model allowing for misspecification, and the bootstrap variance is an estimator for <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}\)</span>. As we have learned in our study of bootstrap methods, it is generally advised to use a large number <span class="math inline">\(B\)</span> of bootstrap replications (at least 1000 , with 10,000 preferred). This is somewhat computationally costly in large samples but this should not be a barrier to implementation as the full bootstrap calculation only needs to be done for the final calculation. Also, as we have learned, for confidence intervals percentile-based intervals are greatly preferred over the normal-based intervals (which use bootstrap standard errors multiplied by normal quantiles). I recommend the BC percentile intervals. This requires changing the default settings in common programs such as Stata.</p>
+<p>In Stata, quantile regression is implemented using qreg. The default standard errors are <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}^{0}\)</span>. Use vce(robust) for <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}^{c}\)</span>. The covariance matrix estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}\)</span> is not implemented. For bootstrap standard errors and confidence intervals use bootstrap, reps (#): qreg y x. The bootstrap command followed by estat bootstrap produces BC percentile confidence intervals.</p>
+<p>In R, quantile regression is implemented by the function rq in the quantreg package. The default standard errors are <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}^{c}\)</span>. The covariance matrix estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}\)</span> is not implemented. For bootstrap standard errors one method is to use the option se=“boot” with the summary command. At present, the quantreg package does not include bootstrap percentile confidence intervals.</p>
+</section>
+<section id="clustered-dependence" class="level2" data-number="23.12">
+<h2 data-number="23.12" class="anchored" data-anchor-id="clustered-dependence"><span class="header-section-number">23.12</span> Clustered Dependence</h2>
+<p>Under clustered dependence the asymptotic covariance matrix changes. In the formula <span class="math inline">\(\boldsymbol{V}_{\tau}=\boldsymbol{Q}_{\tau}^{-1} \Omega_{\tau} \boldsymbol{Q}_{\tau}^{-1}\)</span> the matrix <span class="math inline">\(\boldsymbol{Q}_{\tau}\)</span> is unaltered but <span class="math inline">\(\Omega_{\tau}\)</span> changes to</p>
+<p><span class="math display">\[
+\Omega_{\tau}^{\text {cluster }}=\lim _{n \rightarrow \infty} \frac{1}{n} \sum_{g=1}^{G} \mathbb{E}\left[\left(\sum_{\ell=1}^{n_{g}} X_{\ell g} \psi_{\ell g \tau}\right)\left(\sum_{\ell=1}^{n_{g}} X_{\ell g} \psi_{\ell g \tau}\right)^{\prime}\right] .
+\]</span></p>
+<p>This can be estimated as</p>
+<p><span class="math display">\[
+\widehat{\Omega}_{\tau}^{\text {cluster }}=\frac{1}{n} \sum_{g=1}^{G}\left[\left(\sum_{\ell=1}^{n_{g}} X_{\ell g} \widehat{\psi}_{\ell g \tau}\right)\left(\sum_{\ell=1}^{n_{g}} X_{\ell g} \widehat{\psi}_{\ell g \tau}\right)^{\prime}\right] .
+\]</span></p>
+<p>This leads to the cluster-robust asymptotic covariance matrix estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}^{\text {cluster }}=\widehat{\boldsymbol{Q}}_{\tau}^{-1} \widehat{\Omega}_{\tau}^{\text {cluster }} \widehat{\boldsymbol{Q}}_{\tau}^{-1}\)</span>.</p>
+<p>The cluster-robust estimator <span class="math inline">\(\widehat{\boldsymbol{V}}_{\tau}^{\text {cluster }}\)</span> is not implemented in Stata nor in the R quantreg package. Instead, the clustered bootstrap (sampling clusters with replacement) is recommended. In Stata, the clustered bootstrap can be accomplished by: bootstrap, reps(#) cluster(id): qreg y x, followed by estat bootstrap.</p>
+<p>In <span class="math inline">\(\mathrm{R}\)</span>, the clustered bootstrap is included as an option in the quantreg package for calculation of standard errors.</p>
+<p>We illustrate the application of clustered quantile regression using the Duflo, Dupas, and Kremer (2011) school tracking application. (See Section 4.21.) Recall, the question was whether or not tracking (separating students into classrooms based on an initial test) influenced average end-of-year scores. We repeat the analysis using quantile regression. Parameter estimates and bootstrap standard errors (calculated by clustered bootstrap using 10,000 replications, clustered by school) are reported in Table <span class="math inline">\(24.2\)</span>.</p>
+<p>The results are mixed. The point estimates suggest that there is a stronger effect of tracking at higher quantiles than lower quantiles. This is consistent with the premise that tracking affects students heterogeneously, has no negative effects, and has the greatest impact on the upper end. The standard errors and confidence intervals, however, are also larger for the higher quantiles, such that the quantile regression coefficients at high quantiles are imprecisely estimated. Using the <span class="math inline">\(t\)</span> test, two of the five slope coefficients are (borderline) statistically significant at the 5% level and one at the <span class="math inline">\(10 %\)</span> level. In apparant contradiction, all five of the <span class="math inline">\(95 %\)</span> BC percentile intervals include 0. Overall the evidence that tracking affects student performance is weak.</p>
+<p>Table 24.2: Quantile Regressions of Student Testscores on Tracking</p>
+<table class="table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th><span class="math inline">\(\tau=0.1\)</span></th>
+<th><span class="math inline">\(\tau=0.3\)</span></th>
+<th><span class="math inline">\(\tau=0.5\)</span></th>
+<th><span class="math inline">\(\tau=0.7\)</span></th>
+<th><span class="math inline">\(\tau=0.9\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tracking</td>
+<td><span class="math inline">\(0.069\)</span></td>
+<td><span class="math inline">\(0.136\)</span></td>
+<td><span class="math inline">\(0.125\)</span></td>
+<td><span class="math inline">\(0.185\)</span></td>
+<td><span class="math inline">\(0.151\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bootstrap standard error</td>
+<td><span class="math inline">\((0.045)\)</span></td>
+<td><span class="math inline">\((0.069)\)</span></td>
+<td><span class="math inline">\((0.074)\)</span></td>
+<td><span class="math inline">\((0.127)\)</span></td>
+<td><span class="math inline">\((0.126)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">95% confidence interval</td>
+<td><span class="math inline">\([-0.02, .15]\)</span></td>
+<td><span class="math inline">\([-0.01, .27]\)</span></td>
+<td><span class="math inline">\([-0.01, .28]\)</span></td>
+<td><span class="math inline">\([-0.06, .44]\)</span></td>
+<td><span class="math inline">\([-0.11, .40]\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quantile-crossings" class="level2" data-number="23.13">
+<h2 data-number="23.13" class="anchored" data-anchor-id="quantile-crossings"><span class="header-section-number">23.13</span> Quantile Crossings</h2>
+<p>A property of the quantile regression functions <span class="math inline">\(q_{\tau}(x)\)</span> is that they are monotonically increasing in <span class="math inline">\(\tau\)</span>. This means that quantile functions for different quantiles, e.g.&nbsp;<span class="math inline">\(q_{\tau_{1}}(x)\)</span> and <span class="math inline">\(q_{\tau_{2}}(x)\)</span> for <span class="math inline">\(\tau_{1} \neq \tau_{2}\)</span>, cannot cross each other. However a property of linear functions <span class="math inline">\(x^{\prime} \beta\)</span> with differing slopes is that they will necessarily cross if the support for <span class="math inline">\(X\)</span> is sufficiently large. This is a potential problem in applications as practical uses of estimated quantile functions may require monotonicity in <span class="math inline">\(\tau\)</span> (for example if they are to be inverted to obtain a conditional distribution function).</p>
+<p>This is only a problem in practical applications if estimated quantile functions actually cross. If they do not this issue can be ignored. However when estimated quantile regression functions cross one another it can be prudent to address the issue.</p>
+<p>To illustrate examine Figure 24.5(a). This shows estimated linear quantile regressions of wage on education in the full cps09mar data set. These are linear projection approximations to the plots in Figure 24.2(a). Since the actual quantile regression functions are convex the estimated linear models cross one another at low education levels. This is the quantile regression crossing phenomenon.</p>
+<p>When quantile regressions cross one another there are several possible remedies.</p>
+<p>First, you could re-specify the model. In the example of Figure 24.5(a) the problem arises in part because the true quantile regression functions are convex and poorly approximated by linear functions. In this example we know that an improved approximation is obtained through a logarithmic transformation for wages. After a log transformation the quantile regression functions are much better approximated by linearity. Indeed, such estimates (obtained by quantile regression of log wages on education, and then</p>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-14.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Linear Model</li>
+</ol>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-14(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Logarithmic Model</li>
+</ol>
+<p>Figure 24.5: Quantile Crossings</p>
+<p>applying the exponential transformation to return to the original units) are displayed in Figure <span class="math inline">\(24.5\)</span> (b). These functions are smooth approximations and are strictly monotonic in <span class="math inline">\(\tau\)</span>. Problem solved.</p>
+<p>While the logarithmic/exponential transformation works well for a wage regression, it is not a generic solution. If the underlying quantile regressions are non-linear in <span class="math inline">\(X\)</span>, an improved approximation (and possible elimination of the quantile crossing) may be obtained by a nonlinear or simple series approximation. A visual examination of Figure 24.2(a) suggests that the functions may be piecewise linear with a kink at 11 years of education. This suggests a linear spline with a single knot at <span class="math inline">\(x=11\)</span>. The estimates from fitting this model (not displayed) are strictly monotonic in <span class="math inline">\(\tau\)</span>. Problem solved.</p>
+<p>A second approach is to reassess the empirical task. Examining Figure 24.5(a) we see that the crossing phenomenon occurs at very low levels of education (4 years) for which there are very few observations. This may not be viewed as an empirical interesting region. A solution is to truncate the data to eliminate observations with low education levels.</p>
+<p>A third approach is to constrain the estimated functions to satisfy monotonicity. Examine Figure 24.5(a). The five regression functions are increasing with increasing slopes and the support for <span class="math inline">\(X\)</span> is <span class="math inline">\([0,20]\)</span> so it is necessary and sufficient to constrain the five intercepts to be monotonically ranked. This can be imposed on this example by sequentially imposing cross-equation equality constraints. The R function rq has an option to impose parameter contraints. This approach may be feasible if the quantile crossing problem is mild.</p>
+<p>A final approach is rearrangement. For each <span class="math inline">\(x\)</span> take the five estimated quantile regression functions as displayed in Figure 24.5(a) and rearrange the estimates so that they satisfy the monotonicity requirement. This does not alter the coefficient estimates, only the estimated quantile regressions. This approach is flexible and works in general contexts without the need for model re-specification. For details see Chernozhukov, Fernandez-Val, and Galichon (2010). The R package quantreg includes the option rearrange to implement their procedure.</p>
+<p>Of these four approaches, my recommendation is to start with a careful and thoughtful re-specification of the model.</p>
+</section>
+<section id="quantile-causal-effects" class="level2" data-number="23.14">
+<h2 data-number="23.14" class="anchored" data-anchor-id="quantile-causal-effects"><span class="header-section-number">23.14</span> Quantile Causal Effects</h2>
+<p>One question which frequently arises in the study of quantile regression is “Can we interpret the quantile regression causally?” We can partially answer this question in the treatment response framework by providing conditions under which the quantile regression derivatives equal quantile treatment effects.</p>
+<p>Recall that the treatment response model is <span class="math inline">\(Y=h(D, X, U)\)</span> where <span class="math inline">\(Y\)</span> is the outcome, <span class="math inline">\(D\)</span> is the treatment variable, <span class="math inline">\(X\)</span> are controls, and <span class="math inline">\(U\)</span> is an unobserved structural random error. For simplicity take the case that <span class="math inline">\(D\)</span> is binary. For concreteness let <span class="math inline">\(Y\)</span> be wage, <span class="math inline">\(D\)</span> college attendence, and <span class="math inline">\(U\)</span> unobserved ability.</p>
+<p>In this framework, the causal effect of <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span> is</p>
+<p><span class="math display">\[
+C(X, U)=h(1, X, U)-h(0, X, U) .
+\]</span></p>
+<p>In general this is heterogeneous. While the average causal effect is the expectation of this random variable, the quantile treatment effect is its <span class="math inline">\(\tau^{t h}\)</span> conditional quantile</p>
+<p><span class="math display">\[
+Q_{\tau}(x)=\mathbb{Q}_{\tau}[C(X, U) \mid X=x] .
+\]</span></p>
+<p>In Section <span class="math inline">\(2.30\)</span> we presented an example of a population of Jennifers and Georges who had differential wage effects from college attendence. In this example the unobserved effect <span class="math inline">\(U\)</span> is a person’s type (Jennifer or George). The quantile treatment effect <span class="math inline">\(Q_{\tau}\)</span> traces out the distribution of the causal effect of college attendence and is therefore more informative than the average treatment effect alone.</p>
+<p>From observational data we can estimate the quantile regression function</p>
+<p><span class="math display">\[
+q_{\tau}(d, x)=\mathbb{Q}_{\tau}[Y \mid D=d, X=x]=\mathbb{Q}_{\tau}[h(D, X, U) \mid D=d, X=x]
+\]</span></p>
+<p>and its implied effect of <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span> :</p>
+<p><span class="math display">\[
+D_{\tau}(x)=q_{\tau}(1, x)-q_{\tau}(0, x) .
+\]</span></p>
+<p>The question is: Under what condition does <span class="math inline">\(D_{\tau}=Q_{\tau}\)</span> ? That is, when does quantile regression measure the causal effect of <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span> ?</p>
+<p>Assumption 24.1 Conditions for Quantile Causal Effect</p>
+<ol type="1">
+<li><p>The error <span class="math inline">\(U\)</span> is real valued.</p></li>
+<li><p>The causal effect <span class="math inline">\(C(x, u)\)</span> is monotonically increasing in <span class="math inline">\(u\)</span>.</p></li>
+<li><p>The treatment response <span class="math inline">\(h(D, X, u)\)</span> is monotonically increasing in <span class="math inline">\(u\)</span>.</p></li>
+<li><p>Conditional on <span class="math inline">\(X\)</span> the random variables <span class="math inline">\(D\)</span> and <span class="math inline">\(U\)</span> are independent.</p></li>
+</ol>
+<p>Assumption 24.1.1 excludes multi-dimensional unobserved heterogeneity. Assumptions <span class="math inline">\(24.1 .2\)</span> and 24.1.3 are known as monotonicity conditions. A single monotonicity assumption is not restrictive (it is similar to a normalization) but the two conditions together are a substantive restriction. Take, for example, the case of the impact of college attendence on wages. Assumption 24.1.2 requires that the wage gain from attending college is increasing in latent ability <span class="math inline">\(U\)</span> (given <span class="math inline">\(X\)</span> ). Assumption <span class="math inline">\(24.1 .3\)</span> further requires that wages are increasing in latent ability <span class="math inline">\(U\)</span> whether or not an individual attends college. In our Jennifer and George example these assumptions require that Jennifer receives a higher wage than George if they both are high school graduates, if they are both college graduates, and that Jennifer’s gain from attending college exceeds George’s gain. These conditions were satisfied in the example of Section <span class="math inline">\(2.30\)</span> but with a tweak we can change the model so that one of the monotonicity conditions is violated.</p>
+<p>Assumption 24.1.4 is the traditional conditional independence assumption. This assumption is critical for the causal effect interpretation. The idea is that by conditioning on a sufficiently rich set of variables <span class="math inline">\(X\)</span> any endogeneity between <span class="math inline">\(D\)</span> and <span class="math inline">\(U\)</span> has been eliminated.</p>
+<p>Theorem 24.5 Quantile Causal Effect If Assumption <span class="math inline">\(24.1\)</span> holds then <span class="math inline">\(D_{\tau}(x)=\)</span> <span class="math inline">\(Q_{\tau}(x)\)</span>, the quantile regression derivative equals the quantile treatment effect.</p>
+<p>The proof is in Section 24.16.</p>
+<p>Theorem <span class="math inline">\(24.5\)</span> provides conditions under which quantile regression is a causal model. Under the conditional independence and monotonicity assumptions the quantile regression coefficients are the marginal causal effects of the treatment variable <span class="math inline">\(D\)</span> upon the distribution of <span class="math inline">\(Y\)</span>. The coefficients are not the marginal causal effects for specific individuals, rather they are the causal effect for the distribution. Theorem <span class="math inline">\(24.5\)</span> shows that under suitable assumptions we can learn more than just the average treatment effect - we can learn the distribution of treatment effects.</p>
+</section>
+<section id="random-coefficient-representation" class="level2" data-number="23.15">
+<h2 data-number="23.15" class="anchored" data-anchor-id="random-coefficient-representation"><span class="header-section-number">23.15</span> Random Coefficient Representation</h2>
+<p>For some theoretical purposes it is convenient to write the quantile regression model using a random coefficient representation. This also provides an alternative interpretation of the coefficients.</p>
+<p>Recall that when <span class="math inline">\(Y\)</span> has a continuous and invertible distribution function <span class="math inline">\(F(y)\)</span> the probability integral transformation is <span class="math inline">\(U=F(Y) \sim U[0,1]\)</span>. As the inverse of the distribution function is the quantile function, this implies that we can write <span class="math inline">\(Y=q_{U}\)</span>, the quantile function evaluated at the random variable <span class="math inline">\(U\)</span>. The intuition is that <span class="math inline">\(U\)</span> is the “relative rank” of <span class="math inline">\(Y\)</span>.</p>
+<p>Similarly when the conditional distribution <span class="math inline">\(F(y \mid x)\)</span> of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span> is invertible, the probability integral transformation is <span class="math inline">\(U=F(Y \mid X) \sim U[0,1]\)</span> which is independent of <span class="math inline">\(X\)</span>. Here, <span class="math inline">\(U\)</span> is the relative rank of <span class="math inline">\(Y\)</span> within the conditional distribution. Inverting, we obtain <span class="math inline">\(Y=q_{U}(X)\)</span>. There is no additional error term <span class="math inline">\(e\)</span> as the randomness is captured by <span class="math inline">\(U\)</span>. The equation <span class="math inline">\(Y=q_{U}(X)\)</span> is a representation of the conditional distribution of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X\)</span>, not a structural model. However it does imply a mechanism by which we can generate <span class="math inline">\(Y\)</span>. First, draw <span class="math inline">\(U \sim U[0,1]\)</span>. Second, draw <span class="math inline">\(X\)</span> from its marginal distibution. Third, set <span class="math inline">\(Y=q_{U}(X)\)</span>.</p>
+<p>If we interpret <span class="math inline">\(Y=q_{U}(X)\)</span> as a structural model (that is, take <span class="math inline">\(U\)</span> as a structural unobservable variable, not merely a derivation based on the probability integral transformation) then we can view <span class="math inline">\(U\)</span> as an individual’s latent relative rank which is invariant to <span class="math inline">\(X\)</span>. Each person is identified with a specific <span class="math inline">\(U=\tau\)</span>. In this framework the quantile slope (the derivative of the quantile regression) is the quantile causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>. This representation satisfies the conditions of Theorem <span class="math inline">\(24.5\)</span> because <span class="math inline">\(U\)</span> is independent of <span class="math inline">\(X\)</span>.</p>
+<p>In the linear quantile regression model <span class="math inline">\(\mathbb{Q}_{\tau}[Y \mid X]=X^{\prime} \beta_{\tau}\)</span>, the random coefficient <span class="math inline">\({ }^{3}\)</span> representation is <span class="math inline">\(Y=X^{\prime} \beta_{U}\)</span></p>
+<p><span class="math inline">\({ }^{3}\)</span> The coefficients depends on <span class="math inline">\(U\)</span> so are random, but the model is different from the random coefficient model where each individual’s coefficient is a random vector.</p>
+</section>
+<section id="nonparametric-quantile-regression" class="level2" data-number="23.16">
+<h2 data-number="23.16" class="anchored" data-anchor-id="nonparametric-quantile-regression"><span class="header-section-number">23.16</span> Nonparametric Quantile Regression</h2>
+<p>As emphasized in Section 24.10, quantile regression functions are undoubtedly nonlinear with unknown functional form and hence nonparametric. Quantile regression functions may be estimated using standard nonparametric methods. This is a potentially large subject. For brevity we briefly discuss series methods which have the advantage that they are easily implemented with conventional software.</p>
+<p>The nonparametric quantile regression model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=q_{\tau}(X)+e \\
+\mathbb{Q}_{\tau}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>The function <span class="math inline">\(q_{\tau}(x)\)</span> can be approximated by a series regression as described in Chapter 20. For example, a polynomial approximation is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=\beta_{0}+\beta_{1} X+\beta_{2} X^{2}+\cdots+\beta_{K} X^{K}+e_{K} \\
+\mathbb{Q}_{\tau}\left[e_{K} \mid X\right] &amp; \simeq 0 .
+\end{aligned}
+\]</span></p>
+<p>A spline approximation is defined similarly.</p>
+<p>For any <span class="math inline">\(K\)</span> the coefficients and regression function <span class="math inline">\(q_{\tau}(x)\)</span> can be estimated by quantile regression. As in series regression the model order <span class="math inline">\(K\)</span> should be selected to trade off flexibility (bias reduction) and parsimony (variance reduction). Asymptotic theory requires that <span class="math inline">\(K \rightarrow \infty\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> but at a slower rate.</p>
+<p>An important practical question is how to select <span class="math inline">\(K\)</span> in a given application. Unfortunately, standard information criterion (such as the AIC) do not apply for quantile regression and it is unclear if crossvalidation is an appropriate model selection technique. Undoubtedly these questions are an important topic for future study.</p>
+<p>To illustrate we revisit the nonparametric polynomial estimates of the experience profile for collegeeducated women earlier displayed in Figure 20.1. We estimate <span class="math inline">\({ }^{4} \log\)</span> wage quantile regressions on a <span class="math inline">\(5^{\text {th }}\)</span> order polynomial in experience and display the estimates in Figure 24.6. There are two notable features. First, the <span class="math inline">\(\tau=0.1\)</span> quantile function peaks at a low level of experience (about 10 years) and then declines substantially with experience. This is likely an indicator of the wage-path of women on the low end of the pay scale. Second, even though this is in a logarithmic scale the gaps betwen the quantile functions substantially widen with experience. This means that heterogeneity in wages increases more than proportionately as experience increases.</p>
+</section>
+<section id="panel-data" class="level2" data-number="23.17">
+<h2 data-number="23.17" class="anchored" data-anchor-id="panel-data"><span class="header-section-number">23.17</span> Panel Data</h2>
+<p>Given a panel data structure <span class="math inline">\(\left\{Y_{i t}, X_{i t}\right\}\)</span> it is natural to consider a panel data quantile regression estimator. A linear model with an individual effect <span class="math inline">\(\alpha_{i \tau}\)</span> is</p>
+<p><span class="math display">\[
+\mathbb{Q}_{\tau}\left[Y_{i t} \mid X_{i t}, \alpha_{i}\right]=X_{i t}^{\prime} \beta_{\tau}+\alpha_{i \tau} .
+\]</span></p>
+<p>It seems natural to consider estimation by one of our standard methods: (1) Remove the individual effect by the within transformation; (2) Remove the invidual effect by first differencing; (3) Estimate a full quantile regression model using the dummy variable representation. However, all of these methods fail. The reason why methods (1) and (2) fail are the same: The quantile operator <span class="math inline">\(\mathbb{Q}_{\tau}\)</span> is not a linear operator. The within transformation of <span class="math inline">\(\mathbb{Q}_{\tau}\left[Y_{i t} \mid X_{i t}, \alpha_{i \tau}\right]\)</span> does not equal <span class="math inline">\(\mathbb{Q}_{\tau}\left[\dot{Y}_{i t} \mid X_{i t}, \alpha_{i \tau}\right]\)</span>, and similarly <span class="math inline">\(\Delta \mathbb{Q}_{\tau}\left[Y_{i t} \mid X_{i t}, \alpha_{i \tau}\right] \neq \mathbb{Q}_{\tau}\left[\Delta Y_{i t} \mid X_{i t}, \alpha_{i \tau}\right]\)</span>. The reason why (3) fails is the incidental parameters problem. A</p>
+<p><span class="math inline">\({ }^{4}\)</span> The sample is the <span class="math inline">\(n=5199\)</span> observations of women with a college degree (16 years of education).</p>
+<p><img src="images//2022_10_23_47027c652ef567187a65g-18.jpg" class="img-fluid"></p>
+<p>Figure 24.6: Log Wage Quantile Regressions</p>
+<p>dummy variable model has the number of parameters proportional to sample size and in this context nonlinear estimators (including quantile regression) are inconsistent.</p>
+<p>There have been several proposals to deal with this issue but none are particularly satisfactory. We present here a method due to Canay (2011) which has the advantage of simplicity and wide applicability. The substantive assumption is that the individual effect is common across quantiles: <span class="math inline">\(\alpha_{i \tau}=\alpha_{i}\)</span>. Thus <span class="math inline">\(\alpha_{i}\)</span> shifts the quantile regressions up and down uniformly. This is a sensible assumption when <span class="math inline">\(\alpha_{i}\)</span> represents omitted time-invariant variables with coefficients which do not vary across quantiles.</p>
+<p>Given this assumption we can write the quantile regression model as</p>
+<p><span class="math display">\[
+Y_{i t}=X_{i t}^{\prime} \beta(\tau)+\alpha_{i}+e_{i t} .
+\]</span></p>
+<p>We can also use the random coefficient representation of Section <span class="math inline">\(24.12\)</span> to write</p>
+<p><span class="math display">\[
+Y_{i t}=X_{i t}^{\prime} \beta\left(U_{i \tau}\right)+\alpha_{i}
+\]</span></p>
+<p>where <span class="math inline">\(U_{i \tau} \sim U[0,1]\)</span> is independent of <span class="math inline">\(\left(X_{i t}, \alpha_{i}\right)\)</span>. Taking conditional expectations we obtain the model</p>
+<p><span class="math display">\[
+Y_{i t}=X_{i t}^{\prime} \theta+\alpha_{i}+u_{i t}
+\]</span></p>
+<p>where <span class="math inline">\(\theta=\mathbb{E}\left[\beta\left(U_{i \tau}\right)\right]\)</span> and <span class="math inline">\(u_{i t}\)</span> is conditionally mean zero. The coefficient <span class="math inline">\(\theta\)</span> is a weighted average of the quantile regression coefficients <span class="math inline">\(\beta(\tau)\)</span>.</p>
+<p>Canay’s estimator takes the following steps. 1. Estimate <span class="math inline">\(\alpha_{i}\)</span> by fixed effects <span class="math inline">\(\widehat{\alpha}_{i}\)</span> as in (17.51). [Estimate <span class="math inline">\(\theta\)</span> by the within estimator <span class="math inline">\(\widehat{\theta}\)</span> and <span class="math inline">\(\alpha_{i}\)</span> by taking averages of <span class="math inline">\(Y_{i t}-X_{i t}^{\prime} \widehat{\theta}\)</span> for each individual.]</p>
+<p> 1. Estimate <span class="math inline">\(\beta(\tau)\)</span> by quantile regression of <span class="math inline">\(Y_{i t}-\widehat{\alpha}_{i}\)</span> on <span class="math inline">\(X_{i t}\)</span>.</p>
+<p>The key to Canay’s estimator is that the assumption that the fixed effect <span class="math inline">\(\alpha_{i}\)</span> does not vary across the quantiles <span class="math inline">\(\tau\)</span>, which means that the fixed effects can be estimated by conventional fixed effects. Once eliminated we can apply conventional quantile regression. The primary disadvantage of this approach is that the assumption that <span class="math inline">\(\alpha_{i}\)</span> does not vary across quantiles is restrictive. In general the topic of panel quantile regression is a potentially important topic for further econometric research.</p>
+</section>
+<section id="quantile-regression-1" class="level2" data-number="23.18">
+<h2 data-number="23.18" class="anchored" data-anchor-id="quantile-regression-1"><span class="header-section-number">23.18</span> Quantile Regression</h2>
+<p>As we studied in Chapter 12, in many structural economic models some regressors are potentially endogenous, meaning jointly dependent with the regression error. This situation equally arises in quantile regression models. A standard method to handle endogenous regressors is instrumental variables regression which relies on a set of instruments <span class="math inline">\(Z\)</span> which satisfy an uncorrelatedness or independence condition. Similar methods can be applied in quantile regression though the techniques are computationally more difficult, the theory less well developed, and applications limited.</p>
+<p>The model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta_{\tau}+e \\
+\mathbb{Q}_{\tau}[e \mid Z] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(X\)</span> and <span class="math inline">\(\beta_{\tau}\)</span> are <span class="math inline">\(k \times 1, Z\)</span> is <span class="math inline">\(\ell \times 1\)</span>, amd <span class="math inline">\(\ell \geq k\)</span>. The difference with the conventional quantile regression model is that the second equation is conditional on <span class="math inline">\(Z\)</span> rather than <span class="math inline">\(X\)</span>.</p>
+<p>The assumption on the error implies that <span class="math inline">\(\mathbb{E}\left[\psi_{\tau}(e) \mid Z\right]=0\)</span>. This holds by the same derivation as for the quantile regression model. This is a conditional moment equation. It implies the unconditional moment equation <span class="math inline">\({ }^{5} \mathbb{E}\left[Z \psi_{\tau}(e)\right]=0\)</span>. Written as a function of the observations and parameters</p>
+<p><span class="math display">\[
+\mathbb{E}\left[Z \psi_{\tau}\left(Y-X^{\prime} \beta_{\tau}\right)\right]=0 .
+\]</span></p>
+<p>This is a set of <span class="math inline">\(\ell\)</span> moment equations for <span class="math inline">\(k\)</span> parameters. A suitable estimation method is GMM. A computational challenge is that the moment condition functions are discontinuous in <span class="math inline">\(\beta_{\tau}\)</span> so conventional minimization techniques fail.</p>
+<p>The method of IV quantile regression was articulated by Chernozhukov and C. Hansen (2005), which should be consulted for further details.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="23.19">
+<h2 data-number="23.19" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">23.19</span> Technical Proofs*</h2>
+<p>Proof of Theorem 24.1: Since <span class="math inline">\(\mathbb{P}[Y=m]=0\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{E}[\operatorname{sgn}(Y-m)]=\mathbb{E}[\mathbb{1}\{Y&gt;m\}]-\mathbb{E}[\mathbb{1}\{Y&lt;m\}]=\mathbb{P}[Y&gt;m]-\mathbb{P}[Y&lt;m]=\frac{1}{2}-\frac{1}{2}=0
+\]</span></p>
+<p>which is (24.2).</p>
+<p><span class="math inline">\({ }^{5}\)</span> In fact, the assumptions imply <span class="math inline">\(\mathbb{E}\left[\phi(Z) \psi_{\tau}(e)\right]=0\)</span> for any function <span class="math inline">\(\phi\)</span>. We assume that the desired instruments have been selected and are incorporated in the vector <span class="math inline">\(Z\)</span> as denoted. Exchanging integration and differentiation</p>
+<p><span class="math display">\[
+\frac{d}{d \theta} \mathbb{E}|Y-\theta|=\mathbb{E}\left[\frac{d}{d \theta}|Y-\theta|\right]=\mathbb{E}[\operatorname{sgn}(Y-\theta)]=0,
+\]</span></p>
+<p>the final equality at <span class="math inline">\(\theta=m\)</span> by (24.2). This is the first order condition for an optimum. Since <span class="math inline">\(\mathbb{E}[\operatorname{sgn}(Y-\theta)]=\)</span> <span class="math inline">\(1-2 \mathbb{P}[Y&lt;\theta]\)</span> is globally decreasing in <span class="math inline">\(\theta\)</span>, the second order condition shows that <span class="math inline">\(m\)</span> is the unique minimizer. This is (24.3).</p>
+<p>(24.4) and (24.5) follow by similar arguments using the conditional distribution. (24.6) follows from (24.5) under the assumption that <span class="math inline">\(\operatorname{med}[Y \mid X]=X^{\prime} \beta\)</span>.</p>
+<p>Proof of Theorem 24.2: Since <span class="math inline">\(\mathbb{P}\left[Y=q_{\tau}\right]=0\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\psi_{\tau}\left(Y-q_{\tau}\right)\right]=\tau-\mathbb{P}\left[Y&lt;q_{\tau}\right]=0
+\]</span></p>
+<p>which is (24.11).</p>
+<p>Exchanging integration and differentiation</p>
+<p><span class="math display">\[
+\frac{d}{d \theta} \mathbb{E}\left[\rho_{\tau}(Y-\theta)\right]=\mathbb{E}\left[\psi_{\tau}(Y-\theta)\right]=0,
+\]</span></p>
+<p>the final equality at <span class="math inline">\(\theta=q_{\tau}\)</span> by (24.11). This is the first order condition for an optimum. Since <span class="math inline">\(\mathbb{E}\left[\psi_{\tau}(Y-\theta)\right]=\)</span> <span class="math inline">\(\tau-\mathbb{P}[Y&lt;\theta]\)</span> is globally decreasing in <span class="math inline">\(\theta\)</span>, the second order condition shows that <span class="math inline">\(q_{\tau}\)</span> is the unique minimizer. This is (24.12).</p>
+<p>(24.13) and (24.14) follow by similar arguments using the conditional distribution. (24.15) follows from (24.14) under the assumption that <span class="math inline">\(\mathbb{Q}_{\tau}[Y \mid X]=X^{\prime} \beta\)</span>.</p>
+<p>Proof of Theorem 24.3: The quantile regression estimator is an m-estimator, so we appeal to Theorem 22.3, which holds under five conditions. Conditions 1 and 4 are satisfied by assumption, and condition 2 holds because <span class="math inline">\(\rho_{\tau}\left(Y-X^{\prime} \beta\right)\)</span> is continuous in <span class="math inline">\(\beta\)</span> as <span class="math inline">\(\rho_{\tau}(u)\)</span> is a continuous function. For condition 3, observe that <span class="math inline">\(\left|\rho_{\tau}\left(Y-X^{\prime} \beta\right)\right| \leq|Y|+\bar{\beta}\|X\|\)</span> where <span class="math inline">\(\bar{\beta}=\sup _{\beta \in B}\|\beta\|\)</span>. The right side has finite expectation under the assumptions.</p>
+<p>For condition 5 we need to show that <span class="math inline">\(\beta_{\tau}\)</span> uniquely minimizes <span class="math inline">\(M(\beta ; \tau)\)</span>. It is a minimizer by (24.16). It is unique because <span class="math inline">\(M(\beta ; \tau)\)</span> is a convex function and</p>
+<p><span class="math display">\[
+\frac{\partial^{2}}{\partial \beta \partial \beta^{\prime}} M\left(\beta_{\tau} ; \tau\right)=\mathbb{E}\left[X X^{\prime} f_{\tau}(0 \mid X)\right]&gt;0 .
+\]</span></p>
+<p>The inequality holds by assumption; we now establish the equality.</p>
+<p>Exchanging integration and differentiation, using <span class="math inline">\(\psi_{\tau}(x)=\frac{d}{d x} \rho_{\tau}(x)=\tau-\mathbb{1}\{x&lt;0\}\)</span>, the law of iterated expectations, and the conditional distribution function <span class="math inline">\(F_{\tau}(u \mid x)=\mathbb{E}[\mathbb{1}\{e&lt;u\} \mid X]\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial}{\partial \beta} M(\beta ; \tau) &amp;=-\mathbb{E}\left[X \psi_{\tau}\left(Y-X^{\prime} \beta\right)\right] \\
+&amp;=-\tau \mathbb{E}[X]+\mathbb{E}\left[X \mathbb{E}\left[\mathbb{1}\left\{Y&lt;X^{\prime}\left(\beta-\beta_{\tau}\right)\right\} \mid X\right]\right] \\
+&amp;=-\tau \mathbb{E}[X]+\mathbb{E}\left[X F_{\tau}\left(X^{\prime}\left(\beta-\beta_{\tau}\right) \mid X\right)\right] .
+\end{aligned}
+\]</span></p>
+<p>Hence</p>
+<p><span class="math display">\[
+\frac{\partial^{2}}{\partial \beta \partial \beta^{\prime}} M(\beta ; \tau)=\frac{\partial}{\partial \beta^{\prime}} \mathbb{E}\left[X F_{\tau}\left(X^{\prime}\left(\beta-\beta_{\tau}\right) \mid X\right)\right]=\mathbb{E}\left[X X^{\prime} f_{\tau}\left(X^{\prime}\left(\beta-\beta_{\tau}\right) \mid X\right)\right]
+\]</span></p>
+<p>The right-hand-side of (24.22) is bounded below <span class="math inline">\(\mathbb{E}\left[X X^{\prime}\right] D\)</span> which has finite elements under the assumptions. (24.22) is also positive semi-definite for all <span class="math inline">\(\beta\)</span> so <span class="math inline">\(M(\beta ; \tau)\)</span> is globally convex. Evaluated at <span class="math inline">\(\beta_{\tau}\)</span>, (24.22) equals (24.20). This shows that <span class="math inline">\(M(\beta ; \tau)\)</span> is strictly convex at the minimum <span class="math inline">\(\beta_{\tau}\)</span>. Thus the latter is the unique minimizer.</p>
+<p>Together we have established the five conditions of Theorem <span class="math inline">\(22.3\)</span> as needed.</p>
+<p>Proof of Theorem 24.4: Since <span class="math inline">\(\widehat{\beta}_{\tau}\)</span> is an m-estimator with a discontinuous score we verify the conditions of Theorem 22.6, which holds under conditions <span class="math inline">\(1,2,3\)</span>, and 5 of Theorem 22.4, <span class="math inline">\(\left\|X \psi_{\tau}\left(Y-X^{\prime} \beta\right)\right\| \leq G(Y, X)\)</span> with <span class="math inline">\(\mathbb{E}\left[G(Y, X)^{2}\right]&lt;\infty\)</span>, plus one of the four listed categories.</p>
+<p>It is useful to observe that because <span class="math inline">\(\psi_{\tau}(u) \leq 1\)</span>,</p>
+<p><span class="math display">\[
+\left\|X \psi_{\tau}\left(Y-X^{\prime} \beta\right)\right\| \leq\|X\| .
+\]</span></p>
+<p>We verify conditions <span class="math inline">\(1,2,3\)</span>, and 5 of Theorem 22.4. Condition 1 holds because (24.23) implies <span class="math inline">\(\mathbb{E}\left[\|X\|^{2} \psi_{\tau}^{2}\right] \leq \mathbb{E}\|X\|^{2}&lt;\infty\)</span>. Condition 2 holds by (24.18). Equation (24.22) shows that <span class="math inline">\(\frac{\partial^{2}}{\partial \beta \partial \beta^{\prime}} M(\beta ; \tau)\)</span> is continuous under the assumption that <span class="math inline">\(f_{\tau}(e \mid x)\)</span> is continuous in <span class="math inline">\(e\)</span>, implying condition 3. Condition 5 holds by assumption.</p>
+<p>The upper bound (24.23) satisfies <span class="math inline">\(\mathbb{E}\|X\|^{2}&lt;\infty\)</span>, as needed. It remains to verify one of the four listed categories of Theorem 22.6. Observe that <span class="math inline">\(\psi_{\tau}(u)\)</span> is a function of bounded variation, so <span class="math inline">\(\psi_{\tau}\left(Y-X^{\prime} \beta\right)\)</span> is in the second category. The score <span class="math inline">\(X \psi_{\tau}\left(Y-X^{\prime} \beta\right)\)</span> is the product of the Lipschitz-continuous function <span class="math inline">\(X\)</span> and <span class="math inline">\(\psi_{\tau}\left(Y-X^{\prime} \beta\right)\)</span>, and thus falls in the third category. This shows that Theorem <span class="math inline">\(22.6\)</span> can be applied.</p>
+<p>We have verified the conditions for Theorem <span class="math inline">\(22.6\)</span> so asymptotic normality follows. For the covariance matrix we calculate that</p>
+<p><span class="math display">\[
+\mathbb{E}\left[\left(X \psi_{\tau}\right)\left(X \psi_{\tau}\right)^{\prime}\right]=\mathbb{E}\left[X X^{\prime} \psi_{\tau}^{2}\right]=\Omega_{\tau} .
+\]</span></p>
+<p>Proof of Theorem 24.5: By the definition of the quantile treatment effect, monotonicity of causal effect (Assumption 24.1.2), definition of the causal effect, monotonicity of the treatment response (Assumption 24.1.3), and the definition of the quantile regression function, we find that</p>
+<p><span class="math display">\[
+\begin{aligned}
+Q_{\tau}(x) &amp;=\mathbb{Q}_{\tau}[C(X, U) \mid X=x] \\
+&amp;=C\left(x, \mathbb{Q}_{\tau}[U \mid X=x]\right) \\
+&amp;=h\left(1, x, \mathbb{Q}_{\tau}[U \mid X=x]\right)-h\left(0, x, \mathbb{Q}_{\tau}[U \mid X=x]\right) \\
+&amp;=\mathbb{Q}_{\tau}[h(1, X, U) \mid X=x]-\mathbb{Q}_{\tau}[h(0, X, U) \mid X=x] \\
+&amp;=q_{\tau}(1, x)-q_{\tau}(0, x) \\
+&amp;=D_{\tau}(x)
+\end{aligned}
+\]</span></p>
+<p>as claimed.</p>
+</section>
+<section id="exercises" class="level2" data-number="23.20">
+<h2 data-number="23.20" class="anchored" data-anchor-id="exercises"><span class="header-section-number">23.20</span> Exercises</h2>
+<p>Exercise 24.1 Prove (24.4) in Theorem 24.1.</p>
+<p>Exercise 24.2 Prove (24.5) in Theorem 24.1.</p>
+<p>Exercise 24.3 Define <span class="math inline">\(\psi(x)=\tau-\mathbb{1}\{x&lt;0\}\)</span>. Let <span class="math inline">\(\theta\)</span> satisfy <span class="math inline">\(\mathbb{E}[\psi(Y-\theta)]=0\)</span>. Is <span class="math inline">\(\theta\)</span> a quantile of the distribution of <span class="math inline">\(Y\)</span> ? Exercise 24.4 Take the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> where the distribution of <span class="math inline">\(e\)</span> given <span class="math inline">\(X\)</span> is symmetric about zero.</p>
+<ol type="a">
+<li><p>Find <span class="math inline">\(\mathbb{E}[Y \mid X]\)</span> and <span class="math inline">\(\operatorname{med}[Y \mid X]\)</span>.</p></li>
+<li><p>Do OLS and LAD estimate the same coefficient <span class="math inline">\(\beta\)</span> or different coefficients?</p></li>
+<li><p>Under which circumstances would you prefer LAD over OLS? Under which circumstances would you prefer OLS over LAD? Explain.</p></li>
+</ol>
+<p>Exercise 24.5 You are interested in estimating the equation <span class="math inline">\(Y=X^{\prime} \beta+e\)</span>. You believe the regressors are exogenous, but you are uncertain about the properties of the error. You estimate the equation both by least absolute deviations (LAD) and OLS. A colleague suggests that you should prefer the OLS estimate, because it produces a higher <span class="math inline">\(R^{2}\)</span> than the LAD estimate. Is your colleague correct?</p>
+<p>Exercise 24.6 Prove (24.13) in Theorem 24.2.</p>
+<p>Exercise 24.7 Prove (24.14) in Theorem 24.2.</p>
+<p>Exercise <span class="math inline">\(24.8\)</span> Suppose <span class="math inline">\(X\)</span> is binary. Show that <span class="math inline">\(\mathbb{Q}_{\tau}[Y \mid X]\)</span> is linear in <span class="math inline">\(X\)</span>.</p>
+<p>Exercise 24.9 Suppose <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> are binary. Find <span class="math inline">\(\mathbb{Q}_{\tau}\left[Y \mid X_{1}, X_{2}\right]\)</span>.</p>
+<p>Exercise 24.10 Show (24.19).</p>
+<p>Exercise 24.11 Show under correct specification that <span class="math inline">\(\Omega_{\tau}=\mathbb{E}\left[X X^{\prime} \psi_{\tau}^{2}\right]\)</span> satisfies the simplification <span class="math inline">\(\Omega_{\tau}=\)</span> <span class="math inline">\(\tau(1-\tau) \boldsymbol{Q}\)</span></p>
+<p>Exercise 24.12 Take the treatment response setting of Theorem 24.5. Suppose <span class="math inline">\(h\left(0, X_{2}, U\right)=0\)</span>, meaning that the response variable <span class="math inline">\(Y\)</span> is zero whenever there is no treatment. Show that Assumption <span class="math inline">\(24.1 .3\)</span> is not necessary for Theorem <span class="math inline">\(24.5\)</span>.</p>
+<p>Exercise 24.13 Using the cps09mar dataset take the sample of Hispanic men with education 11 years or higher. Estimate linear quantile regression functions for log wages on education. Interpret your findings.</p>
+<p>Exercise 24.14 Using the cps09mar dataset take the sample of Hispanic women with education 11 years or higher. Estimate linear quantile regression functions for log wages on education. Interpret.</p>
+<p>Exercise 24.15 Take the Duflo, Dupas, and Kremer (2011) dataset DDK2011 and the subsample of students for which tracking=1. Estimate linear quantile regressions of totalscore on percentile (the latter is the student’s test score before the school year). Calculate standard errors by clustered bootstrap. Do the coefficients change meaningfully by quantile? How do you interpret these results?</p>
+<p>Exercise 24.16 Using the cps09mar dataset estimate similarly to Figure <span class="math inline">\(24.6\)</span> the quantile regressions for log wages on a <span class="math inline">\(5^{\text {th }}\)</span> - order polynomial in experience for college-educated Black women. Repeat for college-educated white women. Interpret your findings.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt23-nonliear-ls.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt26-multiple-choice.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

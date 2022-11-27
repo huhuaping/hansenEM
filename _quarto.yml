@@ -35,6 +35,26 @@ book:
         - chpt11-multi-reg.qmd
         - chpt12-iv.qmd
         - chpt13-gmm.qmd
+    - part: part04-pannel.qmd
+      chapters:
+        - chpt14-time-series.qmd
+        - chpt15-multiple-time-series.qmd
+        - chpt17-panel-data.qmd
+        - chpt18-did.qmd
+    - part: part05-nonpar.qmd
+      chapters:
+        - chpt19-nonparameter.qmd
+        - chpt20-series-reg.qmd
+        - chpt21-rdd.qmd
+        - chpt22-m-est.qmd
+    - part: part06-nonlinear.qmd
+      chapters: 
+        - chpt23-nonliear-ls.qmd
+        - chpt24-quantile-reg.qmd
+        - chpt26-multiple-choice.qmd
+        - chpt27-censor-selection.qmd
+        - chpt28-model-selection.qmd
+        - chpt29-ML.qmd
     - summary.qmd
     - references.qmd
   appendices:

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 22&nbsp; Nonlinear Least Squares</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt24-quantile-reg.html" rel="next">
+<link href="./part06-nonlinear.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">22.1</span>  Introduction</a></li>
+  <li><a href="#identification" id="toc-identification" class="nav-link" data-scroll-target="#identification"><span class="toc-section-number">22.2</span>  Identification</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="toc-section-number">22.3</span>  Estimation</a></li>
+  <li><a href="#asymptotic-distribution" id="toc-asymptotic-distribution" class="nav-link" data-scroll-target="#asymptotic-distribution"><span class="toc-section-number">22.4</span>  Asymptotic Distribution</a></li>
+  <li><a href="#covariance-matrix-estimation" id="toc-covariance-matrix-estimation" class="nav-link" data-scroll-target="#covariance-matrix-estimation"><span class="toc-section-number">22.5</span>  Covariance Matrix Estimation</a></li>
+  <li><a href="#panel-data" id="toc-panel-data" class="nav-link" data-scroll-target="#panel-data"><span class="toc-section-number">22.6</span>  Panel Data</a></li>
+  <li><a href="#threshold-models" id="toc-threshold-models" class="nav-link" data-scroll-target="#threshold-models"><span class="toc-section-number">22.7</span>  Threshold Models</a></li>
+  <li><a href="#testing-for-nonlinear-components" id="toc-testing-for-nonlinear-components" class="nav-link" data-scroll-target="#testing-for-nonlinear-components"><span class="toc-section-number">22.8</span>  Testing for Nonlinear Components</a></li>
+  <li><a href="#computation" id="toc-computation" class="nav-link" data-scroll-target="#computation"><span class="toc-section-number">22.9</span>  Computation</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">22.10</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">22.11</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt23-nonliear-ls.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">22.1</span> Introduction</h2>
+<p>A nonlinear regression model is a parametric regression function <span class="math inline">\(m(x, \theta)=\mathbb{E}[Y \mid X=x]\)</span> which is nonlinear in the parameters <span class="math inline">\(\theta \in \Theta\)</span>. We write the model as</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=m(X, \theta)+e \\
+\mathbb{E}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>In nonlinear regression the ordinary least squares estimator does not apply. Instead the parameters are typically estimated by nonlinear least squares (NLLS). NLLS is an m-estimator which requires numerical optimization.</p>
+<p>We illustrate nonlinear regression with three examples.</p>
+<p>Our first example is the Box-Cox regression model. The Box-Cox transformation (Box and Cox, 1964) for a strictly positive variable <span class="math inline">\(x&gt;0\)</span> is</p>
+<p><span class="math display">\[
+x^{(\lambda)}= \begin{cases}\frac{x^{\lambda}-1}{\lambda}, &amp; \text { if } \lambda \neq 0 \\ \log (x), &amp; \text { if } \lambda=0 .\end{cases}
+\]</span></p>
+<p>The Box-Cox transformation continuously nests linear <span class="math inline">\((\lambda=1)\)</span> and logarithmic <span class="math inline">\((\lambda=0)\)</span> functions. Figure 23.1(a) displays the Box-Cox transformation (23.1) over <span class="math inline">\(x \in(0,2]\)</span> for <span class="math inline">\(\lambda=2,1,0,0.5,0\)</span>, and <span class="math inline">\(-1\)</span>. The parameter <span class="math inline">\(\lambda\)</span> controls the curvature of the function.</p>
+<p>The Box-Cox regression model is</p>
+<p><span class="math display">\[
+Y=\beta_{0}+\beta_{1} X^{(\lambda)}+e
+\]</span></p>
+<p>which has parameters <span class="math inline">\(\theta=\left(\beta_{0}, \beta_{1}, \lambda\right)\)</span>. The regression function is linear in <span class="math inline">\(\left(\beta_{0}, \beta_{1}\right)\)</span> but nonlinear in <span class="math inline">\(\lambda\)</span>.</p>
+<p>To illustrate we revisit the reduced form regression (12.87) of risk on <span class="math inline">\(\log\)</span> (mortality) from Acemoglu, Johnson, and Robinson (2001). A reasonable question is why the authors specified the equation as a regression on <span class="math inline">\(\log\)</span> (mortality) rather than on mortality. The Box-Cox regression model allows both as special cases, and equals</p>
+<p><span class="math display">\[
+\text { risk }=\beta_{0}+\beta_{1} \text { mortality }{ }^{(\lambda)}+e .
+\]</span></p>
+<p>Our second example is a Constant Elasticity of Substitution (CES) production function, which was introduced by Arrow, Chenery, Minhas, and Solow (1961) as a generalization of the popular Cobb-Douglass production function. The CES function for two inputs is</p>
+<p><span class="math display">\[
+Y=\left\{\begin{array}{cc}
+A\left(\alpha X_{1}^{\rho}+(1-\alpha) X_{2}^{\rho}\right)^{v / \rho}, &amp; \text { if } \rho \neq 0 \\
+A\left(X_{1}^{\alpha} X_{2}^{(1-\alpha)}\right)^{v}, &amp; \text { if } \rho=0 .
+\end{array}\right.
+\]</span></p>
+<p>where <span class="math inline">\(A\)</span> is heterogeneous (random) productivity, <span class="math inline">\(v&gt;0, \alpha \in(0,1)\)</span>, and <span class="math inline">\(\rho \in(-\infty, 1]\)</span>. The coefficient <span class="math inline">\(v\)</span> is the elasticity of scale. The coefficient <span class="math inline">\(\alpha\)</span> is the share parameter. The coefficient <span class="math inline">\(\rho\)</span> is a re-writing <span class="math inline">\({ }^{1}\)</span> of the elasticity of substitution <span class="math inline">\(\sigma\)</span> between the inputs and satisfies <span class="math inline">\(\sigma=1 /(1-\rho)\)</span>. The elasticity satisfies <span class="math inline">\(\sigma&gt;1\)</span> if <span class="math inline">\(\rho&gt;0\)</span>, and <span class="math inline">\(\sigma&lt;1\)</span> if <span class="math inline">\(\rho&lt;0\)</span>. At <span class="math inline">\(\rho=0\)</span> we obtain the unit elastic Cobb-Douglas function. Setting <span class="math inline">\(\rho=1\)</span> and <span class="math inline">\(v=1\)</span> we obtain a linear production function. Taking the limit <span class="math inline">\(\rho \rightarrow-\infty\)</span> we obtain the Leontief production function.</p>
+<p>Set <span class="math inline">\(\log A=\beta+e\)</span>. The framework implies the regression model</p>
+<p><span class="math display">\[
+\log Y=\beta+\frac{v}{\rho} \log \left(\alpha X_{1}^{\rho}+(1-\alpha) X_{2}^{\rho}\right)+e
+\]</span></p>
+<p>with parameters <span class="math inline">\(\theta=(\rho, v, \alpha, \beta)\)</span>.</p>
+<p>We illustrate CES production function estimation with a modification of Papageorgiou, Saam, and Schulte (2017). These authors estimate a CES production function for electricity production where <span class="math inline">\(X_{1}\)</span> is generation capacity using “clean” technology and <span class="math inline">\(X_{2}\)</span> is generation capacity using “dirty” technology. They estimate the model using a panel of 26 countries for the years 1995 to 2009 . Their goal was to measure the elasticity of substitution between clean and dirty electrical generation. The data file PPS2017 is an extract of the authors’ dataset.</p>
+<p>Our third example is the regression kink model. This is essentially a piecewise continuous linear spline where the knot is treated as a free parameter. The model used in our application is the nonlinear AR(1) model</p>
+<p><span class="math display">\[
+Y_{t}=\beta_{1}\left(X_{t-1}-c\right)_{-}+\beta_{2}\left(X_{t-1}-c\right)_{+}+\beta_{3} Y_{t-1}+\beta_{4}+e_{t}
+\]</span></p>
+<p>where <span class="math inline">\((a)_{-}\)</span>and <span class="math inline">\((a)_{+}\)</span>are the negative-part and positive-part functions, <span class="math inline">\(c\)</span> is the kink point, and the slopes are <span class="math inline">\(\beta_{1}\)</span> and <span class="math inline">\(\beta_{2}\)</span> on the two sides of the kink. The parameters are <span class="math inline">\(\theta=\left(\beta_{1}, \beta_{2}, \beta_{3}, \beta_{4}, c\right)\)</span>. The regression function is linear in <span class="math inline">\(\left(\beta_{1}, \beta_{2}, \beta_{3}, \beta_{4}\right)\)</span> and nonlinear in <span class="math inline">\(c\)</span>.</p>
+<p>We illustrate the regression kink model with an application from B. E. Hansen (2017) which is a formalization of Reinhart and Rogoff (2010). The data are a time-series of annual observations on U.S. real GDP growth <span class="math inline">\(Y_{t}\)</span> and the ratio of federal debt to GDP <span class="math inline">\(X_{t}\)</span> for the years 1791-2009. Reinhart-Rogoff were interested in the hypothesis that the growth rate of GDP slows when the level of debt exceeds a threshold. To illustrate, Figure 23.1 (b) displays the regression kink function. The kink <span class="math inline">\(c=44\)</span> is marked by the square. You can see that the function is upward sloped for <span class="math inline">\(X&lt;c\)</span> and downward sloped for <span class="math inline">\(X&gt;c\)</span>.</p>
+</section>
+<section id="identification" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="identification"><span class="header-section-number">22.2</span> Identification</h2>
+<p>The regression model <span class="math inline">\(m(x, \theta)\)</span> is correctly specified if there exists a parameter value <span class="math inline">\(\theta_{0}\)</span> such that <span class="math inline">\(m\left(x, \theta_{0}\right)=\mathbb{E}[Y \mid X=x]\)</span>. The parameter is point identified if <span class="math inline">\(\theta_{0}\)</span> is unique. In correctly-specified nonlinear regression models the parameter is point identified if there is a unique true parameter.</p>
+<p>Assume <span class="math inline">\(\mathbb{E}\left[Y^{2}\right]&lt;\infty\)</span>. Since the conditional expectation is the best mean-squared predictor it follows that the true parameter <span class="math inline">\(\theta_{0}\)</span> satisfies the optimization expression</p>
+<p><span class="math display">\[
+\theta_{0}=\underset{\theta \in \Theta}{\operatorname{argmin}} S(\theta)
+\]</span></p>
+<p><span class="math inline">\({ }^{1}\)</span> It is tempting to write the model as a function of the elasticity of substitution <span class="math inline">\(\sigma\)</span> rather than its transformation <span class="math inline">\(\rho\)</span>. However this is unadvised as it renders the regression function more nonlinear and difficult to optimize.</p>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-03.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Box-Cox Transformation</li>
+</ol>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-03(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Regression Kink Model</li>
+</ol>
+<p>Figure 23.1: Nonlinear Regression Models</p>
+<p>where</p>
+<p><span class="math display">\[
+S(\theta)=\mathbb{E}\left[(Y-m(X, \theta))^{2}\right]
+\]</span></p>
+<p>is the expected squared error. This expresses the parameter as a function of the distribution of <span class="math inline">\((Y, X)\)</span>.</p>
+<p>The regression model is mis-specified if there is no <span class="math inline">\(\theta\)</span> such that <span class="math inline">\(m(x, \theta)=\mathbb{E}[Y \mid X=x]\)</span>. In this case we define the pseudo-true value <span class="math inline">\(\theta_{0}\)</span> as the best-fitting parameter (23.5). It is difficult to give general conditions under which the solution is unique. Hence identification of the pseudo-true value under mis-specification is typically assumed rather than deduced.</p>
+</section>
+<section id="estimation" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="estimation"><span class="header-section-number">22.3</span> Estimation</h2>
+<p>The analog estimator of the expected squared error <span class="math inline">\(S(\theta)\)</span> is the sample average of squared errors</p>
+<p><span class="math display">\[
+S_{n}(\theta)=\frac{1}{n} \sum_{i=1}^{n}\left(Y_{i}-m\left(X_{i}, \theta\right)\right)^{2} .
+\]</span></p>
+<p>Since <span class="math inline">\(\theta_{0}\)</span> minimizes <span class="math inline">\(S(\theta)\)</span> its analog estimator minimizes <span class="math inline">\(S_{n}(\theta)\)</span></p>
+<p><span class="math display">\[
+\widehat{\theta}_{\mathrm{nlls}}=\underset{\theta \in \Theta}{\operatorname{argmin}} S_{n}(\theta) .
+\]</span></p>
+<p>This is called the Nonlinear Least Squares (NLLS) estimator. It includes OLS as the special case when <span class="math inline">\(m\left(X_{i}, \theta\right)\)</span> is linear in <span class="math inline">\(\theta\)</span>. It is an m-estimator with <span class="math inline">\(\rho_{i}(\theta)=\left(Y_{i}-m\left(X_{i}, \theta\right)\right)^{2}\)</span>.</p>
+<p>As <span class="math inline">\(S_{n}(\theta)\)</span> is a nonlinear function of <span class="math inline">\(\theta\)</span> in general there is no explicit algebraic expression for the solution <span class="math inline">\(\widehat{\theta}_{\text {nlls. }}\)</span> Instead it is found by numerical minimization. Chapter 12 of Probability and Statistics for Economists provides an overview. The NLLS residuals are <span class="math inline">\(\widehat{e}_{i}=Y_{i}-m\left(X_{i}, \widehat{\theta}_{\text {nlls }}\right)\)</span>.</p>
+<p>In some cases, including our first and third examples in Section 23.1, the model <span class="math inline">\(m(x, \theta)\)</span> is linear in most of the parameters. In these cases a computational shortcut is to use nested minimization (also known as concentration or profiling). Take Example 1 (Box-Cox Regression). Given the Box-Cox parameter <span class="math inline">\(\lambda\)</span> the regression is linear. The coefficients <span class="math inline">\(\left(\beta_{0}, \beta_{1}\right)\)</span> can be estimated by least squares, obtaining the residuals and sample concentrated average of squared errors <span class="math inline">\(S_{n}^{*}(\lambda)\)</span>. The latter can be minimized using one-dimensional methods. The minimizer <span class="math inline">\(\hat{\lambda}\)</span> is the NLLS estimator of <span class="math inline">\(\lambda\)</span>. Given <span class="math inline">\(\hat{\lambda}_{\text {nlls }}\)</span>, the NLLS coefficient estimators <span class="math inline">\(\left(\widehat{\beta}_{0}, \widehat{\beta}_{1}\right)\)</span> are found by OLS regression of <span class="math inline">\(Y_{i}\)</span> on a constant and <span class="math inline">\(X_{i}^{(\widehat{\lambda})}\)</span>.</p>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-04.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Box-Cox Regression</li>
+</ol>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-04(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>CES Production Function</li>
+</ol>
+<p>Figure 23.2: Average of Squared Errors Functions</p>
+<p>We illustrate with two of our examples.</p>
+<p>Figure 23.2(a) displays the concentrated average of squared errors <span class="math inline">\(S_{n}^{*}(\lambda)\)</span> for the Box-Cox regression model applied to (23.2), displayed as a function of the Box-Cox parameter <span class="math inline">\(\lambda\)</span>. You can see that <span class="math inline">\(S_{n}^{*}(\lambda)\)</span> is neither quadratic nor globally convex, but has a well-defined minimum at <span class="math inline">\(\widehat{\lambda}=-0.77\)</span>. This is a parameter value which produces a regression model considerably more curved than the logarithm specification used by Acemoglou et. al.</p>
+<p>Figure 23.2(b) displays the average of squared errors for the CES production function application, displayed as a function of <span class="math inline">\((\rho, \alpha)\)</span> with the other parameters set at the minimizer. You can see that the minimum is obtained at <span class="math inline">\((\widehat{\rho}, \widehat{\alpha})=(.36, .39)\)</span>. We have displayed the function <span class="math inline">\(S_{n}(\rho, \alpha)\)</span> by its contour surfaces. A quadratic function has elliptical contour surfaces. You can see that the function appears to be close to quadratic near the minimum but becomes increasingly non-quadratic away from the minimum.</p>
+<p>The parameter estimates and standard errors for the three models are presented in Table 23.1. Standard error calculation will be discussed in Section 23.5. The standard errors for the Box-Cox and Regression Kink models were calculated using the heteroskedasticity-robust formula, and those for the CES production function were calculated by the cluster-robust formula, clustering by country.</p>
+<p>Take the Box-Cox regression. The estimate <span class="math inline">\(\hat{\lambda}=-0.77\)</span> shows that the estimated relationship between risk and mortality has stronger curvature than the logarithm function, and the estimate <span class="math inline">\(\widehat{\beta}_{1}=-17\)</span> is negative as predicted. The large standard error for <span class="math inline">\(\widehat{\beta}_{1}\)</span>, however, indicates that the slope coefficient is not precisely estimated.</p>
+<p>Take the CES production function. The estimate <span class="math inline">\(\widehat{\rho}=0.36\)</span> is positive, indicating that clean and dirty technologies are substitutes. The implied elasticity of substitution <span class="math inline">\(\sigma=1 /(1-\rho)\)</span> is <span class="math inline">\(\widehat{\sigma}=1.57\)</span>. The estimated Table 23.1: NLLS Estimates of Example Models</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th><span class="math inline">\(\lambda\)</span></th>
+<th><span class="math inline">\(-0.77\)</span></th>
+<th><span class="math inline">\(0.28\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CES Production Function</td>
+<td><span class="math inline">\(\rho\)</span></td>
+<td><span class="math inline">\(0.36\)</span></td>
+<td><span class="math inline">\(0.29\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(v\)</span></td>
+<td><span class="math inline">\(1.05\)</span></td>
+<td><span class="math inline">\(0.03\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(\alpha\)</span></td>
+<td><span class="math inline">\(0.39\)</span></td>
+<td><span class="math inline">\(0.06\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(\beta\)</span></td>
+<td><span class="math inline">\(1.66\)</span></td>
+<td><span class="math inline">\(0.31\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(\sigma\)</span></td>
+<td><span class="math inline">\(1.57\)</span></td>
+<td><span class="math inline">\(0.46\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Regression Kink Regression</td>
+<td><span class="math inline">\(\beta_{1}\)</span></td>
+<td><span class="math inline">\(0.033\)</span></td>
+<td><span class="math inline">\(0.026\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(\beta_{2}\)</span></td>
+<td><span class="math inline">\(-0.067\)</span></td>
+<td><span class="math inline">\(0.046\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(\beta_{3}\)</span></td>
+<td><span class="math inline">\(0.28\)</span></td>
+<td><span class="math inline">\(0.09\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(\beta_{4}\)</span></td>
+<td><span class="math inline">\(3.78\)</span></td>
+<td><span class="math inline">\(0.68\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(c\)</span></td>
+<td><span class="math inline">\(43.9\)</span></td>
+<td><span class="math inline">\(11.8\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>elasticity of scale <span class="math inline">\(\widehat{v}=1.05\)</span> is slightly above one, consistent with increasing returns to scale. The share parameter for clean technology <span class="math inline">\(\widehat{\alpha}=0.39\)</span> is somewhat less than one-half, indicating that dirty technology is the dominating input.</p>
+<p>Take the regression kink function. The estimated slope of GDP growth for low debt levels <span class="math inline">\(\widehat{\beta}_{1}=0.03\)</span> is positive, and the estimated slope for high debt levels <span class="math inline">\(\widehat{\beta}_{2}=-0.07\)</span> is negative. This is consistent with the Reinhart-Rogoff hypothesis that high debt levels lead to a slowdown in economic growth. The estimated kink point is <span class="math inline">\(\widehat{c}=44 %\)</span> which is considerably lower than the postulated <span class="math inline">\(90 %\)</span> kink point suggested by Reinhart-Rogoff based on their informal analysis.</p>
+<p>Interpreting conventional t-ratios and p-values in nonlinear models should be done thoughtfully. This is a context where the annoying empirical custom of appending asterisks to all “significant” coefficient estimates is particularly inappropriate. Take, for example, the CES estimates in Table 23.1. The “t-ratio” for <span class="math inline">\(v\)</span> is for the test of the hypothesis that <span class="math inline">\(v=0\)</span>, which is a meaningless hypothesis. Similarly the t-ratio for <span class="math inline">\(\alpha\)</span> is for an uninteresting hypothesis. It does not make sense to append asterisks to these estimates and describe them as “significant” as there is no reason to take 0 as an interesting value for the parameter. Similarly in the Box-Cox regression there is no reason to take <span class="math inline">\(\lambda=0\)</span> as an important hypothesis. In the Regression Kink model the hypothesis <span class="math inline">\(c=0\)</span> is generally meaningless and could easily lie outside the parameter space.</p>
+</section>
+<section id="asymptotic-distribution" class="level2" data-number="22.4">
+<h2 data-number="22.4" class="anchored" data-anchor-id="asymptotic-distribution"><span class="header-section-number">22.4</span> Asymptotic Distribution</h2>
+<p>We first consider the consistency of the NLLS estimator. We appeal to Theorems <span class="math inline">\(22.3\)</span> and <span class="math inline">\(22.4\)</span> for m-estimators.</p>
+<p>Assumption $23.1</p>
+<ol type="1">
+<li><p><span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are i.i.d.</p></li>
+<li><p><span class="math inline">\(m(X, \theta)\)</span> is continuous in <span class="math inline">\(\theta \in \Theta\)</span> with probability one.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\left[Y^{2}\right]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(|m(X, \theta)| \leq m(X)\)</span> with <span class="math inline">\(\mathbb{E}\left[m(X)^{2}\right]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\Theta\)</span> is compact.</p></li>
+<li><p>For all <span class="math inline">\(\theta \neq \theta_{0}, S(\theta)&gt;S\left(\theta_{0}\right)\)</span>.</p></li>
+</ol>
+<p>Assumptions 1-4 are fairly standard. Assumption 5 is not essential but simplifies the proof. Assumption 6 is critical. It states that the minimizer <span class="math inline">\(\theta_{0}\)</span> is unique.</p>
+<p>Theorem 23.1 Consistency of NLLS Estimator If Assumption <span class="math inline">\(23.1\)</span> holds then <span class="math inline">\(\widehat{\theta} \underset{p}{\longrightarrow} \theta_{0}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>.</p>
+<p>We next discuss the asymptotic distribution for differentiable models. We first present the main result, then discuss the assumptions. Set <span class="math inline">\(m_{\theta}(x, \theta)=\frac{\partial}{\partial \theta} m(x, \theta), m_{\theta \theta}(x, \theta)=\frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} m(x, \theta)\)</span>, and <span class="math inline">\(m_{\theta i}=\)</span> <span class="math inline">\(m_{\theta}\left(X_{i}, \theta_{0}\right)\)</span>. Define <span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[m_{\theta i} m_{\theta i}^{\prime}\right]\)</span> and <span class="math inline">\(\Omega=\mathbb{E}\left[m_{\theta i} m_{\theta i}^{\prime} e_{i}^{2}\right]\)</span></p>
+<p>Assumption <span class="math inline">\(23.2\)</span> For some neighborhood <span class="math inline">\(\mathscr{N}\)</span> of <span class="math inline">\(\theta_{0}\)</span>,</p>
+<ol type="1">
+<li><p><span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\left[Y^{4}\right]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(m(x, \theta)\)</span> and <span class="math inline">\(m_{\theta}(X, \theta)\)</span> are differentiable in <span class="math inline">\(\theta \in \mathcal{N}\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}|m(X, \theta)|^{4}&lt;\infty, \mathbb{E}\left\|m_{\theta}(X, \theta)\right\|^{4}&lt;\infty\)</span>, and <span class="math inline">\(\mathbb{E}\left\|m_{\theta \theta}(X, \theta)\right\|^{4}&lt;\infty\)</span> for <span class="math inline">\(\theta \in \mathcal{N}\)</span>.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[m_{\theta i} m_{\theta i}^{\prime}\right]&gt;0\)</span>.</p></li>
+<li><p><span class="math inline">\(\theta_{0}\)</span> is in the interior of <span class="math inline">\(\Theta\)</span>.</p></li>
+</ol>
+<p>Assumption 1 imposes that the model is correctly specified. If we relax this assumption the asymptotic distribution is still normal but the covariance matrix changes. Assumption 2 is a moment bound needed for asymptotic normality. Assumption 3 states that the regression function is second-order differentiable. This can be relaxed but with a complication of the conditions and derivation. Assumption 4 states moment bounds on the regression function and its derivatives. Assumption 5 states that the “linearized regressor” <span class="math inline">\(m_{\theta i}\)</span> has a full rank population design matrix. If this assumption fails then <span class="math inline">\(m_{\theta i}\)</span> will be multicollinear. Assumption 6 requires that the parameters are not on the boundary of the parameter space. This is important as otherwise the sampling distribution will be asymmetric.</p>
+<p>Theorem $23.2 Asymptotic Normality of NLLS Estimator If Assumptions <span class="math inline">\(23.1\)</span> and <span class="math inline">\(23.2\)</span> hold then <span class="math inline">\(\sqrt{n}\left(\widehat{\theta}-\theta_{0}\right) \underset{d}{\longrightarrow} \mathrm{N}(0, \boldsymbol{V})\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span>, where <span class="math inline">\(V=Q^{-1} \Omega Q^{-1}\)</span></p>
+<p>Theorem <span class="math inline">\(23.2\)</span> shows that under general conditions the NLLS estimator has an asymptotic distribution with similar structure to that of the OLS estimator. The estimator converges at a conventional rate to a normal distribution with a sandwich-form covariance matrix. Furthermore, the asymptotic variance is identical to that in a hypothetical OLS regression with the linearized regressor <span class="math inline">\(m_{\theta i}\)</span>. Thus, asymptotically, the distribution of NLLS is identical to a linear regression.</p>
+<p>The asymptotic distribution simplifies under conditional homoskedasticity. If <span class="math inline">\(\mathbb{E}\left[e^{2} \mid X\right]=\sigma^{2}\)</span> then the asymptotic variance is <span class="math inline">\(\boldsymbol{V}=\sigma^{2} \boldsymbol{Q}^{-1}\)</span>.</p>
+</section>
+<section id="covariance-matrix-estimation" class="level2" data-number="22.5">
+<h2 data-number="22.5" class="anchored" data-anchor-id="covariance-matrix-estimation"><span class="header-section-number">22.5</span> Covariance Matrix Estimation</h2>
+<p>The asymptotic covariance matrix <span class="math inline">\(\boldsymbol{V}\)</span> is estimated similarly to linear regression with the adjustment that we use an estimate of the linearized regressor <span class="math inline">\(m_{\theta i}\)</span>. This estimate is</p>
+<p><span class="math display">\[
+\widehat{m}_{\theta i}=m_{\theta}\left(X_{i}, \widehat{\theta}\right)=\frac{\partial}{\partial \theta} m\left(X_{i}, \widehat{\theta}\right) .
+\]</span></p>
+<p>It is best if the derivative is calculated algebraically but a numerical derivative (a discrete derivative) can substitute.</p>
+<p>Take, for example, the Box-Cox regression model for which <span class="math inline">\(m\left(x, \beta_{0}, \beta_{1}, \lambda\right)=\beta_{0}+\beta_{1} x^{(\lambda)}\)</span>. We calculate that for <span class="math inline">\(\lambda \neq 0\)</span></p>
+<p><span class="math display">\[
+m_{\theta}\left(x, \beta_{0}, \beta_{1}, \lambda\right)=\left(\begin{array}{c}
+\frac{\partial}{\partial \beta_{0}}\left(\beta_{0}+\beta_{1} x^{(\lambda)}\right) \\
+\frac{\partial}{\partial \beta_{1}}\left(\beta_{0}+\beta_{1} x^{(\lambda)}\right) \\
+\frac{\partial}{\partial \beta_{\lambda}}\left(\beta_{0}+\beta_{1} x_{i}^{(\lambda)}\right)
+\end{array}\right)=\left(\begin{array}{c}
+1 \\
+x^{(\lambda)} \\
+\frac{x^{\lambda} \log (x)-x^{(\lambda)}}{\lambda}
+\end{array}\right) .
+\]</span></p>
+<p>For <span class="math inline">\(\lambda=0\)</span> the third entry is <span class="math inline">\(\log ^{2}(x) / 2\)</span>. The estimate is obtained by replacing <span class="math inline">\(\lambda\)</span> with the estimator <span class="math inline">\(\hat{\lambda}\)</span>. Hence for <span class="math inline">\(\widehat{\lambda} \neq 0\)</span></p>
+<p><span class="math display">\[
+\widehat{m}_{\theta i}=\left(\begin{array}{c}
+1 \\
+x^{(\widehat{\lambda})} \\
+\frac{1-x^{\hat{\lambda}}+\lambda x^{\hat{\lambda}} \log (x)}{\hat{\lambda}^{2}}
+\end{array}\right) .
+\]</span></p>
+<p>The covariance matrix components are estimated as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{Q}} &amp;=\frac{1}{n} \sum_{i=1}^{n} \widehat{m}_{\theta i} \widehat{m}_{\theta i}^{\prime} \\
+\widehat{\Omega}=\frac{1}{n} \sum_{i=1}^{n} \widehat{m}_{\theta i} \widehat{m}_{\theta i}^{\prime} \widehat{e}_{i}^{2} \\
+\widehat{\boldsymbol{V}} &amp;=\widehat{\boldsymbol{Q}}^{-1} \widehat{\Omega} \widehat{\boldsymbol{Q}}^{-1}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{e}_{i}=Y_{i}-m\left(X_{i}, \widehat{\theta}\right)\)</span> are the NLLS residuals. Standard errors are calculated conventionally as the square roots of the diagonal elements of <span class="math inline">\(n^{-1} \widehat{\boldsymbol{V}}\)</span>.</p>
+<p>If the error is homoskedastic the covariance matrix can be estimated using the formula</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}^{0} &amp;=\widehat{\boldsymbol{Q}}^{-1} \widehat{\sigma}^{2} \\
+\widehat{\sigma}^{2} &amp;=\frac{1}{n} \sum_{i=1}^{n} \widehat{e}_{i}^{2} .
+\end{aligned}
+\]</span></p>
+<p>If the observations satisfy cluster dependence then a standard cluster variance estimator can be used, again treating the linearized regressor estimate <span class="math inline">\(\widehat{m}_{\theta i}\)</span> as the effective regressor.</p>
+<p>To illustrate, standard errors for our three estimated models are displayed in Table 23.1. The standard errors for the first and third models were calculated using the formula (23.6). The standard errors for the CES model were clustered by country.</p>
+<p>In small samples the standard errors for NLLS may not be reliable. An alternative is to use bootstrap methods for inference. The nonparametric bootstrap draws with replacement from the observation pairs <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> to create bootstrap samples, to which NLLS is applied to obtain bootstrap parameter estimates <span class="math inline">\(\widehat{\theta}^{*}\)</span>. From <span class="math inline">\(\widehat{\theta}^{*}\)</span> we can calculate bootstrap standard errors and/or bootstrap confidence intervals, for example by the bias-corrected percentile method.</p>
+</section>
+<section id="panel-data" class="level2" data-number="22.6">
+<h2 data-number="22.6" class="anchored" data-anchor-id="panel-data"><span class="header-section-number">22.6</span> Panel Data</h2>
+<p>Consider the nonlinear regression model with an additive individual effect</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_{i t} &amp;=m\left(X_{i t}, \theta\right)+u_{i}+\varepsilon_{i t} \\
+\mathbb{E}\left[\varepsilon_{i t} \mid X_{i t}\right] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>To eliminate the individual effect we can apply the within or first-differencing transformations. Applying the within transformation we obtain</p>
+<p><span class="math display">\[
+\dot{Y}_{i t}=\dot{m}\left(X_{i t}, \theta\right)+\dot{\varepsilon}_{i t}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\dot{m}\left(X_{i t}, \theta\right)=m\left(X_{i t}, \theta\right)-\frac{1}{T_{i}} \sum_{t \in S_{i}} m\left(X_{i t}, \theta\right)
+\]</span></p>
+<p>using the panel data notation. Thus <span class="math inline">\(\dot{m}\left(X_{i t}, \theta\right)\)</span> is the within transformation applied to <span class="math inline">\(m\left(X_{i t}, \theta\right)\)</span>. It is not <span class="math inline">\(m\left(\dot{X}_{i t}, \theta\right)\)</span>. Equation (23.7) is a nonlinear panel model. The coefficient can be estimated by NLLS. The estimator is appropriate when <span class="math inline">\(X_{i t}\)</span> is strictly exogenous, as <span class="math inline">\(\dot{m}\left(X_{i t}, \theta\right)\)</span> is a function of <span class="math inline">\(X_{i s}\)</span> for all time periods.</p>
+<p>An alternative is to apply the first-difference transformation. Thus yields</p>
+<p><span class="math display">\[
+\Delta Y_{i t}=\Delta m\left(X_{i t}, \theta\right)+\Delta \varepsilon_{i t}
+\]</span></p>
+<p>where <span class="math inline">\(\Delta m\left(X_{i t}, \theta\right)=m\left(X_{i t}, \theta\right)-m\left(X_{i, t-1}, \theta\right)\)</span>. Equation (23.8) can be estimated by NLLS. Again this requires that <span class="math inline">\(X_{i t}\)</span> is strictly exogenous for consistent estimation.</p>
+<p>If the regressors <span class="math inline">\(X_{i t}\)</span> contains a lagged dependent variable <span class="math inline">\(Y_{i, t-1}\)</span> then NLLS is not an appropriate estimator. GMM can be applied to (23.8) similar to linear dynamic panel regression models.</p>
+</section>
+<section id="threshold-models" class="level2" data-number="22.7">
+<h2 data-number="22.7" class="anchored" data-anchor-id="threshold-models"><span class="header-section-number">22.7</span> Threshold Models</h2>
+<p>An extreme example of nonlinear regression is the class of threshold regression models. These are discontinuous regression models where the kink points are treated as free parameters. They have been used succesfully in economics to model threshold effects and tipping points. They are also the core tool for the modern machine learning methods of regression trees and random forests. In this section we provide a review.</p>
+<p>A threshold regression model takes the form</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=\beta_{1}^{\prime} X_{1}+\beta_{2}^{\prime} X_{2} \mathbb{1}\{Q \geq \gamma\}+e \\
+\mathbb{E}[e \mid X] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> are <span class="math inline">\(k_{1} \times 1\)</span> and <span class="math inline">\(k_{2} \times 1\)</span>, respectively, and <span class="math inline">\(Q\)</span> is scalar. The variable <span class="math inline">\(Q\)</span> is called the threshold variable and <span class="math inline">\(\gamma\)</span> is called the threshold.</p>
+<p>Typically, both <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span> contain an intercept, and <span class="math inline">\(X_{2}\)</span> and <span class="math inline">\(Q\)</span> are subsets of <span class="math inline">\(X_{1}\)</span>. In the latter case <span class="math inline">\(\beta_{2}\)</span> is the change in the slope at the threshold. The threshold variable <span class="math inline">\(Q\)</span> should be either continuously distributed or ordinal.</p>
+<p>In a full threshold specification <span class="math inline">\(X_{1}=X_{2}=X\)</span>. In this case all coefficients switch at the threshold. This regression can alternatively be written as</p>
+<p><span class="math display">\[
+Y=\left\{\begin{array}{cc}
+\theta_{1}^{\prime} X+e, &amp; Q&lt;\gamma \\
+\theta_{2}^{\prime} X+e, &amp; Q \geq \gamma
+\end{array}\right.
+\]</span></p>
+<p>where <span class="math inline">\(\theta_{1}=\beta_{1}\)</span> and <span class="math inline">\(\theta_{2}=\beta_{1}+\beta_{2}\)</span>.</p>
+<p>A simple yet full threshold model arises when there is only a single regressor <span class="math inline">\(X\)</span>. The regression can be written as</p>
+<p><span class="math display">\[
+Y=\alpha_{1}+\beta_{1} X+\alpha_{2} \mathbb{1}\{X \geq \gamma\}+\beta_{2} X \mathbb{1}\{X \geq \gamma\}+e .
+\]</span></p>
+<p>This resembles a Regression Kink model, but is more general as it allows for a discontinuity at <span class="math inline">\(X=\gamma\)</span>. The Regression Kink model imposes the restriction <span class="math inline">\(\alpha+\beta \gamma=0\)</span>.</p>
+<p>A threshold model is most suitable for a context where an economic model predicts a discontinuity in the CEF. It can also be used as a flexible approximation for a context where it is believed the CEF has a sharp nonlinearity with respect to one variable, or has sharp interaction effects. The Regression Kink model, for example, does not allow for kink interaction effects.</p>
+<p>The threshold model is critically dependent on the choice of threshold variable <span class="math inline">\(Q\)</span>. This variable controls the ability of the regression model to display nonlinearity. In principle this can be generalized by incorporating multiple thresholds in potentially different variables but this generalization is limited by sample size and information.</p>
+<p>The threshold model is linear in the coefficients <span class="math inline">\(\beta=\left(\beta_{1}, \beta_{2}\right)\)</span> and nonlinear in <span class="math inline">\(\gamma\)</span>. The parameter <span class="math inline">\(\gamma\)</span> is of critical importance as it determines the model’s nonlinearity - the sample split.</p>
+<p>Many empirical applications estimate threshold models using informal ad hoc methods. What you may see is a splitting of the sample into “subgroups” based on regressor characteristics. When the latter split is based on a continuous regressor the split point is exactly a threshold parameter. When you see such tables it is prudent to be skeptical. How was this threshold parameter selected? Based on intuition? Or based on data exploration? If the former do you expect the results to be informative? If the latter should you trust the reported tests?</p>
+<p>To illustrate threshold regression we review an influential paper by Card, Mas and Rothstein (2008). They were interested in the process of racial segregation in U.S. cities. A common hypothesis concerning the behavior of white Americans is that they are only comfortable living in a neighborhood if it has a small percentage of minority residents. A simple model of this behavior (explored in their paper) predicts that this preference leads to an unstable mixed-race equilibrium in the fraction of minorities. They call this equilibrium the tipping point. If the minority fraction exceeds this tipping point the outcome will change discontinuously. The economic mechanism is that if minorities move into a neighborhood at a roughly continuous rate, when the tipping point is reached there will be a surge in exits by white residents who elect to move due to their discomfort. This predicts a threshold regression with a discontinuity at the tipping point. The data file CMR2008 is an abridged version of the authors’ dataset.</p>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-10.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Estimation Criterion</li>
+</ol>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-10(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Threshold Regression Estimates</li>
+</ol>
+<p>Figure 23.3: Threshold Regression - Card-Mas-Rothstein (2008) Model</p>
+<p>The authors use a specification similar to the following</p>
+<p><span class="math display">\[
+\begin{aligned}
+\Delta W_{c i t} &amp;=\delta_{0} \mathbb{1}\left\{M_{c i t-1} \geq \gamma\right\}+\delta_{1}\left(M_{c i t-1}-\gamma\right) \mathbb{1}\left\{M_{c i t-1} \geq \gamma\right\} \\
+&amp;+\beta_{1} M_{c i t-1}+\beta_{2} M_{c i t-1}^{2}+\theta^{\prime} X_{c i t-1}+\alpha+u_{c}+e_{c i t}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(c\)</span> is the city (MSA),<span class="math inline">\(i\)</span> is a census tract within the city, <span class="math inline">\(t\)</span> is the time period (decade), <span class="math inline">\(\Delta W_{c i t}\)</span> is the white population percentage change in the tract over the decade, <span class="math inline">\(M_{c i t}\)</span> is the fraction of minorties in the tract, <span class="math inline">\(u_{c}\)</span> is a fixed effect for the city, and <span class="math inline">\(X_{c i t}\)</span> are tract-level regression controls. The sample is based on Census data which is collected at ten-year intervals. They estimate models for three decades; we focus on 1970-1980. Thus <span class="math inline">\(\Delta W_{c i t}\)</span> is the change in white population over the period 1970-1980 and the remaining variables are for 1970 . The controls used in the regression are the unemployment rate, the log mean family income, housing vacancy rate, renter share, fraction of homes in single-unit buildings, and fraction of workers who commute by public transport. This model has <span class="math inline">\(n=35,656\)</span> observations and <span class="math inline">\(N=104\)</span> cities. This specification allows the relationship between <span class="math inline">\(\Delta W\)</span> and <span class="math inline">\(M\)</span> to be nonlinear (a quadratic) with a discontinuous shift in the intercept and slope at the threshold. The authors’ major prediction is that <span class="math inline">\(\delta_{0}\)</span> should be large and negative. The threshold parameter <span class="math inline">\(\gamma\)</span> is the minority fraction which triggers discontinuous white outward migration.</p>
+<p><span class="math inline">\({ }^{2}\)</span> Metropolitan Statistical Area (MSA). The authors use the 104 MSAs with at least 100 census tracts. As the threshold regression model is an explicit nonlinear regression, the appropriate estimation method is NLLS. Since the model is linear in all coefficients except for <span class="math inline">\(\gamma\)</span>, the best computational technique is concentrated least squares. For each <span class="math inline">\(\gamma\)</span> the model is linear and the coefficients can be estimated by least squares. This produces a concentrated average of squared errors <span class="math inline">\(S_{n}^{*}(\gamma)\)</span> which can be minimized to find the NLLS estimator <span class="math inline">\(\widehat{\gamma}\)</span>. To illustrate, the concentrated least squares criterion for the Card-Mas-Rothstein dataset <span class="math inline">\({ }^{3}\)</span> is displayed in Figure 23.3(a). As you can see, the criterion <span class="math inline">\(S_{n}^{*}(\gamma)\)</span> is highly non-smooth. This is typical in threshold applications. Consequently, the criterion needs to be minimized by grid search. The criterion is a step function with a step at each observation. A full search would calculate <span class="math inline">\(S_{n}^{*}(\gamma)\)</span> for <span class="math inline">\(\gamma\)</span> equalling each value of <span class="math inline">\(M_{c i t-1}\)</span> in the sample. A simplification (which we employ) is to calculate the criterion at a smaller number of gridpoints. In our illustration we use 100 gridpoints equally-spaced between the <span class="math inline">\(0.1\)</span> and <span class="math inline">\(0.9\)</span> quantiles <span class="math inline">\({ }^{4}\)</span> of <span class="math inline">\(M_{c i t-1}\)</span>. (These quantiles are the boundaries of the displayed graph.) What you can see is that the criterion is generally lower for values of <span class="math inline">\(\gamma\)</span> between <span class="math inline">\(0.05\)</span> and <span class="math inline">\(0.25\)</span>, and especially lower for values of <span class="math inline">\(\gamma\)</span> near <span class="math inline">\(0.2\)</span>. The minimum is obtained at <span class="math inline">\(\widehat{\gamma}=0.198\)</span>. This is the NLLS estimator. In the context of the application this means that the point estimate of the tipping point is <span class="math inline">\(20 %\)</span>, which means that when the neighborhood minority fraction exceeds <span class="math inline">\(20 %\)</span> white households discontinuously change their behavior. The remaining NLLS estimates are obtained by least squares regression (23.9) setting <span class="math inline">\(\gamma=\widehat{\gamma}\)</span>.</p>
+<p>Our estimates are reported in Table 23.2. Following Card, Mas, and Rothstein (2008) the standard errors are clustered <span class="math inline">\({ }^{5}\)</span> by city (MSA). Examining Table <span class="math inline">\(23.2\)</span> we can see that the estimates suggest that neighborhood declines in the white population were increasing in the minority fraction, with a sharp and accelerating decline above the tipping point of <span class="math inline">\(20 %\)</span>. The estimated discontinuity is <span class="math inline">\(-11.6 %\)</span>. This is nearly identical to the estimate obtained by Card, Mas and Rothstein (2008) using an ad hoc estimation method.</p>
+<p>The white population was also decreasing in response to the unemployment rate, the renter share, and the use of public transportation, but increasing in response to the vacancy rate. Another interesting observation is that despite the fact that the sample has a very large <span class="math inline">\((35,656)\)</span> number of observations the standard errors for the parameter estimates are rather large indicating considerable imprecision. This is mostly due to the clustered covariance matrix calculation as there are only <span class="math inline">\(N=104\)</span> clusters.</p>
+<p>The asymptotic theory of threshold regression is non-standard. Chan (1993) showed that under correct specification the threshold estimator <span class="math inline">\(\widehat{\gamma}\)</span> converges in probability to <span class="math inline">\(\gamma\)</span> at the fast rate <span class="math inline">\(O_{p}\left(n^{-1}\right)\)</span> and that the other parameter estimators have conventional asymptotic distributions, justifying the standard errors as reported in Table 23.2. He also showed that the threshold estimator <span class="math inline">\(\widehat{\gamma}\)</span> has a non-standard asymptotic distribution which cannot be used for confidence interval construction.</p>
+<p>B. E. Hansen (2000) derived the asymptotic distribution of <span class="math inline">\(\widehat{\gamma}\)</span> and associated test statistics under a “small threshold effect” asymptotic framework for a continuous threshold variable <span class="math inline">\(Q\)</span>. This distribution theory permits simple construction of an asymptotic confidence interval for <span class="math inline">\(\gamma\)</span>. In brief, he shows that under correct specification, independent observations, and homoskedasticity, the F statistic for testing</p>
+<p><span class="math inline">\({ }^{3}\)</span> Using the 1970-1980 sample and model (23.9).</p>
+<p><span class="math inline">\({ }^{4}\)</span> It is important that the search be constrained to values of <span class="math inline">\(\gamma\)</span> which lie well within the support of the threshold variable. Otherwise the regression may be infeasible. The required degree of trimming (away from the boundaries of the support) depends on the individual application.</p>
+<p><span class="math inline">\({ }^{5}\)</span> It is not clear to me whether clustering is appropriate in this application. One motivation for clustering is inclusion of fixed effects as this induces correlation across observations within a cluster. However in this case the typical number of observations per cluster is several hundred so this correlation is near zero. Another motivation for clustering is that the regression error <span class="math inline">\(e_{c i t}\)</span> (the unobserved factors for changes in white population) is correlated across tracts within a city. While it may be expected that attitudes towards minorities among whites may be correlated within a city, it seems less clear that we should expect unconditional correlation in population changes. Table 23.2: Threshold Estimates: Card-Mas-Rothstein (2008) Model</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Estimate</th>
+<th>Standard Error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intercept Change</td>
+<td><span class="math inline">\(-11.6\)</span></td>
+<td><span class="math inline">\(3.7\)</span></td>
+</tr>
+<tr class="even">
+<td>Slope Change</td>
+<td><span class="math inline">\(-74.1\)</span></td>
+<td><span class="math inline">\(42.6\)</span></td>
+</tr>
+<tr class="odd">
+<td>Minority Fraction</td>
+<td><span class="math inline">\(-54.4\)</span></td>
+<td><span class="math inline">\(28.8\)</span></td>
+</tr>
+<tr class="even">
+<td>Minority Fraction <span class="math inline">\({ }^{2}\)</span></td>
+<td><span class="math inline">\(142.3\)</span></td>
+<td><span class="math inline">\(23.9\)</span></td>
+</tr>
+<tr class="odd">
+<td>Unemployment Rate</td>
+<td><span class="math inline">\(-81.1\)</span></td>
+<td><span class="math inline">\(38.8\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\log (\)</span> Mean Family Income)</td>
+<td><span class="math inline">\(3.4\)</span></td>
+<td><span class="math inline">\(3.6\)</span></td>
+</tr>
+<tr class="odd">
+<td>Housing Vacancy Rate</td>
+<td><span class="math inline">\(324.9\)</span></td>
+<td><span class="math inline">\(40.2\)</span></td>
+</tr>
+<tr class="even">
+<td>Renter Share</td>
+<td><span class="math inline">\(-62.7\)</span></td>
+<td><span class="math inline">\(13.6\)</span></td>
+</tr>
+<tr class="odd">
+<td>Fraction Single-Unit</td>
+<td><span class="math inline">\(-4.8\)</span></td>
+<td><span class="math inline">\(9.5\)</span></td>
+</tr>
+<tr class="even">
+<td>Fraction Public Transport</td>
+<td><span class="math inline">\(-91.6\)</span></td>
+<td><span class="math inline">\(24.5\)</span></td>
+</tr>
+<tr class="odd">
+<td>Intercept</td>
+<td><span class="math inline">\(14.8\)</span></td>
+<td>na</td>
+</tr>
+<tr class="even">
+<td>MSA Fixed Effects</td>
+<td>yes</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Threshold</td>
+<td><span class="math inline">\(0.198\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(99 %\)</span> Confidence Interval</td>
+<td><span class="math inline">\([0.198,0.209]\)</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(N=\)</span> Number of MSAs</td>
+<td>104</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(n=\)</span> Number of observations</td>
+<td>35,656</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>the hypothesis <span class="math inline">\(\mathbb{H}_{0}: \gamma=\gamma_{0}\)</span> has the asymptotic distribution</p>
+<p><span class="math display">\[
+\frac{n\left(S_{n}^{*}\left(\gamma_{0}\right)-S_{n}^{*}(\widehat{\gamma})\right)}{S_{n}^{*}(\widehat{\gamma})} \underset{d}{\longrightarrow} \xi
+\]</span></p>
+<p>where <span class="math inline">\(\mathbb{P}[\xi \leq x]=(1-\exp (-x / 2))^{2}\)</span>. The <span class="math inline">\(1-\alpha\)</span> quantile of <span class="math inline">\(\xi\)</span> can be found by solving <span class="math inline">\(\left(1-\exp \left(-c_{1-\alpha} / 2\right)\right)^{2}=\)</span> <span class="math inline">\(1-\alpha\)</span>, and equals <span class="math inline">\(c_{1-\alpha}=-2 \log (1-\sqrt{1-\alpha})\)</span>. For example, <span class="math inline">\(c_{.95}=7.35\)</span> and <span class="math inline">\(c_{.99}=10.6\)</span>.</p>
+<p>Based on test inversion a valid <span class="math inline">\(1-\alpha\)</span> asymptotic confidence interval for <span class="math inline">\(\gamma\)</span> is the set of <span class="math inline">\(F\)</span> statistics which are less than <span class="math inline">\(c_{1-\alpha}\)</span> and equals</p>
+<p><span class="math display">\[
+C_{1-\alpha}=\left\{\gamma: \frac{n\left(S_{n}^{*}(\gamma)-S_{n}^{*}(\widehat{\gamma})\right)}{S_{n}^{*}(\widehat{\gamma})} \leq c_{1-\alpha}\right\}=\left\{\gamma: S_{n}^{*}(\gamma) \leq S_{n}^{*}(\widehat{\gamma})\left(1+\frac{c_{1-\alpha}}{n}\right)\right\}
+\]</span></p>
+<p>This is constructed numerically by grid search. In our example <span class="math inline">\(C_{0.99}=[0.198,0.209]\)</span>. This is a narrow confidence interval. However, this interval does not take into account clustered dependence. Based on Hansen’s theory we can expect that under cluster dependence the asymptotic distribution <span class="math inline">\(\xi\)</span> needs to be re-scaled. This will result in replacing <span class="math inline">\(1+c_{1-\alpha} / n\)</span> in the above formula with <span class="math inline">\(1+\rho c_{1-\alpha} / n\)</span> for some adjustment factor <span class="math inline">\(\rho\)</span>. This will widen the confidence interval. Based on the shape of Figure <span class="math inline">\(23.3(\mathrm{a})\)</span> the adjusted confidence interval may not be too wide. However this is a conjecture as the theory has not been worked out so we cannot estimate the adjustment factor <span class="math inline">\(\rho\)</span>.</p>
+<p>Empirical practice and simulation results suggest that threshold estimates tend to be quite imprecise unless a moderately large sample (e.g., <span class="math inline">\(n \geq 500\)</span> ) is used. The threshold parameter is identified by observations close to the threshold, not by observations far from the threshold. This requires large samples to ensure that there are a sufficient number of observations near the threshold in order to be able to pin down its location</p>
+<p>Given the coefficient estimates the regression function can be plotted along with confidence intervals calculated conventionally. In Figure 23.3(b) we plot the estimated regression function with <span class="math inline">\(95 %\)</span> asymptotic confidence intervals calculated based on the covariance matrix for the estimates <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}, \widehat{\delta}_{1}, \widehat{\delta}_{2}\right)\)</span>. The estimate <span class="math inline">\(\widehat{\theta}\)</span> does not contribute if the regression function is evaluated at mean values. We ignore estimation of the intercept <span class="math inline">\(\widehat{\alpha}\)</span> as its variance is not identified under clustering dependence and we are primarily interest in the magnitude of relative comparisons. What we see in Figure 23.3(b) is that the regression function is generally downward sloped, indicating that the change in the white population is generally decreasing as the minority fraction increases, as expected. The tipping effect is visually strong. When the fraction minority crosses the tipping point there are sharp decreases in both the level and the slope of the regression function. The level of the estimated regression function also indicates that the expected change in the white population switches from positive to negative at the tipping point, consistent with the segregation hypothesis. It is instructive to observe that the confidence bands are quite wide despite the large sample. This is largely due to the decision to use a clustered covariance matrix estimator. Consequently there is considerable uncertainty in the location of the regression function. The confidence bands are widest at the estimated tipping point.</p>
+<p>The empirical results presented in this section are distinct from, yet similar to, those reported in Card, Mas, and Rothstein (2008). This is an influential paper as it used the rigor of an economic model to give insight about segregation behavior, and used a rich detailed dataset to investigate the strong tipping point prediction.</p>
+</section>
+<section id="testing-for-nonlinear-components" class="level2" data-number="22.8">
+<h2 data-number="22.8" class="anchored" data-anchor-id="testing-for-nonlinear-components"><span class="header-section-number">22.8</span> Testing for Nonlinear Components</h2>
+<p>Identification can be tricky in nonlinear regression models. Suppose that</p>
+<p><span class="math display">\[
+m(X, \theta)=X^{\prime} \beta+X(\gamma)^{\prime} \delta
+\]</span></p>
+<p>where <span class="math inline">\(X(\gamma)\)</span> is a function of <span class="math inline">\(X\)</span> and an unknown parameter <span class="math inline">\(\gamma\)</span>. Examples for <span class="math inline">\(X(\gamma)\)</span> include the Box-Cox transformation and <span class="math inline">\(X \mathbb{1}\{X&gt;\gamma\}\)</span>. The latter arises in the Regression Kink and threshold regression models.</p>
+<p>The model is linear when <span class="math inline">\(\delta=0\)</span>. This is often a useful hypothesis (sub-model) to consider. For example, in the Card-Mas-Rothstein (2008) application this is the hypothesis of no tipping point which is the key issue explored in their paper.</p>
+<p>In this section we consider tests of the hypothesis <span class="math inline">\(\mathbb{H}_{0}: \delta=0\)</span>. Under <span class="math inline">\(\mathbb{H}_{0}\)</span> the model is <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> and both <span class="math inline">\(\delta\)</span> and <span class="math inline">\(\gamma\)</span> have dropped out. This means that under <span class="math inline">\(\mathbb{H}_{0}\)</span> the parameter <span class="math inline">\(\gamma\)</span> is not identified. This renders standard distribution theory invalid. When the truth is <span class="math inline">\(\delta=0\)</span> the NLLS estimator of <span class="math inline">\((\beta, \delta, \gamma)\)</span> is not asymptotically normally distributed. Classical tests excessively over-reject <span class="math inline">\(\mathbb{H}_{0}\)</span> if applied with conventional critical values.</p>
+<p>As an example consider the threshold regression (23.9). The hypothesis of no tipping point corresponds to the joint hypothesis <span class="math inline">\(\delta_{0}=0\)</span> and <span class="math inline">\(\delta_{1}=0\)</span>. Under this hypothesis the parameter <span class="math inline">\(\gamma\)</span> is not identified.</p>
+<p>To test the hypothesis a standard test is to reject for large values of the F statistic</p>
+<p><span class="math display">\[
+\mathrm{F}=\frac{n\left(\widetilde{S}_{n}-S_{n}^{*}(\widehat{\gamma})\right)}{S_{n}^{*}(\widehat{\gamma})}
+\]</span></p>
+<p>where <span class="math inline">\(\widetilde{S}_{n}=n^{-1} \sum_{i=1}^{n}\left(Y_{i}-X_{i}^{\prime} \widehat{\beta}\right)^{2}\)</span> and <span class="math inline">\(\widehat{\beta}\)</span> is the least squares coefficient from the regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>. This is the difference between the error variance estimators based on estimates calculated under the null <span class="math inline">\(\left(\widetilde{S}_{n}\right)\)</span> and alternative <span class="math inline">\(\left(S_{n}^{*}(\widehat{\gamma})\right)\)</span>.</p>
+<p>The F statistic can be written as</p>
+<p><span class="math display">\[
+\mathrm{F}=\max _{\gamma} \mathrm{F}_{n}(\gamma)=\mathrm{F}_{n}(\widehat{\gamma})
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\mathrm{F}_{n}(\gamma)=\frac{n\left(\widetilde{S}_{n}-S_{n}^{*}(\gamma)\right)}{S_{n}^{*}(\gamma)}
+\]</span></p>
+<p>The statistic <span class="math inline">\(\mathrm{F}_{n}(\gamma)\)</span> is the classical <span class="math inline">\(\mathrm{F}\)</span> statistic for a test of <span class="math inline">\(\mathbb{H}_{0}: \delta=0\)</span> when <span class="math inline">\(\gamma\)</span> is known. We can see from this representation that <span class="math inline">\(\mathrm{F}\)</span> is non-standard as it is the maximum over a potentially large number of statistics <span class="math inline">\(\mathrm{F}_{n}(\gamma)\)</span></p>
+<p><img src="images//2022_10_23_afe6a5896d8677a5cd30g-14.jpg" class="img-fluid"></p>
+<p>Figure 23.4: Test for Threshold Regression in CMR Model</p>
+<p>To illustrate, Figure <span class="math inline">\(23.4\)</span> plots the test statistic <span class="math inline">\(\mathrm{F}_{n}(\gamma)\)</span> as a function of <span class="math inline">\(\gamma\)</span>. You can see that the function is erratic, similar to the concentrated criterion <span class="math inline">\(S_{n}^{*}(\gamma)\)</span>. This is sensible, because <span class="math inline">\(\mathrm{F}_{n}(\gamma)\)</span> is an affine function of the inverse of <span class="math inline">\(S_{n}^{*}(\gamma)\)</span>. The statistic is maximized at <span class="math inline">\(\widehat{\gamma}\)</span> because of this duality. The maximum value is <span class="math inline">\(\mathrm{F}=\mathrm{F}_{n}(\hat{\gamma})\)</span>. In this application we find <span class="math inline">\(\mathrm{F}=62.4\)</span>. This is extremely high by conventional standards.</p>
+<p>The asymptotic theory of the test has been worked out by Andrews and Ploberger (1994) and B. E. Hansen (1996). In particular, Hansen shows the validity of the multiplier bootstrap for calculation of p-values for independent observations. The method is as follows.</p>
+<ol type="1">
+<li><p>On the observations <span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> calculate the <span class="math inline">\(\mathrm{F}\)</span> test statistic for <span class="math inline">\(\mathbb{H}_{0}\)</span> against <span class="math inline">\(\mathbb{H}_{1}\)</span> (or any other standard statistic such as a Wald or likelihood ratio).</p></li>
+<li><p>For <span class="math inline">\(b=1, \ldots, B\)</span> :</p></li>
+</ol>
+<ol type="a">
+<li><p>Generate <span class="math inline">\(n\)</span> random variables <span class="math inline">\(\xi_{i}^{*}\)</span> with mean zero and variance 1 (standard choices are normal and Rademacher).</p></li>
+<li><p>Set <span class="math inline">\(Y_{i}^{*}=\widehat{e}_{i} \xi_{i}^{*}\)</span> where <span class="math inline">\(\widehat{e}_{i}\)</span> are the NLLS residuals.</p></li>
+<li><p><span class="math inline">\(\operatorname{On}\left(Y_{i}^{*}, X_{i}\right)\)</span> calculate the <span class="math inline">\(\mathrm{F}\)</span> statistic <span class="math inline">\(\mathrm{F}_{b}^{*}\)</span> for <span class="math inline">\(\mathbb{H}_{0}\)</span> against <span class="math inline">\(\mathbb{H}_{1}\)</span>. 3. The multiplier bootstrap p-value is <span class="math inline">\(p_{n}^{*}=\frac{1}{B} \sum_{b=1}^{B} \mathbb{1}\left\{\mathrm{F}_{b}^{*}&gt;\mathrm{F}\right\}\)</span>.</p></li>
+</ol>
+<p> 1. If <span class="math inline">\(p_{n}^{*}&lt;\alpha\)</span> the test is significant at level <span class="math inline">\(\alpha\)</span>.</p>
+<ol start="2" type="1">
+<li>Critical values can be calcualted as empirical quantiles of the bootstrap statistics <span class="math inline">\(\mathrm{F}_{b}^{*}\)</span>.</li>
+</ol>
+<p>In step <span class="math inline">\(2 \mathrm{~b}\)</span> you can alternatively set <span class="math inline">\(Y_{i}^{*}=\widehat{\beta}^{\prime} Z_{i}+\widehat{e}_{i} \xi_{i}^{*}\)</span>. Tests on <span class="math inline">\(\delta\)</span> are invariant to the bootstrap value of <span class="math inline">\(\delta\)</span>. What is important is that the bootstrap data satisfy the null hypothesis.</p>
+<p>For clustered samples we need to make a minor modification. Write the regression by cluster as</p>
+<p><span class="math display">\[
+\boldsymbol{Y}_{g}=\boldsymbol{X}_{g} \beta+\boldsymbol{X}_{g}(\gamma) \delta+\boldsymbol{e}_{g} .
+\]</span></p>
+<p>The bootstrap method is modified by altering steps <span class="math inline">\(2 \mathrm{a}\)</span> and <span class="math inline">\(2 \mathrm{~b}\)</span> above. Let <span class="math inline">\(N\)</span> denote the number of clusters. The modified algorithm uses the following steps.</p>
+<ol type="1">
+<li><ol type="a">
+<li>Generate <span class="math inline">\(N\)</span> random variables <span class="math inline">\(\xi_{g}^{*}\)</span> with mean zero and variance 1 .</li>
+</ol></li>
+</ol>
+<ol start="2" type="a">
+<li><span class="math inline">\(\operatorname{Set} \boldsymbol{Y}_{g}^{*}=\widehat{\boldsymbol{e}}_{g} \xi_{g}^{*}\)</span></li>
+</ol>
+<p>To illustrate we apply this test to the threshold regression (23.9) estimated with the Card-Mas-Rothstein (2008) data. We use <span class="math inline">\(B=10,000\)</span> bootstrap replications. Applying the first algorithm (suitable for independent observations) the bootstrap p-value is <span class="math inline">\(0 %\)</span>. The <span class="math inline">\(99 %\)</span> critical value is <span class="math inline">\(16.7\)</span>, so the observed value of <span class="math inline">\(\mathrm{F}=62.4\)</span> far exceeds this threshold. Applying the second algorithm (suitable under cluster dependence) the bootstrap p-value is <span class="math inline">\(3.1 %\)</span>. The <span class="math inline">\(95 %\)</span> critical value is <span class="math inline">\(56.6\)</span> and the <span class="math inline">\(99 %\)</span> is <span class="math inline">\(75.3\)</span>. Thus the observed value of <span class="math inline">\(F=62.4\)</span> is “significant” at the <span class="math inline">\(5 %\)</span> but not the <span class="math inline">\(1 %\)</span> level. For a sample of size <span class="math inline">\(n=35,656\)</span> this is surprisingly mild significance. These critical values are indicated on Figure <span class="math inline">\(23.4\)</span> by the dashed lines. The F statistic process breaks the <span class="math inline">\(90 %\)</span> and <span class="math inline">\(95 %\)</span> critical values but not the <span class="math inline">\(99 %\)</span>. Thus despite the visually strong evidence of a tipping effect from the previous section the statistical evidence of this effect is strong but not overwhelming.</p>
+</section>
+<section id="computation" class="level2" data-number="22.9">
+<h2 data-number="22.9" class="anchored" data-anchor-id="computation"><span class="header-section-number">22.9</span> Computation</h2>
+<p>Stata has a built-in command nl for NLLS estimation. You need to specify the nonlinear equation and give starting values for the numerical search. It is prudent to try several starting values because the algorithm is not guaranteed to converge to the global minimum.</p>
+<p>Estimation of NLLS in R or MATLAB requires a bit more programming but is straightforward. You write a function which calculates the average squared error <span class="math inline">\(S_{n}(\theta)\)</span> (or concentrated average squared error) as a function of the parameters. You then call a numerical optimizer to minimize this function. For example, in R for vector-valued parameters the standard optimizer is optim. For scalar parameters use optimize.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="22.10">
+<h2 data-number="22.10" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">22.10</span> Technical Proofs*</h2>
+<p>Proof of Theorem 23.1. We appeal to Theorem <span class="math inline">\(22.3\)</span> which holds under five conditions. Conditions 1,2 , 4, and 5 are satisfied directly by Assumption 23.1, parts 1, 2, 5, and 6. To verify condition 3, observe that by the <span class="math inline">\(c_{r}\)</span> inequality (B.5) and <span class="math inline">\(|m(X, \theta)| \leq m(X)\)</span></p>
+<p><span class="math display">\[
+(Y-m(X, \theta))^{2} \leq 2 Y^{2}+2 m(X)^{2} .
+\]</span></p>
+<p>The right side has finite expectation under Assumptions 23.1, parts 3 and 4 . We conclude that <span class="math inline">\(\widehat{\theta} \underset{p}{\longrightarrow} \theta_{0}\)</span> as stated.</p>
+<p>Proof of Theorem 23.2. We appeal to Theorem <span class="math inline">\(22.4\)</span> which holds under five conditions (in addition to consistency, which was established in Theorem 23.1). It is convenient to rescale the criterion so that <span class="math inline">\(\rho_{i}(\theta)=\frac{1}{2}\left(Y_{i}-m\left(X_{i}, \theta\right)\right)^{2}\)</span>. Then <span class="math inline">\(\psi_{i}=-m_{\theta i} e_{i}\)</span>.</p>
+<p>To show condition 1, by the Cauchy-Schwarz inequality (B.32) and Assumption 23.2.2 and 23.2.4</p>
+<p><span class="math display">\[
+\mathbb{E}\left\|\psi_{i}\right\|^{2}=\mathbb{E}\left\|m_{\theta i} e_{i}\right\|^{2} \leq\left(\mathbb{E}\left\|m_{\theta i}\right\|^{4} \mathbb{E}\left[e_{i}^{4}\right]\right)^{1 / 2}&lt;\infty .
+\]</span></p>
+<p>We next show condition 3. Using Assumption 23.2.1, we calculate that</p>
+<p><span class="math display">\[
+S(\theta)=\mathbb{E}\left[\rho_{i}(\theta)\right]=\frac{1}{2} \mathbb{E}\left[e^{2}\right]+\frac{1}{2} \mathbb{E}\left[\left(m\left(X, \theta_{0}\right)-m(X, \theta)\right)^{2}\right] .
+\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[
+\psi(\theta)=\frac{\partial}{\partial \theta} S(\theta)=-\mathbb{E}\left[m_{\theta}(X, \theta)\left(m\left(X, \theta_{0}\right)-m(X, \theta)\right)\right]
+\]</span></p>
+<p>with derivative</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{Q}(\theta) &amp;=-\frac{\partial}{\partial \theta^{\prime}} \mathbb{E}\left[m_{\theta}(X, \theta)\left(m\left(X, \theta_{0}\right)-m(X, \theta)\right)\right] \\
+&amp;=\mathbb{E}\left[m_{\theta}(X, \theta) m_{\theta}(X, \theta)^{\prime}\right]-\mathbb{E}\left[m_{\theta \theta}\left(X, \theta_{0}\right)\left(m\left(X, \theta_{0}\right)-m(X, \theta)\right)\right] .
+\end{aligned}
+\]</span></p>
+<p>This exists and is continuous for <span class="math inline">\(\theta \in \mathcal{N}\)</span> under Assumption 23.2.4.</p>
+<p>Evaluating (23.10) at <span class="math inline">\(\theta_{0}\)</span> we obtain</p>
+<p><span class="math display">\[
+\boldsymbol{Q}=\boldsymbol{Q}\left(\theta_{0}\right)=\mathbb{E}\left[m_{\theta i} m_{\theta i}^{\prime}\right]&gt;0
+\]</span></p>
+<p>under Assumption 23.2.5. This verifies condition 2.</p>
+<p>Condition 4 holds if <span class="math inline">\(\psi(Y, X, \theta)=m_{\theta}(X, \theta)(Y-m(X, \theta))\)</span> is Lipschitz-continuous in <span class="math inline">\(\theta \in \mathscr{N}\)</span>. This holds because both <span class="math inline">\(m_{\theta}(X, \theta)\)</span> and <span class="math inline">\(m(X, \theta)\)</span> are differentiable in the compact set <span class="math inline">\(\theta \in \mathscr{N}\)</span>, and bounded fourth moments (Assumptions <span class="math inline">\(23.2 .2\)</span> and 23.2.4) implies that the Lipschitz bound for <span class="math inline">\(\psi(Y, X, \theta)\)</span> has a finite second moment.</p>
+<p>Condition 5 is implied by Assumption 23.2.6.</p>
+<p>Together, the five conditions of Theorem <span class="math inline">\(22.4\)</span> are satisfied and the stated result follows.</p>
+</section>
+<section id="exercises" class="level2" data-number="22.11">
+<h2 data-number="22.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">22.11</span> Exercises</h2>
+<p>Exercise 23.1 Take the model <span class="math inline">\(Y=\exp (\theta)+e\)</span> with <span class="math inline">\(\mathbb{E}[e]=0\)</span>.</p>
+<ol type="a">
+<li><p>Is the CEF linear or nonlinear in <span class="math inline">\(\theta\)</span> ? Is this a nonlinear regression model?</p></li>
+<li><p>Is there a way to estimate the model using linear methods? If so, explain how to obtain an estimator <span class="math inline">\(\widehat{\theta}\)</span> for <span class="math inline">\(\theta\)</span>.</p></li>
+<li><p>Is your answer in part (b) the same as the NLLS estimator, or different?</p></li>
+</ol>
+<p>Exercise 23.2 Take the model <span class="math inline">\(Y^{(\lambda)}=\beta_{0}+\beta_{1} X+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span> where <span class="math inline">\(Y^{(\lambda)}\)</span> is the Box-Cox transformation of <span class="math inline">\(Y\)</span>. (a) Is this a nonlinear regression model in the parameters <span class="math inline">\(\left(\lambda, \beta_{0}, \beta_{1}\right)\)</span> ? (Careful, this is tricky.)</p>
+<p>Exercise 23.3 Take the model <span class="math inline">\(Y=\frac{\beta_{1}}{\beta_{2}+\beta_{3} X}+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span>.</p>
+<ol type="a">
+<li><p>Are the parameters <span class="math inline">\(\left(\beta_{1}, \beta_{2}, \beta_{3}\right)\)</span> identified?</p></li>
+<li><p>If not, what parameters are identified? How would you estimate the model?</p></li>
+</ol>
+<p>Exercise 23.4 Take the model <span class="math inline">\(Y=\beta_{1} \exp \left(\beta_{2} X\right)+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0\)</span>.</p>
+<ol type="a">
+<li><p>Are the parameters <span class="math inline">\(\left(\beta_{1}, \beta_{2}\right)\)</span> identified?</p></li>
+<li><p>Find an expression to calculate the covariance matrix of the NLLS estimatiors <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)\)</span>.</p></li>
+</ol>
+<p>Exercise 23.5 Take the model <span class="math inline">\(Y=m(X, \theta)+e\)</span> with <span class="math inline">\(e \mid X \sim \mathrm{N}\left(0, \sigma^{2}\right)\)</span>. Find the MLE for <span class="math inline">\(\theta\)</span> and <span class="math inline">\(\sigma^{2}\)</span>.</p>
+<p>Exercise 23.6 Take the model <span class="math inline">\(Y=\exp \left(X^{\prime} \theta\right)+e\)</span> with <span class="math inline">\(\mathbb{E}[Z e]=0\)</span>, where <span class="math inline">\(X\)</span> is <span class="math inline">\(k \times 1\)</span> and <span class="math inline">\(Z\)</span> is <span class="math inline">\(\ell \times 1\)</span>.</p>
+<ol type="a">
+<li><p>What relationship between <span class="math inline">\(\ell\)</span> and <span class="math inline">\(k\)</span> is necessary for identification of <span class="math inline">\(\theta\)</span> ?</p></li>
+<li><p>Describe how to estimate <span class="math inline">\(\theta\)</span> by GMM.</p></li>
+<li><p>Describe an estimator of the asymptotic covariance matrix.</p></li>
+</ol>
+<p>Exercise 23.7 Suppose that <span class="math inline">\(Y=m(X, \theta)+e\)</span> with <span class="math inline">\(\mathbb{E}[e \mid X]=0, \widehat{\theta}\)</span> is the NLLS estimator, and <span class="math inline">\(\widehat{\boldsymbol{V}}\)</span> the estimator of <span class="math inline">\(\operatorname{var}[\widehat{\theta}]\)</span>. You are interested in the CEF <span class="math inline">\(\mathbb{E}[Y \mid X=x]=m(x)\)</span> at some <span class="math inline">\(x\)</span>. Find an asymptotic <span class="math inline">\(95 %\)</span> confidence interval for <span class="math inline">\(m(x)\)</span>.</p>
+<p>Exercise 23.8 The file PSS2017 contains a subset of the data from Papageorgiou, Saam, and Schulte (2017). For a robustness check they re-estimated their CES production function using approximated capital stocks rather than capacities as their input measures. Estimate the model (23.3) using this alternative measure. The variables for <span class="math inline">\(Y, X_{1}\)</span>, and <span class="math inline">\(X_{2}\)</span> are EG_total, EC_c_alt, and EC_d_alt, respectively. Compare the estimates with those reported in Table 23.1.</p>
+<p>Exercise 23.9 The file RR2010 contains the U.S. observations from the Reinhart and Rogoff (2010). The data set has observations on real GDP growth, debt/GDP, and inflation rates. Estimate the model (23.4) setting <span class="math inline">\(Y\)</span> as the inflation rate and <span class="math inline">\(X\)</span> as the debt ratio.</p>
+<p>Exercise 23.10 In Exercise 9.26, you estimated a cost function on a cross-section of electric companies. Consider the nonlinear specification</p>
+<p><span class="math display">\[
+\log T C=\beta_{1}+\beta_{2} \log Q+\beta_{3}(\log P L+\log P K+\log P F)+\beta_{4} \frac{\log Q}{1+\exp (-(\log Q-\gamma))}+e .
+\]</span></p>
+<p>This model is called a smooth threshold model. For values of <span class="math inline">\(\log Q\)</span> much below <span class="math inline">\(\gamma\)</span>, the variable <span class="math inline">\(\log Q\)</span> has a regression slope of <span class="math inline">\(\beta_{2}\)</span>. For values much above <span class="math inline">\(\beta_{7}\)</span>, the regression slope is <span class="math inline">\(\beta_{2}+\beta_{4}\)</span>. The model imposes a smooth transition between these regimes.</p>
+<ol type="a">
+<li><p>The model works best when <span class="math inline">\(\gamma\)</span> is selected so that several values (in this example, at least 10 to 15) of <span class="math inline">\(\log Q_{i}\)</span> are both below and above <span class="math inline">\(\gamma\)</span>. Examine the data and pick an appropriate range for <span class="math inline">\(\gamma\)</span>.</p></li>
+<li><p>Estimate the model by NLLS using a global numerical search over <span class="math inline">\(\left(\beta_{1}, \beta_{2}, \beta_{3}, \beta_{4}, \gamma\right)\)</span>.</p></li>
+<li><p>Estimate the model by NLLS using a concentrated numerical search over <span class="math inline">\(\gamma\)</span>. Do you obtain the same results?</p></li>
+<li><p>Calculate standard errors for all the parameters estimates <span class="math inline">\(\left(\beta_{1}, \beta_{2}, \beta_{3}, \beta_{4}, \gamma\right)\)</span>.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./part06-nonlinear.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">非线性方法</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt24-quantile-reg.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

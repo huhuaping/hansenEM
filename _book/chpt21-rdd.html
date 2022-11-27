@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 20&nbsp; Regression Discontinuity</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt22-m-est.html" rel="next">
+<link href="./chpt20-series-reg.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">20.1</span>  Introduction</a></li>
+  <li><a href="#sharp-regression-discontinuity" id="toc-sharp-regression-discontinuity" class="nav-link" data-scroll-target="#sharp-regression-discontinuity"><span class="toc-section-number">20.2</span>  Sharp Regression Discontinuity</a></li>
+  <li><a href="#identification" id="toc-identification" class="nav-link" data-scroll-target="#identification"><span class="toc-section-number">20.3</span>  Identification</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="toc-section-number">20.4</span>  Estimation</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference"><span class="toc-section-number">20.5</span>  Inference</a></li>
+  <li><a href="#bandwidth-selection" id="toc-bandwidth-selection" class="nav-link" data-scroll-target="#bandwidth-selection"><span class="toc-section-number">20.6</span>  Bandwidth Selection</a></li>
+  <li><a href="#rdd-with-covariates" id="toc-rdd-with-covariates" class="nav-link" data-scroll-target="#rdd-with-covariates"><span class="toc-section-number">20.7</span>  RDD with Covariates</a></li>
+  <li><a href="#a-simple-rdd-estimator" id="toc-a-simple-rdd-estimator" class="nav-link" data-scroll-target="#a-simple-rdd-estimator"><span class="toc-section-number">20.8</span>  A Simple RDD Estimator</a></li>
+  <li><a href="#density-discontinuity-test" id="toc-density-discontinuity-test" class="nav-link" data-scroll-target="#density-discontinuity-test"><span class="toc-section-number">20.9</span>  Density Discontinuity Test</a></li>
+  <li><a href="#fuzzy-regression-discontinuity" id="toc-fuzzy-regression-discontinuity" class="nav-link" data-scroll-target="#fuzzy-regression-discontinuity"><span class="toc-section-number">20.10</span>  Fuzzy Regression Discontinuity</a></li>
+  <li><a href="#estimation-of-frd" id="toc-estimation-of-frd" class="nav-link" data-scroll-target="#estimation-of-frd"><span class="toc-section-number">20.11</span>  Estimation of FRD</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">20.12</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt21-rdd.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">20.1</span> Introduction</h2>
+<p>One of the core goals in applied econometrics is estimation of treatment effects. A major barrier is that in observational data treatment is rarely exogenous. Techniques discussed so far in this textbook to deal with potential endogeneity include instrumental variables, fixed effects, and difference in differences. Another important method arises in the context of the regression discontinuity design. This is a rather special situation (not at the control of the econometrician) where treatment is determined by a threshold crossing rule. For example: (1) Do political incumbants have an advantage in elections? An incumbant is the winner of the previous election, which means their vote share exceeded a threshold. (2) What is the effect of college attendence? College students are admitted based on an admission exam, which means their exam score exceeded a specific threshold. In these contexts the treatment (incumbancy, college attendence) can be viewed as randomly assigned for individuals near the cut-off. (In the examples, for candidates who had vote shares near the winning threshold and for students who had admission exam scores near the cut-off threshold.) This setting is called the Regression Discontinuity Design (RDD). When it applies there are simple techniques for estimation of the causal effect of treatment.</p>
+<p>The first use of regression discontinuity is attributed to Thistlethwaite and Campbell (1960). It was popularized in economics by Black (1999), Ludwig and Miller (2007), and Lee (2008). Important reviews include Imbens and Leimieux (2008), Lee and Leimieux (2010), and Cattaneo, Idrobo, and Titiunik (2020, <span class="math inline">\(2021)\)</span></p>
+<p>The core model is sharp regression discontinuity where treatment is a discontinuous deterministic rule of an observable. Most applications, however, concern fuzzy regression discontinuity where the probability of treatment is discontinuous in an observable. We start by reviewing sharp regression discontinuity and then cover fuzzy regression discontinuity.</p>
+</section>
+<section id="sharp-regression-discontinuity" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="sharp-regression-discontinuity"><span class="header-section-number">20.2</span> Sharp Regression Discontinuity</h2>
+<p>Take the potential outcomes framework. An individual is untreated if <span class="math inline">\(D=0\)</span> and is treated if <span class="math inline">\(D=1\)</span>. The individual has outcome <span class="math inline">\(Y_{0}\)</span> if untreated and <span class="math inline">\(Y_{1}\)</span> if treated. The treatment effect for an individual is <span class="math inline">\(\theta=Y_{1}-Y_{0}\)</span>, which is random. An observable covariate is <span class="math inline">\(X\)</span>. The conditional Average Treatment Effect (ATE) for the subpopulation with <span class="math inline">\(X=x\)</span> is <span class="math inline">\(\theta(x)=\mathbb{E}[\theta \mid X=x]\)</span>.</p>
+<p>The sharp regression discontinuity design occurs when treatment is determined by a threshold function of <span class="math inline">\(X\)</span>, e.g.&nbsp;<span class="math inline">\(D=\mathbb{1}\{X \geq c\}\)</span>. In most applications the threshold <span class="math inline">\(c\)</span> is determined by policy or rule. The covariate <span class="math inline">\(X\)</span> which determines treatment is typically called the running variable. The threshold <span class="math inline">\(c\)</span> is often called the “cut-off”.</p>
+<p>It may be helpful to discuss a specific example. Ludwig and Miller (2007) used a sharp regression discontinuity design to evaluate a U.S. federal anti-poverty program called Head Start. Head Start was established in 1965 to provide preschool, health, and other social services to poor children age three to five and their families. Head Start funding was awarded to local municipalities through a competitive grant application. Due to a worry that poor regions may not apply at the same rate as well-funded regions, during the spring of 1965 the federal government provided grant-writing assistance to the 300 poorest counties in the United States. The 300 counties were selected based on the poverty rate as measured by the 1960 U.S. census.</p>
+<p>As Ludwig and Miller document, the result was a surge in applications from the assisted counties with a resulting surge in program funding. <span class="math inline">\(80 %\)</span> of the 300 treated counties received Head Start support while only <span class="math inline">\(43 %\)</span> of the remaining counties received support. Thus it seems reasonable to conclude that these counties received a substantial exogenous increase in funding.</p>
+<p>Ludwig and Miller were interested to see if this increase in Head Start funding led to measurable changes in outcomes. Their paper examined both mortality and education. We will focus exclusively on mortality. Specifically, they were interested in the impact on mortality for children in the age range 5-9, for deaths they coded as “Head Start Related” (for example, tuberculosis) meaning that a goal of the Head Start program was to reduce these events. They were also interested in the long-term effects of this intervention so focused on mortality rates in the 1973-1983 period which is eight to eighteen years after the grant-writing intervention. A subset of their data (assembled by Cattaneo, Titiunik, and VazquezBare (2017)) is posted on the textbook website as LM2007.</p>
+<p>To summarize, the question addressed by Ludwig and Miller was whether grant-writing assistance in 1965 to the 300 U.S. counties selected on a poverty index had a measurable effect on childhood mortality eight to eighteen years later in the same counties, relative to counties which did not receive the grantwriting assistance.</p>
+<p>In this application the unit of measurement is a U.S. county. The outcome variable <span class="math inline">\(Y\)</span> is the county mortality rate in 1973-1983. The running variable <span class="math inline">\(X\)</span> is the county poverty rate (percentage of the population below the poverty line) in 1960. The cut-off <span class="math inline">\(c\)</span> is 59.1984. (The later is simply due to the fact that there were 300 counties with poverty rates equal or above this cut-off.)</p>
+</section>
+<section id="identification" class="level2" data-number="20.3">
+<h2 data-number="20.3" class="anchored" data-anchor-id="identification"><span class="header-section-number">20.3</span> Identification</h2>
+<p>In this section we present the core identification theorem for the regression discontinuity model. Recall that <span class="math inline">\(\theta\)</span> is the random individual treatment effect and <span class="math inline">\(\theta(x)=\mathbb{E}[\theta \mid X=x]\)</span> is the conditional ATE. Set <span class="math inline">\(\bar{\theta}=\theta(c)\)</span>, the conditional ATE for the subpopulation at the cut-off. This is the subpopulation affected at the margin by the decision to set the cut-off at <span class="math inline">\(c\)</span>. The core identification theorem states that <span class="math inline">\(\bar{\theta}\)</span> is identified by the regression discontinuity design under mild assumptions.</p>
+<p>Let <span class="math inline">\(m(x)=\mathbb{E}[Y \mid X=x], m_{0}(x)=\mathbb{E}\left[Y_{0} \mid X=x\right]\)</span>, and <span class="math inline">\(m_{1}(x)=\mathbb{E}\left[Y_{1} \mid X=x\right]\)</span>. Note that <span class="math inline">\(\theta(x)=m_{1}(x)-\)</span> <span class="math inline">\(m_{0}(x)\)</span>. Set <span class="math inline">\(m(x+)=\lim _{z \downarrow x} m(z)\)</span> and <span class="math inline">\(m(x-)=\lim _{z \uparrow x} m(z)\)</span>.</p>
+<p>The following is the core identification theorem for the regression discontinuity design. It is due to Hahn, Todd, and Van der Klaauw (2001).</p>
+<p>Theorem 21.1 Assume that treatment is assigned as <span class="math inline">\(D=\mathbb{1}\{X \geq c\}\)</span>. Suppose that <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span> are continuous at <span class="math inline">\(x=c\)</span>. Then <span class="math inline">\(\bar{\theta}=m(c+)-m(c-)\)</span>. The conditions for Theorem <span class="math inline">\(21.1\)</span> are minimal. The continuity of <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span> means that the conditional expectation of the untreated and treated outcome are continuously affected by the running variable. Take the Head Start example. <span class="math inline">\(m_{0}(x)\)</span> is the average mortality rate given the poverty rate for counties which received no grant-writing assistance. <span class="math inline">\(m_{1}(x)\)</span> is the average mortality rate for counties which received grant-writing assistance. There is no reason to expect a discontinuity in either function.</p>
+<p>The intuition for the theorem can be seen in Figure 21.1(a). The two continuous functions plotted are the CEFs <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span>. The vertical distance between these functions is the conditional ATE function <span class="math inline">\(\theta(x)\)</span>. Since the treatment rule assigns all counties with <span class="math inline">\(X \geq c\)</span> to treatment and all counties with <span class="math inline">\(X&lt;c\)</span> to non-treatment the CEF of the observed outcome <span class="math inline">\(m(x)\)</span> is the solid line, which equals <span class="math inline">\(m_{0}(x)\)</span> for <span class="math inline">\(x&lt;c\)</span> and <span class="math inline">\(m_{1}(x)\)</span> for <span class="math inline">\(x \geq 0\)</span>. The discontinuity in <span class="math inline">\(m(x)\)</span> at <span class="math inline">\(x=c\)</span> equals the RDD treatment effect <span class="math inline">\(\bar{\theta}\)</span>.</p>
+<p>The plot in Figure 21.1 (a) was designed to mimic what we might expect in the Head Start application. We have plotted both <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span> as increasing functions of <span class="math inline">\(x\)</span>, meaning that the mortality rate is increasing in the poverty rate. We also have plotted the functions so that <span class="math inline">\(m_{1}(x)\)</span> lies below <span class="math inline">\(m_{0}(x)\)</span> as we expect that grant-writing assistance should reduce mortality.</p>
+<p>We know from regression theory that the CEF <span class="math inline">\(m(x)\)</span> is generically identified. Thus so is the RDD treatment effect <span class="math inline">\(\bar{\theta}=m(c+)-m(c-)\)</span>. This is the key take-away from the identification theorem. The regression discontinuity design identifies the conditional ATE at the treatment cut-off. In the Head Start example this is the ATE for a county with a poverty rate of <span class="math inline">\(59.1984 %\)</span>. Use of <span class="math inline">\(\bar{\theta}\)</span> to infer the ATE for other counties is extrapolation. As displayed in Figure 21.1(a) all that is identified is the solid line, the dashed lines are not identified. Thus a limitation of the RDD approach is that it estimates a narrowly-defined treatment effect.</p>
+<p>Identification of the RDD treatment effect is intertwined with nonparametric treatment of the functions <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span>. If parametric (e.g.&nbsp;linear) forms are imposed, then the best-fitting approximations for <span class="math inline">\(x&lt;c\)</span> and <span class="math inline">\(x \geq c\)</span> will generically have a discontinuity even if the true CEF is continuous. Thus a nonparametric treatment is essential to preclude falsely labeling nonlinearity as a discontinuity.</p>
+<p>A formal proof of Theorem <span class="math inline">\(21.1\)</span> is simple. We can write the observed outcome as <span class="math inline">\(Y=Y_{0} \mathbb{1}\{X&lt;c\}+\)</span> <span class="math inline">\(Y_{1} \mathbb{1}\{X \geq c\}\)</span>. Taking expectations conditional on <span class="math inline">\(X=x\)</span> we find</p>
+<p><span class="math display">\[
+m(x)=m_{0}(x) \mathbb{1}\{x&lt;c\}+m_{1}(x) \mathbb{1}\{x \geq c\} .
+\]</span></p>
+<p>Since <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span> are continuous at <span class="math inline">\(x=c\)</span>, we deduce <span class="math inline">\(m(c+)=m_{1}(c)\)</span> and <span class="math inline">\(m(c-)=m_{0}(c)\)</span>. Thus <span class="math inline">\(m(c+)-m(c-)=m_{1}(c)-m_{0}(c)=\theta(c)\)</span>, as claimed.</p>
+</section>
+<section id="estimation" class="level2" data-number="20.4">
+<h2 data-number="20.4" class="anchored" data-anchor-id="estimation"><span class="header-section-number">20.4</span> Estimation</h2>
+<p>Our goal is estimation of the conditional ATE <span class="math inline">\(\bar{\theta}\)</span> given observations <span class="math inline">\(\left\{Y_{i}, X_{i}\right\}\)</span> and known cut-off <span class="math inline">\(c\)</span>. The conditional ATE can be calculated from the CEF <span class="math inline">\(m(x)\)</span>. Estimation of the CEF nonparametrically allowing for a discontinuity is the same as separately estimating the CEF for the untreated observations <span class="math inline">\(X_{i}&lt;c\)</span> and the treated observations <span class="math inline">\(X_{i} \geq c\)</span>. The estimator for <span class="math inline">\(\bar{\theta}\)</span> is the difference between the adjoining estimated endpoints.</p>
+<p>The previous two chapters have studied nonparametric kernel and series regression. One of the findings is that for boundary estimation the preferred method is local linear (LL) regression (Section 19.4). In contrast, the Nadaraya-Watson estimator is biased at a boundary point (see Section 19.10), and series estimators have high variance at the boundary (see Section <span class="math inline">\(20.14\)</span> and Gelman and Imbens (2019)). Consequently, local linear estimation is preferred and is the most widely used technique <span class="math inline">\({ }^{1}\)</span> for regression discontinuity designs.</p>
+<p><span class="math inline">\({ }^{1}\)</span> Some authors use polynomials in addition to local linear estimation as an appeal to “robustness”. This should be discouraged as argued in Gelman and Imbens (2019).</p>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-04.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Sharp Regression Discontinuity</li>
+</ol>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-04(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Effect of Head Start on Childhood Mortality</li>
+</ol>
+<p>Figure 21.1: Sharp Regression Discontinuity Design</p>
+<p>To describe the estimator set</p>
+<p><span class="math display">\[
+Z_{i}(x)=\left(\begin{array}{c}
+1 \\
+X_{i}-x
+\end{array}\right) .
+\]</span></p>
+<p>Let <span class="math inline">\(K(u)\)</span> be a kernel function and <span class="math inline">\(h\)</span> a bandwidth. The LL coefficient estimator for <span class="math inline">\(x&lt;c\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{0}(x)=\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Z_{i}(x)^{\prime} \mathbb{1}\left\{X_{i}&lt;c\right\}\right)^{-1}\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Y_{i} \mathbb{1}\left\{X_{i}&lt;c\right\}\right)
+\]</span></p>
+<p>and for <span class="math inline">\(x \geq c\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{1}(x)=\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Z_{i}(x)^{\prime} \mathbb{1}\left\{X_{i} \geq c\right\}\right)^{-1}\left(\sum_{i=1}^{n} K\left(\frac{X_{i}-x}{h}\right) Z_{i}(x) Y_{i} \mathbb{1}\left\{X_{i} \geq c\right\}\right) .
+\]</span></p>
+<p>The estimator of the CEF is the first element of the coefficient vectors</p>
+<p><span class="math display">\[
+\widehat{m}(x)=\left[\widehat{\beta}_{0}(x)\right]_{1} \mathbb{1}\{x&lt;c\}+\left[\widehat{\beta}_{1}(x)\right]_{1} \mathbb{1}\{x \geq c\} .
+\]</span></p>
+<p>The estimator of <span class="math inline">\(\bar{\theta}\)</span> is the difference at <span class="math inline">\(x=c\)</span></p>
+<p><span class="math display">\[
+\widehat{\theta}=\left[\widehat{\beta}_{1}(c)\right]_{1}-\left[\widehat{\beta}_{0}(c)\right]_{1}=\widehat{m}(c+)-\widehat{m}(c-) .
+\]</span></p>
+<p>For efficient estimation at boundary points the Triangular kernel is recommended. However, the Epanechnikov and Gaussian have similar efficiencies (see Section 19.10). Some authors have made a case for the Rectangular kernel as this permits standard regression software to be used. There is an efficiency loss (3% in root AMSE) in return for this convenience.</p>
+<p>The CEF estimate <span class="math inline">\(\widehat{m}(x)\)</span> should be plotted to give a visual inspection of the regression function and discontinuity. Many authors plot the CEF only over the support near <span class="math inline">\(x=c\)</span> to emphasize the local nature of the estimation. Confidence bands should be calculated and plotted as described in Section 19.17. These are calculated separately for the non-treatment and treatment subsamples but otherwise are identical to those described in Section 19.17.</p>
+<p>To illustrate, Figure 21.1(b) displays our estimates of the Ludwig-Miller (2007) Head Start RDD model for childhood mortality due to HS-related causes. We use a normalized <span class="math inline">\({ }^{2}\)</span> Triangular kernel and a bandwidth of <span class="math inline">\(h=8\)</span>. This bandwidth choice is described in Section 21.6. The x-axis is the 1960 poverty rate. The cut-off is <span class="math inline">\(59.1984 %\)</span>. Counties below the cut-off did not receive grant-writing assistance, counties above the cut-off received assistance. The mortality rate is on the y-axis (deaths per 100,000). The estimates show that the mortality rate is increasing in the poverty rate (nearly linear) with a substantial downward discontinuity at the <span class="math inline">\(59.1984 %\)</span> cut-off. The discontinuity is about <span class="math inline">\(1.5\)</span> deaths per 100,000 . The confidence bands indicate that the estimated CEFs have a fair amount of uncertainty at the boundaries. The CEF in the treated sample appears nonlinear and the confidence bands are very wide.</p>
+<p>There is a custom in the applied economics literature to display Figure 21.1(b) somewhat differently. Rather than displaying confidence intervals along with the local linear estimates many applied economists display binned means. The binned means are displayed by squares or triangles and are meant to indicate a raw estimate of the nonparametric shape of the CEF. This custom is a poor choice, a bad habit, and should be avoided. There are two problems with this practice. First, the use of symbols creates the visual impression of a scatter plot of raw data, when in fact what is displayed are binned means. The latter is a nonparametric histogram-shaped estimator, and should be displayed as a histogram rather than as a scatter plot. Second, binned means are not really raw data, but are instead a different (and inaccurate) nonparametric estimator. Binned means is the same as the Nadaraya-Watson estimator using a Rectangular kernel and only evalutated at a grid of points rather than continuously. Local linear estimation is superior to the Nadaraya-Watson, any kernel is superior to the Rectangular, and there is no reason to evaluate only on an arbitrary grid. These plots are not “best practice”; rather, they are a bad habit which arose from undisciplined applied practice. The best practice is to plot the best possible nonparametric estimator and to plot confidence intervals to convey uncertainty.</p>
+</section>
+<section id="inference" class="level2" data-number="20.5">
+<h2 data-number="20.5" class="anchored" data-anchor-id="inference"><span class="header-section-number">20.5</span> Inference</h2>
+<p>As described in Theorems <span class="math inline">\(19.6\)</span> and 19.9, the LL estimator <span class="math inline">\(\widehat{m}(x)\)</span> is asymptotically normal under standard regularity conditions. This extends to the RDD estimator <span class="math inline">\(\widehat{\theta}\)</span>. It has asymptotic bias</p>
+<p><span class="math display">\[
+\operatorname{bias}[\widehat{\theta}]=\frac{h^{2} \sigma_{K^{*}}^{2}}{2}\left(m^{\prime \prime}(c+)-m^{\prime \prime}(c-)\right)
+\]</span></p>
+<p>and variance</p>
+<p><span class="math display">\[
+\operatorname{var}[\widehat{\theta}]=\frac{R_{K}^{*}}{n h}\left(\frac{\sigma^{2}(c+)}{f(c+)}+\frac{\sigma^{2}(c-)}{f(c-)}\right) .
+\]</span></p>
+<p>The asymptotic variance can be estimated by the sum of the asymptotic variance estimators of the two boundary regression estimators as described in Section 19.16. Let <span class="math inline">\(\widetilde{e}_{i}\)</span> be the leave-one-out prediction error and set</p>
+<p><span class="math display">\[
+\begin{gathered}
+Z_{i}=\left(\begin{array}{c}
+1 \\
+X_{i}-c
+\end{array}\right) \\
+K_{i}=K\left(\frac{X_{i}-c}{h}\right) .
+\end{gathered}
+\]</span></p>
+<p><span class="math inline">\({ }^{2}\)</span> Normalized to have unit variance. Some software implements the Triangular kernel scaled to have support on [-1,1]. The results are identical if the bandwidth is multiplied by <span class="math inline">\(\sqrt{6}\)</span>. For example, my estimates using <span class="math inline">\(h=8\)</span> and a normalized Triangular kernel are the same as estimates using a <span class="math inline">\([-1,1]\)</span> Triangular kernel with a bandwidth of <span class="math inline">\(h=19.6\)</span>. The covariance matrix estimators are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{0} &amp;=\left(\sum_{i=1}^{n} K_{i} Z_{i} Z_{i}^{\prime} \mathbb{1}\left\{X_{i}&lt;c\right\}\right)^{-1}\left(\sum_{i=1}^{n} K_{i}^{2} Z_{i} Z_{i}^{\prime} \widetilde{e}_{i}^{2} \mathbb{1}\left\{X_{i}&lt;c\right\}\right)\left(\sum_{i=1}^{n} K_{i} Z_{i} Z_{i}^{\prime} \mathbb{1}\left\{X_{i}&lt;c\right\}\right)^{-1} \\
+\widehat{\boldsymbol{V}}_{1} &amp;=\left(\sum_{i=1}^{n} K_{i} Z_{i} Z_{i}^{\prime} \mathbb{1}\left\{X_{i} \geq c\right\}\right)^{-1}\left(\sum_{i=1}^{n} K_{i}^{2} Z_{i} Z_{i}^{\prime} \widetilde{e}_{i}^{2} \mathbb{1}\left\{X_{i} \geq c\right\}\right)\left(\sum_{i=1}^{n} K_{i} Z_{i} Z_{i}^{\prime} \mathbb{1}\left\{X_{i} \geq c\right\}\right)^{-1} .
+\end{aligned}
+\]</span></p>
+<p>The asymptotic variance estimator for <span class="math inline">\(\widehat{\theta}\)</span> is the sum of the first diagonal element from these two covariance matrix estimators, <span class="math inline">\(\left[\widehat{\boldsymbol{V}}_{0}\right]_{11}+\left[\widehat{\boldsymbol{V}}_{0}\right]_{11}\)</span>. The standard error for <span class="math inline">\(\hat{\theta}\)</span> is the square root of the variance estimator.</p>
+<p>Inferential statements about the treatment effect <span class="math inline">\(\bar{\theta}\)</span> are affected by bias just as in any nonparametric estimation context. In general the degree of bias is uncertain. There are two recommendations which may help to reduce the finite sample bias. First, use a common bandwidth for estimation of the LL regression on each sub-sample. When <span class="math inline">\(m(x)\)</span> has a continuous second derivative at <span class="math inline">\(x=c\)</span> this will result in a zero first-order asymptotic bias. Second, use a bandwidth which is smaller than the AMSE-optimal bandwidth. This reduces the bias at the cost of increased variance and standard errors. Overall this leads to more honest inference statements.</p>
+<p>Table 21.1: RDD Estimates of the Effect of Head Start Assistance on Childhood Mortality</p>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-06.jpg" class="img-fluid"></p>
+<p>To illustrate, Table <span class="math inline">\(21.1\)</span> presents the RDD estimate of the Head Start treatment effect (the effect of grant-writing assistance on a county with poverty rate at the policy cut-off). This equals the vertical distance between the estimated CEFs from Figure 21.1(b). The point estimate is <span class="math inline">\(-1.51\)</span> with a standard error of <span class="math inline">\(0.71\)</span>. The t-statistic for a test of no effect has a p-value of <span class="math inline">\(3 %\)</span>, consistent with statistical significance at conventional levels. The estimated policy impact is large. It states that federal grant-writing assistance, and the resulting surge in spending on the Head Start program, led to a long-term decrease in targeted mortality by about <span class="math inline">\(1.5\)</span> children per 100,000. Given that the estimated untreated mortality rate is <span class="math inline">\(3.3\)</span> children per 100,000 at the cut-off this is a near <span class="math inline">\(50 %\)</span> decrease in the mortality rate.</p>
+</section>
+<section id="bandwidth-selection" class="level2" data-number="20.6">
+<h2 data-number="20.6" class="anchored" data-anchor-id="bandwidth-selection"><span class="header-section-number">20.6</span> Bandwidth Selection</h2>
+<p>In nonparametric estimation the most critical choice is the bandwidth. This is especially important in RDD estimation as there is not broad agreement on the best bandwidth selection method. It therefore is prudent to calculate several data-based bandwidth rules before estimation. I will describe two simple approaches based on the global fit of the RDD estimator.</p>
+<p>Our first suggestion is the Rule-of-Thumb (ROT) bandwidth (19.9) of Fan and Gijbels (1996) modified to allow for a discontinuity at <span class="math inline">\(x=c\)</span>. The method requires a reference model. A modest extension of FanGijbels’ approach is a <span class="math inline">\(q^{t h}\)</span> order polynomial plus a level shift discontinuity. This model is</p>
+<p><span class="math display">\[
+m(x)=\beta_{0}+\beta_{1} x+\beta_{2} x^{2}+\cdots+\beta_{q} x^{q}+\beta_{q+1} D
+\]</span></p>
+<p>where <span class="math inline">\(D=\mathbb{1}\{x \geq c\}\)</span>. Estimate this model by least squares, obtain coefficient estimates and the variance estimate <span class="math inline">\(\widehat{\sigma}^{2}\)</span>. From the coefficient estimates calculate the estimated second derivative</p>
+<p><span class="math display">\[
+\widehat{m}^{\prime \prime}(x)=2 \widehat{\beta}_{2}+6 \widehat{\beta}_{3} x+12 \widehat{\beta}_{4} x^{2}+\cdots+q(q-1) \widehat{\beta}_{q} x^{q-2} .
+\]</span></p>
+<p>The constant <span class="math inline">\(\bar{B}\)</span> in (19.9) is estimated by</p>
+<p><span class="math display">\[
+\widehat{B}=\frac{1}{n} \sum_{i=1}^{n}\left(\frac{1}{2} \widehat{m}^{\prime \prime}\left(X_{i}\right)\right)^{2} \mathbb{1}\left\{\xi_{1} \leq X_{i} \leq \xi_{2}\right\}
+\]</span></p>
+<p>where <span class="math inline">\(\left[\xi_{1}, \xi_{2}\right]\)</span> is the region of evaluation (and can be set to equal to the support of <span class="math inline">\(X\)</span> when the latter is bounded). The reference bandwidth (19.9) is then</p>
+<p><span class="math display">\[
+h_{\mathrm{rot}}=0.58\left(\frac{\widehat{\sigma}^{2}\left(\xi_{2}-\xi_{1}\right)}{\widehat{B}}\right)^{1 / 5} n^{-1 / 5} .
+\]</span></p>
+<p>Fan-Gijbels recommend <span class="math inline">\(q=4\)</span> but other choices can be used for the polynomial order. The ROT bandwidth (21.3) is appropriate for any normalized (variance one) kernel. For the unnormalized rectangular kernel <span class="math inline">\(K(u)=1 / 2\)</span> for <span class="math inline">\(|u| \leq 1\)</span> replace the constant <span class="math inline">\(0.58\)</span> with <span class="math inline">\(1.00\)</span>. For the unnormalized Triangular kernel <span class="math inline">\(K(u)=1-|u|\)</span> for <span class="math inline">\(|u| \leq 1\)</span> replace the constant <span class="math inline">\(0.58\)</span> with <span class="math inline">\(1.42\)</span>.</p>
+<p>Another useful method is cross-validation. CV for the RDD estimator is essentially the same as for any other nonparametric estimator. For each bandwidth the leave-one-out residuals are calculated and their sum of squares recorded. The bandwidth which minimizes this criterion is the CV-selected choice. Plots of the CV criterion as a function of <span class="math inline">\(h\)</span> can aid in determinining the sensitivity of the fit with respect to the bandwidth.</p>
+<p>These two proposals aim to produce a bandwidth <span class="math inline">\(h\)</span> with global accuracy. An alternative is a bandwidth selection rule which aims at accuracy at or near the cut-off. The advantage of the global approach is that it is a simpler estimation problem and thus more accurate and less variable. Bandwidth estimation is a hard problem. Noise in estimation of the bandwidth will translate into estimation noise for the RDD estimate. On the other hand, methods which aim at accuracy at the cut-off are targeted at the object of interest. This is a challenging estimation issue so I will not review it further. For specific proposals see Imbens and Kalyanaraman (2012), Arai and Ichimura (2018), and Cattaneo, Idrobo, Titiunik (2020).</p>
+<p>A compromise is calculate the CV criteria with the region of evaluation <span class="math inline">\(\left[\xi_{1}, \xi_{2}\right]\)</span> a subset of the full support of <span class="math inline">\(X\)</span> centered close to the cut-off. Several of the early review papers recommended this approach. The challenge with this approach is that the CV criteria is a noisy estimator and by restricting the region of evaluation we are increasing its estimation variance. This increases noise.</p>
+<p>In applications I recommend that you start by calculating the Fan-Gijbels ROT bandwidth for several values of polynomial order <span class="math inline">\(q\)</span>. When comparing the results pay attention to the precision of the coefficients in the polynomial regression. If the high-order powers are imprecisely estimated the bandwidth estimates may be noisy as well. Second, find the bandwidth which minimizes the cross-validation criterion. Plot the CV criterion. If it is relatively flat this informs you that it is difficult to rank bandwidths. Combine the above information to select an AMSE-minimizing bandwidth. Then reduce this bandwidth somewhat (perhaps 25%) to reduce estimation bias.</p>
+<p>Some robustness checking (estimation with alternative bandwidths) is prudent, but narrowly so. A rather odd implication of the robustness craze is to desire results which do not change with bandwidths. Contrariwise, if the true regression function is nonlinear then results will change with bandwidths. What you should expect is that as you reduce the bandwidth the estimated function will reveal a combination of shape and noise accompanied by wider confidence bands. As you increase the bandwidth the estimates will straighten out and the confidence bands will narrow. The narrowness means that the estimates have reduced variance but this comes at the cost of increased (and uncertain) bias. We illustrate using the Ludwig-Miller (2007) Head Start application. We calculated the modified FanGijbels ROT using <span class="math inline">\(q=2,3\)</span>, and 4, obtaining bandwidths of <span class="math inline">\(h_{\mathrm{rot}}(q=2)=24.6, h_{\mathrm{rot}}(q=3)=11.0\)</span>, and <span class="math inline">\(h_{\text {rot }}(q=4)=5.2\)</span>. These results are sensitive to the choice of polynomial. Examining these polynomial regressions we see that the third and fourth coefficient estimates have large standard errors so are noisy. We next evalulated the cross-validation criterion on the region [1,30] (not shown). We found that the CV criterion is monotonically decreasing with <span class="math inline">\(h\)</span>, though quite flat for <span class="math inline">\(h \geq 20\)</span>. Essentially the CV criterion recommends an infinite bandwidth which means using all observations equally weighted. Since we want a bandwidth which is smaller than AMSE-optimal, we lean towards smaller bandwidths and take a rough average of the ROT bandwidths with <span class="math inline">\(q=3\)</span> and <span class="math inline">\(q=4\)</span> to obtain <span class="math inline">\(h=8\)</span>. This is the bandwidth used in the empirical results shown in this chapter.</p>
+<p>Larger bandwidths result in flatter (more linear) estimated conditional mean functions and a smaller estimated Head Start effect. Smaller bandwidths result in more curvature in the estimated conditional mean functions, in particular for the section above the cut-off.</p>
+</section>
+<section id="rdd-with-covariates" class="level2" data-number="20.7">
+<h2 data-number="20.7" class="anchored" data-anchor-id="rdd-with-covariates"><span class="header-section-number">20.7</span> RDD with Covariates</h2>
+<p>A powerful implication of Theorem <span class="math inline">\(21.1\)</span> is that covariates are not necessary to identify the conditional ATE. This implies that augmenting the regression model to include covariates is not necessary for estimation and inference. The precision of estimation, however, will be affected. Inclusion of relevant covariates can reduce the equation error. It is therefore prudent to consider the addition of relevant covariates when available.</p>
+<p>Denote the variables as <span class="math inline">\((Y, X, Z)\)</span> where <span class="math inline">\(Z\)</span> is a vector of covariates. Again consider the potential outcomes framework where <span class="math inline">\(Y_{0}\)</span> and <span class="math inline">\(Y_{1}\)</span> are the outcome with and without treatment. Assume that the CEFs take the partially linear form</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\mathbb{E}\left[Y_{0} \mid X=x, Z=z\right]=m_{0}(x)+\beta^{\prime} z \\
+&amp;\mathbb{E}\left[Y_{1} \mid X=x, Z=z\right]=m_{1}(x)+\beta^{\prime} z .
+\end{aligned}
+\]</span></p>
+<p>For simplicity we assume that the linear coefficients are the same in the two equations. This is not essential but simplifies the estimation strategy. It follows that the CEF for <span class="math inline">\(Y\)</span> equals</p>
+<p><span class="math display">\[
+m(x, z)=m_{0}(x) \mathbb{1}\{x, c\}+m_{1}(x) \mathbb{1}\{x \geq c\}+\beta^{\prime} z .
+\]</span></p>
+<p>A minor extension of Theorem <span class="math inline">\(21.1\)</span> shows that the conditional ATE is <span class="math inline">\(\bar{\theta}=m(c+, z)-m(c-, z)\)</span>.</p>
+<p>Different authors have suggested different methods for estimation of the RDD with covariates model. The preferred method is the estimator of Robinson (1988). See Section 19.24. (It is preferred because Robinson demonstrated that it is semiparametrically efficient while the other suggestions have no efficiency justification.) The estimation method is as follows.</p>
+<ol type="1">
+<li><p>Use the RDD local linear estimator to regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(X_{i}\)</span> to obtain the first-step fitted values <span class="math inline">\(\widehat{m}_{i}=\)</span> <span class="math inline">\(\widehat{m}\left(X_{i}\right)\)</span></p></li>
+<li><p>Using LL regression, regress <span class="math inline">\(Z_{i 1}\)</span> on <span class="math inline">\(X_{i}, Z_{i 2}\)</span> on <span class="math inline">\(X_{i}, \ldots\)</span>, and <span class="math inline">\(Z_{i k}\)</span> on <span class="math inline">\(X_{i}\)</span>, obtaining the fitted values for the covariates, say <span class="math inline">\(\widehat{g}_{1 i}, \ldots, \widehat{g}_{k i}\)</span>.</p></li>
+<li><p>Regress <span class="math inline">\(Y_{i}-\widehat{m}_{i}\)</span> on <span class="math inline">\(Z_{1 i}-\widehat{g}_{1 i}, \ldots, Z_{k i}-\widehat{g}_{k i}\)</span> to obtain the coefficient estimate <span class="math inline">\(\widehat{\beta}\)</span> and standard errors.</p></li>
+<li><p>Construct the residual <span class="math inline">\(\widehat{e}_{i}=Y_{i}-Z_{i}^{\prime} \widehat{\beta}\)</span>. 5. Use the RDD local linear estimator to regress <span class="math inline">\(\widehat{e}_{i}\)</span> on <span class="math inline">\(X_{i}\)</span> to obtain the nonparametric estimator <span class="math inline">\(\widehat{m}(x)\)</span>, conditional ATE <span class="math inline">\(\widehat{\theta}\)</span>, and associated standard errors.</p></li>
+</ol>
+<p>As shown by Robinson (1988) and discussed in Section 19.24, the above estimator is semiparametrically efficient, the conventional asymptotic theory valid, and conventional inference is valid. Thus the estimators can be used to assess the conditional ATE.</p>
+<p>As mentioned above, inclusion of covariates does not alter the conditional ATE parameter <span class="math inline">\(\bar{\theta}\)</span> under correct specification. Inclusion of covariates can, however, affect the conditional mean function <span class="math inline">\(m(x)\)</span> at points <span class="math inline">\(x\)</span> away from the discontinuity. Covariates will also affect the precision of the estimator and standard errors.</p>
+<p>To illustrate, we augment the Ludwig-Miller Head Start estimates with two covariates: the countylevel Black population percentage, and the county-level urban population percentage. These variables can be viewed as proxies for income. We estimate the model using the Robinson estimator. The estimated nonlinear function <span class="math inline">\(m(x)\)</span> is displayed in Figure 21.2(a), the coefficient estimates in Table 21.1.</p>
+<p>Comparing Figure 21.2(a) with Figure 21.1(b) it appears that the estimated conditional ATE (the treatment effect of the policy) is about the same but the shape of <span class="math inline">\(m(x)\)</span> is different. With the covariates included <span class="math inline">\(m(x)\)</span> is considerably flatter. Examining Table <span class="math inline">\(21.1\)</span> we can see that the estimated treatment effect is nearly the same as in the baseline model without covariates. We also see that the coefficient on the Black percentage is positive and that on the urban percentage is negative, consistent with the view that these are serving as proxies for income.</p>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-09.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>RDD with Covariates</li>
+</ol>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-09(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Histogram of Poverty Rate</li>
+</ol>
+<p>Figure 21.2: RDD Diagnostics</p>
+</section>
+<section id="a-simple-rdd-estimator" class="level2" data-number="20.8">
+<h2 data-number="20.8" class="anchored" data-anchor-id="a-simple-rdd-estimator"><span class="header-section-number">20.8</span> A Simple RDD Estimator</h2>
+<p>A simple RDD estimator can be implement by a standard regression using conventional software. It is equivalent to a LL estimator with an unnormalized Rectangular bandwidth. Estimate the regression</p>
+<p><span class="math display">\[
+Y=\beta_{0}+\beta_{1} X+\beta_{3}(X-c) D+\theta D+e
+\]</span></p>
+<p>for the subsample of observations such that <span class="math inline">\(|X-c| \leq h\)</span>. The coefficient estimate <span class="math inline">\(\widehat{\theta}\)</span> is the estimated conditional ATE and inference can proceed conventionally using regression standard errors. The most important choice is the bandwidth. The ROT choice is (21.3) with <span class="math inline">\(1.00\)</span> replacing the constant <span class="math inline">\(0.58\)</span>.</p>
+<p>To illustrate, take the Head Start sample. For the normalized Triangular kernel we had used a bandwidth of <span class="math inline">\(h=8\)</span>. This is consistent with a bandwidth of <span class="math inline">\(h=8 \sqrt{3} \simeq 13.8\)</span> for the unnormalized Rectangular kernel. We took the subsample of 482 with poverty rates in the interval <span class="math inline">\(59.1984 \pm 13.8=[45.4,72.0]\)</span> and estimated equation (21.4) by least squares. The estimates are</p>
+<p><span class="math display">\[
+\widehat{Y}=\begin{array}{cc}
+-3.11+ \\
+(9.13) &amp; 0.11 \\
+(0.17)
+\end{array} \quad X+\underset{(0.23)}{0.18}(X-59.2) D-\underset{(1.06)}{2.20} D .
+\]</span></p>
+<p>The point estimate <span class="math inline">\(-2.2\)</span> of the conditional ATE is larger than those reported in Table <span class="math inline">\(21.1\)</span> but within sampling variation. The standard error for the effect is also larger, consistent with our expectation that the rectangular kernel estimator is less accurate.</p>
+</section>
+<section id="density-discontinuity-test" class="level2" data-number="20.9">
+<h2 data-number="20.9" class="anchored" data-anchor-id="density-discontinuity-test"><span class="header-section-number">20.9</span> Density Discontinuity Test</h2>
+<p>The core identification theorem assumes that the CEFs <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span> are continuous at the cutoff. These assumptions may be violated if the running variable is manipulated by individuals seeking or avoiding treatment. Manipulation to obtain treatment is likely to lead to bunching of the running variable just above or below the cut-off. If there is no manipulation we expect the density of <span class="math inline">\(X\)</span> to be continuous at <span class="math inline">\(x=c\)</span>, but if there is manipulation we expect that there might be a discontinuity in the density of <span class="math inline">\(X\)</span> at <span class="math inline">\(x=c\)</span>.</p>
+<p>A reasonable specification check is to assess if the density <span class="math inline">\(f(x)\)</span> of <span class="math inline">\(X\)</span> is continuous at <span class="math inline">\(x=c\)</span>. Some care needs to be exercised in implementation, however, as conventional density estimators smooth over discontinuities and conventional density estimators are biased at boundary points (similarly to the bias of the Nadaraya-Watson estimator at boundary points).</p>
+<p>A simple visual check is the histogram of the running variable with narrow bins, carefully constructed so that no bin spans the cut-off. If the histogram bins display no evidence of bunching at one side of the cut-off this is consistent with the hypothesis that the density is continuous at the cut-off; on the other hand if there is a noticable spike on either side this is inconsistent with the hypothesis of correct specification.</p>
+<p>In the Head Start example it is not credible that the running variable was manipulated by the individual counties because it was constructed from the 1960 census by a federal agency in 1965 . Never-the-less we can examine the evidence. In Figure 21.2(b) we display a histogram of frequency counts for the running variable (county poverty rate), with bins of width 2, constructed so that one of the bin endpoints falls exactly at the cut-off (the solid line). The histogram appears to be continuously decreasing throughout its support. In particular there is no visual evidence of bunching around the cut-off.</p>
+<p>McCrary (2008) implements a formal test for continuity of the density at the cut-off. I only give a brief summary here; see his paper for details. The first step is a fine histogram estimator, similar to Figure 21.2(b) but with more narrow bin widths. The second step is to apply the RDD local linear estimator treating the histogram heights as the outcome variable and the bin midpoints at the running variable. This is a local linear density estimator and is not subject to the boundary bias problems of the conventional kernel density estimator. The RDD conditional ATE is the difference in the density at the cut-off. McCrary derives the asymptotic distribution of the estimator of the density difference and proposes an appropriate t-statistic for testing the hypothesis of a continuous density. If the statistic is large this is evidence against the assumption of no manipulation, suggesting that the RDD design is not appropriate.</p>
+</section>
+<section id="fuzzy-regression-discontinuity" class="level2" data-number="20.10">
+<h2 data-number="20.10" class="anchored" data-anchor-id="fuzzy-regression-discontinuity"><span class="header-section-number">20.10</span> Fuzzy Regression Discontinuity</h2>
+<p>The sharp regression discontinuity requires that the cut-off perfectly separates treatment from nontreatment. An alternative context is where this separation is imperfect but the conditional probability of treatment is discontinuous at the cut-off. This is called fuzzy regression discontinuity (FRD).</p>
+<p>Again consider the potential outcomes framework, where <span class="math inline">\(Y_{0}\)</span> and <span class="math inline">\(Y_{1}\)</span> are the outcomes without treatment and with treatment, <span class="math inline">\(\theta=Y_{1}-Y_{0}\)</span> is the treatment effect, <span class="math inline">\(X\)</span> is the running variable, the conditional average treatment effect at the cutoff is <span class="math inline">\(\bar{\theta}=\mathbb{E}[\theta \mid X=c]\)</span>, and <span class="math inline">\(D=1\)</span> indicates treatment. Define the conditional probability of treatment</p>
+<p><span class="math display">\[
+p(x)=\mathbb{P}[D=1 \mid X=x] .
+\]</span></p>
+<p>and the left and right limits at the cut-off <span class="math inline">\(p(c+)\)</span> and <span class="math inline">\(p(c-)\)</span>. The FRD applies when <span class="math inline">\(p(c+) \neq p(c-)\)</span>.</p>
+<p>This siutation is illustrated in Figure 21.3(a). This displays the conditional probability of treatment as a function of the running variable <span class="math inline">\(X\)</span> with a discontinuity at <span class="math inline">\(X=c\)</span>.</p>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-11.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Conditional Treatment Probability</li>
+</ol>
+<p><img src="images//2022_10_23_bb8a8d8a5dc56cf142a9g-11(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Fuzzy Regression Discontinuity</li>
+</ol>
+<p>Figure 21.3: Fuzzy Regression Discontinuity Design</p>
+<p>The following is the core identification theorem for the regression discontinuity design. It is due to Hahn, Todd, and Van der Klaauw (2001).</p>
+<p>Theorem 21.2 Suppose that <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span> are continuous at <span class="math inline">\(x=c, p(x)\)</span> is discontinuous at <span class="math inline">\(x=c\)</span>, and <span class="math inline">\(D\)</span> is independent of <span class="math inline">\(\theta\)</span> for <span class="math inline">\(X\)</span> near <span class="math inline">\(c\)</span>. Then</p>
+<p><span class="math display">\[
+\bar{\theta}=\frac{m(c+)-m(c-)}{p(c+)-p(c-)} .
+\]</span></p>
+<p>Theorem <span class="math inline">\(21.2\)</span> is a more substantial identification result than Theorem <span class="math inline">\(21.1\)</span> as it is inherently surprising. It states that the conditional ATE is identified by the ratio of the discontinuities in the CEF and conditional probability functions under the stated assumptions. This broadens the scope for potential application of the regression discontinuity framework beyond the sharp RDD.</p>
+<p>In addition to the discontinuity of <span class="math inline">\(p(x)\)</span>, the key additional assumption relative to Theorem <span class="math inline">\(21.1\)</span> is that treatment <span class="math inline">\(D\)</span> is independent of the treatment effect <span class="math inline">\(\theta\)</span> at <span class="math inline">\(X=x\)</span>. This is a strong assumption. It means that treatment assignment is randomly assigned for individuals with <span class="math inline">\(X\)</span> near <span class="math inline">\(c\)</span>. This does not allow, for example, for individuals to select into treatment, for then individuals with high treatment effects <span class="math inline">\(\theta\)</span> are more likely to seek treatment than individuals with low treatment effects <span class="math inline">\(\theta\)</span>. Hahn, Todd, and Van der Klaauw (2001) use the somewhat stronger assumption that treatment effect <span class="math inline">\(\theta\)</span> is constant across individuals.</p>
+<p>A display of the outcomes is given in Figure 21.3(b). The two dashed lines are the mean potential outcomes <span class="math inline">\(m_{0}(x)\)</span> and <span class="math inline">\(m_{1}(x)\)</span>. The realized CEF <span class="math inline">\(m(x)\)</span> is the probability weighted average of these two functions using the probability function displayed in panel (a). Since the probability function is discontinuous at <span class="math inline">\(x=c\)</span> the CEF <span class="math inline">\(m(x)\)</span> also is discontinuous at <span class="math inline">\(x=c\)</span>. The discontinuity, however, is not the full conditional ATE <span class="math inline">\(\bar{\theta}\)</span>. The important contribution of Theorem <span class="math inline">\(21.2\)</span> is that the conditional ATE equals the ratio of the discontinuities in panels (b) and (a).</p>
+<p>To prove the Theorem, first observe that the observed outcome is</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=Y_{0} \mathbb{1}\{D=0\}+Y_{1} \mathbb{1}\{D=1\} \\
+&amp;=Y_{0}+\theta \mathbb{1}\{D=1\} .
+\end{aligned}
+\]</span></p>
+<p>Taking expectations conditional on <span class="math inline">\(X=x\)</span> for <span class="math inline">\(x\)</span> near <span class="math inline">\(c\)</span> we obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+m(x) &amp;=m_{0}(x)+\mathbb{E}[\theta \mathbb{1}\{D=1\} \mid X=x] \\
+&amp;=m_{0}(x)+\theta(x) p(x)
+\end{aligned}
+\]</span></p>
+<p>where the second equality uses the assumption that <span class="math inline">\(\theta\)</span> and <span class="math inline">\(D\)</span> are independent for <span class="math inline">\(X\)</span> near <span class="math inline">\(c\)</span>. The left and right limits at <span class="math inline">\(c\)</span> are</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;m(c+)=m_{0}(c)+\bar{\theta} p(c+) \\
+&amp;m(c-)=m_{0}(c)+\bar{\theta} p(c-) .
+\end{aligned}
+\]</span></p>
+<p>Taking the difference and re-arranging we establish the theorem.</p>
+</section>
+<section id="estimation-of-frd" class="level2" data-number="20.11">
+<h2 data-number="20.11" class="anchored" data-anchor-id="estimation-of-frd"><span class="header-section-number">20.11</span> Estimation of FRD</h2>
+<p>As displayed in (21.2) the LL estimator of the discontinuity <span class="math inline">\(m(c+)-m(c-)\)</span> is obtained by local linear regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> on the two sides of the cut-off, leading to</p>
+<p><span class="math display">\[
+\widehat{m}(c+)-\widehat{m}(c-)=\left[\widehat{\beta}_{1}(c)\right]_{1}-\left[\widehat{\beta}_{0}(c)\right]_{1} .
+\]</span></p>
+<p>Similarly, a LL estimator <span class="math inline">\(\hat{p}(c+)-\widehat{p}(c-)\)</span> of the discontinuity <span class="math inline">\(p(c+)-p(c-)\)</span> can obtained by local linear regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(D\)</span> on the two sides of the cut-off. Dividing we obtain the estimator of the conditional ATE</p>
+<p><span class="math display">\[
+\widehat{\theta}=\frac{\widehat{m}(c+)-\widehat{m}(c-)}{\widehat{p}(c+)-\widehat{p}(c-)} .
+\]</span></p>
+<p>This generalizes the sharp RDD estimator, for in that case <span class="math inline">\(p(c+)-p(c-)=1\)</span>.</p>
+<p>This estimator bears a striking resemblance to the Wald expression (12.27) for the structural coefficient and estimator (12.28) in an IV regression with a binary instrument. In fact, <span class="math inline">\(\widehat{\theta}\)</span> can be thought of as a locally weighted IV estimator of a regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span> with instrument <span class="math inline">\(D\)</span>. However, the easiest way to implement estimation is using the expression for <span class="math inline">\(\widehat{\theta}\)</span> above.</p>
+<p>The estimator (21.7) requires four LL regressions. It is unclear if common bandwidths should be used for the numerator and denominator or if different bandwidths is a better choice. Bandwidth selection is critically important. In addition to assessing the fit of the regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(X\)</span>, it is important to check the fit of the regression of <span class="math inline">\(D\)</span> on <span class="math inline">\(X\)</span> for the estimator <span class="math inline">\(\hat{p}(x)\)</span>. The latter is the reduced form of the IV model. Identification rests on its precision.</p>
+<p>The identification of the FRD conditional ATE depends on the magnitude of the discontinuity in the conditional probability <span class="math inline">\(p(x)\)</span> at <span class="math inline">\(x=c\)</span>. A small discontinuity will lead to a weak instruments problem.</p>
+<p>Standard errors can be calculated similar to IV regression. Let <span class="math inline">\(s(\widehat{\theta})\)</span> be a standard error <span class="math inline">\(\widehat{m}(c+)-\)</span> <span class="math inline">\(\widehat{m}(c-)\)</span>. Then a standard error for <span class="math inline">\(\widehat{\theta}\)</span> is <span class="math inline">\(s(\widehat{\theta}) /|\widehat{p}(c+)-\widehat{p}(c-)|\)</span>.</p>
+<p>In FRD applications it is recommended to plot the estimated functions <span class="math inline">\(\widehat{m}(x)\)</span> and <span class="math inline">\(\widehat{p}(x)\)</span> along with confidence bands to assess precision. You are looking for evidence that the discontinuity in <span class="math inline">\(p(x)\)</span> is real and meaningful so that the conditional ATE <span class="math inline">\(\theta\)</span> is identified. A discontinuity in <span class="math inline">\(m(x)\)</span> is an indicator whether or not the conditional ATE is non-zero. If there is no discontinuity in <span class="math inline">\(m(x)\)</span> then <span class="math inline">\(\theta=0\)</span>. The estimate of the conditional ATE is the ratio of these two estimated discontinuities.</p>
+</section>
+<section id="exercises" class="level2" data-number="20.12">
+<h2 data-number="20.12" class="anchored" data-anchor-id="exercises"><span class="header-section-number">20.12</span> Exercises</h2>
+<p>Exercise 21.1 We have described the RDD when treatment occurs for <span class="math inline">\(D=\mathbb{1}\{X \geq c\}\)</span>. Suppose instead that treatment occurs for <span class="math inline">\(D=\mathbb{1}\{X \leq c\}\)</span>. Describe the differences (if any) involved in estimating the conditional ATE <span class="math inline">\(\bar{\theta}\)</span>.</p>
+<p>Exercise 21.2 Suppose treatment occurs for <span class="math inline">\(D=\mathbb{1}\left\{c_{1} \leq X \leq c_{2}\right\}\)</span> where both <span class="math inline">\(c_{1}\)</span> and <span class="math inline">\(c_{2}\)</span> are in the interior of the support of <span class="math inline">\(X\)</span>. What treatment effects are identified?</p>
+<p>Exercise 21.3 Show that (21.1) is obtained by taking the conditional expectation as described.</p>
+<p>Exercise 21.4 Explain why equation (21.4) estimated on the subsample for which <span class="math inline">\(|X-c| \leq h\)</span> is identical to a local linear regression with a Rectangular bandwidth.</p>
+<p>Exercise 21.5 Use the datafile LM2007 on the textbook webpage. Replicate the regresssion (21.5) using the subsample with poverty rates in the interval <span class="math inline">\(59.1984 \pm 13.8\)</span> (as described in the text). Repeat with intervals of <span class="math inline">\(59.1984 \pm 7\)</span> and <span class="math inline">\(59.1984 \pm 20\)</span>. Report your estimates of the conditional ATE and standard error. The dependent variable is mort_age59_related_postHS. (The running variable is povrate60.)</p>
+<p>Exercise 21.6 Use the datafile LM2007 on the textbook webpage. Replicate the baseline RDD estimate as reported in Table 21.1. This uses a normalized Triangular kernel with a bandwidth of <span class="math inline">\(h=8\)</span>. (If you use an unnormalized Triangular kernel (as used, for example, in Stata) this corresponds to a bandwidth of <span class="math inline">\(h=19.6\)</span> ). Repeat with a bandwidth of <span class="math inline">\(h=4\)</span> and <span class="math inline">\(h=12\)</span> (or <span class="math inline">\(h=9.8\)</span> and <span class="math inline">\(h=29.4\)</span> if an unnormalized Triangular kernel is used). Report your estimates of the conditional ATE and standard error.</p>
+<p>Exercise 21.7 Use the datafile LM2007 on the textbook webpage. Ludwig and Miller (2007) shows that similar RDD estimates for other forms of mortality do not display similar discontinuities. Perform a similar check. Estimate the conditional ATE using the dependent variable mort_age59_injury_postHS (mortality due to injuries in the 5-9 age group). Exercise 21.8 Do a similar estimation as in the previous exercise, but using the dependent variable mort_age25plus_related_postHS (mortality due to HS-related causes in the <span class="math inline">\(25+\)</span> age group).</p>
+<p>Exercise 21.9 Do a similar estimation as in the previous exercise, but using the dependent variable mort_age59_related_preHS (mortality due to HS-related causes in the 5-9 age group during 1959-1964, before the Head Start program was started).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt20-series-reg.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt22-m-est.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

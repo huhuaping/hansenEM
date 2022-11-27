@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 27&nbsp; Machine Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./summary.html" rel="next">
+<link href="./chpt28-model-selection.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">27.1</span>  Introduction</a></li>
+  <li><a href="#big-data-high-dimensionality-and-machine-learning" id="toc-big-data-high-dimensionality-and-machine-learning" class="nav-link" data-scroll-target="#big-data-high-dimensionality-and-machine-learning"><span class="toc-section-number">27.2</span>  Big Data, High Dimensionality, and Machine Learning</a></li>
+  <li><a href="#high-dimensional-regression" id="toc-high-dimensional-regression" class="nav-link" data-scroll-target="#high-dimensional-regression"><span class="toc-section-number">27.3</span>  High Dimensional Regression</a></li>
+  <li><a href="#p-norms" id="toc-p-norms" class="nav-link" data-scroll-target="#p-norms"><span class="toc-section-number">27.4</span>  p-norms</a></li>
+  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link" data-scroll-target="#ridge-regression"><span class="toc-section-number">27.5</span>  Ridge Regression</a></li>
+  <li><a href="#statistical-properties-of-ridge-regression" id="toc-statistical-properties-of-ridge-regression" class="nav-link" data-scroll-target="#statistical-properties-of-ridge-regression"><span class="toc-section-number">27.6</span>  Statistical Properties of Ridge Regression</a></li>
+  <li><a href="#illustrating-ridge-regression" id="toc-illustrating-ridge-regression" class="nav-link" data-scroll-target="#illustrating-ridge-regression"><span class="toc-section-number">27.7</span>  Illustrating Ridge Regression</a></li>
+  <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso"><span class="toc-section-number">27.8</span>  Lasso</a></li>
+  <li><a href="#lasso-penalty-selection" id="toc-lasso-penalty-selection" class="nav-link" data-scroll-target="#lasso-penalty-selection"><span class="toc-section-number">27.9</span>  Lasso Penalty Selection</a></li>
+  <li><a href="#lasso-computation" id="toc-lasso-computation" class="nav-link" data-scroll-target="#lasso-computation"><span class="toc-section-number">27.10</span>  Lasso Computation</a></li>
+  <li><a href="#asymptotic-theory-for-the-lasso" id="toc-asymptotic-theory-for-the-lasso" class="nav-link" data-scroll-target="#asymptotic-theory-for-the-lasso"><span class="toc-section-number">27.11</span>  Asymptotic Theory for the Lasso</a></li>
+  <li><a href="#approximate-sparsity" id="toc-approximate-sparsity" class="nav-link" data-scroll-target="#approximate-sparsity"><span class="toc-section-number">27.12</span>  Approximate Sparsity</a></li>
+  <li><a href="#elastic-net" id="toc-elastic-net" class="nav-link" data-scroll-target="#elastic-net"><span class="toc-section-number">27.13</span>  Elastic Net</a></li>
+  <li><a href="#post-lasso" id="toc-post-lasso" class="nav-link" data-scroll-target="#post-lasso"><span class="toc-section-number">27.14</span>  Post-Lasso</a></li>
+  <li><a href="#regression-trees" id="toc-regression-trees" class="nav-link" data-scroll-target="#regression-trees"><span class="toc-section-number">27.15</span>  Regression Trees</a></li>
+  <li><a href="#bagging" id="toc-bagging" class="nav-link" data-scroll-target="#bagging"><span class="toc-section-number">27.16</span>  Bagging</a></li>
+  <li><a href="#random-forests" id="toc-random-forests" class="nav-link" data-scroll-target="#random-forests"><span class="toc-section-number">27.17</span>  Random Forests</a></li>
+  <li><a href="#ensembling" id="toc-ensembling" class="nav-link" data-scroll-target="#ensembling"><span class="toc-section-number">27.18</span>  Ensembling</a></li>
+  <li><a href="#lasso-iv" id="toc-lasso-iv" class="nav-link" data-scroll-target="#lasso-iv"><span class="toc-section-number">27.19</span>  Lasso IV</a></li>
+  <li><a href="#double-selection-lasso" id="toc-double-selection-lasso" class="nav-link" data-scroll-target="#double-selection-lasso"><span class="toc-section-number">27.20</span>  Double Selection Lasso</a></li>
+  <li><a href="#post-regularization-lasso" id="toc-post-regularization-lasso" class="nav-link" data-scroll-target="#post-regularization-lasso"><span class="toc-section-number">27.21</span>  Post-Regularization Lasso</a></li>
+  <li><a href="#doubledebiased-machine-learning" id="toc-doubledebiased-machine-learning" class="nav-link" data-scroll-target="#doubledebiased-machine-learning"><span class="toc-section-number">27.22</span>  Double/Debiased Machine Learning</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">27.23</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">27.24</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt29-ML.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="27.1">
+<h2 data-number="27.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">27.1</span> Introduction</h2>
+<p>This chapter reviews machine learning methods for econometrics. This is a large and growing topic so our treatment is selective. This chapter briefly covers ridge regression, Lasso, elastic net, regression trees, bagging, random forests, ensembling, Lasso IV, double-selection/post-regularization, and double/debiased machine learning.</p>
+<p>A classic reference is Hastie, Tibshirani, and Friedman (2008). Introductory textbooks include James, Witten, Hastie, and Tibshirani (2013) and Efron and Hastie (2017). For a theoretical treatment see Bühlmann and van der Geer (2011). For reviews of machine learning in econometrics see Belloni, Chernozhukov and Hansen (2014a), Mullainathan and Spiess (2017), Athey and Imbens (2019), and Belloni, Chernozhukov, Chetverikov, Hansen, and Kato (2021).</p>
+</section>
+<section id="big-data-high-dimensionality-and-machine-learning" class="level2" data-number="27.2">
+<h2 data-number="27.2" class="anchored" data-anchor-id="big-data-high-dimensionality-and-machine-learning"><span class="header-section-number">27.2</span> Big Data, High Dimensionality, and Machine Learning</h2>
+<p>Three inter-related concepts are “big data”, “high dimensionality”, and “machine learning”.</p>
+<p>Big data is typically used to describe datasets which are unusually large and/or complex relative to traditional applications. The definition of “large” varies across discipline and time, but typically refers to datasets with millions of observations. These datasets can arise in economics from household census data, government administrative records, and supermarket scanner data. Some challenges associated with big data are storage, transmission, and computation.</p>
+<p>High Dimensional is typically used to describe datasets with an unusually large number of variables. Again the definition of “large” varies across applications, but typically refers to hundreds or thousands of variables. In the theoretical literature “high dimensionality” is used specifically for the context where <span class="math inline">\(p&gt;n\)</span>, meaning that the number of variables <span class="math inline">\(p\)</span> greatly exceeds the number of observations <span class="math inline">\(n\)</span>.</p>
+<p>Machine Learning is typically used to describe a set of algorithmic approaches to statistical learning. The methods are primarily focused on point prediction in settings with unknown structure. Machine learning methods generally allow for large sample sizes, large number of variables, and unknown structural form. The early literature was algorithmic with no associated statistical theory. This was followed by a statistical literature examining the properties of machine learning methods, mostly providing convergence rates under sparsity assumptions. Only recently has the literature expanded to include inference.</p>
+<p>Machine learning embraces a large and diverse set of tools for a variety of settings, including supervised learning (prediction rules for <span class="math inline">\(Y\)</span> given high-dimensional <span class="math inline">\(X\)</span> ), unsupervised learning (uncovering structure amongst high-dimensional <span class="math inline">\(X\)</span> ), and classification (discrete choice analysis with highdimensional predictors). In this chapter we focus on supervised learning as it is a natural extension of linear regression.</p>
+<p>Machine learning arose from the computer science literature and thereby adopted a distinct set of labels to describe familar concepts. For example, it speaks of “training” rather than “estimation” and “features” rather than “regressors”. In this chapter, however, we will use standard econometric language and terminology.</p>
+<p>For econometrics, machine learning can be thought of as “highly nonparametric”. Suppose we are interested in estimating the conditional mean <span class="math inline">\(m(X)=\mathbb{E}[Y \mid X]\)</span> when the shape of <span class="math inline">\(m(x)\)</span> is unknown. A nonparametric analysis typically assumes that <span class="math inline">\(X\)</span> is low-dimensional. In contrast, a machine learning analysis may allow for hundreds or even thousands of regressors in <span class="math inline">\(X\)</span>, and does not require prior information about which regressors are most relevant.</p>
+<p>Connections between nonparametric estimation, model selection, and machine learning methods arise in tuning parameter selection by cross-validation and evaluation by out-of-sample prediction accuracy. These issues are taken seriously in machine learning applications; frequently with multiple levels of hold-out samples.</p>
+</section>
+<section id="high-dimensional-regression" class="level2" data-number="27.3">
+<h2 data-number="27.3" class="anchored" data-anchor-id="high-dimensional-regression"><span class="header-section-number">27.3</span> High Dimensional Regression</h2>
+<p>We are familiar with the linear regression model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> where <span class="math inline">\(X\)</span> and <span class="math inline">\(\beta\)</span> are <span class="math inline">\(p \times 1\)</span> vectors <span class="math inline">\({ }^{1}\)</span>. In conventional regression models we are accustomed to thinking of the number of variables <span class="math inline">\(p\)</span> as small relative to the sample size <span class="math inline">\(n\)</span>. Traditional parametric asymptotic theory assumes that <span class="math inline">\(p\)</span> is fixed as <span class="math inline">\(n \rightarrow \infty\)</span> which is typically interpreted as implying that <span class="math inline">\(p\)</span> is much smaller than <span class="math inline">\(n\)</span>. Nonparametric regression theory assumes that <span class="math inline">\(p \rightarrow \infty\)</span> but at a much slower rate than <span class="math inline">\(n\)</span>. This is interpreted as <span class="math inline">\(p\)</span> being moderately large but still much smaller than <span class="math inline">\(n\)</span>. High-dimensional regression is used to describe the context where <span class="math inline">\(p\)</span> is very large, including the case where <span class="math inline">\(p\)</span> is larger than <span class="math inline">\(n\)</span>. It even includes the case where <span class="math inline">\(p\)</span> is exponentially larger than <span class="math inline">\(n\)</span>.</p>
+<p>It may seem shocking to contemplate an application with more regressors than observations. But the situation arises in a number of contexts. First, in our discussion of series regression (Chapter 20) we described how a regression function can be approximated by an infinite series expansion in basis transformations of the underlying regressors. Expressed as a linear model this implies a regression model with an infinite number of regressors. Practical models (as discussed in that chapter) use a moderate number of regressors in estimated regressions because this provides a balance between bias and variance. This latter models, however, are not the true conditional mean (which has an infinite number of regressors) but rather a low-dimensional best linear approximation. Second, many economic applications involve a large number of binary, discrete, and categorical variables. A saturated regression model converts all discrete and categorical variables into binary variables and includes all interactions. Such manipulations can result in thousands of regressors. For example, ten binary variables fully interacted yields 1024 regressors. Twenty binary variables fully interacted yields over one million regressors. Third, many contemporary “big” datasets contain thousands of potential regressors. Many of the variables may be low-information but it is difficult to know a priori which are relevant and which irrelevant.</p>
+<p>When <span class="math inline">\(p&gt;n\)</span> the least squares estimator <span class="math inline">\(\widehat{\beta}_{\text {ols }}\)</span> is not uniquely defined because <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> has deficient rank. Furthermore, for <span class="math inline">\(p&lt;n\)</span> but “large” the matrix <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> can be near-singular or ill-conditioned so the least squares estimator can be numerically unstable and high variance. Consequently we turn to estimation methods other than least squares. In this chapter we discuss several alternative estimation methods, including ridge regression, Lasso, elastic net, regression trees, and random forests.</p>
+<p><span class="math inline">\({ }^{1}\)</span> In most of this textbook we have denoted the dimension of <span class="math inline">\(X\)</span> as <span class="math inline">\(k\)</span>. In this chapter we will instead denote the dimension of <span class="math inline">\(X\)</span> as <span class="math inline">\(p\)</span> as this is the custom in the machine learning literature.</p>
+</section>
+<section id="p-norms" class="level2" data-number="27.4">
+<h2 data-number="27.4" class="anchored" data-anchor-id="p-norms"><span class="header-section-number">27.4</span> p-norms</h2>
+<p>For discussion of ridge and Lasso regression we will be making extensive use of the 1-norm and 2norm, so it is useful to review the definition of the general p-norm. For a vector <span class="math inline">\(a=\left(a_{1}, \ldots, a_{k}\right)^{\prime}\)</span> the p-norm <span class="math inline">\((p \geq 1)\)</span> is</p>
+<p><span class="math display">\[
+\|a\|_{p}=\left(\sum_{j=1}^{k}\left|a_{j}\right|^{p}\right)^{1 / p} .
+\]</span></p>
+<p>Important special cases include the 1-norm</p>
+<p><span class="math display">\[
+\|a\|_{1}=\sum_{j=1}^{k}\left|a_{j}\right|
+\]</span></p>
+<p>the 2-norm</p>
+<p><span class="math display">\[
+\|a\|_{2}=\left(\sum_{j=1}^{k} a_{j}^{2}\right)^{1 / 2},
+\]</span></p>
+<p>and the sup-norm</p>
+<p><span class="math display">\[
+\|a\|_{\infty}=\max _{1 \leq j \leq k}\left|a_{j}\right| .
+\]</span></p>
+<p>We also define the “0-norm”</p>
+<p><span class="math display">\[
+\|a\|_{0}=\sum_{j=1}^{k} \mathbb{1}\left\{a_{j} \neq 0\right\},
+\]</span></p>
+<p>the number of non-zero elements. This is only heuristically labeled as a “norm”.</p>
+<p>The p-norm satisfies the following additivity property. If <span class="math inline">\(a=\left(a_{0}, a_{1}\right)\)</span> then</p>
+<p><span class="math display">\[
+\|a\|_{p}^{p}=\left\|a_{0}\right\|_{p}^{p}+\left\|a_{1}\right\|_{p}^{p} .
+\]</span></p>
+<p>The following inequalities are useful. The Hölder inequality for <span class="math inline">\(1 / p+1 / q=1\)</span> is</p>
+<p><span class="math display">\[
+\left|a^{\prime} b\right| \leq\|a\|_{p}\|b\|_{q} .
+\]</span></p>
+<p>The case <span class="math inline">\(p=1\)</span> and <span class="math inline">\(q=\infty\)</span> is</p>
+<p><span class="math display">\[
+\left|a^{\prime} b\right| \leq\|a\|_{1}\|b\|_{\infty} .
+\]</span></p>
+<p>The Minkowski inequality for <span class="math inline">\(p \geq 1\)</span> is</p>
+<p><span class="math display">\[
+\|a+b\|_{p} \leq\|a\|_{p}+\|b\|_{p} .
+\]</span></p>
+<p>The p-norms for <span class="math inline">\(p \geq 1\)</span> satisfy norm monotonicity. In particular</p>
+<p><span class="math display">\[
+\|a\|_{1} \geq\|a\|_{2} \geq\|a\|_{\infty} .
+\]</span></p>
+<p>Applying Hölder’s (29.1) we also have the inequality</p>
+<p><span class="math display">\[
+\|a\|_{1}=\sum_{j=1}^{k}\left|a_{j}\right| \mathbb{1}\left\{a_{j} \neq 0\right\} \leq\|a\|_{2}\|a\|_{0}^{1 / 2} .
+\]</span></p>
+</section>
+<section id="ridge-regression" class="level2" data-number="27.5">
+<h2 data-number="27.5" class="anchored" data-anchor-id="ridge-regression"><span class="header-section-number">27.5</span> Ridge Regression</h2>
+<p>Ridge regression is a shrinkage-type estimator with similar but distinct properties from the JamesStein estimator (see Section 28.20). There are two competing motivations for ridge regression. The traditional motivation is to reduce the degree of collinearity among the regressors. The modern motivation (though in mathematics it pre-dates the “traditional” motivation) is regularization of high-dimensional and ill-posed inverse problems. We discuss both in turn.</p>
+<p>As discussed in the previous section, when <span class="math inline">\(p\)</span> is large the least squares coefficient estimate can be numerically unreliable due to an ill-conditioned <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span>. As a numerical improvement, Hoerl and Kennard (1970) proposed the ridge regression estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {ridge }}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}
+\]</span></p>
+<p>where <span class="math inline">\(\lambda&gt;0\)</span> is called the ridge parameter. This estimator has the property that it is well-defined and does not suffer from multicollinearity or ill-conditioning. This even holds if <span class="math inline">\(p&gt;n\)</span> ! That is, the ridge regression estimator is well-defined even when the number of regressors exceeds the sample size.</p>
+<p>The ridge parameter <span class="math inline">\(\lambda\)</span> controls the extent of shrinkage, and can be viewed as a tuning parameter. We discuss how to select <span class="math inline">\(\lambda\)</span> below.</p>
+<p>To see how <span class="math inline">\(\lambda&gt;0\)</span> ensures that the inverse problem is solved, use the spectral decomposition to write <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}=\boldsymbol{H}^{\prime} \boldsymbol{D} \boldsymbol{H}\)</span> where <span class="math inline">\(\boldsymbol{H}\)</span> is orthonormal and <span class="math inline">\(\boldsymbol{D}=\operatorname{diag}\left\{r_{1}, \ldots, r_{p}\right\}\)</span> is a diagonal matrix with the eigenvalues <span class="math inline">\(r_{j}\)</span> of <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> on the diagonal. Set <span class="math inline">\(\Lambda=\lambda \boldsymbol{I}_{p}\)</span>. We can write</p>
+<p><span class="math display">\[
+\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}=\boldsymbol{H}^{\prime} \boldsymbol{D} \boldsymbol{H}+\lambda \boldsymbol{H}^{\prime} \boldsymbol{H}=\boldsymbol{H}^{\prime}(\boldsymbol{D}+\Lambda) \boldsymbol{H}
+\]</span></p>
+<p>which has strictly positive eigenvalues <span class="math inline">\(r_{j}+\lambda&gt;0\)</span>. Thus all eigenvalues are bounded away from zero so <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\)</span> is full rank and well-conditioned.</p>
+<p>The second motivation is based on penalization. When <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> is ill-conditioned its inverse is ill-posed. Techniques to deal with ill-posed estimators are called regularization and date back to Tikhonov (1943). A leading method is penalization. Consider the sum of squared errors penalized by the squared 2-norm of the coefficient vector</p>
+<p><span class="math display">\[
+\operatorname{SSE}_{2}(\beta, \lambda)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+\lambda \beta^{\prime} \beta=\|\boldsymbol{Y}-\boldsymbol{X} \beta\|_{2}^{2}+\lambda\|\beta\|_{2}^{2} .
+\]</span></p>
+<p>The minimizer of <span class="math inline">\(\operatorname{SSE}_{2}(\beta, \lambda)\)</span> is a regularized least squares estimator.</p>
+<p>The first order condition for minimization of <span class="math inline">\(\operatorname{SSE}_{2}(\beta, \lambda)\)</span> over <span class="math inline">\(\beta\)</span> is</p>
+<p><span class="math display">\[
+-2 \boldsymbol{X}^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+2 \lambda \beta=0 .
+\]</span></p>
+<p>The solution is <span class="math inline">\(\widehat{\beta}_{\text {ridge }}\)</span>. Thus the regularized (penalized) least squares estimator equals ridge regression. This shows that the ridge regression estimator minimizes the sum of squared errors subject to a penalty on the squared 2-norm of the regression coefficient. Penalizing large coefficient vectors keeps the latter from being too large and erratic. Hence one interpretation of <span class="math inline">\(\lambda\)</span> is as a penalty on the magnitude of the coefficient vector.</p>
+<p>Minimization subject to a penalty has a dual representation as constrained minimization. The latter is</p>
+<p><span class="math display">\[
+\min _{\beta^{\prime} \beta \leq \tau}(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)
+\]</span></p>
+<p>for some <span class="math inline">\(\tau&gt;0\)</span>. To see the connection, the Lagrangian for the constrained problem is</p>
+<p><span class="math display">\[
+\min _{\beta}(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+\lambda\left(\beta^{\prime} \beta-\tau\right)
+\]</span></p>
+<p>where <span class="math inline">\(\lambda\)</span> is a Lagrange multiplier. The first order condition is (29.5) which is the same as the penalization problem. This shows that they have the same solution.</p>
+<p>The practical difference between the penalization and constraint problems is that in the first you specify the ridge parameter <span class="math inline">\(\lambda\)</span> while in the second you specify the constraint parameter <span class="math inline">\(\tau\)</span>. They are connected because the values of <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\tau\)</span> satisfy the relationship</p>
+<p><span class="math display">\[
+\boldsymbol{Y}^{\prime} \boldsymbol{X}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}=\tau .
+\]</span></p>
+<p>To find <span class="math inline">\(\lambda\)</span> given <span class="math inline">\(\tau\)</span> it is sufficient to (numerically) solve this equation.</p>
+<p>Figure 29.1: Ridge Regression Dual Minimization Solution</p>
+<p>To visualize the constraint problem see Figure <span class="math inline">\(29.1\)</span> which plots an example in <span class="math inline">\(\mathbb{R}^{2}\)</span>. The constraint set <span class="math inline">\(\beta^{\prime} \beta \leq \tau\)</span> is displayed as the ball about the origin and the contour sets of the sum of squared errors are displayed as ellipses. The least squares estimator is the center of the ellipses, while the ridge regression estimator is the point on the circle where the contour is tangent. This shrinks the least squares coefficient towards the zero vector. Unlike the Stein estimator, however, it does not shrink along the line segment connecting least squares with the origin, rather it shrinks along a trajectory determined by the degree of correlation between the variables. This trajectory is displayed with the dashed lines, marked as “Ridge path”. This is the sequence of ridge regression coefficients obtained as <span class="math inline">\(\lambda\)</span> is varied from 0 to <span class="math inline">\(\infty\)</span>. When <span class="math inline">\(\lambda=0\)</span> the ridge estimator equals least squares. For small <span class="math inline">\(\lambda\)</span> the ridge estimator moves slightly towards the origin by sliding along the ridge of the contour set. As <span class="math inline">\(\lambda\)</span> increases the ridge estimator takes a more direct path towards the origin. This is unlike the Stein estimator which shrinks the least squares estimator towards the origin along the connecting line segment. It is straightforward to generalize ridge regression to allow different penalties on different groups of regressors. Take the model</p>
+<p><span class="math display">\[
+Y=X_{1}^{\prime} \beta_{1}+\cdots+X_{G}^{\prime} \beta_{G}+e
+\]</span></p>
+<p>and minimize the SSE subject to the penalty</p>
+<p><span class="math display">\[
+\lambda_{1} \beta_{1}^{\prime} \beta_{1}+\cdots+\lambda_{G} \beta_{G}^{\prime} \beta_{G} .
+\]</span></p>
+<p>The solution is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {ridge }}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\Lambda\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\Lambda=\operatorname{diag}\left\{\lambda_{1} \boldsymbol{I}_{p_{1}}, \ldots, \lambda_{G} \boldsymbol{I}_{p_{G}}\right\}
+\]</span></p>
+<p>This allows some coefficients to be penalized more (or less) than other coefficients. This added flexibility comes at the cost of selecting the ridge parameters <span class="math inline">\(\lambda=\left(\lambda_{1}, \ldots, \lambda_{G}\right)\)</span>. One important special case is <span class="math inline">\(\lambda_{1}=0\)</span>, thus one group of coefficients are not penalized. With <span class="math inline">\(G=2\)</span> this partitions the coefficients into two groups: penalized and non-penalized.</p>
+<p>The most popular method to select the ridge parameter <span class="math inline">\(\lambda\)</span> is cross validation. The leave-one-out ridge regression estimator, prediction errors, and CV criterion are</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\beta}_{-i}(\lambda) &amp;=\left(\sum_{j \neq i} X_{j} X_{j}^{\prime}+\Lambda\right)^{-1}\left(\sum_{j \neq i} X_{j} Y_{i}\right) \\
+\widetilde{e}_{i}(\lambda) &amp;=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{-i}(\lambda) \\
+\mathrm{CV}(\lambda) &amp;=\sum_{i=1}^{n} \widetilde{e}_{i}(\lambda)^{2} .
+\end{aligned}
+\]</span></p>
+<p>The CV-selected ridge parameter <span class="math inline">\(\lambda_{\mathrm{cv}}\)</span> minimizes <span class="math inline">\(\mathrm{CV}(\lambda)\)</span>. The cross-validation ridge estimator is calculated using <span class="math inline">\(\lambda_{\mathrm{cv}}\)</span>.</p>
+<p>In practice it may be tricky to minimize <span class="math inline">\(\mathrm{CV}(\lambda)\)</span>. The minimum may occur at <span class="math inline">\(\lambda=0\)</span> (ridge equals least squares), at <span class="math inline">\(\lambda=\infty\)</span> (full shrinkage), or there may be multiple local minima. The scale of the minimizing <span class="math inline">\(\lambda\)</span> depends on the scaling of the regressors and in particular the singular values of <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}\)</span>. It can be important to explore CV <span class="math inline">\((\lambda)\)</span> for very small values of <span class="math inline">\(\lambda\)</span>.</p>
+<p>As for least squares there is a simple formula to calculate the CV criterion for ridge regression which greatly speeds computation.</p>
+<p>Theorem 29.1 The leave-one-out ridge regression prediction errors are</p>
+<p><span class="math display">\[
+\widetilde{e}_{i}(\lambda)=\left(1-X_{i}^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\Lambda\right)^{-1} X_{i}\right)^{-1} \widehat{e}_{i}(\lambda)
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{e}_{i}(\lambda)=Y_{i}-X_{i}^{\prime} \widehat{\beta}_{\text {ridge }}(\lambda)\)</span> are the ridge regression residuals.</p>
+<p>For a proof see Exercise 29.1.</p>
+<p>An alternative method for selection of <span class="math inline">\(\lambda\)</span> is to minimize the Mallows criterion which equals</p>
+<p><span class="math display">\[
+C(\lambda)=\sum_{i=1}^{n} \widehat{e}_{i}(\lambda)^{2}+2 \widehat{\sigma}^{2} \operatorname{tr}\left(\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\Lambda\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)\right)
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\sigma}^{2}\)</span> is the variance estimator from least squares estimation. For a derivation of (29.7) see Exercise 29.2. The Mallows-selected ridge parameter <span class="math inline">\(\lambda_{\mathrm{m}}\)</span> minimizes <span class="math inline">\(C(\lambda)\)</span>. The Mallows-selected ridge estimator is calculated using <span class="math inline">\(\lambda_{\mathrm{m}}\)</span>. <span class="math inline">\(\mathrm{Li}\)</span> (1986) showed that in the normal regression model the ridge estimator with the Mallows-selected ridge parameter is asymptotically equivalent to the infeasible best ridge parameter in terms of regression fit. I am unaware of a similar optimality result for cross-validated-selected ridge estimation.</p>
+<p>An important caveat is that the ridge regression estimator is not invariant to rescaling the regressors nor other linear transformations. Therefore it is common to apply ridge regression after applying standardizing transformations to the regressors.</p>
+<p>Ridge regression can be implemented in <span class="math inline">\(\mathrm{R}\)</span> with the glmnet command. In Stata, ridge regression is available in the downloadable package lassopack.</p>
+</section>
+<section id="statistical-properties-of-ridge-regression" class="level2" data-number="27.6">
+<h2 data-number="27.6" class="anchored" data-anchor-id="statistical-properties-of-ridge-regression"><span class="header-section-number">27.6</span> Statistical Properties of Ridge Regression</h2>
+<p>Under the assumptions of the linear regression model it is straightforward to calculate the exact bias and variance of the ridge regression estimator. Take the linear regression model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[e \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>The bias of the ridge estimator with fixed <span class="math inline">\(\lambda\)</span> is</p>
+<p><span class="math display">\[
+\operatorname{bias}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right]=-\lambda\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \beta \text {. }
+\]</span></p>
+<p>Under random sampling its covariance matrix is</p>
+<p><span class="math display">\[
+\operatorname{var}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right]=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{D}=\operatorname{diag}\left\{\sigma^{2}\left(X_{1}\right), \ldots, \sigma^{2}\left(X_{n}\right)\right\}\)</span> and <span class="math inline">\(\sigma^{2}(X)=\mathbb{E}\left[e^{2} \mid X\right]\)</span>. For a derivation of (29.8) and (29.9) see Exercise 29.3. Under cluster or serial dependence the central component modifies in the standard way.</p>
+<p>We can measure estimation efficiency by the mean squared error (MSE) matrix</p>
+<p><span class="math display">\[
+\operatorname{mse}[\widehat{\beta} \mid \boldsymbol{X}]=\mathbb{E}\left[(\widehat{\beta}-\beta)(\widehat{\beta}-\beta)^{\prime} \mid \boldsymbol{X}\right] .
+\]</span></p>
+<p>Define <span class="math inline">\(\underline{\sigma}^{2}=\min _{x \in \mathscr{X}} \sigma^{2}(x)\)</span> where <span class="math inline">\(\mathscr{X}\)</span> is the support of <span class="math inline">\(X\)</span>.</p>
+<p>Theorem 29.2 In the linear regression model, if <span class="math inline">\(0&lt;\lambda&lt;2 \underline{\sigma}^{2} / \beta^{\prime} \beta\)</span>,</p>
+<p><span class="math display">\[
+\operatorname{mse}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right]&lt;\operatorname{mse}\left[\widehat{\beta}_{\text {ols }} \mid \boldsymbol{X}\right] .
+\]</span></p>
+<p>For a proof see Section <span class="math inline">\(29.23\)</span>.</p>
+<p>Theorem <span class="math inline">\(29.2\)</span> shows that the ridge estimator dominates the least squares estimator, if <span class="math inline">\(\lambda\)</span> satisfies a specific range of values. This holds regardless of the dimension of <span class="math inline">\(\beta\)</span>. Since the upper bound <span class="math inline">\(2 \underline{\sigma}^{2} / \beta^{\prime} \beta\)</span> is unknown, however, it is unclear if feasible ridge regression dominates least squares. The upper bound does not give practical guidance for selection of <span class="math inline">\(\lambda\)</span>. Given (29.9) it is straightforward to construct estimators of <span class="math inline">\(V_{\widehat{\beta}}=\operatorname{var}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right]\)</span>. I suggest the HC3 analog</p>
+<p><span class="math display">\[
+\widetilde{V}_{\widehat{\beta}}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\sum_{i=1}^{n} X_{i} X_{i}^{\prime} \widetilde{e}_{i}(\lambda)^{2}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}
+\]</span></p>
+<p>where <span class="math inline">\(\widetilde{e}_{i}(\lambda)\)</span> are the ridge regression prediction errors (29.6). Alternatively, the ridge regression residuals <span class="math inline">\(\widehat{e}_{i}(\lambda)\)</span> can be used but it is unclear how to make an appropriate degree-of-freedom correction. Under clustering or serial dependence the central component of <span class="math inline">\(\widetilde{V}_{\widehat{\beta}}\)</span> can be modified as usual. If the regressors are highly sparse (as in a sparse dummy variable regression) it may be prudent to use the homoskedastic estimator</p>
+<p><span class="math display">\[
+\widetilde{V}_{\widehat{\beta}}^{0}=\widetilde{\sigma}^{2}(\lambda)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}
+\]</span></p>
+<p>with <span class="math inline">\(\widetilde{\sigma}^{2}(\lambda)=n^{-1} \sum_{i=1}^{n} \widetilde{e}_{i}(\lambda)^{2}\)</span>.</p>
+<p>Given that the ridge estimator is explicitly biased there are natural concerns about how to interpret standard errors calculated from these covariance matrix estimators. Confidence intervals calculated the usual way will have deficient coverage due to the bias. One answer is to interpret the ridge estimator <span class="math inline">\(\widehat{\beta}_{\text {ridge }}\)</span> and its standard errors similarly to those obtained in nonparametric regression. The estimators and confidence intervals are valid for the pseudo-true projections, e.g.&nbsp;<span class="math inline">\(\beta^{*}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X} \beta\)</span>, not the coefficients <span class="math inline">\(\beta\)</span> themselves. This is the same interpretation as we use for the projection model and for nonparametric regression. For asymptotically accurate inference on the true coefficients <span class="math inline">\(\beta\)</span> the ridge parameter <span class="math inline">\(\lambda\)</span> could be selected to satisfy <span class="math inline">\(\lambda=o(\sqrt{n})\)</span> analogously to an undersmoothing bandwidth in nonparametric regression.</p>
+</section>
+<section id="illustrating-ridge-regression" class="level2" data-number="27.7">
+<h2 data-number="27.7" class="anchored" data-anchor-id="illustrating-ridge-regression"><span class="header-section-number">27.7</span> Illustrating Ridge Regression</h2>
+<ol type="a">
+<li>Cross-Validation Function</li>
+</ol>
+<ol start="2" type="a">
+<li>Estimates of Return to Experience</li>
+</ol>
+<p>Figure 29.2: Least Squares and Ridge Regression Estimates of the Return to Experience To illustrate ridge regression we use the CPS dataset with the sample of Asian men with a college education (16 years of education or more) to estimate the experience profile. We consider a fifth-order polynomial in experience for the conditional mean of log wages. We start by standardizing the regressors. We first center experience at its mean, create powers up to order five, and then standardized each to have mean zero and variance one. We estimate the polynomial regression by least squares and by ridge regression, the latter shrinking the five coefficients on experience but not the intercept.</p>
+<p>We calculate the ridge parameter by cross-validation. The cross-validation function is displayed in Figure 29.2(a) over the interval [0,60]. Since we have standardized the regressors to have zero mean and unit variance the ridge parameter is scaled comparably with sample size, which in this application is <span class="math inline">\(n=875\)</span>. The cross-validation function is uniquely minimized at <span class="math inline">\(\lambda=19\)</span>. I use this value of <span class="math inline">\(\lambda\)</span> for the following ridge regression estimation.</p>
+<p>Figure 29.2(b) displays the estimated experience profiles. Least squares is displayed by dashes and ridge regression by the solid line. The ridge regression estimate is smoother and more compelling. The grey shaded region are <span class="math inline">\(95 %\)</span> normal confidence bands centered at the ridge regression estimate, calculated using the HC3 covariance matrix estimator (29.10).</p>
+</section>
+<section id="lasso" class="level2" data-number="27.8">
+<h2 data-number="27.8" class="anchored" data-anchor-id="lasso"><span class="header-section-number">27.8</span> Lasso</h2>
+<p>In the previous section we learned that ridge regression minimizes the sum of squared errors plus a 2-norm penalty on the coefficient vector. Model selection (e.g.&nbsp;Mallows) minimizes the sum of squared errors plus the 0-norm penalty (the number of non-zero coefficients). An intermediate case uses the 1-norm penalty. This was proposed by Tibshirani (1996) and is known as the Lasso (for Least Absolute Shrinkage and Selection Operator). The least squares criterion with a 1-norm penalty is</p>
+<p><span class="math display">\[
+\operatorname{SSE}_{1}(\beta, \lambda)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+\lambda \sum_{j=1}^{p}\left|\beta_{j}\right|=\|\boldsymbol{Y}-\boldsymbol{X} \beta\|_{2}^{2}+\lambda\|\beta\|_{1} .
+\]</span></p>
+<p>The Lasso estimator is its minimizer</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {Lasso }}=\underset{\beta}{\operatorname{argmin}} \operatorname{SSE}_{1}(\beta, \lambda) .
+\]</span></p>
+<p>Except for special cases the solution must be found numerically. Fortunately, computational algorithms are surprisingly simple and fast. An important property is that when <span class="math inline">\(\lambda&gt;0\)</span> the Lasso estimator is welldefined even if <span class="math inline">\(p&gt;n\)</span>.</p>
+<p>The Lasso minimization problem has the dual constrained minimization problem</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {Lasso }}=\underset{\|\beta\|_{1} \leq \tau}{\operatorname{argmin}} \operatorname{SSE}_{1}(\beta) .
+\]</span></p>
+<p>To see that the two problems are the same observe that the constrained minimization problem has the Lagrangian</p>
+<p><span class="math display">\[
+\min _{\beta}(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+\lambda\left(\sum_{j=1}^{p}\left|\beta_{j}\right|-\tau\right)
+\]</span></p>
+<p>which has first order conditions</p>
+<p><span class="math display">\[
+-2 \boldsymbol{X}_{j}^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+\lambda \operatorname{sgn}\left(\beta_{j}\right)=0 .
+\]</span></p>
+<p>This is the same as those for minimization of the penalized criterion. Thus the solutions are identical.</p>
+<p>Figure 29.3: Lasso Dual Minimization Solution</p>
+<p>The constraint set <span class="math inline">\(\left\{\|\beta\|_{1} \leq \tau\right\}\)</span> for the dual problem is a cross-polytope resembling a multi-faceted diamond. The minimization problem in <span class="math inline">\(\mathbb{R}^{2}\)</span> is illustrated in Figure 29.3. The sum of squared error contour sets are the ellipses with the least squares solution at the center. The constraint set is the shaded polytope. The Lasso estimator is the intersection point between the constraint set and the largest ellipse drawn. In this example it hits a vertex of the constraint set and so the constrained estimator sets <span class="math inline">\(\widehat{\beta}_{1}=0\)</span>. This is a typical outcome in Lasso estimation. Since we are minimizing a quadratic subject to a polytope, solutions tend to be at vertices. This eliminates a subset of the coefficients.</p>
+<p>The Lasso path is drawn with the dashed line. This is the sequence of solutions obtained as the constraint set is varied. The solution path has the property that it is a straight line from the least squares estimator to the <span class="math inline">\(y\)</span>-axis (in this example), at which point <span class="math inline">\(\beta_{2}\)</span> is set to zero, and then the solution path follows the <span class="math inline">\(y\)</span>-axis to the origin. In general, the solution path is linear on segments until a coefficient hits zero, at which point that coefficient is eliminated. In this particular example the solution path shows <span class="math inline">\(\beta_{2}\)</span> increasing while <span class="math inline">\(\beta_{1}\)</span> decreases. Thus while Lasso is a shrinkage estimator it does not shrink individual coefficients monotonically.</p>
+<p>It is instructive to compare Figures <span class="math inline">\(29.1\)</span> and <span class="math inline">\(29.3\)</span> which have the same sum of squares contours. The ridge estimator is generically an interior solution with no individual coefficient set to zero, while the Lasso estimator typically sets some coefficients equal to zero. However both estimators follow similar solution paths, following the ridge of the SSE criterion rather than taking a direct path towards the origin.</p>
+<p>One case where we can explicitly calculate the Lasso estimates is when the regressors are orthogonal, e.g., <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}=\boldsymbol{I}_{p}\)</span>. Then the first order condition for minimization simplifies to</p>
+<p><span class="math display">\[
+-2\left(\widehat{\beta}_{\text {ols }, j}-\widehat{\beta}_{\text {Lasso }, j}\right)+\lambda \operatorname{sgn}\left(\widehat{\beta}_{\text {Lasso }, j}\right)=0
+\]</span></p>
+<p>which has the explicit solution</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {Lasso }, j}=\left\{\begin{array}{cc}
+\widehat{\beta}_{\mathrm{ols}, j}-\lambda / 2 &amp; \widehat{\beta}_{\mathrm{ols}, j}&gt;\lambda / 2 \\
+0 &amp; \left|\widehat{\beta}_{\mathrm{ols}, j}\right| \leq \lambda / 2 \\
+\widehat{\beta}_{\mathrm{ols}, j}+\lambda / 2 &amp; \widehat{\beta}_{\mathrm{ols}, j}&lt;-\lambda / 2
+\end{array}\right.
+\]</span></p>
+<p>This shows that theLasso estimate is a continuous transformation of the least squares estimate. For small values of the least squares estimate the Lasso estimate is set to zero. For all other values the Lasso estimate moves the least squares estimate towards zero by <span class="math inline">\(\lambda / 2\)</span>.</p>
+<ol type="a">
+<li>Selection and Ridge</li>
+</ol>
+<ol start="2" type="a">
+<li>Lasso</li>
+</ol>
+<p>Figure 29.4: Transformations of Least Squares Estimates by Selection, Ridge, and Lasso</p>
+<p>It is constructive to contrast this behavior with ridge regression and selection estimation. When <span class="math inline">\(\boldsymbol{X}^{\prime} \boldsymbol{X}=\boldsymbol{I}_{k}\)</span> the ridge estimator equals <span class="math inline">\(\widehat{\beta}_{\text {ridge }}=(1+\lambda)^{-1} \widehat{\beta}_{\text {ols }}\)</span> so shrinks the coefficients towards zero by a common multiple. A selection estimator (for simplicity consider selection based on a homoskedastic <span class="math inline">\(\mathrm{t}\)</span>-test with <span class="math inline">\(\widehat{\sigma}^{2}=1\)</span> and critical value <span class="math inline">\(c\)</span> ) equals <span class="math inline">\(\widehat{\beta}_{\text {select }}=\mathbb{1}\left\{\left|\widehat{\beta}_{\text {ols }, j}\right|&gt;c\right\} \widehat{\beta}_{\text {ols }, j}\)</span>. Thus the Lasso, ridge, and selection estimates are all transformations of the least squares coefficient estimate. We illustrate these transformations in Figure 29.4. Panel (a) displays the selection and ridge transformations, and panel (b) displays the Lasso transformation.</p>
+<p>The Lasso and ridge estimators are continuous functions while the selection estimator is a discontinuous function. The Lasso and selection estimators are thresholding functions, meaning that the function equals zero for a region about the origin. Thresholding estimators are selection estimators because they equal zero when the least squares estimator is sufficiently small. The Lasso function is a “soft thresholding” rule as it is a continuous function with bounded first derivative. The selection estimator is a “hard thresholding” rule as it is discontinuous. Hard thresholding rules tend to have high variance due to the discontinuous transformation. Consequently, we expect the Lasso to have reduced variance relative to selection estimators, permitting overall lower MSE.</p>
+<p>As for ridge regression, Lasso is not invariant to the scaling of the regressors. If you rescale a regressor then the penalty has a different meaning. Consequently, it is important to scale the regressors appropriately before applying Lasso. It is conventional to scale all the variables to have mean zero and unit variance.</p>
+<p>Lasso is also not invariant to rotations of the regressors. For example, Lasso on <span class="math inline">\(\left(\boldsymbol{X}_{1}, \boldsymbol{X}_{2}\right)\)</span> is not the same as Lasso on <span class="math inline">\(\left(\boldsymbol{X}_{1}-\boldsymbol{X}_{2}, \boldsymbol{X}_{2}\right)\)</span> despite having identical least squares solutions. This is troubling as typically there is no default specification.</p>
+<p>Applications of Lasso estimation in economics are growing. Belloni, Chernozhukov and Hansen (2014) illustrate the method using three application: (1) the effect of eminent domain on housing prices in an instrumental variables framework, (2) a re-examination of the effect of abortion on crime using the framework of Donohue and Levitt (2001), (3) a re-examination of the the effect of democracy on growth using the framework of Acemoglu, Johnson, and Robinson (2001). Mullainathan and Spiess (2017) illustrate machine learning using a prediction model for housing prices using characteristics. Oster (2018) uses household scanner data to measure the effect of a diabetes diagnosis on food purchases.</p>
+</section>
+<section id="lasso-penalty-selection" class="level2" data-number="27.9">
+<h2 data-number="27.9" class="anchored" data-anchor-id="lasso-penalty-selection"><span class="header-section-number">27.9</span> Lasso Penalty Selection</h2>
+<p>Critically important for Lasso estimation is the penalty <span class="math inline">\(\lambda\)</span>. For <span class="math inline">\(\lambda\)</span> close to zero the estimates are close to least squares. As <span class="math inline">\(\lambda\)</span> increases the number of selected variables falls. Picking <span class="math inline">\(\lambda\)</span> induces a trade-off between complexity and parsimony.</p>
+<p>It is common in the statistics literature to see coefficients plotted as a function of <span class="math inline">\(\lambda\)</span>. This can be used to visualize the trade-off between parsimony and variable inclusion. It does not, however, provide a statistical rule for selection.</p>
+<p>The most common selection method is minimization of K-fold cross validation (see Section 28.9). Leave-one-out CV is not typically used as it is computationally expensive. Many programs set the default number of folds as <span class="math inline">\(K=10\)</span>, though some authors use <span class="math inline">\(K=5\)</span>, while others recommend <span class="math inline">\(K=20\)</span>.</p>
+<p>K-fold cross validation is an estimator of out-of-sample mean squared forecast error. Therefore penalty selection by minimization of the K-fold criterion is aimed to select models with good forecast accuracy, but not necessarily for other purposes such as accurate inference.</p>
+<p>Conventionally, the value of <span class="math inline">\(\lambda\)</span> selected by CV is the value which minimizes the CV criterion. Another popular choice is called the “1se” rule, which is the <span class="math inline">\(\lambda\)</span> which yields the most parsimonious model for <span class="math inline">\(\lambda\)</span> values within one standard error of the minimum. The idea is to select a model similar but more parsimonious than the CV-minimizing choice.</p>
+<p>K-fold cross validation is implemented by first randomly dividing the observations into <span class="math inline">\(K\)</span> groups. Consequently the <span class="math inline">\(\mathrm{CV}\)</span> criterion is sensitive to the random sorting. It is therefore prudent to set the random number seed for replicability and to assess sensitivity across initial seeds. In general, selecting a larger value for <span class="math inline">\(K\)</span> reduces this sensitivity.</p>
+<p>Asymptotic consistency of CV selection for Lasso estimation has been demonstrated by Chetverikov, Liao, and Chernozhukov (2021).</p>
+</section>
+<section id="lasso-computation" class="level2" data-number="27.10">
+<h2 data-number="27.10" class="anchored" data-anchor-id="lasso-computation"><span class="header-section-number">27.10</span> Lasso Computation</h2>
+<p>The constraint representation of Lasso is minimization of a quadratic subject to linear inequality constraints. This can be implemented by standard quadratic programming which is computationally simple. For evaluation of the cross-validation function, however, it is useful to compute the entire Lasso path. For this a computationally appropriate method is the modified LARS algorithm. (LARS stands for least angle regression.)</p>
+<p>The LARS algorithm produces a path of coefficients starting at the origin and ending at least squares. The sequence corresponds to the sequence of constraints <span class="math inline">\(\tau\)</span> which can be calculated by the absolute sum of the coefficients, but neither these values (nor <span class="math inline">\(\lambda\)</span> ) are used by the algorithm. The steps are as follows.</p>
+<ol type="1">
+<li><p>Start with all coefficients equal to zero.</p></li>
+<li><p>Find <span class="math inline">\(X_{j}\)</span> most correlated with <span class="math inline">\(Y\)</span>.</p></li>
+<li><p>Increase <span class="math inline">\(\beta_{j}\)</span> in the direction of correlation.</p></li>
+</ol>
+<ol type="a">
+<li><p>Compute residuals along the way.</p></li>
+<li><p>Stop when some other <span class="math inline">\(X_{\ell}\)</span> has the same correlation with the residual as <span class="math inline">\(X_{j}\)</span>.</p></li>
+<li><p>If a non-zero coefficient hits zero, drop from the active set of variables and recompute the joint least squares direction.</p></li>
+</ol>
+<p> 1. Increase <span class="math inline">\(\left(\beta_{j}, \beta_{\ell}\right)\)</span> in their joint least squares direction until some other <span class="math inline">\(X_{m}\)</span> has the same correlation with the residual.</p>
+<ol start="2" type="1">
+<li>Repeat until all predictors are in model.</li>
+</ol>
+<p>This algorithm produces the Lasso path. The equality between the two is not immediately apparent. The demonstration is tedious so is not shown here.</p>
+<p>The most popular computational implementation for Lasso is the R glmnet command in the glmnet package. Penalty selection by K-fold cross validation is implmented by the <span class="math inline">\(\mathrm{cv}\)</span>.glmnet command. The latter by default reports the penalty selected by the “1se” rule, and reports the minimizing <span class="math inline">\(\lambda\)</span> as lambda .min. The default number of folds is <span class="math inline">\(K=10\)</span>.</p>
+<p>In Stata, Lasso is available with the command lasso. By default it selects the penalty by minimizing the K-fold cross validation criterion with <span class="math inline">\(K=10\)</span> folds. Many options are available, including constraining the estimator to penalize only a subset of the coefficients. An alternative downloadable package with many options is lassopack.</p>
+</section>
+<section id="asymptotic-theory-for-the-lasso" class="level2" data-number="27.11">
+<h2 data-number="27.11" class="anchored" data-anchor-id="asymptotic-theory-for-the-lasso"><span class="header-section-number">27.11</span> Asymptotic Theory for the Lasso</h2>
+<p>The current distribution theory of Lasso estimation is challenging and mostly focused on convergence rates. The results are derived under sparsity or approximate sparsity conditions, the former restricting the number of non-zero coefficients, and the second restricting how a sparse model can approximate a general parameterization. In this section we provide a basic convergence rate for the Lasso estimator <span class="math inline">\(\widehat{\beta}_{\text {Lasso }}\)</span> under a mild moment bound on the errors and a sparsity assumption on the coefficients.</p>
+<p>The model is the high-dimensional projection framework:</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[X e] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(X\)</span> is <span class="math inline">\(p \times 1\)</span> with <span class="math inline">\(p&gt;&gt;n\)</span>. The true coefficient vector <span class="math inline">\(\beta\)</span> is assumed to be sparse in the sense that only a subset of the elements of <span class="math inline">\(\beta\)</span> are non-zero. For some <span class="math inline">\(\lambda\)</span> let <span class="math inline">\(\widehat{\beta}_{\text {Lasso }}\)</span> be the Lasso estimator which minimizes <span class="math inline">\(\operatorname{SSE}_{1}(\beta, \lambda)\)</span>. Define the scaled design matrix <span class="math inline">\(\boldsymbol{Q}_{n}=n^{-1} \boldsymbol{X}^{\prime} \boldsymbol{X}\)</span> and the regression fit</p>
+<p><span class="math display">\[
+\left(\widehat{\beta}_{\text {Lasso }}-\beta\right)^{\prime} \boldsymbol{Q}_{n}\left(\widehat{\beta}_{\text {Lasso }}-\beta\right)=\frac{1}{n} \sum_{i=1}^{n}\left(X_{i}^{\prime}\left(\widehat{\beta}_{\text {Lasso }}-\beta\right)\right)^{2} .
+\]</span></p>
+<p>We provide a bound on the regression fit (29.12), the 1-norm fit <span class="math inline">\(\|\widehat{\beta}-\beta\|_{1}\)</span> and the 2-norm fit <span class="math inline">\(\|\widehat{\beta}-\beta\|_{2}\)</span>.</p>
+<p>The regression fit (29.12) is similar to measures of fit we have used before, including the integrated squared error (20.22) in series regression and the regression fit <span class="math inline">\(R_{n}(K)\)</span> (equation (28.17)) for evaluation of model selection optimality.</p>
+<p>When <span class="math inline">\(p&gt;n\)</span> the matrix <span class="math inline">\(\boldsymbol{Q}_{n}\)</span> is singular. The theory, however, requires that it not be “too singular”. What is required is non-singularity of all sub-matrices of <span class="math inline">\(\boldsymbol{Q}_{n}\)</span> corresponding to the non-zero coefficients and not “too many” of the zero coefficients. The specific requirement is rather technical. Partition <span class="math inline">\(\beta=\left(\beta_{0}, \beta_{1}\right)\)</span> where the elements of <span class="math inline">\(\beta_{0}\)</span> are all 0 and the elements of <span class="math inline">\(\beta_{1}\)</span> are non-zero. (This partition is a theoretical device and unknown to the econometrician.) Let <span class="math inline">\(b=\left(b_{0}, b_{1}\right) \in \mathbb{R}^{p}\)</span> be partitioned conformably. Define the cone <span class="math inline">\(B=\left\{b \in \mathbb{R}^{p}:\left\|b_{0}\right\|_{1} \leq 3\left\|b_{1}\right\|_{1}\right\}\)</span>. This is the set of vectors <span class="math inline">\(b\)</span> such that the sub-vector <span class="math inline">\(b_{0}\)</span> is not “too large” relative to the sub-vector <span class="math inline">\(b_{1}\)</span>.</p>
+<p>Assumption 29.1 Restricted Eigenvalue Condition (REC) With probability approaching 1 as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p><span class="math display">\[
+\min _{b \in B} \frac{b^{\prime} \boldsymbol{Q}_{n} b}{b^{\prime} b} \geq c^{2}&gt;0 .
+\]</span></p>
+<p>To gain some understanding of what the REC means, notice that if the minimum (29.13) is taken without restriction over <span class="math inline">\(\mathbb{R}^{p}\)</span> it equals the smallest eigenvalue of <span class="math inline">\(\boldsymbol{Q}_{n}\)</span>. Thus when <span class="math inline">\(p&lt;n\)</span> a sufficient condition for the REC is <span class="math inline">\(\lambda_{\min }\left(\boldsymbol{Q}_{n}\right) \geq c^{2}&gt;0\)</span>. Instead, the minimum in (29.13) is calculated only over the cone B. In this sense this calculation is similar to a “restricted eigenvalue” which is the source of its name. The REC takes a variety of forms in the theoretical literautre; Assumption <span class="math inline">\(29.1\)</span> is not the weakest but is the most intuitive. Assumption <span class="math inline">\(29.1\)</span> has been shown to hold under primitive conditions on <span class="math inline">\(X\)</span>, including normality and boundedness. See Section 3 of Bickel, Ritov, and Tsybakov (2009) and Section <span class="math inline">\(3.1\)</span> of Belloni, Chen, Chernozhukov, and Hansen (2012).</p>
+<p>We provide a rate for the Lasso estimator under the assumption of normal errors. Theorem 29.3 Suppose model (29.11) holds with <span class="math inline">\(p&gt;1\)</span> and Assumption <span class="math inline">\(29.1\)</span> holds. Assume that each regressor has been standardized so that <span class="math inline">\(n^{-1} \boldsymbol{X}_{j}^{\prime} \boldsymbol{X}_{j}=1\)</span> before applying the Lasso. Suppose <span class="math inline">\(e \mid X \sim \mathrm{N}\left(0, \sigma^{2}(X)\right)\)</span> where <span class="math inline">\(\sigma^{2}(x) \leq \bar{\sigma}^{2}&lt;\infty\)</span>. For some <span class="math inline">\(C\)</span> sufficiently large set</p>
+<p><span class="math display">\[
+\lambda=C \sqrt{n \log p}
+\]</span></p>
+<p>Then there is <span class="math inline">\(D&lt;\infty\)</span> such that with probability arbitrarily close to 1 ,</p>
+<p><span class="math display">\[
+\begin{gathered}
+\left(\widehat{\beta}_{\text {Lasso }}-\beta\right)^{\prime} \boldsymbol{Q}_{n}\left(\widehat{\beta}_{\text {Lasso }}-\beta\right) \leq D\|\beta\|_{0} \frac{\log p}{n}, \\
+\left\|\widehat{\beta}_{\text {Lasso }}-\beta\right\|_{1} \leq D\|\beta\|_{0} \sqrt{\frac{\log p}{n}},
+\end{gathered}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\left\|\widehat{\beta}_{\text {Lasso }}-\beta\right\|_{2} \leq D\|\beta\|_{0}^{1 / 2} \sqrt{\frac{\log p}{n}} .
+\]</span></p>
+<p>For a proof see Section <span class="math inline">\(29.23\)</span>.</p>
+<p>Theorem <span class="math inline">\(29.3\)</span> presents three convergence rates for the Lasso coefficient estimator <span class="math inline">\(\widehat{\beta}_{\text {Lasso }}\)</span>, for the regression fit (29.12), covering the 1-norm, and the 2-norm. These rates depend on the number of non-zero coefficients <span class="math inline">\(\|\beta\|_{0}\)</span>, the number of variables <span class="math inline">\(p\)</span>, and the sample size <span class="math inline">\(n\)</span>. Suppose that <span class="math inline">\(\|\beta\|_{0}\)</span> is fixed. Then the bounds (29.15)-(29.17) are <span class="math inline">\(o(1)\)</span> if <span class="math inline">\(\log p=o(n)\)</span>. This shows that Lasso estimation is consistent even for an exponentially large number of variables. The rates, however, allow the number of non-zero coefficients <span class="math inline">\(\|\beta\|_{0}\)</span> to increase with <span class="math inline">\(n\)</span> at the cost of slowing the allowable rate of increase of <span class="math inline">\(p\)</span>.</p>
+<p>We stated earlier in this section that we had assumed that the coefficient vector <span class="math inline">\(\beta\)</span> is sparse, meaning that only a subset of the elements of <span class="math inline">\(\beta\)</span> are non-zero. This appears in the theory through the 0 -norm <span class="math inline">\(\|\beta\|_{0}\)</span>, the number of non-zero coefficients. If all elements of <span class="math inline">\(\beta\)</span> are non-zero then <span class="math inline">\(\|\beta\|_{0}=p\)</span> and the bound (29.15) is <span class="math inline">\(O(p \log p / n)\)</span>, which is similar to bound (20.24) for series regression obtained in Theorem 20.7. Instead, the assumption of sparsity enables the Lasso estimator to achieve a much improved rate of convergence.</p>
+<p>The key to establishing Theorem <span class="math inline">\(29.3\)</span> is a maximal inequality applied to <span class="math inline">\(\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{e}\)</span>. Our proof uses the Gaussian Tail inequality (B.39) which requires the assumption of normality. This follows the analysis of Bickel, Ritov, and Tsybakov (2009), though these authors impose homoskedastic errors, which as shown in Theorem <span class="math inline">\(29.3\)</span> can be replaced by the assumption of bounded heteroskedasticity. Other papers in the statistics literature (see the monograph of Bühlmann and van de Geer (2011)) use instead the assumption of sub-Gaussian tails, which is weaker than normality.</p>
+<p>A theory which allows for non-normal heteroskedastic errors has been developed by Belloni, Chen, Chernozhukov, and Hansen (2012). These authors examine an alternative Lasso estimator which adds regresssor-specific weights to the penalty function, with weights equalling the square roots of <span class="math inline">\(n^{-1} \sum X_{j i}^{2} \widehat{e}_{i}^{2}\)</span>. They use a maximal inequality based on self-normalization and obtain rates similar to (29.15)-(29.17), though with considerably more complicated regularity conditions. While their specific conditions may not be the weakest possible, their theory shows that the assumption of Gaussian or sub-Gaussian errors is not essential to the convergence rates (29.15)-(29.17). I expect that future research will further clarify the needed conditions. An important limitation of results such as Theorem <span class="math inline">\(29.3\)</span> is the sparsity assumption. It is untestable and counter-intuitive. Researchers in this field frequently use the phrase “imposing sparsity” as if it is something under the control of the theorist - but sparsity is a property of the true coefficients, not a choice of the researcher. Fortunately there are alternatives to the sparsity assumption as we discuss in the following section.</p>
+</section>
+<section id="approximate-sparsity" class="level2" data-number="27.12">
+<h2 data-number="27.12" class="anchored" data-anchor-id="approximate-sparsity"><span class="header-section-number">27.12</span> Approximate Sparsity</h2>
+<p>The theory of the previous section used the strong assumption that the true regression is sparse: only a subset of the coefficients are non-zero, and the convergence rate depends on the cardinality of the nonzero coefficients. However, as shown by Belloni, Chen, Chernozhukov, and Hansen (2012), strict sparsity is not required. Instead, convergence rates similar to those in Theorem <span class="math inline">\(29.3\)</span> hold under the assumption of approximate sparsity.</p>
+<p>Once again take the high-dimensional regression model (29.11) but do not assume that <span class="math inline">\(\beta\)</span> necessarily has a sparse structure. Instead, view a sparse model as an approximation. For each integer <span class="math inline">\(K&gt;0\)</span> let <span class="math inline">\(B_{K}=\)</span> <span class="math inline">\(\left\{b \in \mathbb{R}^{p}:\|b\|_{0}=K\right\}\)</span> be the set of vectors with <span class="math inline">\(K\)</span> non-zero elements. Define the best sparse approximation</p>
+<p><span class="math display">\[
+\beta_{K}=\underset{b \in B_{K}}{\operatorname{argmin}}\left\|\boldsymbol{Q}_{n}(\beta-b)\right\|_{\infty}
+\]</span></p>
+<p>with associated approximation error</p>
+<p><span class="math display">\[
+r_{K}=\left\|\boldsymbol{Q}_{n}\left(\beta-\beta_{K}\right)\right\|_{\infty} .
+\]</span></p>
+<p>Assumption 29.2 Approximate Sparsity. For some <span class="math inline">\(s&gt;1, r_{K}=O\left(K^{-s}\right)\)</span>.</p>
+<p>Assumption <span class="math inline">\(29.2\)</span> states that the approximation error of the sparse approximation decreases at a power law rate. In Section <span class="math inline">\(20.8\)</span> and Theorem <span class="math inline">\(20.1\)</span> we learned that approximations similar to Assumption <span class="math inline">\(29.2\)</span> hold for polynomial and spline series regressions with bounded regressors if the true regression function has a uniform <span class="math inline">\(s^{t h}\)</span> derivative. The primary difference is that series regression requires that the econometrician knows how to order the regressors while Assumption <span class="math inline">\(29.2\)</span> does not impose a specific ordering. In this sense Assumption <span class="math inline">\(29.2\)</span> is weaker than the approximation conditions of Section 20.8.</p>
+<p>Belloni, Chen, Chernozhukov, and Hansen (2012) show that convergence results similar to Theorem 29.3 hold under the approximate sparsity condition of Assumption 29.2. The convergence rates are slowed and depend on the approximation exponent <span class="math inline">\(s\)</span>. As <span class="math inline">\(s \rightarrow \infty\)</span> the convergence rates approach those under the assumption of sparsity. The reason is that as <span class="math inline">\(s\)</span> increases the regression function can be approximated with a smaller number <span class="math inline">\(K\)</span> of non-zero coefficients. Their results show that exact sparsity is not required for Lasso estimation, rather what is needed is approximation properties similar to those used in series regression theory.</p>
+<p>The approximate sparsity condition fails when the regressors cannot be easily ordered. Suppose, for example, that <span class="math inline">\(\boldsymbol{Q}_{n}=\boldsymbol{I}_{p}\)</span> and all elements of <span class="math inline">\(\beta\)</span> have common value <span class="math inline">\(\delta\)</span>. In this case <span class="math inline">\(r_{K}=\delta\)</span> which does not decrease with <span class="math inline">\(K\)</span>. In this context Assumption <span class="math inline">\(29.2\)</span> does not hold and the convergence results of Belloni, Chen, Chernozhukov, and Hansen (2012) do not apply.</p>
+</section>
+<section id="elastic-net" class="level2" data-number="27.13">
+<h2 data-number="27.13" class="anchored" data-anchor-id="elastic-net"><span class="header-section-number">27.13</span> Elastic Net</h2>
+<p>The difference between Lasso and ridge regression is that the Lasso uses the 1-norm penalty while ridge uses the 2-norm penalty. Since both procedures have advantages it seems reasonable that further improvements may be obtained by a compromise. Taking a weighted average of the penalties we obtain the Elastic Net criterion</p>
+<p><span class="math display">\[
+\operatorname{SSE}(\beta, \lambda, \alpha)=(\boldsymbol{Y}-\boldsymbol{X} \beta)^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \beta)+\lambda\left(\alpha\|\beta\|_{2}^{2}+(1-\alpha)\|\beta\|_{1}\right)
+\]</span></p>
+<p>with weight <span class="math inline">\(0 \leq \alpha \leq 1\)</span>. This includes Lasso <span class="math inline">\((\alpha=0)\)</span> and ridge regression <span class="math inline">\((\alpha=1)\)</span> as special cases. For small but positive <span class="math inline">\(\alpha\)</span> the constraint sets are similar to “rounded” versions of the Lasso constraint sets.</p>
+<p>Typically the parameters <span class="math inline">\((\alpha, \lambda)\)</span> are selected by joint minimization of the K-fold cross-validation criterion. Since the elastic net penalty is linear-quadratic the solution is computationally similar to Lasso.</p>
+<p>Elastic net can be implemented in R with the glmnet command. In Stata use elasticnet or the downloadable package lassopack.</p>
+</section>
+<section id="post-lasso" class="level2" data-number="27.14">
+<h2 data-number="27.14" class="anchored" data-anchor-id="post-lasso"><span class="header-section-number">27.14</span> Post-Lasso</h2>
+<p>The Lasso estimator <span class="math inline">\(\widehat{\beta}_{\text {Lasso }}\)</span> simultaneously selects variables and shrinks coefficients. Shrinkage introduces bias into estimation. This bias can be reduced by applying least squares after Lasso selection. This is known as the Post-Lasso estimator.</p>
+<p>The procedure takes two steps. First, estimate the model <span class="math inline">\(Y=X^{\prime} \beta+e\)</span> by Lasso. Let <span class="math inline">\(X_{S}\)</span> denote the variables in <span class="math inline">\(X\)</span> which have non-zero coefficients in <span class="math inline">\(\widehat{\beta}_{\text {Lasso }}\)</span>. Let <span class="math inline">\(\beta_{S}\)</span> denote the corresponding coefficients in <span class="math inline">\(\beta\)</span>. Second, the coefficient <span class="math inline">\(\beta_{S}\)</span> is estimated by least squares, thus <span class="math inline">\(\widehat{\beta}_{S}=\left(\boldsymbol{X}_{S}^{\prime} \boldsymbol{X}_{S}\right)^{-1}\left(\boldsymbol{X}_{S}^{\prime} \boldsymbol{Y}\right)\)</span>. This is the Post-Lasso least squares estimator. Belloni and Chernozhukov (2013) provide conditions under which the post-Lasso estimator has the same convergence rates as the Lasso estimator.</p>
+<p>The post-Lasso is a hard thresholding or post-model-selection estimator. Indeed, when the regressors are orthogonal the post-Lasso estimator precisely equals a selection estimator, transforming the least squares coefficient estimates using the hard threshold function displayed in Figure 29.4(a). Consequently, the post-Lasso estimator inherits the statistical properties of PMS estimators (see Sections <span class="math inline">\(28.16\)</span> and 28.17), including high variance and non-standard distributions.</p>
+</section>
+<section id="regression-trees" class="level2" data-number="27.15">
+<h2 data-number="27.15" class="anchored" data-anchor-id="regression-trees"><span class="header-section-number">27.15</span> Regression Trees</h2>
+<p>Regression trees were introduced by Breiman, Friedman, Olshen, and Stone (1984), and are also known by the acronym CART for Classification and Regression Trees. A regression tree is a nonparametric regression using a large number of step functions. The idea is that with a sufficiently large number of split points, a step function can approximate any function. Regression trees may be especially useful when there are a combination of continuous and discrete regressors so that traditional kernel and series methods are challenging to implement.</p>
+<p>Regression trees can be thought of as a <span class="math inline">\(0^{t h}\)</span>-order spline with free knots. They are also similar to threshold regression with intercepts only (no slope coefficients) and a very large number of thresholds.</p>
+<p>The goal is to estimate <span class="math inline">\(m(x)=\mathbb{E}[Y \mid X=x]\)</span> for scalar <span class="math inline">\(Y\)</span> and vector <span class="math inline">\(X\)</span>. The elements of <span class="math inline">\(X\)</span> can be continuous, binary, or ordinal. If a regressor is categorical is should be first transformed to a set of binary variables.</p>
+<p>The literature on regression trees has developed some colorful language to describe the tools based on the metaphor of a living tree. 1. A subsample is a branch.</p>
+<p> 1. Terminal branches are nodes or leaves.</p>
+<ol start="2" type="1">
+<li><p>Increasing the number of branches is growing a tree.</p></li>
+<li><p>Decreasing the number of branches is pruning a tree.</p></li>
+</ol>
+<p>The basic algorithm starts with a single branch. Grow a large tree by sequentially splitting the branches. Then prune back using an information criterion. The goal of the growth stage is to develop a rich datadetermined tree which has small estimation bias. Pruning back is an application of backward stepwise regression with the goal of reducing over-parameterization and estimation variance.</p>
+<p>The regression tree algorithm makes extensive use of the regression sample split algorithm. This is a simplified version of threshold regression (Section 23.7). The method uses NLLS to estimate the model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=\mu_{1} \mathbb{1}\left\{X_{d} \leq \gamma\right\}+\mu_{2} \mathbb{1}\left\{X_{d}&gt;\gamma\right\}+e \\
+\mathbb{E}[e \mid X] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>with the index <span class="math inline">\(d\)</span> and parameter <span class="math inline">\(\gamma\)</span> as free parameters <span class="math inline">\({ }^{2}\)</span>. The NLLS criterion is minimized over <span class="math inline">\((d, \gamma)\)</span> by grid search. The estimates produce a sample split. The regression tree algorithm applies sequential sample splitting to make a large number of splits, each on a sub-sample of observations.</p>
+<p>The basic growth algorithm is as follows. The observations are <span class="math inline">\(\left\{Y_{i}, X_{1 i}, \ldots, X_{k i}: i=1, \ldots, n\right\}\)</span>.</p>
+<ol type="1">
+<li><p>Select a minimum node size <span class="math inline">\(N_{\min }\)</span> (say 5). This is the minimal number of observations on each leaf.</p></li>
+<li><p>Sequentially apply regression sample splits.</p></li>
+</ol>
+<ol type="a">
+<li><p>Apply the regression sample split algorithm to split each branch into two sub-branches, each with size at least <span class="math inline">\(N_{\min }\)</span>.</p></li>
+<li><p>On each sub-branch <span class="math inline">\(b\)</span> :</p></li>
+</ol>
+<ol type="i">
+<li><p>Take the sample mean <span class="math inline">\(\widehat{\mu}_{b}\)</span> of <span class="math inline">\(Y_{i}\)</span> for observations on the sub-branch.</p></li>
+<li><p>This is the estimator of the regression function on this sub-branch.</p></li>
+<li><p>The residuals on the sub-branch are <span class="math inline">\(\widehat{e}_{i}=Y_{i}-\widehat{\mu}_{b}\)</span>.</p></li>
+</ol>
+<ol start="3" type="a">
+<li><p>Select the branch whose split most reduces the sum of squared errors.</p></li>
+<li><p>Split this branch into two branches. Make no other split.</p></li>
+<li><p>Repeat (a)-(d) until each branch cannot be further split. The terminal (unsplit) branches are the leaves.</p></li>
+</ol>
+<p>After the growth algorithm has been run, the estimated regression is a multi-dimensional step function with a large number of branches and leaves.</p>
+<p>The basic pruning algorithm is as follows.</p>
+<ol type="1">
+<li>Define the Mallows-type information criterion</li>
+</ol>
+<p><span class="math display">\[
+C=\sum_{i=1}^{n} \widehat{e}_{i}^{2}+\alpha N
+\]</span></p>
+<p>where <span class="math inline">\(N\)</span> is the number of leaves and <span class="math inline">\(\alpha\)</span> is a penalty parameter.</p>
+<p><span class="math inline">\({ }^{2}\)</span> If <span class="math inline">\(X_{d} \in\{0,1\}\)</span> is binary then <span class="math inline">\(\gamma=0\)</span> is fixed. 2. Compute the criterion <span class="math inline">\(C\)</span> for the current tree.</p>
+<p> 1. Use backward stepwise regression to reduce the number of leaves:</p>
+<ol type="a">
+<li><p>Identify the leaf whose removal most decreases <span class="math inline">\(C\)</span>.</p></li>
+<li><p>Prune (remove) this leaf.</p></li>
+<li><p>If there is no leaf whose removal decreases <span class="math inline">\(C\)</span> then stop pruning.</p></li>
+<li><p>Otherwise, repeat (a)-(c).</p></li>
+</ol>
+<p>The penalty parameter <span class="math inline">\(\alpha\)</span> is typically selected by K-fold cross-validation. The Mallows-type criterion is used because of its simplicity, but to my knowledge does not have a theoretical foundation for regression tree penalty selection.</p>
+<p>The advantage of regression trees is that they provide a highly flexible nonparametric approximation. Their main use is prediction. One disadvantage of regression trees is that the results are difficult to interpret as there are no regression coefficients. Another disadvantage is that the fitted regression <span class="math inline">\(\widehat{m}(x)\)</span> is a discrete step function, which may be a crude approximation when <span class="math inline">\(m(x)\)</span> is continuous and smooth. To obtain a good approximation a regression tree may require a high number of leaves which can result in a non-parsimonious model with high estimation variance.</p>
+<p>The sampling distribution of regression trees is difficult to derive, in part because of the strong correlation between the placement of the sample splits and the estimated means. This is similar to the problems associated with post-model-selection. (See Sections <span class="math inline">\(28.16\)</span> and 28.17.) A method which breaks this dependence is the honest tree proposal of Wager and Ather (2018). Split the sample into two halves <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. Use the <span class="math inline">\(A\)</span> sample to place the splits and the <span class="math inline">\(B\)</span> sample to do within-leaf estimation. While reducing estimation efficiency (the sample is effectively halved) the estimated conditional mean will not be distorted by the correlation between the estimated splits and means.</p>
+<p>Regression trees algorithms are implemented in the R package rpart.</p>
+</section>
+<section id="bagging" class="level2" data-number="27.16">
+<h2 data-number="27.16" class="anchored" data-anchor-id="bagging"><span class="header-section-number">27.16</span> Bagging</h2>
+<p>Bagging (bootstrap aggregating) was introduced by Breiman (1996) as a method to reduce the variance of a predictor. We focus here on its use for estimation of a conditional expectation. The basic idea is simple. You generate a large number <span class="math inline">\(B\)</span> of bootstrap samples, estimate your regression model on each bootstrap sample, and take the average of the bootstrap regression estimates. The average of the bootstrap estimates is the bagging estimator of the CEF.</p>
+<p>Bagging is believed to be useful when the CEF estimator has low bias but high variance. This occurs for hard thresholding estimators such as regression trees, model selection, and post-Lasso. Bagging is a smoothing operation which reduces variance. The resulting bagging estimator can have lower MSE as a result. Bagging is believed to be less useful for estimators with high bias, as bagging may exaggerate the bias.</p>
+<p>We first describe the estimation algorithm. Let <span class="math inline">\(m(x)=\mathbb{E}[Y \mid X=x]\)</span> be the CEF and <span class="math inline">\(\widehat{m}(x)\)</span> an estimator such as a regression tree. Let <span class="math inline">\(\widehat{m}_{b}^{*}(x)\)</span> be the same estimator constructed on a bootstrap sample. The bagging estimator of <span class="math inline">\(m(x)\)</span> is</p>
+<p><span class="math display">\[
+\widehat{m}_{\text {bag }}(x)=\frac{1}{B} \sum_{B=1}^{b} \widehat{m}_{b}^{*}(x)
+\]</span></p>
+<p>As <span class="math inline">\(B\)</span> increases this converges in bootstrap probability to the ideal bagging estimator <span class="math inline">\(\mathbb{E}^{*}\left[\widehat{m}^{*}(x)\right]\)</span>.</p>
+<p>To understand the bagging process we use an example from Bühlmann and Yu (2002). As in Section <span class="math inline">\(28.16\)</span> suppose that <span class="math inline">\(\widehat{\theta} \sim \mathrm{N}(\theta, 1)\)</span> and consider a selection estimator based on a <span class="math inline">\(5 %\)</span> test, <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}=\widehat{\theta} \mathbb{1}\left\{\widehat{\theta}^{2} \geq c\right\}=\)</span> <span class="math inline">\(h(\widehat{\theta})\)</span> where <span class="math inline">\(c=3.84\)</span> and <span class="math inline">\(h(t)=t \mathbb{1}\left\{t^{2} \geq c\right\}\)</span>. Applying Theorem 28.17, equation (28.38), we can calculate that <span class="math inline">\(\mathbb{E}\left[\widehat{\theta}_{\mathrm{pms}}\right]=g(\theta)\)</span> where <span class="math inline">\(g(t)=t\left(1-F_{3}\left(c, t^{2}\right)\right)\)</span> and <span class="math inline">\(F_{r}(x, \lambda)\)</span> is the non-central chi-square distribution function <span class="math inline">\({ }^{3}\)</span>. This representation is not intuitive so it is better to visualize its graph. The functions <span class="math inline">\(h(t)\)</span> and <span class="math inline">\(g(t)\)</span> are plotted in Figure 29.5(a). The selection function <span class="math inline">\(h(t)\)</span> is identical to the plot in Figure 29.4(a). The function <span class="math inline">\(g(t)\)</span> is a smoothed version of <span class="math inline">\(h(t)\)</span>, everywhere continuous and differentiable.</p>
+<p>Suppose that the bagging estimator is constructed using the parametric bootstrap <span class="math inline">\(\widehat{\theta}^{*} \sim \mathrm{N}(\widehat{\theta}, 1)\)</span>. The bootstrap selection estimator is <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}^{*}=h\left(\widehat{\theta}^{*}\right)\)</span>. It follows that the bagging estimator is <span class="math inline">\(\widehat{\theta}_{\mathrm{bag}}=\mathbb{E}^{*}\left[\widehat{\theta}_{\mathrm{pms}}^{*}\right]=\)</span> <span class="math inline">\(\mathbb{E}^{*}\left[h\left(\widehat{\theta}^{*}\right)\right]=g(\widehat{\theta})\)</span>. Thus while the selection estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}=h(\widehat{\theta})\)</span> is the hard threshold transformation <span class="math inline">\(h(t)\)</span> applied to <span class="math inline">\(\widehat{\theta}\)</span>, the bagging estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{bag}}=g(\widehat{\theta})\)</span> is the smoothed transformation <span class="math inline">\(g(t)\)</span> applied to <span class="math inline">\(\widehat{\theta}\)</span>. Thus Figure 29.5(a) displays how <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}\)</span> and <span class="math inline">\(\hat{\theta}_{\mathrm{bag}}\)</span> are transformations of <span class="math inline">\(\widehat{\theta}\)</span>, with the bagging estimator a smooth transformation rather than a hard threshold transformation.</p>
+<ol type="a">
+<li>Selection and Bagging Transformations</li>
+</ol>
+<ol start="2" type="a">
+<li>MSE of Selection and Bagging Estimators</li>
+</ol>
+<p>Figure 29.5: Bagging and Selection</p>
+<p>Bühlmann and Yu (2002) argue that smooth transformations generally have lower variances than hard threshold transformations, and thus argue that <span class="math inline">\(\widehat{\theta}_{\text {bag }}\)</span> will generally have lower variance than <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}\)</span>. This is difficult to demonstrate as a general principle but seems satisfied in specific examples. For our example we display <span class="math inline">\({ }^{4}\)</span> in Figure 29.5(b) the MSE of the selection estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}\)</span> and its bagged verion <span class="math inline">\(\widehat{\theta}_{\text {bag }}\)</span> as functions of <span class="math inline">\(\theta\)</span>. As we learned in Section 28.16, the MSE of the selection estimator <span class="math inline">\(\widehat{\theta}_{\text {pms }}\)</span> is a humpshaped function of <span class="math inline">\(\theta\)</span>. In Figure 29.5(b) we can see that the MSE of the bagged estimator is considerably reduced relative to the selection estimator for most values of <span class="math inline">\(\theta\)</span>. The reduction in MSE is greatest in the region where the MSE of <span class="math inline">\(\widehat{\theta}_{\text {pms }}\)</span> is greatest. Bühlmann and Yu (2002) also calculate that most of this MSE reduction is due to a reduction in the variance of the bagged estimator.</p>
+<p>The most common application of bagging is to regression trees. Trees have a similar structure to our example selection estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{pms}}\)</span> and are therefore expected to have a similar reduction in estimation variance and MSE relative to regression tree estimation.</p>
+<p><span class="math inline">\({ }^{3}\)</span> Bühlmann and Yu (2002), Proposition 2.2, provide an alternative representation using the normal cdf and pdf functions.</p>
+<p><span class="math inline">\({ }^{4}\)</span> For <span class="math inline">\(\widehat{\theta}_{\text {pms }}\)</span> the MSE is calculated using Theorem 28.10. For <span class="math inline">\(\widehat{\theta}_{\text {bag }}\)</span> the MSE is calculated by numerical integration. One convenient by-product of bagging is a CV proxy called the out-of-bag (OOB) prediction error. A typical nonparametric bootstrap sample contains about <span class="math inline">\(63 %\)</span> of the original observations, meaning that about <span class="math inline">\(37 %\)</span> of the observations are not present in that bootstrap sample. Therefore a bootstrap estimate of the regression function <span class="math inline">\(m(x)\)</span> constructed on this bootstrap sample has “left out” about <span class="math inline">\(37 %\)</span> of the observations, meaning that valid prediction errors can be calculated on these “left out” observations. Alternatively, for any given observation <span class="math inline">\(i\)</span>, out of the <span class="math inline">\(B\)</span> bootstrap samples about <span class="math inline">\(0.63 \times B\)</span> samples will contain this observation and about <span class="math inline">\(0.37 \times B\)</span> samples will not include this observation. The bagging “leave <span class="math inline">\(i\)</span> out” estimator <span class="math inline">\(\widehat{m}_{-i}(x)\)</span> of <span class="math inline">\(m(x)\)</span> is obtained by averaging just this second set (the <span class="math inline">\(37 %\)</span> which exclude the observation). The out-of-bag error is <span class="math inline">\(\widetilde{e}_{i}=Y_{i}-\widehat{m}_{-i}\left(X_{i}\right)\)</span>. The out-of-bag CV criterion is <span class="math inline">\(\sum_{i=1}^{n} \widetilde{e}_{i}^{2}\)</span>. This can be used as an estimator of out-of-sample MSFE and can be used to compare and select models.</p>
+<p>Wager, Hastie, and Efron (2014) propose estimators of <span class="math inline">\(V_{n}(x)=\operatorname{var}\left[\widehat{m}_{\text {bag }}(x)\right]\)</span>. Let <span class="math inline">\(N_{i b}\)</span> denote the number of times observation <span class="math inline">\(i\)</span> appears in the bootstrap sample <span class="math inline">\(b\)</span> and <span class="math inline">\(N_{i}=B^{-1} \sum_{b=1}^{B} N_{i b}\)</span>. The infinitesimal jackknife estimator of <span class="math inline">\(V_{n}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{V}_{n}(x)=\sum_{i=1}^{n} \operatorname{cov}^{*}\left(N_{i}, \widehat{m}_{\text {bag }}(x)\right)^{2}=\sum_{i=1}^{n}\left(\frac{1}{B} \sum_{b=1}^{B}\left(N_{i b}-N_{i}\right)\left(\widehat{m}_{b}^{*}(x)-\widehat{m}_{\text {bag }}(x)\right)\right)^{2} .
+\]</span></p>
+<p>This variance estimator is based on Efron (2014).</p>
+<p>While Breiman’s proposal and most applications of bagging are implemented using the nonparametric bootstrap, an alternative is to use subsampling. A subsampling estimator is based on sampling without replacement rather than with replacement as done in the conventional bootstrap. Samples of size <span class="math inline">\(s&lt;n\)</span> are drawn from the original sample and used to construct the estimator <span class="math inline">\(\widehat{m}_{b}^{*}(x)\)</span>. Otherwise the methods are identical. It turns out that it is somewhat easier to develop a distribution theory for bagging under subsampling, so a subsampling assumption is frequently employed in theoretical treatments.</p>
+</section>
+<section id="random-forests" class="level2" data-number="27.17">
+<h2 data-number="27.17" class="anchored" data-anchor-id="random-forests"><span class="header-section-number">27.17</span> Random Forests</h2>
+<p>Random forests, introduced by Breiman (2001), are a modification of bagged regression trees. The modification is designed to reduce estimation variance. Random forests are popular in machine learning applications and have effectively displaced simple regression trees.</p>
+<p>Consider the procedure of applying bagging to regression trees. Since bootstrap samples are similar to one another the estimated bootstrap regression trees will also be similar to one another, particularly in the sense that they tend to have the splits based on the same variables. This means that conditional on the sample the bootstrap regression trees are positively correlated. This correlation means that the variance of the bootstrap average remains high even when the number of bootstrap replications <span class="math inline">\(B\)</span> is large. The modification proposed by random forests is to decorrelate the bootstrap regression trees by introducing extra randomness. This decorrelation reduces the variance of the bootstrap average, thereby reducing its MSE.</p>
+<p>The basic random forest algorithm is as follows. The recommended defaults are taken from the description in Hastie, Tibshirani, and Friedman (2008).</p>
+<ol type="1">
+<li><p>Pick a minimum leaf size <span class="math inline">\(N_{\min }\)</span> (default <span class="math inline">\(=5\)</span> ), a minimal split fraction <span class="math inline">\(\alpha \in[0,1\)</span> ), and a sampling number <span class="math inline">\(m&lt;p\)</span> (default <span class="math inline">\(=p / 3\)</span> ).</p></li>
+<li><p>For <span class="math inline">\(b=1, \ldots, B\)</span> :</p></li>
+</ol>
+<ol type="a">
+<li><p>Draw a nonparametric bootstrap sample.</p></li>
+<li><p>Grow a regression tree on the bootstrap sample using the following steps: i. Select <span class="math inline">\(m\)</span> variables at random from the <span class="math inline">\(p\)</span> regressors.</p></li>
+</ol>
+<ol start="2" type="i">
+<li><p>Among these <span class="math inline">\(m\)</span> variables, pick the one which produces the best regression split, where each split subsample has at least <span class="math inline">\(N_{\min }\)</span> observations and at least a fraction <span class="math inline">\(\alpha\)</span> of the observations in the branch.</p></li>
+<li><p>Split the bootstrap sample accordingly.</p></li>
+</ol>
+<ol start="3" type="a">
+<li><p>Stop when each leaf has between <span class="math inline">\(N_{\min }\)</span> and <span class="math inline">\(2 N_{\min }-1\)</span> observations.</p></li>
+<li><p>Set <span class="math inline">\(\widehat{m}_{b}(x)\)</span> as the sample mean of <span class="math inline">\(Y\)</span> on each leaf of the bootstrap tree.</p></li>
+</ol>
+<p> 1. <span class="math inline">\(\widehat{m}_{\mathrm{rf}}(x)=B^{-1} \sum_{B=1}^{b} \widehat{m}_{b}(x)\)</span>.</p>
+<p>Using randomization to reduce the number of variables from <span class="math inline">\(p\)</span> to <span class="math inline">\(m\)</span> at each step alters the tree structure and thereby reduces the correlation between the bootstrapped regression trees. This reduces the variance of the bootstrap average.</p>
+<p>The infinitesimal jackknife (29.18) can be used for variance and standard error estimation, as discussed in Wager, Hastie, and Efron (2014).</p>
+<p>While random forests are popular in applications, a distributional theory has been slow to develop. Some of the more recent results have made progress by focusing on random forests generated by subsampling rather than bootstrap (see the discussion at the end of the previous section).</p>
+<p>A variant proposed by Wager and Athey (2018) is to use honest trees (see the discussion at the end of Section 29.15) to remove the dependence between the sample splits and the sample means.</p>
+<p>Consistency and asymptotic normality has been established by Wager and Athey (2018). They assume that the conditional expectation and variance are Lipschitz-continuous in <span class="math inline">\(x, X \sim U[0,1]^{p}\)</span>, and <span class="math inline">\(p\)</span> is fixed <span class="math inline">\({ }^{5}\)</span>. They assume that the random forest is created by subsampling, estimated by honest trees, and that the minimal split fraction satisfies <span class="math inline">\(0&lt;\alpha \leq 0.2\)</span>. Under these conditions they establish that pointwise in <span class="math inline">\(x\)</span></p>
+<p><span class="math display">\[
+\frac{\widehat{m}_{\mathrm{rf}}(x)-m(x)}{\sqrt{V_{n}(x)}} \underset{d}{\longrightarrow} \mathrm{N}(0,1)
+\]</span></p>
+<p>for some variance sequence <span class="math inline">\(V_{n}(x) \rightarrow 0\)</span>. These results justify inference for random forest estimation of the regression function and standard error calculation. The asymptotic distribution does not contain a bias component, indicating that the estimator is undersmoothed. The Wager-Athey conditions for asymptotic normality are surprisingly weak. The theory does not give insight, however, into the convergence rate of the estimator. The essential idea of the result is as follows. The splitting algorithm and restrictions ensure that the regressor space is (in a rough sense) evenly split into <span class="math inline">\(N \sim n^{\gamma}\)</span> leaves which grows at a power rate. This ensures that the estimator is asymptotically unbiased. With suitable control over <span class="math inline">\(\gamma\)</span> the squared bias can be made smaller than the variance. The assumption that <span class="math inline">\(\alpha&gt;0\)</span> ensures that the number of observations per leaf increases with <span class="math inline">\(n\)</span>. When combined with the honest tree construction, this ensures asymptotic normality of the estimator.</p>
+<p>Furthermore, Wager and Athey (2018) assert (but do not provide a proof) that the variance <span class="math inline">\(V_{n}(x)\)</span> can be consistently estimated by the infinitesimal jackknife (29.18), in the sense that <span class="math inline">\(\widehat{V}_{n}(x) / V_{n}(x) \underset{p}{\longrightarrow} 1\)</span>.</p>
+<p>The standard computational implementation of random forests is the R randomForest command.</p>
+</section>
+<section id="ensembling" class="level2" data-number="27.18">
+<h2 data-number="27.18" class="anchored" data-anchor-id="ensembling"><span class="header-section-number">27.18</span> Ensembling</h2>
+<p>Ensembling is the term used in machine learning for model averaging across machine learning algorithms. Ensembling is popular in applied machine learning.</p>
+<p><span class="math inline">\({ }^{5}\)</span> The authors claim that the uniform distribution assumption on <span class="math inline">\(X\)</span> can be replaced by the condition that the joint density is bounded away from 0 and infinity. Suppose you have a set of estimators (e.g., CV selection, James-Stein shrinkage, JMA, SBIC, PCA, kernel regression, series regression, ridge regression, Lasso, regression tree, bagged regression tree, and random forest). Which should you use? It is reasonable to expect that one method may work well with some types of data and other methods may work well with other types of data. The principle of model averaging suggests that you can do better by taking a weighted average rather than just selecting one.</p>
+<p>We discussed model averaging models in Sections 28.26-28.31. Ensembling for machine learning can use many of the same methods. One popular method known as stacking is the same as Jackknife Model Averaging discussed in Section 28.29. This selects the model averaging weights by minimizing a cross-validation criterion, subject to the constraint that the weights are non-negative and sum to one.</p>
+<p>Unfortunately, the theoretical literature concerning ensembling is thin. Much of the advice concerning specific methods is based on empirical performance.</p>
+</section>
+<section id="lasso-iv" class="level2" data-number="27.19">
+<h2 data-number="27.19" class="anchored" data-anchor-id="lasso-iv"><span class="header-section-number">27.19</span> Lasso IV</h2>
+<p>Belloni, Chen, Chernozhukov, and Hansen (2012) propose Lasso for estimation of the reduced form of an instrumental variables regression.</p>
+<p>The model is linear IV</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \beta+e \\
+\mathbb{E}[e \mid Z] &amp;=0 \\
+X &amp;=\Gamma^{\prime} Z+U \\
+\mathbb{E}[U \mid Z] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\beta\)</span> is <span class="math inline">\(k \times 1\)</span> (fixed) and <span class="math inline">\(\Gamma\)</span> is <span class="math inline">\(p \times n\)</span> with <span class="math inline">\(p\)</span> large. If <span class="math inline">\(p&gt;n\)</span> the 2SLS estimator equals least squares. If <span class="math inline">\(p&lt;n\)</span> but large the 2SLS estimator suffers from the “many instruments” problem. The authors’ recommendation is to estimate <span class="math inline">\(\Gamma\)</span> by Lasso or post-Lasso 6 .</p>
+<p>The reduced form equations for the endogenous regressors are <span class="math inline">\(X_{j}=\gamma_{j}^{\prime} Z+U_{j}\)</span>. Each is estimated separately by Lasso yielding coefficient estimates <span class="math inline">\(\widehat{\gamma}_{j}\)</span> which are stacked into the matrix <span class="math inline">\(\widehat{\Gamma}_{\text {Lasso }}\)</span> and used to form the predicted values <span class="math inline">\(\widehat{\boldsymbol{X}}_{\text {Lasso }}=Z \widehat{\Gamma}_{\text {Lasso }}\)</span>. The Lasso IV estimator is</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {Lasso-IV }}=\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}^{\prime} \boldsymbol{X}\right)^{-1}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}^{\prime} \boldsymbol{Y}\right) .
+\]</span></p>
+<p>The paper discusses alternative formulations. One is obtained by split-sample estimation as in Angrist and Krueger (1995) (see Section 12.14). Divide the sample randomly into two independent halves <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. Use <span class="math inline">\(A\)</span> to estimate the reduce form equations by Lasso. Then use <span class="math inline">\(B\)</span> to estimate the structural coefficient <span class="math inline">\(\beta\)</span>. Specifically, using sample <span class="math inline">\(A\)</span> construct the Lasso coefficient estimate matrix <span class="math inline">\(\widehat{\Gamma}_{\text {Lasso, } A}\)</span>. Combine this with sample <span class="math inline">\(B\)</span> to create the predicted values <span class="math inline">\(\widehat{\boldsymbol{X}}_{\text {Lasso }, B}=Z_{B} \widehat{\Gamma}_{\text {Lasso, } A}\)</span>. Finally, using <span class="math inline">\(B\)</span> construct the estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {Lasso }, B}=\left(\widehat{\boldsymbol{X}}_{\text {Lasso }, B}^{\prime} \boldsymbol{X}_{B}\right)^{-1}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }, B}^{\prime} \boldsymbol{Y}_{B}\right) .
+\]</span></p>
+<p>We can reverse the procedure. Use <span class="math inline">\(B\)</span> to estimate the reduced form coefficient matrix <span class="math inline">\(\widehat{\Gamma}_{\text {Lasso }, B}\)</span> by Lasso and use <span class="math inline">\(A\)</span> to estimate the structural coefficient, thus <span class="math inline">\(\widehat{\boldsymbol{X}}_{\text {Lasso, } A}=\boldsymbol{Z}_{A} \widehat{\Gamma}_{\text {Lasso, } B}\)</span>. The moments are averaged to obtain the Lasso SSIV estimator</p>
+<p><span class="math display">\[
+\widehat{\beta}_{\text {Lasso-SSIV }}=\left(\widehat{\boldsymbol{X}}_{\text {Lasso }, B}^{\prime} \boldsymbol{X}_{B}+\widehat{\boldsymbol{X}}_{\text {Lasso }, A}^{\prime} \boldsymbol{X}_{A}\right)^{-1}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }, B}^{\prime} \boldsymbol{Y}_{B}+\widehat{\boldsymbol{X}}_{\text {Lasso }, A}^{\prime} \boldsymbol{Y}_{A}\right) .
+\]</span></p>
+<p><span class="math inline">\({ }^{6}\)</span> As they discuss, any machine learning estimator can be used, though the specific assumptions listed in their paper are for Lasso estimation. In later work (see Section 29.22) the authors describe <span class="math inline">\(\widehat{\beta}_{\text {Lasso, } B}\)</span> as a “sample split” and <span class="math inline">\(\widehat{\beta}_{\text {Lasso-SSIV }}\)</span> as a “cross-fit” estimator.</p>
+<p>Using the asymptotic theory for Lasso estimation the authors show that these estimators are equivalent to estimation using the infeasible instrument <span class="math inline">\(W=\Gamma^{\prime} Z\)</span>.</p>
+<p>Theorem 29.4 Under the Assumptions listed in Theorem 3 of Belloni, Chen, Chernozhukov, and Hansen (2012), including</p>
+<p><span class="math display">\[
+\|\Gamma\|_{0} \frac{\log p}{\sqrt{n}} \rightarrow 0,
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\left(\boldsymbol{Q}^{-1} \Omega \boldsymbol{Q}^{-1}\right) \sqrt{n}\left(\widehat{\beta}_{\text {Lasso-IV }}-\beta\right) \underset{d}{\rightarrow} \mathrm{N}\left(0, \boldsymbol{I}_{k}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[W W^{\prime}\right], \Omega=\mathbb{E}\left[W W^{\prime} e^{2}\right]\)</span>, and <span class="math inline">\(W=\Gamma^{\prime} Z\)</span>. Furthermore, the standard covariance matrix estimators are consistent for the asymptotic covariance matrix. The same distribution result holds for <span class="math inline">\(\widehat{\beta}_{\text {Lasso-SSIV }}\)</span> under the assumptions listed in their Theorem 7. In particular, (29.19) is replaced by</p>
+<p><span class="math display">\[
+\|\Gamma\|_{0} \frac{\log p}{n} \rightarrow 0 .
+\]</span></p>
+<p>For a sketch of the proof see Section <span class="math inline">\(29.23\)</span>.</p>
+<p>Equation (29.19) requires that the reduced form coefficient <span class="math inline">\(\Gamma\)</span> is sparse in the sense that the number of non-zero reduced form coefficients <span class="math inline">\(\|\Gamma\|_{0}\)</span> grows more slowly than <span class="math inline">\(\sqrt{n}\)</span>. This allows for <span class="math inline">\(p\)</span> to grow exponentially with <span class="math inline">\(n\)</span> but at a somewhat slower rate than allowed by Theorem 29.3. Condition (29.19) is one of the key assumptions needed for the distribution result (29.20).</p>
+<p>For Lasso SSIV, equation (29.21) replaces (29.19). This rate condition is weaker, allowing <span class="math inline">\(p\)</span> to grow at the same rate as for regression estimation. The difference is due to the split-sample estimation, which breaks the dependence between the reduced form coefficient estimates and the second-stage structural estimates. There are two interpretable implications of the difference between (29.19) and (29.21). First, a direct implication is that Lasso SSIV allows for larger number of variables <span class="math inline">\(p\)</span>. Second, an indirect implication is that for any set of variables, Lasso SSIV will have reduced bias relative to Lasso IV. Both interpretations suggest that Lasso SSIV is the preferred estimator.</p>
+<p>Belloni, Chen, Chernozhukov, and Hansen (2012) extend Theorem <span class="math inline">\(29.4\)</span> to allow for approximate sparsity as in Section <span class="math inline">\(29.12\)</span> at the cost of more restrictive rate conditions.</p>
+<p>An important disadvantage of the split-sample and cross-fit estimators is that they depend on the random sorting of the observations into the samples <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. Consequently, two researchers will obtain two different estimators. Furthermore, the split-sample estimators use <span class="math inline">\(n / 2\)</span> observations rather than <span class="math inline">\(n\)</span>, which may impact finite-sample performance. A deduction is that the split-sample estimators are not appropriate when <span class="math inline">\(n\)</span> is small.</p>
+<p>IV Lasso can be implemented in Stata using the downloadable package ivlasso.</p>
+</section>
+<section id="double-selection-lasso" class="level2" data-number="27.20">
+<h2 data-number="27.20" class="anchored" data-anchor-id="double-selection-lasso"><span class="header-section-number">27.20</span> Double Selection Lasso</h2>
+<p>Post-estimation inference is difficult with most machine learning estimators. For example, consider the post-Lasso estimator (least squares applied to the regressors selected by the Lasso). This is a post- model-selection (PMS) estimator, as discussed in Sections <span class="math inline">\(28.16\)</span> and 28.17. As shown in Section 28.17, the coverage probability of standard confidence intervals applied to PMS estimators can be far from the nominal level. Belloni, Chernozhukov, and Hansen (2014b) proposed an alternative estimation and inference method which achives better coverage rates.</p>
+<p>Consider the linear model</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=D \theta+X^{\prime} \beta+e \\
+\mathbb{E}[e \mid D, X] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(Y\)</span> and <span class="math inline">\(D\)</span> are scalar and <span class="math inline">\(X\)</span> is <span class="math inline">\(p \times 1\)</span>. The variable <span class="math inline">\(D\)</span> is the main focus of the regression; the variable <span class="math inline">\(X\)</span> are controls. The goal is inference on <span class="math inline">\(\theta\)</span>.</p>
+<p>Suppose you estimate model (29.22) by group post-Lasso, only penalizing <span class="math inline">\(\beta\)</span>. This performs selection on the variables <span class="math inline">\(X\)</span>, resulting in a least squares regression of <span class="math inline">\(Y\)</span> on <span class="math inline">\(D\)</span> and the selected variables in <span class="math inline">\(X\)</span>. This is identical to the model studied in Section <span class="math inline">\(28.17\)</span> (except that in that analysis selection was performed by testing), where Figure 28.1 (c) shows that the coverage probabilities for <span class="math inline">\(\theta\)</span> are downward biased, and the distortions are serious. The distortions are primarily affected by (and increasing in) the correlation between <span class="math inline">\(D\)</span> and <span class="math inline">\(X\)</span>.</p>
+<p>Belloni, Chernozhukov, and Hansen (2014b) deduce that improved coverage accuracy can be achieved if the variable <span class="math inline">\(X\)</span> is included in the regression (29.22) whenever <span class="math inline">\(X\)</span> and <span class="math inline">\(D\)</span> are correlated. This gives rise to the practical suggestion to perform what they call double-selection. We start by specifying an auxiliary equation for <span class="math inline">\(D\)</span> :</p>
+<p><span class="math display">\[
+\begin{aligned}
+D &amp;=X^{\prime} \gamma+V \\
+\mathbb{E}[V \mid X] &amp;=0 .
+\end{aligned}
+\]</span></p>
+<p>Substituting (29.23) into (29.22) we obtain a reduced form for <span class="math inline">\(Y\)</span> :</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y &amp;=X^{\prime} \eta+U \\
+\mathbb{E}[U \mid X] &amp;=0
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\eta=\beta+\gamma \theta\)</span> and <span class="math inline">\(U=e+V \theta\)</span>. The proposed double-selection algorithm applies model selection (e.g., Lasso selection) separately to equations (29.23) and (29.24), takes the union of the selected regressors, and then estimates (29.22) by least squares using the selected regressors. This method ensures that a variable <span class="math inline">\(X\)</span> is included if it is relevant for the regression (29.22) or if it is correlated with <span class="math inline">\(D\)</span>.</p>
+<p>The double-selection estimator as recommended by Belloni, Chernozhukov, and Hansen (2014b) is:</p>
+<ol type="1">
+<li><p>Estimate (29.23) by Lasso. Let <span class="math inline">\(X_{1}\)</span> be the selected variables from <span class="math inline">\(X\)</span>.</p></li>
+<li><p>Estimate (29.24) by Lasso. Let <span class="math inline">\(X_{2}\)</span> be the selected variables from <span class="math inline">\(X\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(\widetilde{X}=X_{1} \cup X_{2}\)</span> be the union of the variables in <span class="math inline">\(X_{1}\)</span> and <span class="math inline">\(X_{2}\)</span>.</p></li>
+<li><p>Regress <span class="math inline">\(Y\)</span> on <span class="math inline">\((D, \widetilde{X})\)</span> to obtain the double-selection coefficient estimate <span class="math inline">\(\widehat{\theta}_{\mathrm{DS}}\)</span>.</p></li>
+<li><p>Calculate a conventional (heteroskedastic) standard error for <span class="math inline">\(\widehat{\theta}_{\mathrm{DS}}\)</span>.</p></li>
+</ol>
+<p>Belloni, Chernozhukov, and Hansen (2014b) show that when both (29.22) and (29.23) satisfy an approximate sparsity structure (so that the regressions are well approximated by a finite set of regressors) then the double-selection estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{DS}}\)</span> and its t-ratio are asymptotically normal so conventional inferernce methods are valid. Their proof is technically tedious so not repeated here. The essential idea is that because <span class="math inline">\(\tilde{X}\)</span> includes the variables in <span class="math inline">\(X_{2}\)</span>, the estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{DS}}\)</span> is asymptotically equivalent to the regression where <span class="math inline">\(D\)</span> is replaced with the error <span class="math inline">\(V\)</span> from (29.23). Since <span class="math inline">\(V\)</span> is uncorrelated with the regressors <span class="math inline">\(X\)</span> the estimator and t-ratio satisfy the conventional non-selection asymptotic distribution.</p>
+<p>It should be emphasized that this distributional claim is asymptotic; finite sample inferences remain distorted from nominal levels. Furthermore, the result rests on the adequacy of the approximate sparsity assumption for both the structural equation (29.22) and the auxillary regression (29.23).</p>
+<p>The primary advantage of the double-selection estimator is its simplicity and clear intuitive structure.</p>
+<p>In Stata, the double-selection Lasso estimator can be computed by the dsregress command or with the pdslasso add-on package. Double-selection is available in <span class="math inline">\(\mathrm{R}\)</span> with the hdm package.</p>
+</section>
+<section id="post-regularization-lasso" class="level2" data-number="27.21">
+<h2 data-number="27.21" class="anchored" data-anchor-id="post-regularization-lasso"><span class="header-section-number">27.21</span> Post-Regularization Lasso</h2>
+<p>A potential improvement on double-selection Lasso is the post-regularization Lasso estimator of Chernozhukov, Hansen, and Spindler (2015), which is labeled as partialing-out Lasso in the Stata manual. The estimator is essentially the same as Robinson (1988) for the partially linear model (see Section 19.24) but estimated by Lasso rather than kernel regression.</p>
+<p>We first transform the structural equation (29.22) to eliminate the high-dimensional component. Take the expected value of (29.22) conditional on <span class="math inline">\(X\)</span>, and subtract from each side. This leads to the equation</p>
+<p><span class="math display">\[
+Y-\mathbb{E}[Y \mid X]=(D-\mathbb{E}[D \mid X]) \theta+e .
+\]</span></p>
+<p>Notice that this elminates the regressor <span class="math inline">\(X\)</span> and the high-dimensional coefficient <span class="math inline">\(\beta\)</span>. The models (29.23)(29.24) specify <span class="math inline">\(\mathbb{E}[Y \mid X]\)</span> and <span class="math inline">\(\mathbb{E}[D \mid X]\)</span> as linear functions of <span class="math inline">\(X\)</span>. Substituting these expressions we obtain</p>
+<p><span class="math display">\[
+Y-X^{\prime} \eta=\left(D-X^{\prime} \gamma\right) \theta+e .
+\]</span></p>
+<p>If <span class="math inline">\(\eta\)</span> and <span class="math inline">\(\gamma\)</span> were known the coefficient <span class="math inline">\(\theta\)</span> could be estimated by least squares. As <span class="math inline">\(\eta\)</span> and <span class="math inline">\(\gamma\)</span> are unknown they need to be estimated. Chernozhukov, Hansen, and Spindler (2015) recommend estimation by Lasso or post-Lasso, separately for <span class="math inline">\(Y\)</span> and <span class="math inline">\(D\)</span>.</p>
+<p>The estimator recommended by Chernozhukov, Hansen, and Spindler (2015) is:</p>
+<ol type="1">
+<li><p>Estimate (29.23) by Lasso or post-Lasso with Lasso parameter <span class="math inline">\(\lambda_{1}\)</span>. Let <span class="math inline">\(\widehat{\gamma}\)</span> be the coefficient estimator and <span class="math inline">\(\widehat{V}_{i}=D_{i}-X_{i}^{\prime} \widehat{\gamma}\)</span> the residual.</p></li>
+<li><p>Estimate (29.24) by Lasso or post-Lasso with Lasso parameter <span class="math inline">\(\lambda_{2}\)</span>. Let <span class="math inline">\(\widehat{\eta}\)</span> be the coefficient estimator and <span class="math inline">\(\widehat{U}_{i}=Y_{i}-X_{i}^{\prime} \widehat{\eta}\)</span> the residual.</p></li>
+<li><p>Let <span class="math inline">\(\widehat{\theta}_{\mathrm{PR}}\)</span> be the OLS coefficient from the regression of <span class="math inline">\(\widehat{U}\)</span> on <span class="math inline">\(\widehat{V}\)</span>.</p></li>
+<li><p>Calculate a conventional (heteroskedastic) standard error for <span class="math inline">\(\widehat{\theta}_{\mathrm{PR}}\)</span>.</p></li>
+</ol>
+<p>Chernozhukov, Hansen, and Spindler (2015) introduce the following insight to understand why <span class="math inline">\(\widehat{\theta}_{\mathrm{PR}}\)</span> may be relatively insensitive to post-model-selection. The reason why model selection invalidates inference is because when the variables <span class="math inline">\(D\)</span> and <span class="math inline">\(X\)</span> are correlated the moment condition for <span class="math inline">\(\theta\)</span> is sensitive to <span class="math inline">\(\beta\)</span>. Specifically, the moment condition for <span class="math inline">\(\theta\)</span> based on (29.22) is</p>
+<p><span class="math display">\[
+m(\theta, \beta)=\mathbb{E}\left[D\left(Y-D \theta-X^{\prime} \beta\right)\right]=0 .
+\]</span></p>
+<p>Its sensitivity with respect to <span class="math inline">\(\beta\)</span> is its derivative evaluated at the true coefficients</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \beta} m(\theta, \beta)=-\mathbb{E}\left[D X^{\prime}\right]
+\]</span></p>
+<p>which is non-zero when <span class="math inline">\(D\)</span> and <span class="math inline">\(X\)</span> are correlated. This means that inclusion/exclusion of the variable <span class="math inline">\(X\)</span> has an impact on the moment condition for <span class="math inline">\(\theta\)</span> and hence its solution.</p>
+<p>In contrast, the moment condition for <span class="math inline">\(\theta\)</span> based on (29.25) is</p>
+<p><span class="math display">\[
+\begin{aligned}
+m_{\mathrm{PR}}(\theta, \beta) &amp;=\mathbb{E}\left[\left(D-X^{\prime} \gamma\right)\left(Y-X^{\prime} \eta-\left(D-X^{\prime} \gamma\right) \theta\right)\right] \\
+&amp;=\mathbb{E}\left[\left(D-X^{\prime} \gamma\right)\left(Y-D \theta-X^{\prime} \beta\right)\right] .
+\end{aligned}
+\]</span></p>
+<p>Its sensitivity with respect to <span class="math inline">\(\beta\)</span> is</p>
+<p><span class="math display">\[
+\frac{\partial}{\partial \beta} m_{\mathrm{PR}}(\theta, \beta)=-\mathbb{E}\left[\left(D-X^{\prime} \gamma\right) X^{\prime}\right]=-\mathbb{E}\left[V X^{\prime}\right]=0 .
+\]</span></p>
+<p>This equals zero because <span class="math inline">\(V\)</span> is a regression error as specified in (29.23) and thus uncorrelated with <span class="math inline">\(X\)</span>. Since the sensitivity of <span class="math inline">\(m_{\mathrm{PR}}(\theta, \beta)\)</span> with respect to <span class="math inline">\(\beta\)</span> is zero, inclusion/exclusion of the variable <span class="math inline">\(X\)</span> has only a mild impact on the moment condition for <span class="math inline">\(\theta\)</span> and its estimator.</p>
+<p>These insights are formalized in the following distribution theory.</p>
+<p>Theorem 29.5 Suppose model (29.22)-(29.23) holds and Assumption <span class="math inline">\(29.1\)</span> holds for both <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\gamma\)</span>. Assume that each regressor has been standardized so that <span class="math inline">\(n^{-1} \boldsymbol{X}_{j}^{\prime} \boldsymbol{X}_{j}=1\)</span>. Suppose <span class="math inline">\(e \mid X \sim \mathrm{N}\left(0, \sigma_{e}^{2}(X)\right)\)</span> and <span class="math inline">\(V \mid X \sim \mathrm{N}\left(0, \sigma_{V}^{2}(X)\right)\)</span> where <span class="math inline">\(\sigma_{e}^{2}(x) \leq \bar{\sigma}_{e}^{2}&lt;\infty\)</span> and <span class="math inline">\(\sigma_{V}^{2}(x) \leq \bar{\sigma}_{V}^{2}&lt;\infty\)</span>. For some <span class="math inline">\(C_{1}\)</span> and <span class="math inline">\(C_{2}\)</span> sufficiently large the Lasso parameters satisfy <span class="math inline">\(\lambda_{1}=C_{1} \sqrt{n \log p}\)</span> and <span class="math inline">\(\lambda_{2}=C_{2} \sqrt{n \log p}\)</span>. Assume <span class="math inline">\(p \rightarrow \infty\)</span> and</p>
+<p><span class="math display">\[
+\left(\|\beta\|_{0}+\|\gamma\|_{0}\right) \frac{\log p}{\sqrt{n}}=o(1) .
+\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}_{\mathrm{PR}}-\theta\right) \underset{d}{\rightarrow} \mathrm{N}\left(0, \frac{\mathbb{E}\left[V^{2} e^{2}\right]}{\left(\mathbb{E}\left[V^{2}\right]\right)^{2}}\right) .
+\]</span></p>
+<p>Furthermore, the standard variance estimator for <span class="math inline">\(\widehat{\theta}_{\mathrm{PR}}\)</span> is consistent for the asymptotic variance.</p>
+<p>For a proof see Section <span class="math inline">\(29.23\)</span>.</p>
+<p>In order to provide a simple proof, Theorem <span class="math inline">\(29.5\)</span> uses the assumption of normal errors. This is not essential. Chernozhukov, Hansen, and Spindler (2015) state the same distributional result under weaker regularity conditions.</p>
+<p>Theorem <span class="math inline">\(29.5\)</span> shows that the post-regularization (partialing-out) Lasso estimator has a conventional asymptotic distribution, allowing conventional inference for the coefficient <span class="math inline">\(\theta\)</span>. The key rate condition is (29.26), which is stronger than required for Lasso estimation, and identical to (29.19) used for Lasso IV. (29.26) requires that both <span class="math inline">\(\beta\)</span> and <span class="math inline">\(\gamma\)</span> are sparse. The condition (29.26) can be relaxed to allow approximate sparsity as in Section <span class="math inline">\(29.12\)</span> at the cost of a more restrictive rate condition. The advantage of the post-regularization estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{PR}}\)</span> over the double-selection estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{DS}}\)</span> is efficiency. The post-regularization estimator uses only the relevant components of <span class="math inline">\(X\)</span> to separately demean <span class="math inline">\(Y\)</span> and <span class="math inline">\(D\)</span>, leading to greater parsimony. Different components of <span class="math inline">\(X\)</span> may be relevant to <span class="math inline">\(D\)</span> and <span class="math inline">\(Y\)</span>. The post-regularization estimator allows such distinctions and estimates each separately. In contrast, the double-selection estimator uses the union of the two regressor sets for estimation of <span class="math inline">\(\theta\)</span>, leading to a less parsimonious specification. As a consequence, an advantage of the double-selection estimator is reduced bias and robustness. Regarding the theory, the derivation of the asymptotic theory for the post-regularization estimator is considerably easier than that for the double-selection estimator, as it only involves the manipulation of rates of convergence, while the double-selection estimator requires a careful attention to the handling of the union of the regressor sets.</p>
+<p>The partialing-out Lasso estimator is available with the poregress command in Stata (implemented with post-Lasso estimation only), or with the pdslasso add-on package. Partialing-out Lasso is available in <span class="math inline">\(\mathrm{R}\)</span> with the hdm package.</p>
+</section>
+<section id="doubledebiased-machine-learning" class="level2" data-number="27.22">
+<h2 data-number="27.22" class="anchored" data-anchor-id="doubledebiased-machine-learning"><span class="header-section-number">27.22</span> Double/Debiased Machine Learning</h2>
+<p>The most recent contribution to inference methods for model (29.22) is the Double/Debiased machine learning (DML) estimator of Chernozhukov, Chetverikov, Demirer, Duflo, Hansen, Newey, and Robins (2018). Our description will focus on linear regression estimated by Lasso, though their treatment is considerably more general. This estimation method has received considerable attention among econometricians in recent years and is considered the state-of-the-art estimation method.</p>
+<p>The DML estimator extends the post-regularization estimator of the previous section by adding samplesplitting similarly to the split-sample IV estimator (see Section 29.19). The authors argue that this reduces the dependence between the estimation stages and can improve performance.</p>
+<p>As presented in the previous section, the post-regularization estimator first estimates the coefficients <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\eta\)</span> in the models (29.23) and (29.24) and then estimates the coefficient <span class="math inline">\(\theta\)</span>. The split-sample estimator performs these estimation steps using separate samples. The DML estimator takes this a step further by using K-fold partitioning. The estimation algorithm is as follows.</p>
+<ol type="1">
+<li><p>Randomly partition the sample into <span class="math inline">\(K\)</span> independent folds <span class="math inline">\(A_{k}, k=1, \ldots, K\)</span>, of roughly equal size <span class="math inline">\(n / K\)</span>.</p></li>
+<li><p>Write the data matrices for each fold as <span class="math inline">\(\left(\boldsymbol{Y}_{k}, \boldsymbol{D}_{k}, \boldsymbol{X}_{k}\right)\)</span>.</p></li>
+<li><p>For <span class="math inline">\(k=1, \ldots, K\)</span></p></li>
+</ol>
+<ol type="a">
+<li><p>Use all observations except for fold <span class="math inline">\(k\)</span> to estimate the coefficients <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\eta\)</span> in (29.23) and (29.24) by Lasso or post-Lasso. Write these leave-fold-out estimators as <span class="math inline">\(\widehat{\gamma}_{-k}\)</span> and <span class="math inline">\(\widehat{\eta}_{-k}\)</span>.</p></li>
+<li><p>Set <span class="math inline">\(\widehat{\boldsymbol{V}}_{k}=\boldsymbol{D}_{k}-\boldsymbol{X}_{k} \widehat{\gamma}_{-k}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{U}}_{k}=\boldsymbol{Y}_{k}-\boldsymbol{X}_{k} \widehat{\eta}_{-k}\)</span>. These are the estimated values of <span class="math inline">\(V\)</span> and <span class="math inline">\(U\)</span> for observations in the <span class="math inline">\(k^{t h}\)</span> fold using the leave-fold-out estimators.</p></li>
+</ol>
+<p> 1. Set <span class="math inline">\(\widehat{\theta}_{\mathrm{DML}}=\left(\sum_{k=1}^{K} \widehat{\boldsymbol{V}}_{k}^{\prime} \widehat{\boldsymbol{V}}_{k}\right)^{-1}\left(\sum_{k=1}^{K} \widehat{\boldsymbol{V}}_{k}^{\prime} \widehat{\boldsymbol{U}}_{k}\right)\)</span>. Equivalently, stack <span class="math inline">\(\widehat{\boldsymbol{V}}_{k}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{U}}_{k}\)</span> into <span class="math inline">\(n \times 1\)</span> vectors <span class="math inline">\(\widehat{\boldsymbol{V}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{U}}\)</span> and set <span class="math inline">\(\widehat{\theta}_{\mathrm{DML}}=\left(\widehat{\boldsymbol{V}}^{\prime} \widehat{\boldsymbol{V}}\right)^{-1}\left(\widehat{\boldsymbol{V}}^{\prime} \widehat{\boldsymbol{U}}\right)\)</span>.</p>
+<ol start="2" type="1">
+<li>Construct a conventional (heteroskedastic) standard error for <span class="math inline">\(\widehat{\theta}_{\mathrm{DML}}\)</span>.</li>
+</ol>
+<p>The authors call <span class="math inline">\(\widehat{\theta}_{\text {DML }}\)</span> a cross-fit estimator as in the <span class="math inline">\(K=2\)</span> case it performs sample splitting in both directions and is therefore fully asymptotically efficient. The estimator as described above is labeled the “DML2” estimator by the authors. An alternative they label “DML1” is <span class="math inline">\(\widehat{\theta}_{\mathrm{DML} 1}=\sum_{k=1}^{K}\left(\widehat{\boldsymbol{V}}_{k}^{\prime} \widehat{\boldsymbol{V}}_{k}\right)^{-1}\left(\widehat{\boldsymbol{V}}_{k}^{\prime} \widehat{\boldsymbol{U}}_{k}\right)\)</span>. They are asymptotically equivalent but DML2 is preferred.</p>
+<p>The estimator requires the selection of the number of folds <span class="math inline">\(K\)</span>. Similarly to K-fold CV the authors recommend <span class="math inline">\(K=10\)</span>. Computational cost is roughly proportional to <span class="math inline">\(K\)</span>.</p>
+<p>Theorem 29.6 Under the assumptions of Theorem 29.5,</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}_{\mathrm{DML}}-\theta\right) \underset{d}{\longrightarrow} \mathrm{N}\left(0, \frac{\mathbb{E}\left[V^{2} e^{2}\right]}{\left(\mathbb{E}\left[V^{2}\right]\right)^{2}}\right) .
+\]</span></p>
+<p>Furthermore, the standard variance estimator for <span class="math inline">\(\widehat{\theta}_{\mathrm{DML}}\)</span> is consistent for the asymptotic variance.</p>
+<p>Theorem <span class="math inline">\(29.6\)</span> shows that the DML estimator achieves a standard asymptotic distribution. The proof is a straightforward extension of that for Theorem <span class="math inline">\(29.5\)</span> so is omitted. Weaker (but high-level) regularity conditions are provided by Chernozhukov et. al.&nbsp;(2018).</p>
+<p>The authors argue that the DML estimator has improved sampling performance due to an improved rate of convergence of certain error terms. If we examine the proof of Theorem 29.5, one of the error bounds is (29.44), which shows that</p>
+<p><span class="math display">\[
+\left|\left(\widehat{\gamma}_{-k}-\gamma\right)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}_{k}^{\prime} \boldsymbol{e}_{k}\right| \leq O_{p}\left(\|\gamma\|_{0} \frac{\log p}{\sqrt{n}}\right)=o_{p}(1) .
+\]</span></p>
+<p>Under sample splitting, however, we have an improved rate of convergence. The components <span class="math inline">\(\widehat{\gamma}_{-k}\)</span> and <span class="math inline">\(\boldsymbol{X}_{k}^{\prime} \boldsymbol{e}_{k}\)</span> are independent. Thus the left side of (29.27), conditional on <span class="math inline">\(\widehat{\gamma}_{-k}\)</span> and <span class="math inline">\(\boldsymbol{X}_{k}\)</span>, is mean zero and has conditional variance bounded by <span class="math inline">\(\bar{\sigma}_{e}^{2}\left(\widehat{\gamma}_{-k}-\gamma\right)^{\prime} \frac{1}{n} \boldsymbol{X}_{k}^{\prime} \boldsymbol{X}_{k}\left(\widehat{\gamma}_{-k}-\gamma\right)\)</span>. This is <span class="math inline">\(O_{p}\left(\|\gamma\|_{0} \frac{\log p}{n}\right)\)</span> by Theorem 29.3. Hence (29.27) is <span class="math inline">\(O_{p}\left(\sqrt{\|\gamma\|_{0} \frac{\log p}{n}}\right)\)</span>, which is of smaller order. This improvement suggests that the deviations from the asymptotic approximation should be smaller under sample splitting and the DML estimator. The improvements, however, do not lead to a relaxation of the regularity conditions. The proof requires bounding the terms (29.42)-(29.43) and these are not improved by sample splititng. Consequently, it is unclear if the distributional impact of sample splitting is large or small.</p>
+<p>The advantage of the DML estimator over the post-regularization estimator is that the sample splitting eliminates the dependence between the two estimation steps, thereby reducing post-model-selection bias. The procedure has several disadvantages, however. First, the estimator is random due to the sample splitting. Two researchers with the same data set but making different random splits will obtain two distinct estimators. This arbitrariness is unsettling. This randomness can be reduced by using a larger value of <span class="math inline">\(K\)</span>, but this increases computation cost. Another disadvantage of sample-splitting is that estimation of <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\eta\)</span> is performed using smaller samples which reduces estimation efficiency, though this effect is minor if <span class="math inline">\(K \geq 10\)</span>. Regardless, these considerations suggest that DML may be most appropriate for settings with large <span class="math inline">\(n\)</span> and <span class="math inline">\(K \geq 10\)</span>.</p>
+<p>At the beginning of this section the DML estimator was described as the “state-of-the-art”. This field is rapidly developing so this specific estimator may be soon eclipsed by a further iteration.</p>
+<p>In Stata, the DML estimator is available with the xporegress command. By default it implements the DML2 estimator with <span class="math inline">\(K=10\)</span> folds. The coefficients <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\eta\)</span> are estimated by post-Lasso.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="27.23">
+<h2 data-number="27.23" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">27.23</span> Technical Proofs*</h2>
+<p>Proof of Theorem 29.2 Combining (29.8) and (29.9) we find that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{mse}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right] &amp;=\operatorname{var}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right]+\operatorname{bias}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right] \text { bias }\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right]^{\prime} \\
+&amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}+\lambda^{2} \beta \beta^{\prime}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}
+\end{aligned}
+\]</span></p>
+<p>The MSE of the least squares estimator is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{mse}\left[\widehat{\beta}_{\mathrm{ols}} \mid \boldsymbol{X}\right] &amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \\
+&amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \\
+&amp;=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}+\lambda\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)+\lambda\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right.\\
+&amp;\left.+\lambda^{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \\
+&amp; \geq\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}+\lambda\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)+\lambda\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} .
+\end{aligned}
+\]</span></p>
+<p>Their difference is</p>
+<p><span class="math display">\[
+\operatorname{mse}\left[\widehat{\beta}_{\text {ols }} \mid \boldsymbol{X}\right]-\operatorname{mse}\left[\widehat{\beta}_{\text {ridge }} \mid \boldsymbol{X}\right] \geq \lambda\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1} \boldsymbol{A}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\lambda \boldsymbol{I}_{p}\right)^{-1}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{A}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)+\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}-\lambda \beta \beta^{\prime} .
+\]</span></p>
+<p>The right-hand-side of (29.28) is positive definite if <span class="math inline">\(\boldsymbol{A}&gt;0\)</span>. Its smallest eigenvalue satisfies</p>
+<p><span class="math display">\[
+\lambda_{\min }(\boldsymbol{A})=2 \min _{\alpha^{\prime} \alpha=1} \alpha^{\prime}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1 / 2}\left(\boldsymbol{X}^{\prime} \boldsymbol{D} \boldsymbol{X}\right)\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1 / 2} \alpha-\lambda \beta^{\prime} \beta \geq 2 \min _{h^{\prime} h=1} h^{\prime} \boldsymbol{D} h-\lambda \beta^{\prime} \beta=2 \underline{\sigma}^{2}-\lambda \beta^{\prime} \beta
+\]</span></p>
+<p>which is strictly positive when <span class="math inline">\(0&lt;\lambda&lt;2 \underline{\sigma}^{2} / \beta^{\prime} \beta\)</span> as assumed. This shows that (29.28) is positive definite.</p>
+<p>Proof of Theorem 29.3 Define <span class="math inline">\(V_{n j}=n^{-1} \sum_{i=1}^{n} X_{j i}^{2} \sigma^{2}\left(X_{i}\right)\)</span>. The normality assumption implies that for each <span class="math inline">\(j,\left(n V_{n j}\right)^{-1 / 2} \boldsymbol{X}_{j}^{\prime} \boldsymbol{e} \sim \mathrm{N}(0,1)\)</span>. The Gaussian Tail inequality (B.39) implies that for any <span class="math inline">\(x\)</span></p>
+<p><span class="math display">\[
+\mathbb{P}\left[\left|\frac{1}{\sqrt{n V_{n j}}} \boldsymbol{X}_{j}^{\prime} \boldsymbol{e}\right|&gt;x\right] \leq 2 \exp \left(-\frac{x^{2}}{2}\right) .
+\]</span></p>
+<p>By Boole’s inequality (B.24), (29.29), Jensen’s inequality, <span class="math inline">\(V_{n j} \leq \bar{\sigma}^{2}\)</span>, and (29.14),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}\left[\left\|\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{e}\right\|_{\infty}&gt;\frac{\lambda}{4 n} \mid \boldsymbol{X}\right] &amp;=\mathbb{P}\left[\max _{1 \leq j \leq p}\left|\frac{1}{n} \boldsymbol{X}_{j}^{\prime} \boldsymbol{e}\right|&gt;\frac{\lambda}{4 n} \mid \boldsymbol{X}\right] \\
+&amp;=\mathbb{P}\left[\bigcup_{1 \leq j \leq p}\left|\frac{1}{\sqrt{n V_{n j}}} \boldsymbol{X}_{j}^{\prime} \boldsymbol{e}\right|&gt;\frac{\lambda}{4 \sqrt{n V_{n j}}} \mid \boldsymbol{X}\right] \\
+&amp; \leq \sum_{j=1}^{p}\left[\left|\frac{1}{\sqrt{n V_{n j}}} \boldsymbol{X}_{j}^{\prime} \boldsymbol{e}\right|&gt;\frac{\lambda}{4 \sqrt{n V_{n j}}} \mid \boldsymbol{X}\right] \\
+&amp; \leq \sum_{j=1}^{p} 2 \exp \left(-\frac{\lambda^{2}}{16 n V_{n j}}\right) \\
+&amp; \leq 2 p \exp \left(-\frac{C^{2}}{16 \bar{\sigma}^{2}} \log p\right) \\
+&amp;=2 p^{1-C^{2} / 16 \bar{\sigma}^{2} .}
+\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(p&gt;1\)</span> this can be made arbitrarily small by selecting <span class="math inline">\(C\)</span> sufficiently large. This shows that</p>
+<p><span class="math display">\[
+\left\|\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{e}\right\|_{\infty} \leq \frac{\lambda}{4 n}
+\]</span></p>
+<p>holds with arbitrarily large probability. The remainder of the proof is algebraic, based on manipulations of the estimation criterion function, conditional on the event (29.31).</p>
+<p>Since <span class="math inline">\(\widehat{\beta}\)</span> minimizes <span class="math inline">\(\operatorname{SSE}_{1}(\beta, \lambda)\)</span> it satisfies <span class="math inline">\(\operatorname{SSE}_{1}(\widehat{\beta}, \lambda) \leq \operatorname{SSE}_{1}(\beta, \lambda)\)</span> or</p>
+<p><span class="math display">\[
+(\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta})^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \widehat{\beta})+\lambda\|\widehat{\beta}\|_{1} \leq \boldsymbol{e}^{\prime} \boldsymbol{e}+\lambda\|\beta\|_{1} .
+\]</span></p>
+<p>Writing out the left side, dividing by <span class="math inline">\(n\)</span>, and re-arranging and defining <span class="math inline">\(R_{n}=(\widehat{\beta}-\beta)^{\prime} \boldsymbol{Q}_{n}(\widehat{\beta}-\beta)\)</span>, this implies</p>
+<p><span class="math display">\[
+\begin{aligned}
+R_{n}+\frac{\lambda}{n}\|\widehat{\beta}\|_{1} &amp; \leq \frac{2}{n} \boldsymbol{e}^{\prime} \boldsymbol{X}(\widehat{\beta}-\beta)+\frac{\lambda}{n}\|\beta\|_{1} \\
+&amp; \leq 2\left\|\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{e}\right\|_{\infty}\|\widehat{\beta}-\beta\|_{1}+\frac{\lambda}{n}\|\beta\|_{1} \\
+&amp; \leq \frac{\lambda}{2 n}\|\widehat{\beta}-\beta\|_{1}+\frac{\lambda}{n}\|\beta\|_{1} .
+\end{aligned}
+\]</span></p>
+<p>The second inequality is Hölder’s (29.2) and the third holds by (29.31).</p>
+<p>Partition <span class="math inline">\(\widehat{\beta}=\left(\widehat{\beta}_{0}, \widehat{\beta}_{1}\right)\)</span> conformably with <span class="math inline">\(\beta=\left(\beta_{0}, \beta_{1}\right)\)</span>. Using the additivity property of the 1-norm and the fact <span class="math inline">\(\beta_{0}=0\)</span>, the above expression implies</p>
+<p><span class="math display">\[
+\begin{aligned}
+R_{n}+\frac{\lambda}{2 n}\left\|\widehat{\beta}_{0}-\beta_{0}\right\|_{1} &amp; \leq \frac{\lambda}{2 n}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1}+\frac{\lambda}{n}\left(\left\|\beta_{1}\right\|_{1}-\left\|\widehat{\beta}_{1}\right\|_{1}\right) \\
+&amp; \leq \frac{3 \lambda}{2 n}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1}
+\end{aligned}
+\]</span></p>
+<p>the second inequality using the fact <span class="math inline">\(\|\beta\|_{1} \leq\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1}+\left\|\widehat{\beta}_{1}\right\|_{1}\)</span> which follows from (29.3).</p>
+<p>An implication of (29.32) is <span class="math inline">\(\left\|\widehat{\beta}_{0}-\beta_{0}\right\|_{1} \leq 3\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1}\)</span>. Thus <span class="math inline">\(\widehat{\beta}-\beta \in B\)</span>. A consequence is that we can apply Assumption <span class="math inline">\(29.1\)</span> to obtain</p>
+<p><span class="math display">\[
+R_{n}=(\widehat{\beta}-\beta)^{\prime} \boldsymbol{Q}_{n}(\widehat{\beta}-\beta) \geq c^{2}\|\widehat{\beta}-\beta\|_{2}^{2} .
+\]</span></p>
+<p>This is the only (but key) point in the proof where Assumption <span class="math inline">\(29.1\)</span> is used.</p>
+<p>Together with (29.32), (29.33) implies</p>
+<p><span class="math display">\[
+\begin{aligned}
+c^{2}\|\widehat{\beta}-\beta\|_{2}^{2} &amp; \leq \frac{3 \lambda}{2 n}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1} \\
+&amp; \leq \frac{3 \lambda}{2 n}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{2}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{0}^{1 / 2} \\
+&amp; \leq \frac{3 \lambda}{2 n}\|\widehat{\beta}-\beta\|_{2}\|\beta\|_{0}^{1 / 2} .
+\end{aligned}
+\]</span></p>
+<p>The second inequality is (29.4). The third is <span class="math inline">\(\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{2} \leq\|\widehat{\beta}-\beta\|_{2}\)</span> and <span class="math inline">\(\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{0}=\left\|\beta_{1}\right\|_{0}=\|\beta\|_{0}\)</span>. Rearranging and using (29.14) we obtain</p>
+<p><span class="math display">\[
+\|\widehat{\beta}-\beta\|_{2} \leq \frac{3 \lambda}{2 c^{2} n}\|\beta\|_{0}^{1 / 2}=\frac{3 C}{2 c^{2}}\|\beta\|_{0}^{1 / 2} \sqrt{\frac{\log p}{n}}
+\]</span></p>
+<p>which is (29.17) with <span class="math inline">\(D=3 C / 2 c^{2}\)</span>. (29.32), (29.4), (29.17) and (29.14) imply</p>
+<p><span class="math display">\[
+\begin{aligned}
+R_{n}+\frac{\lambda}{2 n}\left\|\widehat{\beta}_{0}-\beta_{0}\right\|_{1} &amp; \leq \frac{3 \lambda}{2 n}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{2}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{0}^{1 / 2} \\
+&amp; \leq \frac{3 \lambda}{2 n}\|\widehat{\beta}-\beta\|_{2}\|\beta\|_{0}^{1 / 2} \\
+&amp; \leq \frac{9 C}{4 c^{2}} \frac{\lambda}{n}\|\beta\|_{0} \sqrt{\frac{\log p}{n}} \\
+&amp;=\frac{9 C^{2}}{4 c^{2}}\|\beta\|_{0} \frac{\log p}{n}
+\end{aligned}
+\]</span></p>
+<p>This implies (29.15) with <span class="math inline">\(D=9 C^{2} / 4 c^{2}\)</span>.</p>
+<p>Equation (29.34) also implies</p>
+<p><span class="math display">\[
+\left\|\widehat{\beta}_{0}-\beta_{0}\right\|_{1} \leq \frac{9 C}{2 c^{2}}\|\beta\|_{0} \sqrt{\frac{\log p}{n}} .
+\]</span></p>
+<p>Using (29.4) and (29.17)</p>
+<p><span class="math display">\[
+\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1} \leq\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{2}\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{0}^{1 / 2} \leq\|\widehat{\beta}-\beta\|_{2}\|\beta\|_{0}^{1 / 2} \leq \frac{3 C}{2 c^{2}}\|\beta\|_{0} \sqrt{\frac{\log p}{n}} .
+\]</span></p>
+<p>Hence</p>
+<p><span class="math display">\[
+\|\widehat{\beta}-\beta\|_{1}=\left\|\widehat{\beta}_{0}-\beta_{0}\right\|_{1}+\left\|\widehat{\beta}_{1}-\beta_{1}\right\|_{1} \leq \frac{6 C}{c^{2}}\|\beta\|_{0} \sqrt{\frac{\log p}{n}}
+\]</span></p>
+<p>which is (29.16) with <span class="math inline">\(D=6 C / c^{2}\)</span>.</p>
+<p>Proof of Theorem 29.4 We provide a sketch of the proof. We start with Lasso IV. First, consider the idealized estimator <span class="math inline">\(\widehat{\beta}=\left(\boldsymbol{W}^{\prime} \boldsymbol{X}\right)^{-1}\left(\boldsymbol{W}^{\prime} \boldsymbol{Y}\right)\)</span> where <span class="math inline">\(\boldsymbol{W}=\boldsymbol{Z} \Gamma\)</span>. If the distribution of <span class="math inline">\(W\)</span> does not change with <span class="math inline">\(n\)</span> (which holds when the non-zero coefficients in <span class="math inline">\(\Gamma\)</span> do not change with <span class="math inline">\(n\)</span> ) then <span class="math inline">\(\widehat{\beta}\)</span> has the asymptotic distribution (29.20) under standard assumptions. To allow the non-zero coefficients in <span class="math inline">\(\Gamma\)</span> to change with <span class="math inline">\(n\)</span>, Belloni, Chen, Chernozhukov, and Hansen (2012) use a triangular array central limit theory which requires some additional technical conditions. Given this, (29.20) holds if <span class="math inline">\(\boldsymbol{W}\)</span> can be replaced by the predicted values <span class="math inline">\(\widehat{\boldsymbol{X}}_{\text {Lasso }}\)</span> without changing (29.20). This holds if</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\frac{1}{n}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)^{\prime} \boldsymbol{X} \underset{p}{\longrightarrow} 0 \\
+&amp;\frac{1}{\sqrt{n}}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)^{\prime} \boldsymbol{e} \underset{p}{\longrightarrow} 0 .
+\end{aligned}
+\]</span></p>
+<p>For simplicity assume that <span class="math inline">\(k=1\)</span>. Theorem <span class="math inline">\(29.3\)</span> shows that under the regularity conditions for the Lasso applied to the reduced form,</p>
+<p><span class="math display">\[
+\left|\frac{1}{n}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)^{\prime}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)\right|=(\widehat{\Gamma}-\Gamma)^{\prime}\left(\frac{1}{n} \boldsymbol{Z}^{\prime} \boldsymbol{Z}\right)(\widehat{\Gamma}-\Gamma) \leq O_{p}\left(\|\Gamma\|_{0} \frac{\log p}{n}\right)
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\|\widehat{\Gamma}-\Gamma\|_{1} \leq O_{p}\left(\|\Gamma\|_{0} \sqrt{\frac{\log p}{n}}\right) .
+\]</span></p>
+<p>Similar to (29.30), under sufficient regularity conditions</p>
+<p><span class="math display">\[
+\left\|\frac{1}{\sqrt{n}} \boldsymbol{Z}^{\prime} \boldsymbol{e}\right\|_{\infty}=O_{p}(\sqrt{\log p}) .
+\]</span></p>
+<p>By the Schwarz inequality and (29.37)</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left|\frac{1}{n}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)^{\prime} \boldsymbol{X}\right| &amp; \leq\left|\frac{1}{n}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)^{\prime}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)\right|^{1 / 2}\left|\frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{X}\right|^{1 / 2} \\
+&amp; \leq O_{p}\left(\|\Gamma\|_{0} \frac{\log p}{n}\right)^{1 / 2} \leq o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>the final inequality under (29.19). This establishes (29.35).</p>
+<p>By the Hölder inequality (29.2), (29.38), and (29.39),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left|\frac{1}{\sqrt{n}}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }}-\boldsymbol{W}\right)^{\prime} \boldsymbol{e}\right| &amp;=\left|(\widehat{\Gamma}-\Gamma)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{Z}^{\prime} \boldsymbol{e}\right| \\
+&amp; \leq\|\widehat{\Gamma}-\Gamma\|_{1}\left\|\frac{1}{\sqrt{n}} \boldsymbol{Z}^{\prime} \boldsymbol{e}\right\|_{\infty} \\
+&amp; \leq O_{p}\left(\|\Gamma\|_{0} \sqrt{\frac{\log p}{n}}\right) O_{p}(\sqrt{\log p}) \\
+&amp;=O_{p}\left(\|\Gamma\|_{0} \frac{\log p}{\sqrt{n}}\right) \\
+&amp; \leq o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>the final inequality under (29.19). This establishes (29.36).</p>
+<p>Now consider Lasso SSIV. The steps are essentially the same except for (29.40). For this we use the fact that <span class="math inline">\(\widehat{\Gamma}_{\text {Lasso }, A}\)</span> is independent of <span class="math inline">\(\boldsymbol{Z}_{B}^{\prime} \boldsymbol{e}_{B}\)</span>. Let <span class="math inline">\(\boldsymbol{D}_{B}=\operatorname{diag}\left(\mathbb{E}\left[e_{i}^{2} \mid Z_{i}\right]\right)\)</span> for sample <span class="math inline">\(B\)</span> and assume <span class="math inline">\(\mathbb{E}\left[e^{2} \mid Z\right] \leq\)</span> <span class="math inline">\(\bar{\sigma}^{2}&lt;\infty\)</span>. Conditionally on <span class="math inline">\(A\)</span> and <span class="math inline">\(\boldsymbol{Z}_{B}\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{var}\left[\frac{1}{\sqrt{n}}\left(\widehat{\boldsymbol{X}}_{\text {Lasso }, B}^{\prime}-\boldsymbol{W}_{B}\right)^{\prime} \boldsymbol{e}_{B} \mid A, \boldsymbol{Z}_{B}\right] &amp;=\operatorname{var}\left[\left(\widehat{\Gamma}_{\text {Lasso, } A}-\Gamma\right)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{Z}_{B}^{\prime} \boldsymbol{e}_{B} \mid A, \boldsymbol{Z}_{B}\right] \\
+&amp;=\left(\widehat{\Gamma}_{\text {Lasso }, A}-\Gamma\right)^{\prime} \frac{1}{n} \boldsymbol{Z}_{B}^{\prime} \boldsymbol{D} \boldsymbol{Z}_{B}\left(\widehat{\Gamma}_{\text {Lasso }, A}-\Gamma\right) \\
+&amp; \leq \bar{\sigma}^{2}\left(\widehat{\Gamma}_{\text {Lasso }, A}-\Gamma\right)^{\prime} \frac{1}{n} \boldsymbol{Z}_{B}^{\prime} \boldsymbol{Z}_{B}\left(\widehat{\Gamma}_{\text {Lasso }, A}-\Gamma\right) \\
+&amp;=O_{p}\left(\|\Gamma\|_{0} \frac{\log p}{n}\right) \\
+&amp; \leq o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>the final bounds by (29.37) and (29.21). Thus <span class="math inline">\(n^{-1 / 2}\left(\widehat{\boldsymbol{X}}_{\mathrm{Lasso}, B}^{\prime}-\boldsymbol{W}_{B}\right)^{\prime} \boldsymbol{e}_{B} \underset{p}{\longrightarrow} 0\)</span> as needed.</p>
+<p>Proof of Theorem 29.5 The idealized estimator <span class="math inline">\(\widehat{\theta}_{\mathrm{PR}}=\left(\boldsymbol{V}^{\prime} \boldsymbol{V}\right)^{-1}\left(\boldsymbol{V}^{\prime} \boldsymbol{U}\right)\)</span> satisfies</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}_{\mathrm{PR}}-\theta\right)=\left(n^{-1} \boldsymbol{V}^{\prime} \boldsymbol{V}\right)^{-1}\left(n^{-1 / 2} \boldsymbol{V}^{\prime} \boldsymbol{e}\right)
+\]</span></p>
+<p>which has the stated asymptotic distribution. The Theorem therefore holds if replacement of <span class="math inline">\((\boldsymbol{V}, \boldsymbol{U})\)</span> by <span class="math inline">\((\widehat{\boldsymbol{V}}, \widehat{\boldsymbol{U}})\)</span> is asymptotically negligible. Since <span class="math inline">\(\boldsymbol{Y}=\boldsymbol{X} \eta+\widehat{\boldsymbol{V}} \theta+\boldsymbol{X}(\widehat{\gamma}-\gamma) \theta+\boldsymbol{e}\)</span></p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}_{\mathrm{PR}}-\theta\right)=\sqrt{n} \frac{\widehat{\boldsymbol{V}}^{\prime} \widehat{\boldsymbol{U}}}{\widehat{\boldsymbol{V}}^{\prime} \widehat{\boldsymbol{V}}}=\frac{\frac{1}{\sqrt{n}} \widehat{\boldsymbol{V}}^{\prime}(\widehat{\boldsymbol{V}} \theta+\boldsymbol{X}(\widehat{\gamma}-\gamma) \theta-\boldsymbol{X}(\widehat{\eta}-\eta)+\boldsymbol{e})}{\frac{1}{n} \widehat{\boldsymbol{V}}^{\prime} \widehat{\boldsymbol{V}}} .
+\]</span></p>
+<p>The denominator equals</p>
+<p><span class="math display">\[
+\frac{1}{n} \widehat{\boldsymbol{V}}^{\prime} \widehat{\boldsymbol{V}}=\frac{1}{n} \boldsymbol{V}^{\prime} \boldsymbol{V}-2(\widehat{\gamma}-\gamma)^{\prime} \frac{1}{n} \boldsymbol{X}^{\prime} \boldsymbol{V}+(\widehat{\gamma}-\gamma)^{\prime} \boldsymbol{Q}_{n}(\widehat{\gamma}-\gamma) .
+\]</span></p>
+<p>The numerator equals</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{\sqrt{n}} \widehat{\boldsymbol{V}}^{\prime}(\widehat{\boldsymbol{V}} \theta+\boldsymbol{X}(\widehat{\gamma}-\gamma) \theta-\boldsymbol{X}(\widehat{\eta}-\eta)+\boldsymbol{e}) &amp;=\frac{1}{\sqrt{n}} \boldsymbol{V}^{\prime} \boldsymbol{e}-(\widehat{\gamma}-\gamma)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{e}-(\widehat{\eta}-\eta)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{V} \\
+&amp;+\theta(\widehat{\gamma}-\gamma)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{V}+\sqrt{n}(\widehat{\gamma}-\gamma)^{\prime} \boldsymbol{Q}_{n}(\widehat{\eta}-\eta)-\theta \sqrt{n}(\widehat{\gamma}-\gamma)^{\prime} \boldsymbol{Q}_{n}(\widehat{\gamma}-\gamma) .
+\end{aligned}
+\]</span></p>
+<p>The terms on the right side beyond the first are asymptotically negligible because</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\sqrt{n}(\widehat{\gamma}-\gamma)^{\prime} \boldsymbol{Q}_{n}(\widehat{\gamma}-\gamma) \leq O_{p}\left(\|\gamma\|_{0} \frac{\log p}{\sqrt{n}}\right)=o_{p}(1) \\
+&amp;\sqrt{n}(\widehat{\eta}-\eta)^{\prime} \boldsymbol{Q}_{n}(\widehat{\eta}-\eta) \leq O_{p}\left(\|\eta\|_{0} \frac{\log p}{\sqrt{n}}\right)=o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>by Theorem <span class="math inline">\(29.3\)</span> and Assumption (29.26),</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sqrt{n}(\widehat{\gamma}-\gamma)^{\prime} \boldsymbol{Q}_{n}(\widehat{\eta}-\eta) &amp; \leq\left(\sqrt{n}(\widehat{\gamma}-\gamma)^{\prime} \boldsymbol{Q}_{n}(\widehat{\gamma}-\gamma)\right)^{1 / 2}\left(\sqrt{n}(\widehat{\eta}-\eta)^{\prime} \boldsymbol{Q}_{n}(\widehat{\eta}-\eta)\right)^{1 / 2} \\
+&amp; \leq O_{p}\left(\|\gamma\|_{0}^{1 / 2}\|\eta\|_{0}^{1 / 2} \frac{\log p}{\sqrt{n}}\right)=o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>by the Schwarz inequality and the above results, and</p>
+<p><span class="math display">\[
+\begin{aligned}
+\left|(\widehat{\gamma}-\gamma)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{e}\right| &amp; \leq\|\widehat{\gamma}-\gamma\|_{1}\left\|\frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{e}\right\|_{\infty} \\
+&amp; \leq O_{p}\left(\|\gamma\|_{0} \sqrt{\frac{\log p}{n}}\right) O_{p}(\sqrt{\log p})=O_{p}\left(\|\gamma\|_{0} \frac{\log p}{\sqrt{n}}\right)=o_{p}(1)
+\end{aligned}
+\]</span></p>
+<p>by Hölder’s (29.2), Theorem 29.3, (29.39), and Assumption (29.26). Similarly</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;(\widehat{\gamma}-\gamma)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{V}=o_{p}(1) \\
+&amp;(\widehat{\eta}-\eta)^{\prime} \frac{1}{\sqrt{n}} \boldsymbol{X}^{\prime} \boldsymbol{V}=o_{p}(1) .
+\end{aligned}
+\]</span></p>
+<p>Together we have shown that in (29.41), the replacement of <span class="math inline">\((\widehat{\boldsymbol{V}}, \widehat{\boldsymbol{U}})\)</span> by <span class="math inline">\((\widehat{\boldsymbol{V}}, \widehat{\boldsymbol{U}})\)</span> is asymptotically negligible.</p>
+</section>
+<section id="exercises" class="level2" data-number="27.24">
+<h2 data-number="27.24" class="anchored" data-anchor-id="exercises"><span class="header-section-number">27.24</span> Exercises</h2>
+<p>Exercise 29.1 Prove Theorem 29.1. Hint: The proof is similar to that of Theorem 3.7.</p>
+<p>Exercise 29.2 Show that (29.7) is the Mallows criterion for ridge regression. For a definition of the Mallows criterion see Section <span class="math inline">\(28.6\)</span>.</p>
+<p>Exercise 29.3 Derive the conditional bias (29.8) and variance (29.9) of the ridge regression estimator.</p>
+<p>Exercise 29.4 Show that the ridge regression estimator can be computed as least squares applied to an augmented data set. Take the original data <span class="math inline">\((\boldsymbol{Y}, \boldsymbol{X})\)</span>. Add <span class="math inline">\(p\)</span> ’s to <span class="math inline">\(\boldsymbol{Y}\)</span> and <span class="math inline">\(p\)</span> rows of <span class="math inline">\(\sqrt{\lambda} \boldsymbol{I}_{p}\)</span> to <span class="math inline">\(\boldsymbol{X}\)</span>, apply least squares, and show that this equals <span class="math inline">\(\widehat{\beta}_{\text {ridge }}\)</span>.</p>
+<p>Exercise 29.5 Which estimator produces a higher regression <span class="math inline">\(R^{2}\)</span>, least squares or ridge regression?</p>
+<p>Exercise 29.6 Does ridge regression require that the columns of <span class="math inline">\(\boldsymbol{X}\)</span> linearly independent? Take a sample <span class="math inline">\((\boldsymbol{Y}, \boldsymbol{X})\)</span>. Create the augmented regressor set <span class="math inline">\(\widetilde{\boldsymbol{X}}=(\boldsymbol{X}, \boldsymbol{X})\)</span> (add a duplicate of each regressor) and let <span class="math inline">\(\left(\widehat{\beta}_{1}, \widehat{\beta}_{2}\right)\)</span> be the ridge regression coefficients for the regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\widetilde{\boldsymbol{X}}\)</span>. Show that <span class="math inline">\(\widehat{\beta}_{1}=\widehat{\beta}_{2}=\frac{1}{2}\left(\boldsymbol{X}^{\prime} \boldsymbol{X}+\boldsymbol{I}_{p} \widetilde{\lambda}\right)^{-1}\left(\boldsymbol{X}^{\prime} \boldsymbol{Y}\right)\)</span> with <span class="math inline">\(\widetilde{\lambda}=\lambda / 2\)</span>.</p>
+<p>Exercise 29.7 Repeat the previous question for Lasso regression. Show that the Lasso coefficient estimates <span class="math inline">\(\widehat{\beta}_{1}\)</span> and <span class="math inline">\(\widehat{\beta}_{2}\)</span> are individually indeterminate but their sum satisfies <span class="math inline">\(\widehat{\beta}_{1}+\widehat{\beta}_{2}=\widehat{\beta}_{\text {Lasso }}\)</span>, the coefficients from the Lasso regression of <span class="math inline">\(\boldsymbol{Y}\)</span> on <span class="math inline">\(\boldsymbol{X}\)</span>.</p>
+<p>Exercise 29.8 You have the continuous variables <span class="math inline">\((Y, X)\)</span> with <span class="math inline">\(X \geq 0\)</span> and you want to estimate a regression tree for <span class="math inline">\(\mathbb{E}[Y \mid X]\)</span>. A friend suggests adding a quadratic <span class="math inline">\(X^{2}\)</span> to the variables for added flexibility. Does this make sense?</p>
+<p>Exercise 29.9 Take the cpsmar09 dataset and the subsample of Asian women <span class="math inline">\((n=1149)\)</span>. Estimate a Lasso linear regression of <span class="math inline">\(\log\)</span> (wage) on the following variables: education; dummies for education equalling <span class="math inline">\(12,13,14,15,16,18\)</span>, and 20; experience/40 in powers from 1 to 9 ; dummies for marriage categories married, divorced, separated, widowed, never married; dummies for the four regions; dummy for union membership. Report the estimated model and coefficients.</p>
+<p>Exercise 29.10 Repeat the above exercise using the subsample of Hispanic men <span class="math inline">\((n=4547)\)</span>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt28-model-selection.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./summary.html" class="pagination-link">
+        <span class="nav-page-text">Summary</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

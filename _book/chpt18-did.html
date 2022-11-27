@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 17&nbsp; Difference in Differences</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./part05-nonpar.html" rel="next">
+<link href="./chpt17-panel-data.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">17.1</span>  Introduction</a></li>
+  <li><a href="#minimum-wage-in-new-jersey" id="toc-minimum-wage-in-new-jersey" class="nav-link" data-scroll-target="#minimum-wage-in-new-jersey"><span class="toc-section-number">17.2</span>  Minimum Wage in New Jersey</a></li>
+  <li><a href="#identification" id="toc-identification" class="nav-link" data-scroll-target="#identification"><span class="toc-section-number">17.3</span>  Identification</a></li>
+  <li><a href="#multiple-units" id="toc-multiple-units" class="nav-link" data-scroll-target="#multiple-units"><span class="toc-section-number">17.4</span>  Multiple Units</a></li>
+  <li><a href="#do-police-reduce-crime" id="toc-do-police-reduce-crime" class="nav-link" data-scroll-target="#do-police-reduce-crime"><span class="toc-section-number">17.5</span>  Do Police Reduce Crime?</a></li>
+  <li><a href="#trend-specification" id="toc-trend-specification" class="nav-link" data-scroll-target="#trend-specification"><span class="toc-section-number">17.6</span>  Trend Specification</a></li>
+  <li><a href="#do-blue-laws-affect-liquor-sales" id="toc-do-blue-laws-affect-liquor-sales" class="nav-link" data-scroll-target="#do-blue-laws-affect-liquor-sales"><span class="toc-section-number">17.7</span>  Do Blue Laws Affect Liquor Sales?</a></li>
+  <li><a href="#check-your-code-does-abortion-impact-crime" id="toc-check-your-code-does-abortion-impact-crime" class="nav-link" data-scroll-target="#check-your-code-does-abortion-impact-crime"><span class="toc-section-number">17.8</span>  Check Your Code: Does Abortion Impact Crime?</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference"><span class="toc-section-number">17.9</span>  Inference</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">17.10</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt18-did.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">17.1</span> Introduction</h2>
+<p>One of the most popular ways to estimate the effect of a policy change is the method of difference in differences, often called “diff in diffs”. Estimation is typically a two-way panel data regression with a policy indicator as a regressor. Clustered variance estimation is generally recommended for inference.</p>
+<p>In order to intrepret a difference in difference estimate as a policy effect there are three key conditions. First, that the estimated regression is the correct conditional expectation. In particular, this requires that all trends and interactions are properly included. Second, that the policy is exogenous it satisfies conditional independence. Third, there are no other relevant unincluded factors coincident with the policy change. If these assumptions are satisfied the difference in difference estimand is a valid causal effect.</p>
+</section>
+<section id="minimum-wage-in-new-jersey" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="minimum-wage-in-new-jersey"><span class="header-section-number">17.2</span> Minimum Wage in New Jersey</h2>
+<p>The most well-known application of the difference in difference methodology is Card and Krueger (1994) who investigated the impact of New Jersey’s 1992 increase of the minimum hourly wage from <span class="math inline">\(\$ 4.25\)</span> to <span class="math inline">\(\$ 5.05\)</span>. Classical economics teaches that an increase in the minimum wage will lead to decreases in employment and increases in prices. To investigate the magnitude of this impact the authors surveyed a panel of 331 fast food restaurants in New Jersey during the period 2/15/1992-3/4/1992 (before the enactment of the minimum wage increase) and then again during the period 11/5/1992-12/31/1992 (after the enactment). Fast food restaurants were selected for investigation as they are a major employer of minimum wage employees. Before the change about <span class="math inline">\(30 %\)</span> of the sampled workers were paid the minimum wage of <span class="math inline">\(\$ 4.25\)</span>.</p>
+<p>Table 18.1: Average Employment at Fast Food Restaurants</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th>New Jersey</th>
+<th>Pennsylvania</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Before Increase</td>
+<td><span class="math inline">\(20.43\)</span></td>
+<td><span class="math inline">\(23.38\)</span></td>
+<td><span class="math inline">\(2.95\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">After Increase</td>
+<td><span class="math inline">\(20.90\)</span></td>
+<td><span class="math inline">\(21.10\)</span></td>
+<td><span class="math inline">\(0.20\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Difference</td>
+<td><span class="math inline">\(0.47\)</span></td>
+<td><span class="math inline">\(-2.28\)</span></td>
+<td><span class="math inline">\(\mathbf{2 . 7 5}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>The data file CK1994 is extracted from the original Card-Krueger data set and is posted on the textbook webpage. Table <span class="math inline">\(18.1\)</span> (first column) displays the mean number <span class="math inline">\({ }^{1}\)</span> of full-time equivalent employees <span class="math inline">\({ }^{2}\)</span> at New Jersey fast food restaurants before and after the minimum wage increase. Before the increase the average number of employees was 20.4. After the increase the average number of employees was 20.9. Contrary to the predictions of conventional theory employment slightly increased (by <span class="math inline">\(0.5\)</span> employees per restaurant) rather than decreased.</p>
+<p>This estimate - the change in employment - could be called a difference estimator. It is the change in employment coincident with the change in policy. A difficulty in interpretation is that all employment change is attributed to the policy. It does not provide direct evidence of the counterfactual - what would have happened if the minimum wage had not been increased.</p>
+<p>A difference in difference estimator improves on a difference estimator by comparing the change in the treatment sample with a comparable change in a control sample.</p>
+<p>Card and Krueger selected eastern Pennsylvania for their control sample. The minimum wage was constant at <span class="math inline">\(\$ 4.25\)</span> an hour in the state of Pennsylvania during 1992. At the beginning of the year starting wages at fast food restaurants in the two states were similar. The two areas (New Jersey and eastern Pennsylvania) share further similarities. Any trends or economic shocks which affect one state are likely to affect both. Therefore Card and Krueger argued that it is appropriate to treat eastern Pennsylvania as a control. This means that in the absence of a minimum wage increase they expected the same changes in employment to occur in both New Jersey and eastern Pennsylvania.</p>
+<p>Card and Krueger surveyed a panel of 79 fast food restaurants in eastern Pennsylvania simultaneously while surveying the New Jersey restaurants. The average number of full-time equivalent employees is displayed in the second column of Table 18.1. Before the policy change the average number of employees was 23.4. After the policy change the average number was 21.1. Thus in Pennsylvania average employment decreased by <span class="math inline">\(2.3\)</span> employees per restaurant.</p>
+<p>Treating Pennsylvania as a control means comparing the change in New Jersey (0.5) with that in Pennsylvnia <span class="math inline">\((-2.3)\)</span>. The difference ( <span class="math inline">\(2.75\)</span> employees per restaurant) is the difference-in-difference estimate of the impact of the minimum wage increase. In complete contradiction to conventional economic theory the estimate indicates an increase in employment rather than a decrease. This surprising estimate has been widely discussed among economists <span class="math inline">\({ }^{3}\)</span> and the popular press.</p>
+<p>It is constructive to re-write the estimates from Table <span class="math inline">\(18.1\)</span> in regression format. Let <span class="math inline">\(Y_{i t}\)</span> denote employment at restaurant <span class="math inline">\(i\)</span> surveyed at time <span class="math inline">\(t\)</span>. Let State <span class="math inline">\(_{i}\)</span> be a dummy variable indicating the state, with State <span class="math inline">\(_{i}=1\)</span> for New Jersey and State <span class="math inline">\(_{i}=0\)</span> for Pennsylvania. Let Time <span class="math inline">\({ }_{t}\)</span> be a dummy variable indicating the time period, with Time <span class="math inline">\(e_{t}=0\)</span> for the period before the policy change and Time <span class="math inline">\(e_{t}=1\)</span> for the period after the policy change. Let <span class="math inline">\(D_{i t}\)</span> denote a treatment dummy, with <span class="math inline">\(D_{i t}=1\)</span> if the minimum wage equals <span class="math inline">\(\$ 5.05\)</span> and <span class="math inline">\(D_{i t}=0\)</span> if the minimum wage equals <span class="math inline">\(\$ 4.25\)</span>. In this application it equals the interaction dummy <span class="math inline">\(D_{i t}=\)</span> State <span class="math inline">\(_{i}\)</span> Time <span class="math inline">\(_{t}\)</span>.</p>
+<p>Table <span class="math inline">\(18.1\)</span> is a saturated regression in the two dummy variables and can therefore be written as the regression equation</p>
+<p><span class="math display">\[
+Y_{i t}=\beta_{0}+\beta_{1} \text { State }_{i}+\beta_{2} \text { Time }_{t}+\theta D_{i t}+\varepsilon_{i t} .
+\]</span></p>
+<p>Indeed the coefficients can be written in terms of Table <span class="math inline">\(18.1\)</span> by the following correspondence:</p>
+<p><span class="math inline">\({ }^{1}\)</span> Our calculations drop restaurants if they were missing the number of full-type equivalent employees in either survey.</p>
+<p><span class="math inline">\({ }^{2}\)</span> Following Card and Krueger full-time equivalent employees is defined as the sum of the number of full-time employees, managers, and assistant managers, plus one-half of the number of part-time employees.</p>
+<p><span class="math inline">\({ }^{3}\)</span> Most economists do not take the estimate literally - they do not believe that increasing the minimum wage will cause employment increases. Instead it has been interpreted as evidence that small changes in the minimum wage may have only minor impacts on employment levels.</p>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 42%">
+<col style="width: 23%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th>New Jersey</th>
+<th>Pennsylvania</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Before Increase</td>
+<td><span class="math inline">\(\beta_{0}+\beta_{1}\)</span></td>
+<td><span class="math inline">\(\beta_{0}\)</span></td>
+<td><span class="math inline">\(\beta_{1}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">After Increase</td>
+<td><span class="math inline">\(\beta_{0}+\beta_{1}+\beta_{2}+\theta\)</span></td>
+<td><span class="math inline">\(\beta_{0}+\beta_{2}\)</span></td>
+<td><span class="math inline">\(\beta_{1}+\theta\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Difference</td>
+<td><span class="math inline">\(\beta_{2}+\theta\)</span></td>
+<td><span class="math inline">\(\beta_{2}\)</span></td>
+<td><span class="math inline">\(\theta\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We see that the coefficients in the regression (18.1) correspond to interpretable difference and difference in difference estimands. <span class="math inline">\(\beta_{1}\)</span> is the difference estimand of the effect of “New Jersey vs.&nbsp;Pennsylvania” in the period before the policy change. <span class="math inline">\(\beta_{2}\)</span> is the difference estimand of the time effect in the control state. <span class="math inline">\(\theta\)</span> is the difference in difference estimand - the change in New Jersey relative to the change in Pennsylvania.</p>
+<p>Our estimate of the regression (18.1) is</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; Y_{i t}=23.4-2.9 \text { State }_{i}-2.3 \text { Time }_{t}+2.75 D_{i t}+\varepsilon_{i t} . \\
+&amp; \text { (1.4) (1.5) (1.2) (1.34) }
+\end{aligned}
+\]</span></p>
+<p>The standard errors are clustered by restaurant. As expected the coefficient <span class="math inline">\(\widehat{\theta}\)</span> on the treatment dummy precisely equals the difference in difference estimate from Table 18.1. The coefficient estimates can be interpreted as described. The pre-change difference between New Jersey and Pennsylvania is <span class="math inline">\(-2.9\)</span> and the time effect is <span class="math inline">\(-2.3\)</span>. The difference in difference effect is <span class="math inline">\(2.75\)</span>. The t-statistic to test the hypothesis of zero effect is just above 2 with an asymptotic <span class="math inline">\(p\)</span>-value of <span class="math inline">\(0.04\)</span>.</p>
+<p>Since the observations are divided into the groups State <span class="math inline">\(_{i}=0\)</span> and State <span class="math inline">\(_{i}=1\)</span> and Time <span class="math inline">\(_{t}\)</span> is equivalent to a time index this regression is identical to a two-way fixed effects regression of <span class="math inline">\(Y_{i t}\)</span> on <span class="math inline">\(D_{i t}\)</span> with state and time fixed effects. Furthermore, because the regressor <span class="math inline">\(D_{i t}\)</span> does not vary across individuals within the state this fixed effects regression is unchanged if restaurant-level fixed effects are included instead of state fixed effects. (Restaurant fixed effects are orthogonal to any variable demeaned at the state level. See Exercise 18.1.) Thus the above regression is identical to the two-way fixed effects regression</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+u_{i}+v_{t}+\varepsilon_{i t}
+\]</span></p>
+<p>where <span class="math inline">\(u_{i}\)</span> is a restaurant fixed effect and <span class="math inline">\(v_{t}\)</span> is a time fixed effect. The simplest method to implement this is by a one-way fixed effects regression with time dummies. The estimates are</p>
+<p><span class="math display">\[
+Y_{i t}=\underset{(1.34)}{2.75} D_{i t}-\begin{gathered}
+2.3 \\
+(1.2)
+\end{gathered} \text { Time }_{t}+u_{i}+\varepsilon_{i t}
+\]</span></p>
+<p>which are identical to the previous regression.</p>
+<p>Equation (18.3) is the basic difference-in-difference model. It is a two-way fixed effects regression of the response <span class="math inline">\(Y_{i t}\)</span> on a binary policy <span class="math inline">\(D_{i t}\)</span>. The coefficient <span class="math inline">\(\theta\)</span> corresponds to the double difference in sample means and can be interpreted as the policy impact (also called the treatment effect) of <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span>. (We discuss identification in the next section.) Our presentation (and the Card-Krueger example) focuses on the basic case of two aggregate units (states) and two time periods. The regression formulation (18.3) is convenient as it can be easily generalized to allow for multiple states and time periods. Doing so provides more convincing evidence of an identified policy effect. The equation (18.3) can also be generalized by changing the trend specification and by using a continuous treatment variable.</p>
+<p>Another common generalization is to augment the regression with controls <span class="math inline">\(X_{i t}\)</span>. This model is</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+X_{i t}^{\prime} \beta+u_{i}+v_{t}+\varepsilon_{i t}
+\]</span></p>
+<p>Many empirical studies report estimates both of the basic model and regressions with controls. For example we could augment the Card-Krueger regression to include the variable hoursopen, the number of hours a day the restaurant is open. A restaurant with longer hours will tend to have more employees.</p>
+<p><span class="math display">\[
+Y_{i t}=\underset{(1.31)}{2.84} D_{i t}-\underset{(1.2)}{2.2} \text { Time }_{t}+\underset{(0.4)}{1.2} \text { hoursopen }_{i t}+u_{i}+\varepsilon_{i t} .
+\]</span></p>
+<p>The estimated effect is that a restaurant employs an additional <span class="math inline">\(1.2\)</span> employees for each hour open and this effect is statistically significant. The estimated treatment effect is not meaningfully changed.</p>
+</section>
+<section id="identification" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="identification"><span class="header-section-number">17.3</span> Identification</h2>
+<p>Consider the difference-in-difference equation (18.5) for <span class="math inline">\(i=1, \ldots, N\)</span> and <span class="math inline">\(t=1, \ldots, T\)</span>. We are interested in conditions under which the coefficient <span class="math inline">\(\theta\)</span> is the causal impact of the treatment <span class="math inline">\(D_{i t}\)</span> on the outcome <span class="math inline">\(Y_{i t}\)</span>. The answer can be found by applying Theorem <span class="math inline">\(2.12\)</span> from Section <span class="math inline">\(2.30\)</span>.</p>
+<p>In Section <span class="math inline">\(2.30\)</span> we introduced the potential outcomes framework which writes the outcome as a function of the treatment, controls, and unobservables. The outcome (e.g.&nbsp;employment at a restaurant) is written as <span class="math inline">\(Y=h(D, X, e)\)</span> where <span class="math inline">\(D\)</span> is treatment (minimum wage policy), <span class="math inline">\(X\)</span> are controls, and <span class="math inline">\(e\)</span> is a vector of unobserved factors. Model (18.5) specifies that <span class="math inline">\(h(D, X, e)\)</span> is separable and linear in its arguments and that the unobservables consist of individual-specific, time-specific, and idiosyncratic effects.</p>
+<p>We now present sufficient conditions under which the coefficient <span class="math inline">\(\theta\)</span> can be interpreted as a causal effect. Recall the two-way within transformation (17.65) and set <span class="math inline">\(\ddot{Z}_{i t}=\left(\ddot{D}_{i t}, \ddot{X}_{i t}^{\prime}\right)^{\prime}\)</span>.</p>
+<p>Theorem 18.1 Suppose the following conditions hold:</p>
+<ol type="1">
+<li><p><span class="math inline">\(Y_{i t}=\theta D_{i t}+X_{i t}^{\prime} \beta+u_{i}+v_{t}+\varepsilon_{i t}\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\left[\ddot{Z}_{i t} \ddot{Z}_{i t}^{\prime}\right]&gt;0\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathbb{E}\left[X_{i t} \varepsilon_{i s}\right]=0\)</span> for all <span class="math inline">\(t\)</span> and <span class="math inline">\(s\)</span>.</p></li>
+<li><p>Conditional on <span class="math inline">\(X_{i 1}, X_{i 2}, \ldots, X_{i T}\)</span> the random variables <span class="math inline">\(D_{i t}\)</span> and <span class="math inline">\(\varepsilon_{i s}\)</span> are statistically independent for all <span class="math inline">\(t\)</span> and <span class="math inline">\(s\)</span>.</p></li>
+</ol>
+<p>Then the coefficient <span class="math inline">\(\theta\)</span> in (18.5) equals the average causal effect for <span class="math inline">\(D\)</span> on <span class="math inline">\(Y\)</span> conditional on <span class="math inline">\(X\)</span>.</p>
+<p>Condition 1 states that the outcome equals the specified linear regression model which is additively separable in the observables, individual effect, and time effect.</p>
+<p>Condition 2 states that the two-way within transformed regressors have a non-singular design matrix. This requires that all elements of <span class="math inline">\(D_{i t}\)</span> and <span class="math inline">\(X_{i t}\)</span> vary across time and individuals.</p>
+<p>Condition 3 is the standard exogeneity asumption for regressors in a fixed-effects model.</p>
+<p>Condition 4 states that the treatment variable is conditionally independent of the idiosyncratic error. This is the conditional independence assumption for fixed effects regression.</p>
+<p>To show Theorem 18.1 apply the two-way within transformation (17.65) to (18.5). We obtain</p>
+<p><span class="math display">\[
+\ddot{Y}_{i t}=\theta \ddot{D}_{i t}+\ddot{X}_{i t}^{\prime} \beta+\ddot{\varepsilon}_{i t} .
+\]</span></p>
+<p>Under Condition 2 the projection coefficients <span class="math inline">\((\theta, \beta)\)</span> are uniquely defined and under Conditions 3 and 4 they equal the linear regression coefficients. Thus <span class="math inline">\(\theta\)</span> is the regression derivative with respect to <span class="math inline">\(D\)</span>. Condition 4 implies that conditional on <span class="math inline">\(\ddot{X}_{i t}\)</span> the random variables <span class="math inline">\(\ddot{D}_{i t}\)</span> and <span class="math inline">\(\ddot{\varepsilon}_{i s}\)</span> are statistically independent. Theorem <span class="math inline">\(2.12\)</span> shows that the regression derivative <span class="math inline">\(\theta\)</span> equals the average causal effect as stated.</p>
+<p>The assumption that <span class="math inline">\(D\)</span> and <span class="math inline">\(\varepsilon\)</span> are independent is the fundamental exogeneity assumption. To intrepret <span class="math inline">\(\theta\)</span> as a treatment effect it is important that <span class="math inline">\(D\)</span> is defined as the treatment and not simply as an interaction (time and state) dummy. This is subtle. Examine equation (18.5) recalling that <span class="math inline">\(D\)</span> is defined as the treatment (an increase in the minimum wage). In this equation the error <span class="math inline">\(\varepsilon_{i t}\)</span> contains all variables and effects not included in the regression. Thus if there are other changes in New Jersey which are coincident with the minimum wage increase the assumption that <span class="math inline">\(D\)</span> and <span class="math inline">\(\varepsilon\)</span> are independent means that those coincident changes are independent of <span class="math inline">\(\varepsilon\)</span> and thus do not affect employment. This is a strong assumption. Once again, Condition 4 states that all other effects which are coincident with the minimum wage increase have no effect on employment. Without this assumption it would not be possible to claim that the diff-in-diff regression identifies the causal effect of the treatment.</p>
+<p>Furthermore, independence of <span class="math inline">\(D_{i t}\)</span> and <span class="math inline">\(\varepsilon_{i s}\)</span> means that neither can be affected by the other. This means that the policy (treatment) was not enacted in response to knowledge about the response variable in either period and it means that the outcome (employment) did not change in the first period in anticipation of the upcoming policy change.</p>
+<p>It is difficult to know if the exogeneity of <span class="math inline">\(D\)</span> is a reasonable assumption. It is similar to instrument exogeneity in instrumental variable regression. Its validity hinges on a well-articulated structural argument. An empirical investigation based on a difference-in-difference specification needs to make an explicit case for exogeneity of <span class="math inline">\(D\)</span> similar to that for IV regression.</p>
+<p>In the case of the Card-Krueger application the authors argue that the policy was exogeneous because it was adopted two years before taking effect. At the time of the passage of the legislation the economy was in an expansion but by the time of adoption the economy has slipped into recession. This suggests that it is credible to assume that the policy decision in 1990 was not affected by employment levels in 1992. Furthermore, concern about the impact of the increased minimum wage during a recession led to a serious discussion about reversing the policy, meaning that there was uncertainty about whether or not the policy would actually be enacted at the time of the first survey. It thus seems credible that employment decisions at that time were not determined in anticipation of the upcoming minimum wage increase.</p>
+<p>The authors do not discuss, however, whether or not there were other coincident events in the New Jersey or Pennsylvania economies during 1992 which could have affected employment differentially in the two states. It seems plausible that there could have been many such coincident events. This seems to be the greatest weakness in their identification argument.</p>
+<p>Identification (the conditions for Theorem 18.1) also requires that the regression model is correctly specified. This means that the true model is linear in the specified variables and all interactions are included. Since the basic <span class="math inline">\(2 \times 2\)</span> specification is a saturated dummy variable model it is necessarily a conditional expectation and thus correctly specified. This is not the case in applications with more than two states or time periods and thus model specification needs to be carefully considered in such cases.</p>
+</section>
+<section id="multiple-units" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="multiple-units"><span class="header-section-number">17.4</span> Multiple Units</h2>
+<p>The basic difference-in-difference model has two aggregate units (e.g.&nbsp;states) and two time periods. Additional information can be obtained if there are multiple units or multiple time periods. In this section we focus on the case of multiple units. There can be multiple treatment units, multiple control units, or both. In this section we suppose that the number of periods is <span class="math inline">\(T=2\)</span>. Let <span class="math inline">\(N_{1} \geq 1\)</span> be the number of untreated (control) units, and <span class="math inline">\(N_{2} \geq 1\)</span> be the number of treated units, with <span class="math inline">\(N=N_{1}+N_{2}\)</span>.</p>
+<p>The basic regression model</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+u_{i}+v_{t}+\varepsilon_{i t}
+\]</span></p>
+<p>imposes two strong restrictions. First, that all units are equally affected by time as <span class="math inline">\(v_{t}\)</span> is common across <span class="math inline">\(i\)</span>. Second, that the treatment effect <span class="math inline">\(\theta\)</span> is common across all treated units.</p>
+<p>The Card-Krueger data set only contains observations from two states but the authors did record additional variables including the region of the state. They divided New Jersey into three regions (North, Central, and South) and eastern Pennsylvania into two regions ( 1 for northeast Philadelphia suburbs and 2 for the remainder).</p>
+<p>Table <span class="math inline">\(18.2\)</span> displays the mean number of full-time equivalent employees by region, before and after the minimum wage increase. We observe that two of the three New Jersey regions had nearly identical increases in employment and all three changes are small. We can also observe that both of the Pennsylvania regions had employment decreases though with different magnitudes.</p>
+<p>We can test the assumption of equal treatment effect <span class="math inline">\(\theta\)</span> by a regression exclusion test. This can be done by adding interaction dummies to the regression and testing for the exclusion of the interactions. As there are three treated regions in New Jersey we include two of the three New Jersey region dummies interacted with the time index. In general we would include <span class="math inline">\(N_{2}-1\)</span> such interactions. These coefficients measure the treatment effect difference across regions. Testing that these two coefficients are zero we obtain a p-value of <span class="math inline">\(0.60\)</span> which is far from significant. Thus we accept the hypothesis that the treatment effect <span class="math inline">\(\theta\)</span> is common across the New Jersey regions.</p>
+<p>In contrast, when the treatment effect <span class="math inline">\(\theta\)</span> varies we call this a heterogeneous treatment effect. It is not a violation of the treatment effect framework but it can be considerably more complicated to analyze. (A model which incorrectly imposes a homogeneous treatment effect is misspecified and produces inconsistent estimates.)</p>
+<p>A more serious problem arises if the control effect is heterogeneous. The control effect is the change in the control group. Table <span class="math inline">\(18.2\)</span> breaks down the estimated control effect across the two Pennsylvania regions. While both estimates are negative they are somewhat different from one another. If the effects are distinct there is not a homogeneous control effect. We can test the assumption of equal control effects by a regression exclusion test. As there are two Pennsylvania regions we include the interaction of one of the Pennsylvania regions with the time index. (In general we would include <span class="math inline">\(N_{1}-1\)</span> interactions.) This coefficient measures the difference in the control effect across the regions. We test that this coefficient is zero obtaining a t-statistic of <span class="math inline">\(1.2\)</span> and a p-value of <span class="math inline">\(0.23\)</span>. It is not statistically significant, meaning that we cannot reject the hypothesis that the control effect is homogeneous.</p>
+<p>In contrast, if the control effect were heterogeneous then the difference-in-difference estimation strategy is misspecified. The method relies on the ability to identify a credible control sample. Therefore if a test for equal control effects rejects the hypothesis of homogeneous control effects this should be taken as evidence against interpretation of the difference-in-difference parameter as a treatment effect.</p>
+<p>Table 18.2: Average Employment at Fast Food Restaurants</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th>South NJ</th>
+<th>Central NJ</th>
+<th>North NJ</th>
+<th>PA 1</th>
+<th>PA 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Before Increase</td>
+<td><span class="math inline">\(16.6\)</span></td>
+<td><span class="math inline">\(22.0\)</span></td>
+<td><span class="math inline">\(22.0\)</span></td>
+<td><span class="math inline">\(24.8\)</span></td>
+<td><span class="math inline">\(22.2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">After Increase</td>
+<td><span class="math inline">\(17.3\)</span></td>
+<td><span class="math inline">\(21.4\)</span></td>
+<td><span class="math inline">\(22.7\)</span></td>
+<td><span class="math inline">\(21.0\)</span></td>
+<td><span class="math inline">\(21.2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Difference</td>
+<td><span class="math inline">\(0.7\)</span></td>
+<td><span class="math inline">\(-0.6\)</span></td>
+<td><span class="math inline">\(0.7\)</span></td>
+<td><span class="math inline">\(-3.8\)</span></td>
+<td><span class="math inline">\(-1.0\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="do-police-reduce-crime" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="do-police-reduce-crime"><span class="header-section-number">17.5</span> Do Police Reduce Crime?</h2>
+<p>DiTella and Schargrodsky (2004) use a difference-in-difference approach to study the question of whether the street presence of police officers reduces car theft. Rational crime models predict that the the presence of an observable police force will reduce crime rates (at least locally) due to deterrence. The causal effect is difficult to measure, however, as police forces are not allocated exogenously, but rather are allocated in anticipation of need. A difference-in-difference estimator requires an exogenous event which changes police allocations. The innovation in DiTella-Schargrodsky was to use the police response to a terrorist attack as exogenous variation.</p>
+<p>In July 1994 there was a horrific terrorist attack on the main Jewish center in Buenos Aires, Argentina. Within two weeks the federal government provided police protection to all Jewish and Muslim buildings in the country. DiTella and Schargrodsky (2004) hypothesized that their presence, while allocated to deter a terror or reprisal attack, would also deter other street crimes such as automobile theft locally to the deployed police. The authors collected detailed information on car thefts in selected neighborhoods of Buenos Aires for April-December 1994, resulting in a panel for 876 city blocks. They hypothesized that the terrorist attack and the government’s response were exogenous to auto thievery and is thus a valid treatment. They postulated that the deterrence effect would be strongest for any city block which contained a Jewish institution (and thus police protection). Potential car thiefs would be deterred from a burglary due to the threat of being caught. The deterrence effect was expected to weaken as the distance from the protected sites increased. The authors therefore proposed a difference-in-difference estimator based on the average number of car thefts per block, before and after the terrorist attack, and between city blocks with and without a Jewish institution. Their sample has 37 blocks with Jewish institutions (the treatment sample) and 839 blocks without an institution (the control sample).</p>
+<p>The data file DS2004 is a slightly revised version of the author’s AER replication file and is posted on the textbook webpage.</p>
+<p>Table 18.3: Number of Car Thefts by City Block</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th>Same Block</th>
+<th>Not on Same Block</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">April-June</td>
+<td><span class="math inline">\(0.112\)</span></td>
+<td><span class="math inline">\(0.095\)</span></td>
+<td><span class="math inline">\(-0.017\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">August-December</td>
+<td><span class="math inline">\(0.035\)</span></td>
+<td><span class="math inline">\(0.105\)</span></td>
+<td><span class="math inline">\(0.070\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Difference</td>
+<td><span class="math inline">\(-0.077\)</span></td>
+<td><span class="math inline">\(0.010\)</span></td>
+<td><span class="math inline">\(-\mathbf{0 . 0 8 7}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Table <span class="math inline">\(18.3\)</span> displays the average number of car thefts per block, separately for the months before the July attack and the months after the July attack, and separately for city blocks which have a Jewish institution (and therefore received police protection starting in late July) and for other city blocks. We can see that the average number of car thefts dramatically decreased in the protected city blocks, from <span class="math inline">\(0.112\)</span> per month to 0.035, while the average number in non-protected blocks was near-constant, rising from <span class="math inline">\(0.095\)</span> to <span class="math inline">\(0.105\)</span>. Taking the difference in difference we find that the effect of police presence decreased car thefts by <span class="math inline">\(0.087\)</span>, which is about <span class="math inline">\(78 %\)</span>.</p>
+<p>A general way to estimate a diff-in-diff model is a regression of the form (18.3) where <span class="math inline">\(Y_{i t}\)</span> is the number of car thefts on block <span class="math inline">\(i\)</span> during month <span class="math inline">\(t\)</span>, and <span class="math inline">\(u_{i}\)</span> and <span class="math inline">\(v_{t}\)</span> are block and month fixed effects. This regression <span class="math inline">\(^{4}\)</span> yields the same estimate of <span class="math inline">\(0.087\)</span> because the panel is balanced and there are no control variables.</p>
+<p>The model (18.3) makes the strong assumption that the treatment effect is constant across the five treated months. We investigate this assumption in Table <span class="math inline">\(18.4\)</span> which breaks down the car thefts by month. For the control sample the number of car thefts is near constant across the months. For seven of the eight</p>
+<p><span class="math inline">\({ }^{4}\)</span> We omit the observations for July as the car theft data is only for the first half of the month. Table 18.4: Number of Car Thefts by City Block</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Pre-Attack</th>
+<th style="text-align: left;">April</th>
+<th>Same Block</th>
+<th>Not on Same Block</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">May</td>
+<td><span class="math inline">\(0.112\)</span></td>
+<td><span class="math inline">\(0.110\)</span></td>
+<td><span class="math inline">\(-0.012\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">June</td>
+<td><span class="math inline">\(0.088\)</span></td>
+<td><span class="math inline">\(0.100\)</span></td>
+<td><span class="math inline">\(0.012\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Post-Attack</td>
+<td style="text-align: left;">August</td>
+<td><span class="math inline">\(0.128\)</span></td>
+<td><span class="math inline">\(0.076\)</span></td>
+<td><span class="math inline">\(-0.052\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">September</td>
+<td><span class="math inline">\(0.014\)</span></td>
+<td><span class="math inline">\(0.111\)</span></td>
+<td><span class="math inline">\(0.064\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">October</td>
+<td><span class="math inline">\(0.061\)</span></td>
+<td><span class="math inline">\(0.099\)</span></td>
+<td><span class="math inline">\(0.085\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">November</td>
+<td><span class="math inline">\(0.027\)</span></td>
+<td><span class="math inline">\(0.108\)</span></td>
+<td><span class="math inline">\(0.047\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">December</td>
+<td><span class="math inline">\(0.027\)</span></td>
+<td><span class="math inline">\(0.100\)</span></td>
+<td><span class="math inline">\(0.073\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\(0.106\)</span></td>
+<td><span class="math inline">\(0.079\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>months the average number per block ranges from <span class="math inline">\(0.10\)</span> to <span class="math inline">\(0.11\)</span>, with only one month (June) a bit lower at <span class="math inline">\(0.08\)</span>. In the treatment sample the average number of thefts per block in the three months before the terrorist atack are similar to the averages in the control sample. But in the five months following the attack the number of car thefts is uniformly reduced. The averages range from <span class="math inline">\(0.014\)</span> to <span class="math inline">\(0.061\)</span>. In each month after the attack the control sample has lower thefts with averages ranging from <span class="math inline">\(0.047\)</span> to <span class="math inline">\(0.085\)</span>. Given the small sample size (37) of the treatment sample this is strikingly uniform evidence.</p>
+<p>We can formally test the homogeneity of the treatment effect by including four dummy variables for the interactions of four post-attack months with the treatment sample and then testing the exclusion of these variables. The <span class="math inline">\(\mathrm{p}\)</span>-value for this test is <span class="math inline">\(0.81\)</span>, exceedingly far from significant. Thus there is no reason in the data to be suspicious of the homogeneity assumption.</p>
+<p>The goal was to estimate the causal effect of police presence as a deterrence for crime. Let us evaluate the case for identification. It seems reasonable to treat the terrorist attack as exogenous. The government response also appears exogenous. Neither is reasonably related to the auto theft rate. We also observe that the evidence in Tables <span class="math inline">\(18.3\)</span> and <span class="math inline">\(18.4\)</span> indicates that theft rates were similar in the pre-attack treatment and control samples. Thus the additional police protection seems credibly provided for the purpose of attack prevention rather than as an excuse for crime prevention. The general homogeneity of the theft rate across months, once allowing for the treatment effect, gives credibility to the claim that the police response was a causal effect. The terror attack itself did not reduce car theft rates as there seems to be no measurable effect outside of the treatment sample. Finally, while the paper does not explicitly address whether or not there was any other coincident event in July 1994 which may have effected these specific city blocks it is difficult to conceive of an alternative explanation for such a large effect. Our conclusion is that this is a strong identification argument. Police presence greatly reduces the incidence of car theft.</p>
+<p>The authors asserted the inference that police presence deters crime more broadly. This is a tenuous extension as the paper does not provide direct evidence of this claim. While it may seem reasonable we should be cautious about making generalizations without supporting evidence.</p>
+<p>Overall, DiTella and Schargrodsky (2004) is an excellent example of a well-articulated and credibly identified difference-in-difference estimate of an important policy effect.</p>
+</section>
+<section id="trend-specification" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="trend-specification"><span class="header-section-number">17.6</span> Trend Specification</h2>
+<p>Some applications (including the two introduced earlier in this chapter) apply to a short period of time such as one year in which case we may not expect the variables to be trended. Other applications cover many years or decades in which case the variables are likely to be trended. These trend can reflect long-term growth, business cycle effects, changing tastes, or many other features. If trends are incor- rectly specified then the model will be misspecified and the estimated policy effect will be inconsistent due to omitted variable bias. Consider the difference-in-difference equation (18.5). This model imposes the strong assumption that the trends in <span class="math inline">\(Y_{i t}\)</span> are entirely explained by the included controls <span class="math inline">\(X_{i t}\)</span> and the common unobserved time component <span class="math inline">\(v_{t}\)</span>. This can be quite restrictive. It is reasonable to expect that trends may differ across units and are not fully captured by observed controls.</p>
+<p>One way to think about this is in terms of overidentification. For simplicity suppose there are no controls and the panel is balanced. Then there are <span class="math inline">\(N T\)</span> observations. The two-way model with a policy effect has <span class="math inline">\(N+T\)</span> coefficients. Unless <span class="math inline">\(N=T=2\)</span> this model is overidentified. In addition to considering heterogeneous treatment effects it is reasonable to consider heterogeneous trends.</p>
+<p>One generalization is to include interactions of a linear trend with a control variable. This model is</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+X_{i t}^{\prime} \beta+Z_{i}^{\prime} \delta t+u_{i}+v_{t}+\varepsilon_{i t} .
+\]</span></p>
+<p>It specifies that the trend in <span class="math inline">\(Y_{i t}\)</span> differs across units depending on the controls <span class="math inline">\(Z_{i}\)</span>.</p>
+<p>A broader generalization is to include unit-specific linear time trends. This model is</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+X_{i t}^{\prime} \beta+u_{i}+v_{t}+t w_{i}+\varepsilon_{i t} .
+\]</span></p>
+<p>In this model <span class="math inline">\(w_{i}\)</span> is a time trend fixed effect which varies across units. If there are no controls this model has <span class="math inline">\(2 N+T\)</span> coefficients and is identified as long as <span class="math inline">\(T \geq 4\)</span>.</p>
+<p>Estimation of model (18.6) can be done one of three ways. If <span class="math inline">\(N\)</span> is small (for example, applications with state-level data) the regression can be estimated using the explicit dummy variable approach. Let <span class="math inline">\(d_{i}\)</span> and <span class="math inline">\(S_{t}\)</span> be dummy variables indicating the <span class="math inline">\(i^{t h}\)</span> unit and <span class="math inline">\(t^{t h}\)</span> time period. Set <span class="math inline">\(d_{i t}=d_{i} t\)</span>, the interaction of the individual dummy with the time trend. The equation is estimated by regression of <span class="math inline">\(Y_{i t}\)</span> on <span class="math inline">\(D_{i t}, X_{i t}\)</span>, <span class="math inline">\(d_{i}, S_{t}\)</span>, and <span class="math inline">\(d_{i t}\)</span>. Equivalently, one can apply one-way fixed effects with regressors <span class="math inline">\(D_{i t}, X_{i t}, S_{t}\)</span>, and <span class="math inline">\(d_{i t}\)</span>.</p>
+<p>When <span class="math inline">\(N\)</span> is large a computationally more efficient approach is to use residual regression. For each unit <span class="math inline">\(i\)</span>, estimate a time trend model for each variable <span class="math inline">\(Y_{i t}, D_{i t}, X_{i t}\)</span> and <span class="math inline">\(S_{t}\)</span>. That is, for each <span class="math inline">\(i\)</span> estimate</p>
+<p><span class="math display">\[
+Y_{i t}=\widehat{\alpha}_{0}+\widehat{\alpha}_{1} t+\dot{Y}_{i t} .
+\]</span></p>
+<p>This is a generalized within transformation. The residuals <span class="math inline">\(\dot{Y}_{i t}\)</span> are used in place of the original observations. Regress <span class="math inline">\(\dot{Y}_{i t}\)</span> on <span class="math inline">\(\dot{D}_{i t}, \dot{X}_{i t}\)</span>, and <span class="math inline">\(\dot{S}_{t}\)</span> to obtain the estimates of (18.6).</p>
+<p>The relevance of the trend fixed effects <span class="math inline">\(\nu_{t}\)</span> can be assessed by a significance test. Specifically, the hypothesis that the coefficients on the period dummies are zero can be tested using a standard exclusion test. Similarly, trend interaction terms can be tested for significance using standard exclusion tests. If the tests are statistically significant this indicates that their inclusion is relevant for correct specification. Unfortunately, the unit-specific linear time trends cannot be tested for significance when the covariance matrix is clustered at the unit level. This is similar to the problem of testing the significance of a dummy variable with a single observation. The unit-specific time trends can only be tested for significance if the covariance matrix is clustered at a finer level. Otherwise the covariance matrix estimate is singular and biased downwards. Naïve tests will over-state significance.</p>
+<p>Our discussion for simplicity has focused on the case of balanced panels. The methods equally apply to unbalanced panels, using standard panel data estimation.</p>
+</section>
+<section id="do-blue-laws-affect-liquor-sales" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="do-blue-laws-affect-liquor-sales"><span class="header-section-number">17.7</span> Do Blue Laws Affect Liquor Sales?</h2>
+<p>Historically many U.S. states prohibited or limited the sale of alcoholic beverages on Sundays. These laws are known as “blue laws”. In recent years these laws have been relaxed. Have these changes led to increased consumption of alcoholic beverages? Bernheim, Meer and Novarro (2016) investigated this question using a detailed panel on alcohol consumption and sales hours. It is possible that observed changes coincident with changes in the law might reflect underlying trends. The fact that different states changed their laws during different years allows for a difference-in-difference methodology to identify the treatment effect.</p>
+<p>The paper focuses on distilled liquor sales though wine and beer sales are also included in their data. An abridged version of their data set BMN2016 is posted on the textbook webpage. Liquor is measured in per capita gallons of pure ethanol equivalent. The data are state-level for 47 U.S. states for the years 1970-2007, unbalanced.</p>
+<p>The authors carefully gathered information on the allowable hours that alcohol can be sold on a Sunday. They make a distinction between off-premise sales (liquor stores, supermarkets) where consumption is off-premise, and on-premise sales (restaurants, bars) where consumption is on-premise. Let <span class="math inline">\(Y_{i t}\)</span> denote the natural logarithm of per-capita liquor sales in state <span class="math inline">\(i\)</span> in year <span class="math inline">\(t\)</span>. A simplified version of their basic model is</p>
+<p>OnHours and OffHours are the number of allowable Sunday on-premises and off-premises sale hours. UR is the state unemploment rate. OnOutFlows (OffOutFlows) is the weighted number of on(off)-premises sale hours less than neighbor states. These are added to adjust for possible cross-border transactions. The model includes both state and year fixed effects. The standard errors are clustered by state.</p>
+<p>The estimates indicate that increased on-premise sale hours lead to a small increase in liquor sales. This is consistent with alcohol being a complementary good in social (restaurant and bar) settings. The small and insignificant coefficient on OffHours indicates that increased off-premise sale hours does not lead to an increase in liquor sales. This is consistent with rational consumers who adjust their purchases to known hours. The negative effect of the unemployment rate means that liquor sales are pro-cyclical.</p>
+<p>The authors were concerned whether their dynamic and trend specifications were correctly specified so tried some alternative specifications and interactions. To understand the trend issue we plot in Figure <span class="math inline">\(18.1\)</span> the time-series path of the log of per-capita liquor sales for three states: California, Iowa, and New York. You can see that all three exhibit a downward trend from 1970 until about 1995 and then an increasing trend. The trend components of the three series, however, are not identical. This suggests that it may be incorrect to treat the trends as common across states.</p>
+<p>If we augment the basic model to include state-specific linear trends the estimates are as follows.</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp; +0.005 \text { OnOutFlows }{ }_{i t}-0.005 \text { OffOutFlows }{ }_{i t}+t w_{i}+u_{i}+v_{t}+\varepsilon_{i t} \text {. } \\
+&amp; (0.005) \quad(0.005)
+\end{aligned}
+\]</span></p>
+<p>The estimated coefficient for OnHours drops to zero and becomes insignificant. The other estimates do not change meaningfully. The authors only discuss this regression in a footnote stating that adding statespecific trends “demands a great deal from the data and leaves too little variation to identify the effects of interest.” This is an unfortunate claim as actually the standard errors have decreased, not increased,</p>
+<p><img src="images//2022_10_23_b5d26ddcd2ce17e8fbc5g-10.jpg" class="img-fluid"></p>
+<p><img src="images//2022_10_23_b5d26ddcd2ce17e8fbc5g-10(1).jpg" class="img-fluid"></p>
+<p><img src="images//2022_10_23_b5d26ddcd2ce17e8fbc5g-10(2).jpg" class="img-fluid"></p>
+<p><img src="images//2022_10_23_b5d26ddcd2ce17e8fbc5g-11.jpg" class="img-fluid"></p>
+<p>Figure 18.1: Liquor Sales by State</p>
+<p>indicating that the effects are better identified. The trouble is that OnHours and OffHours are trended and the trends vary by state. This means that these variables are correlated with the state-trend interaction. Omitting the trend interaction induced omitted variable bias. That explains why the coefficient estimates change when the trend specification changes.</p>
+<p>Bernheim, Meer and Novarro (2016) is an excellent example of meticulous empirical work with careful attention to detail and isolating a treatment strategy. It is also a good example of how attention to trend specification can affect results.</p>
+</section>
+<section id="check-your-code-does-abortion-impact-crime" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="check-your-code-does-abortion-impact-crime"><span class="header-section-number">17.8</span> Check Your Code: Does Abortion Impact Crime?</h2>
+<p>In a highly-discussed paper, Donohue and Levitt (2001) used a difference-in-difference approach to develop an unusual theory. Crime rates fell dramatically throughout the United States in the 1990s. Donohue and Levitt postulated that one contributing explanation was the landmark 1973 legalization of abortion. The latter might affect the crime rate through two potential channels. First, it reduced the cohort size of young males. Second, it reduced the cohort size of young males at risk for criminal behavior. This suggests the substantial increase in abortions in the early 1970s will translate into a substantial reduction in crime 20 years later.</p>
+<p>As you might imagine this paper was controversial on several dimensions. The paper was also meticulous in its empirical analysis, investigating the potential links using a variety of tools and differing levels of granularity. The most detailed-oriented regressions were presented at the very end of the paper where the authors exploited differences across age groups. These regressions took the form</p>
+<p><span class="math display">\[
+\log \left(\text { Arrests }_{i t b}\right)=\beta \text { Abortion }_{i b}+u_{i}+\lambda_{t b}+\theta_{i t}+\varepsilon_{i t b}
+\]</span></p>
+<p>where <span class="math inline">\(i, t\)</span>, and <span class="math inline">\(b\)</span> index state, year, and birth cohort. Arrests is the raw number of arrests for a given crime and Abortion is the ratio of abortions per live births. The regression includes state fixed effects, cohortyear interactions, and state-year interactions. By including all these interaction effects the regression is estimating a triple-difference, and is identifying the abortion impact on within-state cross-cohort variation, which is a much stronger identification argument than a simple cross-state diff-in-diff regression. Donohue and Levitt reported an estimate of <span class="math inline">\(\beta\)</span> equalling <span class="math inline">\(-0.028\)</span> with a small standard error. Based on these estimates Donohue and Levitt suggest that legalizing abortion reduced crime by about 15-25%.</p>
+<p>Unfortunately, their estimates contained an error. In an attempt to replicate Donohue-Levitt’s work Foote and Goetz (2008) discovered that Donohue-Levitt’s computer code inadvertently omitted the stateyear interactions <span class="math inline">\(\theta_{i t}\)</span>. This was an important omission as without <span class="math inline">\(\theta_{i t}\)</span> the estimates are based on a mix of cross-state and cross-cohort variation rather than just cross-cohort variation as claimed. Foote and Goetz re-estimated the regression and found an estimate of <span class="math inline">\(\beta\)</span> equalling <span class="math inline">\(-0.010\)</span>. While still statistically different from zero, the reduction in magnitude substantially decreased the estimated impact. Foote and Gootz include more extensive empirical analysis as well.</p>
+<p>Regardless of the errors and political ramifications the Donohue-Levitt paper is a very clever and creative use of the difference-in-difference method. It is unfortunate that this creative work was somewhat overshadowed by a debate over computer code.</p>
+<p>I believe there are two important messages from this episode. First, include the appropriate controls! In the Donohue-Levitt regression they were correct to advocate for the regression which includes stateyear interactions as this allows the most precise measurement of the desired causal impact. Second, check your code! Computation errors are pervasive in applied economic work. It is very easy to make errors; it is very difficult to clean them out of lengthy code. Errors in most papers are ignored as the details receive minor attention. Important and influential papers, however, are scrutinized. If you ever are so blessed as to write a paper which receives significant attention you will find it most embarrassing if a coding error is found after publication. The solution is to be pro-active and vigilant.</p>
+</section>
+<section id="inference" class="level2" data-number="17.9">
+<h2 data-number="17.9" class="anchored" data-anchor-id="inference"><span class="header-section-number">17.9</span> Inference</h2>
+<p>Many difference-in-difference applications use highly aggregate (e.g.&nbsp;state level) data because they are investigating the impact of policy changes which occur at an aggregate level. It has become customary in the recent literature to use clustering methods to calculate standard errors with clustering applied at a high level of aggregation.</p>
+<p>To understand the motivation for this choice it is useful to review the traditional argument for clustered variance estimation. Suppose that the error <span class="math inline">\(e_{i g}\)</span> for individual <span class="math inline">\(i\)</span> in group <span class="math inline">\(g\)</span> is independent of the regressors, has variance <span class="math inline">\(\sigma^{2}\)</span>, and has correlation <span class="math inline">\(\rho\)</span> across individuals within the group. If the number of individuals in each group is <span class="math inline">\(N\)</span> then the exact variance of the least squares estimator (recall equation <span class="math inline">\((4.53))\)</span> is</p>
+<p><span class="math display">\[
+\boldsymbol{V}_{\widehat{\beta}}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \sigma^{2}(1+\rho(N-1))
+\]</span></p>
+<p>as originally derived by Moulton (1990). This inflates the “usual” variance by the factor <span class="math inline">\((1+\rho(N-1))\)</span>. Even if <span class="math inline">\(\rho\)</span> is very small, if <span class="math inline">\(N\)</span> is huge then this inflation factor can be large as well.</p>
+<p>The clustered variance estimator imposes no structure on the conditional variances and correlations within each group. It allows for arbitrary relationships. The advantage is that the resulting variance estimators are robust to a broad range of correlation structures. The disadvantage is that the estimators can be much less precise. Effectively, clustered variance estimators should be viewed as constructed from the number of groups. If you are using U.S. states as your groups (as is commonly seen in applications) then the number of groups is (at most) 51. This means that you are estimating the covariance matrix using 51 observations regardless of the number of “observations” in the sample. One implication is that if you are estimating more than 51 coefficients the sample covariance matrix estimator will not be full rank which can invalidate potentially relevant inference methods.</p>
+<p>The case for clustered standard errors was made convincingly in an influential paper by Bertrand, Duflo, and Mullainathan (2004). These authors demonstrated their point by taking the well-known CPS dataset and then adding randomly generated regressors. They found that if non-clustered variance estimators were used then standard errors would be much too small and a researcher would inappropriately conclude that the randomly generated “variable” has a significant effect in a regression. The false rejections could be eliminated by using clustered standard errors, clustered at the state level. Based on the recommendations from this paper, researchers in economics now routinely cluster at the state level.</p>
+<p>There are limitations, however. Take the Card-Krueger (1994) example introduced earlier. Their sample had only two states (New Jersey and Pennsylvania). If the standard errors are clustered at the state level then there are only two effective observations available for standard error calculation, which is much too few. For this application clustering at the state level is impossible. One implication might be that this casts doubts on applications involving just a handful of states. If we cannot rule out clustered dependence structures, and cannot use clustering methods due to the small number of states, then it may be inappropriate to trust the reported standard errors.</p>
+<p>Another challenge arises when treatment <span class="math inline">\(\left(D_{i t}=1\right)\)</span> applies to only a small number of units. The most extreme case is where there is only one treated unit. This could arise, for example, when you are interested in measuring the effect of a policy which only one state has adopted. This situation is particularly treacherous and is algebraically identical to the problem of robust covariance matrix estimation with sparse dummy variables. (See Section 4.16.) As we learned from that analysis, in the extreme case of a single treated unit the robust covariance matrix estimator is singular and highly biased towards zero. The problem is because the variance of the sub-group is estimated from a single observation.</p>
+<p>The same analysis applies to cluster-variance estimators. If there is a single treated unit then the standard clustered covariance matrix estimator will be singular. If you calculate a standard error for the sub-group mean it will be algebraically zero despite being the most imprecisely estimated coefficient. The treatment effect will have a non-zero reported standard error but it will be incorrect and highly biased towards zero. For a more detailed analysis and recommendations for inference see Conley and Taber (2011).</p>
+</section>
+<section id="exercises" class="level2" data-number="17.10">
+<h2 data-number="17.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">17.10</span> Exercises</h2>
+<p>Exercise 18.1 In the text it was claimed that in a balanced sample individual-level fixed effects are orthogonal to any variable demeaned at the state level.</p>
+<ol type="a">
+<li><p>Show this claim.</p></li>
+<li><p>Does this claim hold in unbalanced samples?</p></li>
+<li><p>Explain why this claim implies that the regressions</p></li>
+</ol>
+<p><span class="math display">\[
+Y_{i t}=\beta_{0}+\beta_{1} \text { State }_{i}+\beta_{2} \text { Time }_{t}+\theta D_{i t}+\varepsilon_{i t}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+u_{i}+\delta_{t}+\varepsilon_{i t}
+\]</span></p>
+<p>yield identical estimates of <span class="math inline">\(\theta\)</span>.</p>
+<p>Exercise 18.2 In regression (18.1) with <span class="math inline">\(T=2\)</span> and <span class="math inline">\(N=2\)</span> suppose the time variable is omitted. Thus the estimating equation is</p>
+<p><span class="math display">\[
+Y_{i t}=\beta_{0}+\beta_{1} \text { State }_{i}+\theta D_{i t}+\varepsilon_{i t} .
+\]</span></p>
+<p>where <span class="math inline">\(D_{i t}=\)</span> State <span class="math inline">\(_{i}\)</span> Time <span class="math inline">\(_{t}\)</span> is the treatment indicator.</p>
+<ol type="a">
+<li><p>Find an algebraic expression for the least squares estimator <span class="math inline">\(\widehat{\theta}\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(\hat{\theta}\)</span> is a function only of the treated sub-sample and is not a function of the untreated sub-sample.</p></li>
+<li><p>Is <span class="math inline">\(\hat{\theta}\)</span> a difference-in-difference estimator?</p></li>
+<li><p>Under which assumptions might <span class="math inline">\(\widehat{\theta}\)</span> be an appropriate estimator of the treatment effect?</p></li>
+</ol>
+<p>Exercise 18.3 Take the basic difference-in-difference model</p>
+<p><span class="math display">\[
+Y_{i t}=\theta D_{i t}+u_{i}+\delta_{t}+\varepsilon_{i t} .
+\]</span></p>
+<p>Instead of assuming that <span class="math inline">\(D_{i t}\)</span> and <span class="math inline">\(\varepsilon_{i t}\)</span> are independent, assume we have an instrumental variable <span class="math inline">\(Z_{i t}\)</span> which is independent of <span class="math inline">\(\varepsilon_{i t}\)</span> but is correlated with <span class="math inline">\(D_{i t}\)</span>. Describe how to estimate <span class="math inline">\(\theta\)</span>.</p>
+<p>Hint: Review Section 17.28.</p>
+<p>Exercise 18.4 For the specification tests of Section 18.4 explain why the regression test for homogeneous treatment effects includes only <span class="math inline">\(N_{2}-1\)</span> interaction dummy variables rather than all <span class="math inline">\(N_{2}\)</span> interaction dummies. Also explain why the regression test for equal control effects includes only <span class="math inline">\(N_{1}-1\)</span> interaction dummy variables rather than all <span class="math inline">\(N_{1}\)</span> interaction dummies.</p>
+<p>Exercise 18.5 An economist is interested in the impact of Wisconsin’s 2011”Act 10” legislation on wages. (For background, Act 10 reduced the power of labor unions.) She computes the following statistics <span class="math inline">\({ }^{5}\)</span> for average wage rates in Wisconsin and the neighboring state of Minnesota for the decades before and after Act 10 was enacted.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th>Years</th>
+<th>Average Wage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Wisconsin</td>
+<td><span class="math inline">\(2001-2010\)</span></td>
+<td><span class="math inline">\(15.23\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Wisconsin</td>
+<td><span class="math inline">\(2010-2020\)</span></td>
+<td><span class="math inline">\(16.72\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minnesota</td>
+<td><span class="math inline">\(2001-2010\)</span></td>
+<td><span class="math inline">\(16.42\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Minnesota</td>
+<td><span class="math inline">\(2010-2020\)</span></td>
+<td><span class="math inline">\(18.10\)</span></td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Based on this information, what is her point estimate of the impact of Act 10 on average wages?</p></li>
+<li><p>The numbers in the above table were calculated as county-level averages. (The economist was given the average wage in each county. She calculated the average for the state by taking the average across the counties.) Now suppose that she estimates the following linear regression, treating individual counties as observations.</p></li>
+</ol>
+<p><span class="math display">\[
+\text { wage }=\alpha+\beta \text { Act } 10+\gamma \text { Wisconsin }+\delta \text { Post } 2010+e
+\]</span></p>
+<p><span class="math inline">\({ }^{5}\)</span> This numbers are completely fictitious. The three regressors are dummy variables for “Act 10 in effect in the state”, “county is in Wisconsin”, and “time period is 2011-2020.”</p>
+<p>What value of <span class="math inline">\(\widehat{\beta}\)</span> does she find?</p>
+<ol start="3" type="a">
+<li>What value of <span class="math inline">\(\widehat{\gamma}\)</span> does she find?</li>
+</ol>
+<p>Exercise 18.6 Use the datafile CK1994 on the textbook webpage. Classical economics teaches that increasing the minimum wage will increase product prices. You can therefore use the Card-Krueger diffin-diff methodology to estimate the effect of the 1992 New Jersey minimum wage increase on product prices. The data file contains the variables priceentree, pricefry and pricesoda. Create the variable price as the sum of these three, indicating the cost of a typical meal.</p>
+<ol type="a">
+<li>Some values of price are missing. Delete these observations. This will produce an unbalanced panel as price may be missing for only one of the two surveys. Balance the panel by deleting the paired observation. This can be accomplished in Stata by the commands:</li>
+</ol>
+<ul>
+<li><p>drop if price <span class="math inline">\(==\)</span>.</p></li>
+<li><p>bys store: gen nperiods <span class="math inline">\(=\)</span> [_N <span class="math inline">\(]\)</span></p></li>
+<li><p>keep if nperiods <span class="math inline">\(==2\)</span></p></li>
+</ul>
+<ol start="2" type="a">
+<li><p>Create an analog of Table <span class="math inline">\(18.1\)</span> but with the price of a meal rather than the number of employees. Interpret the results.</p></li>
+<li><p>Estimate an analog of regression (18.2) with price as the dependent variable.</p></li>
+<li><p>Estimate an analog of regression (18.4) with state fixed effects and price as the dependent variable.</p></li>
+<li><p>Estimate an analog of regression (18.4) with restaurant fixed effects and price as the dependent variable.</p></li>
+<li><p>Are the results of these regressions the same?</p></li>
+<li><p>Create an analog of Table <span class="math inline">\(18.2\)</span> for the price of a meal. Interpret the results.</p></li>
+<li><p>Test for homogeneous treatment effects across regions.</p></li>
+<li><p>Test for equal control effects across regions.</p></li>
+</ol>
+<p>Exercise 18.7 Use the datafile DS2004 on the textbook webpage. The authors argued that an exogenous police presence would deter automobile theft. The evidence presented in the chapter showed that car theft was reduced for city blocks which received police protection. Does this deterrence effect extend beyond the same block? The dataset has the dummy variable oneblock which indicates if the city block is one block away from a protected institution.</p>
+<ol type="a">
+<li><p>Calculate an analog of Table <span class="math inline">\(18.3\)</span> which shows the difference between city blocks which are one block away from a protected institution and those which are more than one block away from a protected institution.</p></li>
+<li><p>Estimate a regression with block and month fixed effects which includes two treatment variables: for city blocks which are on the same block as a protected institution, and for city blocks which are one block away, both interacted with a post-July dummy. Exclude observations for July. (c) Comment on your findings. Does the deterrence effect extend beyond the same city block?</p></li>
+</ol>
+<p>Exercise 18.8 Use the datafile BMN2016 on the textbook webpage. The authors report results for liquor sales. The data file contains the same information for beer and wine sales. For either beer or wine sales, estimate diff-in-diff models similar to (18.7) and (18.8) and interpret your results. Some relevant variables are <span class="math inline">\(i d\)</span> (state identification), year, unempw (unemployment rate). For beer the relevant variables are logbeer (log of beer sales), beeronsun (number of hours of allowed on-premise sales), beeroffsun (number of hours of allowed off-premise sales), beerOnOutflows, beerOffOutflows. For wine the variables have similar names.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt17-panel-data.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./part05-nonpar.html" class="pagination-link">
+        <span class="nav-page-text">非参方法</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

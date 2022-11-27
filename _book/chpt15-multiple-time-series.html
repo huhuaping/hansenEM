@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 15&nbsp; Multivariate Time Series</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./chpt17-panel-data.html" rel="next">
+<link href="./chpt14-time-series.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">15.1</span>  Introduction</a></li>
+  <li><a href="#multiple-equation-time-series-models" id="toc-multiple-equation-time-series-models" class="nav-link" data-scroll-target="#multiple-equation-time-series-models"><span class="toc-section-number">15.2</span>  Multiple Equation Time Series Models</a></li>
+  <li><a href="#linear-projection" id="toc-linear-projection" class="nav-link" data-scroll-target="#linear-projection"><span class="toc-section-number">15.3</span>  Linear Projection</a></li>
+  <li><a href="#multivariate-wold-decomposition" id="toc-multivariate-wold-decomposition" class="nav-link" data-scroll-target="#multivariate-wold-decomposition"><span class="toc-section-number">15.4</span>  Multivariate Wold Decomposition</a></li>
+  <li><a href="#impulse-response" id="toc-impulse-response" class="nav-link" data-scroll-target="#impulse-response"><span class="toc-section-number">15.5</span>  Impulse Response</a></li>
+  <li><a href="#var1-model" id="toc-var1-model" class="nav-link" data-scroll-target="#var1-model"><span class="toc-section-number">15.6</span>  VAR(1) Model</a></li>
+  <li><a href="#operatornamevarmathrmp-model" id="toc-operatornamevarmathrmp-model" class="nav-link" data-scroll-target="#operatornamevarmathrmp-model"><span class="toc-section-number">15.7</span>  <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> Model</a></li>
+  <li><a href="#regression-notation" id="toc-regression-notation" class="nav-link" data-scroll-target="#regression-notation"><span class="toc-section-number">15.8</span>  Regression Notation</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation"><span class="toc-section-number">15.9</span>  Estimation</a></li>
+  <li><a href="#asymptotic-distribution" id="toc-asymptotic-distribution" class="nav-link" data-scroll-target="#asymptotic-distribution"><span class="toc-section-number">15.10</span>  Asymptotic Distribution</a></li>
+  <li><a href="#covariance-matrix-estimation" id="toc-covariance-matrix-estimation" class="nav-link" data-scroll-target="#covariance-matrix-estimation"><span class="toc-section-number">15.11</span>  Covariance Matrix Estimation</a></li>
+  <li><a href="#selection-of-lag-length-in-an-var" id="toc-selection-of-lag-length-in-an-var" class="nav-link" data-scroll-target="#selection-of-lag-length-in-an-var"><span class="toc-section-number">15.12</span>  Selection of Lag Length in an VAR</a></li>
+  <li><a href="#illustration" id="toc-illustration" class="nav-link" data-scroll-target="#illustration"><span class="toc-section-number">15.13</span>  Illustration</a></li>
+  <li><a href="#predictive-regressions" id="toc-predictive-regressions" class="nav-link" data-scroll-target="#predictive-regressions"><span class="toc-section-number">15.14</span>  Predictive Regressions</a></li>
+  <li><a href="#impulse-response-estimation" id="toc-impulse-response-estimation" class="nav-link" data-scroll-target="#impulse-response-estimation"><span class="toc-section-number">15.15</span>  Impulse Response Estimation</a></li>
+  <li><a href="#local-projection-estimator" id="toc-local-projection-estimator" class="nav-link" data-scroll-target="#local-projection-estimator"><span class="toc-section-number">15.16</span>  Local Projection Estimator</a></li>
+  <li><a href="#regression-on-residuals" id="toc-regression-on-residuals" class="nav-link" data-scroll-target="#regression-on-residuals"><span class="toc-section-number">15.17</span>  Regression on Residuals</a></li>
+  <li><a href="#orthogonalized-shocks" id="toc-orthogonalized-shocks" class="nav-link" data-scroll-target="#orthogonalized-shocks"><span class="toc-section-number">15.18</span>  Orthogonalized Shocks</a></li>
+  <li><a href="#orthogonalized-impulse-response-function" id="toc-orthogonalized-impulse-response-function" class="nav-link" data-scroll-target="#orthogonalized-impulse-response-function"><span class="toc-section-number">15.19</span>  Orthogonalized Impulse Response Function</a></li>
+  <li><a href="#orthogonalized-impulse-response-estimation" id="toc-orthogonalized-impulse-response-estimation" class="nav-link" data-scroll-target="#orthogonalized-impulse-response-estimation"><span class="toc-section-number">15.20</span>  Orthogonalized Impulse Response Estimation</a></li>
+  <li><a href="#illustration-1" id="toc-illustration-1" class="nav-link" data-scroll-target="#illustration-1"><span class="toc-section-number">15.21</span>  Illustration</a></li>
+  <li><a href="#forecast-error-decomposition" id="toc-forecast-error-decomposition" class="nav-link" data-scroll-target="#forecast-error-decomposition"><span class="toc-section-number">15.22</span>  Forecast Error Decomposition</a></li>
+  <li><a href="#identification-of-recursive-vars" id="toc-identification-of-recursive-vars" class="nav-link" data-scroll-target="#identification-of-recursive-vars"><span class="toc-section-number">15.23</span>  Identification of Recursive VARs</a></li>
+  <li><a href="#oil-price-shocks" id="toc-oil-price-shocks" class="nav-link" data-scroll-target="#oil-price-shocks"><span class="toc-section-number">15.24</span>  Oil Price Shocks</a></li>
+  <li><a href="#structural-vars" id="toc-structural-vars" class="nav-link" data-scroll-target="#structural-vars"><span class="toc-section-number">15.25</span>  Structural VARs</a></li>
+  <li><a href="#identification-of-structural-vars" id="toc-identification-of-structural-vars" class="nav-link" data-scroll-target="#identification-of-structural-vars"><span class="toc-section-number">15.26</span>  Identification of Structural VARs</a></li>
+  <li><a href="#long-run-restrictions" id="toc-long-run-restrictions" class="nav-link" data-scroll-target="#long-run-restrictions"><span class="toc-section-number">15.27</span>  Long-Run Restrictions</a></li>
+  <li><a href="#blanchard-and-quah-1989-illustration" id="toc-blanchard-and-quah-1989-illustration" class="nav-link" data-scroll-target="#blanchard-and-quah-1989-illustration"><span class="toc-section-number">15.28</span>  Blanchard and Quah (1989) Illustration</a></li>
+  <li><a href="#external-instruments" id="toc-external-instruments" class="nav-link" data-scroll-target="#external-instruments"><span class="toc-section-number">15.29</span>  External Instruments</a></li>
+  <li><a href="#dynamic-factor-models" id="toc-dynamic-factor-models" class="nav-link" data-scroll-target="#dynamic-factor-models"><span class="toc-section-number">15.30</span>  Dynamic Factor Models</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">15.31</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">15.32</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt15-multiple-time-series.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">15.1</span> Introduction</h2>
+<p>A multivariate time series <span class="math inline">\(Y_{t}=\left(Y_{1 t}, \ldots, Y_{m t}\right)^{\prime}\)</span> is an <span class="math inline">\(m \times 1\)</span> vector process observed in sequence over time, <span class="math inline">\(t=1, \ldots, n\)</span>. Multivariate time series models primarily focus on the joint modeling of the vector series <span class="math inline">\(Y_{t}\)</span>. The most common multivariate time series models used by economists are vector autoregressions (VARs). VARs were introduced to econometrics by Sims (1980).</p>
+<p>Some excellent textbooks and review articles on multivariate time series include Hamilton (1994), Watson (1994), Canova (1995), Lütkepohl (2005), Ramey (2016), Stock and Watson (2016), and Kilian and Lütkepohl (2017).</p>
+</section>
+<section id="multiple-equation-time-series-models" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="multiple-equation-time-series-models"><span class="header-section-number">15.2</span> Multiple Equation Time Series Models</h2>
+<p>To motivate vector autoregressions let us start by reviewing the autoregressive distributed lag model of Section <span class="math inline">\(14.41\)</span> for the case of two series <span class="math inline">\(Y_{t}=\left(Y_{1 t}, Y_{2 t}\right)^{\prime}\)</span> with a single lag. An AR-DL model for <span class="math inline">\(Y_{1 t}\)</span> is</p>
+<p><span class="math display">\[
+Y_{1 t}=\alpha_{0}+\alpha_{1} Y_{1 t-1}+\beta_{1} Y_{2 t-1}+e_{1 t} .
+\]</span></p>
+<p>Similarly, an AR-DL model for <span class="math inline">\(Y_{2 t}\)</span> is</p>
+<p><span class="math display">\[
+Y_{2 t}=\gamma_{0}+\gamma_{1} Y_{2 t-1}+\delta_{1} Y_{1 t-1}+e_{2 t} .
+\]</span></p>
+<p>These two equations specify that each variable is a linear function of its own lag and the lag of the other variable. In so doing we find that the variables on the right hand side of each equation are <span class="math inline">\(Y_{t-1}\)</span>.</p>
+<p>We can simplify the equations by combining the regressors stacking the two equations together and writing the vector error as <span class="math inline">\(e_{t}=\left(e_{1 t}, e_{2 t}\right)^{\prime}\)</span> to find</p>
+<p><span class="math display">\[
+Y_{t}=a_{0}+\boldsymbol{A}_{1} Y_{t-1}+e_{t}
+\]</span></p>
+<p>where <span class="math inline">\(a_{0}\)</span> is <span class="math inline">\(2 \times 1\)</span> and <span class="math inline">\(\boldsymbol{A}_{1}\)</span> is <span class="math inline">\(2 \times 2\)</span>. This is a bivariate vector autoregressive model for <span class="math inline">\(Y_{t}\)</span>. It specifies that the multivariate process <span class="math inline">\(Y_{t}\)</span> is a linear function of its own lag <span class="math inline">\(Y_{t-1}\)</span> plus <span class="math inline">\(e_{t}\)</span>. It is the combination of two equations each of which is an autoregressive distributed lag model. Thus a multivariate autoregression is a set of autoregressive distributed lag models.</p>
+<p>The above derivation assumed a single lag. If the equations include <span class="math inline">\(p\)</span> lags of each variable we obtain the <span class="math inline">\(p^{t h}\)</span> order vector autoregressive (VAR) model</p>
+<p><span class="math display">\[
+Y_{t}=a_{0}+\boldsymbol{A}_{1} Y_{t-1}+\boldsymbol{A}_{2} Y_{t-2}+\cdots+\boldsymbol{A}_{p} Y_{t-p}+e_{t} .
+\]</span></p>
+<p>Furthermore, there is nothing special about the two variable case. The notation in (15.1) allows <span class="math inline">\(Y_{t}=\)</span> <span class="math inline">\(\left(Y_{1 t}, \ldots, Y_{m t}\right)^{\prime}\)</span> to be a vector of dimension <span class="math inline">\(m\)</span> in which case the matrices <span class="math inline">\(\boldsymbol{A}_{\ell}\)</span> are <span class="math inline">\(m \times m\)</span> and the error <span class="math inline">\(\boldsymbol{e}_{t}\)</span> is <span class="math inline">\(m \times 1\)</span>. We will denote the elements of <span class="math inline">\(\boldsymbol{A}_{\ell}\)</span> using the notation</p>
+<p><span class="math display">\[
+\boldsymbol{A}_{\ell}=\left[\begin{array}{cccc}
+a_{11, \ell} &amp; a_{12, \ell} &amp; \cdots &amp; a_{1 m, \ell} \\
+a_{21, \ell} &amp; a_{22, \ell} &amp; \cdots &amp; a_{2 m, \ell} \\
+\vdots &amp; \vdots &amp; &amp; \vdots \\
+a_{m 1, \ell} &amp; a_{m 2, \ell} &amp; \cdots &amp; a_{m m, \ell}
+\end{array}\right]
+\]</span></p>
+<p>The error <span class="math inline">\(e_{t}=\left(e_{1 t}, \ldots, e_{m t}\right)^{\prime}\)</span> is the component of <span class="math inline">\(Y_{t}\)</span> which is unforecastable at time <span class="math inline">\(t-1\)</span>. However, the components of <span class="math inline">\(Y_{t}\)</span> are contemporaneously correlated. Therefore the contemporaneous covariance matrix <span class="math inline">\(\Sigma=\mathbb{E}\left[e e^{\prime}\right]\)</span> is non-diagonal.</p>
+<p>The VAR model falls in the class of multivariate regression models studied in Chapter 11.</p>
+<p>In the following several sections we take a step back and provide a rigorous foundation for vector autoregressions for stationary time series.</p>
+</section>
+<section id="linear-projection" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="linear-projection"><span class="header-section-number">15.3</span> Linear Projection</h2>
+<p>In Section <span class="math inline">\(14.14\)</span> we derived the linear projection of the univariate series <span class="math inline">\(Y_{t}\)</span> on its infinite past history. We now extend this to the multivariate case. Define the multivariate infinite past history <span class="math inline">\(\widetilde{Y}_{t-1}=\)</span> <span class="math inline">\(\left(\ldots, Y_{t-2}, Y_{t-1}\right)\)</span>. The projection of <span class="math inline">\(Y_{t}\)</span> onto <span class="math inline">\(\widetilde{Y}_{t-1}\)</span>, written <span class="math inline">\(\mathscr{P}_{t-1}\left[Y_{t}\right]=\mathscr{P}\left[Y_{t} \mid \widetilde{Y}_{t-1}\right]\)</span>, is unique and has a unique projection error</p>
+<p><span class="math display">\[
+e_{t}=Y_{t}-\mathscr{P}_{t-1}\left[Y_{t}\right] .
+\]</span></p>
+<p>We will call the projection errors <span class="math inline">\(e_{t}\)</span> the “innnovations”.</p>
+<p>The innovations <span class="math inline">\(e_{t}\)</span> are mean zero and serially uncorrelated. We state this formally.</p>
+<p>Theorem 15.1 If <span class="math inline">\(Y_{t}\)</span> is covariance stationary it has the projection equation</p>
+<p><span class="math display">\[
+Y_{t}=\mathscr{P}_{t-1}\left[Y_{t}\right]+e_{t} .
+\]</span></p>
+<p>The innovations <span class="math inline">\(e_{t}\)</span> satisfy <span class="math inline">\(\mathbb{E}\left[e_{t}\right]=0\)</span>, <span class="math inline">\(\mathbb{E}\left[e_{t-\ell} e_{t}^{\prime}\right]=0\)</span> for <span class="math inline">\(\ell \geq 1\)</span>, and <span class="math inline">\(\Sigma=\mathbb{E}\left[e e^{\prime}\right]&lt;\infty\)</span>. If <span class="math inline">\(Y_{t}\)</span> is strictly stationary then <span class="math inline">\(e_{t}\)</span> is strictly stationary.</p>
+<p>The uncorrelatedness of the projection errors is a property of a multivariate white noise process.</p>
+<p>Definition 15.1 The vector process <span class="math inline">\(e_{t}\)</span> is multivariate white noise if <span class="math inline">\(\mathbb{E}\left[e_{t}\right]=0\)</span>, <span class="math inline">\(\mathbb{E}\left[e_{t} e_{t}^{\prime}\right]=\Sigma&lt;\infty\)</span>, and <span class="math inline">\(\mathbb{E}\left[e_{t} e_{t-\ell}^{\prime}\right]=0\)</span> for <span class="math inline">\(\ell \neq 0\)</span></p>
+</section>
+<section id="multivariate-wold-decomposition" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="multivariate-wold-decomposition"><span class="header-section-number">15.4</span> Multivariate Wold Decomposition</h2>
+<p>By projecting <span class="math inline">\(Y_{t}\)</span> onto the past history of the white noise innovations <span class="math inline">\(e_{t}\)</span> we obtain a multivariate version of the Wold decomposition.</p>
+<p>Theorem 15.2 If <span class="math inline">\(Y_{t}\)</span> is covariance stationary and non-deterministic then it has the linear representation</p>
+<p><span class="math display">\[
+Y_{t}=\mu+\sum_{\ell=0}^{\infty} \Theta_{\ell} e_{t-\ell}
+\]</span></p>
+<p>where <span class="math inline">\(e_{t}\)</span> are the white noise projection errors and <span class="math inline">\(\Theta_{0}=\boldsymbol{I}_{m}\)</span>. The coefficient matrices <span class="math inline">\(\Theta_{\ell}\)</span> are <span class="math inline">\(m \times m\)</span>.</p>
+<p>We can write the moving average representation using the lag operator notation as</p>
+<p><span class="math display">\[
+Y_{t}=\mu+\Theta(\mathrm{L}) e_{t}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\Theta(z)=\sum_{\ell=0}^{\infty} \Theta_{\ell} z^{\ell} .
+\]</span></p>
+<p>A multivariate version of Theorem <span class="math inline">\(14.19\)</span> can also be established.</p>
+<p>Theorem 15.3 If <span class="math inline">\(Y_{t}\)</span> is covariance stationary, non-deterministic, with Wold representation <span class="math inline">\(Y_{t}=\Theta(\mathrm{L}) e_{t}\)</span>, such that <span class="math inline">\(\lambda_{\min }\left(\Theta^{*}(z) \Theta(z)\right) \geq \delta&gt;0\)</span> for all complex <span class="math inline">\(|z| \leq 1\)</span>, and for some integer <span class="math inline">\(s \geq 0\)</span> the Wold coefficients satisfy <span class="math inline">\(\sum_{j=0}^{\infty}\left\|\sum_{k=0}^{\infty} k^{s} \Theta_{j+k}\right\|^{2}&lt;\infty\)</span>, then <span class="math inline">\(Y_{t}\)</span> has an infinite-order autoregressive representation</p>
+<p><span class="math display">\[
+\boldsymbol{A} \text { (L) } Y_{t}=a_{0}+e_{t}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{A}(z)=\boldsymbol{I}_{m}-\sum_{\ell=1}^{\infty} \boldsymbol{A}_{\ell} z^{\ell}
+\]</span></p>
+<p>and the coefficients satisfy <span class="math inline">\(\sum_{k=1}^{\infty} k^{s}\left\|\boldsymbol{A}_{k}\right\|&lt;\infty\)</span>. The series in (15.4) is convergent.</p>
+<p>For a proof see Section 2 of Meyer and Kreiss (2015).</p>
+<p>We can also provide an analog of Theorem 14.6.</p>
+<p>Theorem 15.4 If <span class="math inline">\(e_{t} \in \mathbb{R}^{m}\)</span> is strictly stationary, ergodic, <span class="math inline">\(\mathbb{E}\left\|e_{t}\right\|&lt;\infty\)</span>, and <span class="math inline">\(\sum_{\ell=0}^{\infty}\left\|\Theta_{\ell}\right\|&lt;\infty\)</span>, then <span class="math inline">\(Y_{t}=\sum_{\ell=0}^{\infty} \Theta_{\ell} e_{t-\ell}\)</span> is strictly stationary and ergodic. The proof of Theorem <span class="math inline">\(15.4\)</span> is a straightforward extension of Theorem <span class="math inline">\(14.6\)</span> so is omitted.</p>
+<p>The moving average and autoregressive lag polynomials satisfy the relationship <span class="math inline">\(\Theta(z)=\boldsymbol{A}(z)^{-1}\)</span>.</p>
+<p>For some purposes (such as impulse response calculations) we need to calculate the moving average coefficient matrices <span class="math inline">\(\Theta_{\ell}\)</span> from the autoregressive coefficient matrices <span class="math inline">\(\boldsymbol{A}_{\ell}\)</span>. While there is not a closed-form solution there is a simple recursion by which the coefficients may be calculated.</p>
+<p>Theorem 15.5 For <span class="math inline">\(j \geq 1, \Theta_{j}=\sum_{\ell=1}^{j} A_{\ell} \Theta_{j-\ell}\)</span>.</p>
+<p>To see this, suppose for simplicity <span class="math inline">\(a_{0}=0\)</span> and that the innovations satisfy <span class="math inline">\(e_{t}=0\)</span> for <span class="math inline">\(t \neq 0\)</span>. Then <span class="math inline">\(Y_{t}=0\)</span> for <span class="math inline">\(t&lt;0\)</span>. Using the regression equation (15.4) for <span class="math inline">\(t \geq 0\)</span> we solve for each <span class="math inline">\(Y_{t}\)</span>. For <span class="math inline">\(t=0\)</span></p>
+<p><span class="math display">\[
+Y_{0}=e_{0}=\Theta_{0} e_{0}
+\]</span></p>
+<p>where <span class="math inline">\(\Theta_{0}=\boldsymbol{I}_{m}\)</span>. For <span class="math inline">\(t=1\)</span></p>
+<p><span class="math display">\[
+Y_{1}=\boldsymbol{A}_{1} Y_{0}=\boldsymbol{A}_{1} \Theta_{0} e_{0}=\Theta_{1} e_{0}
+\]</span></p>
+<p>where <span class="math inline">\(\Theta_{1}=A_{1} \Theta_{0}\)</span>. For <span class="math inline">\(t=2\)</span></p>
+<p><span class="math display">\[
+Y_{2}=\boldsymbol{A}_{1} Y_{1}+\boldsymbol{A}_{2} Y_{0}=\boldsymbol{A}_{1} \Theta_{1} e_{0}+\boldsymbol{A}_{2} \Theta_{0} e_{0}=\Theta_{2} e_{0}
+\]</span></p>
+<p>where <span class="math inline">\(\Theta_{2}=A_{1} \Theta_{1}+A_{2} \Theta_{0}\)</span>. For <span class="math inline">\(t=3\)</span></p>
+<p><span class="math display">\[
+Y_{3}=\boldsymbol{A}_{1} Y_{2}+\boldsymbol{A}_{2} Y_{1}+\boldsymbol{A}_{3} Y_{0}=\boldsymbol{A}_{1} \Theta_{2} e_{0}+\boldsymbol{A}_{2} \Theta_{1} e_{0}+\boldsymbol{A}_{3} \Theta_{0} e_{0}=\Theta_{3} e_{0}
+\]</span></p>
+<p>where <span class="math inline">\(\Theta_{3}=\boldsymbol{A}_{1} \Theta_{2}+\boldsymbol{A}_{2} \Theta_{2}+\boldsymbol{A}_{2} \Theta_{0}\)</span>. The coefficients satisfy the stated recursion as claimed.</p>
+</section>
+<section id="impulse-response" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="impulse-response"><span class="header-section-number">15.5</span> Impulse Response</h2>
+<p>One of the most important concepts in applied multivariate time series is the impulse response function (IRF) which is defined as the change in <span class="math inline">\(Y_{t}\)</span> due to a change in an innovation or shock. In this section we define the baseline IRF - the unnormalized non-orthogonalized impulse response function - which is the change in <span class="math inline">\(Y_{t}\)</span> due to a change in an innovation <span class="math inline">\(e_{t}\)</span>. Specifically, we define the impulse response of variable <span class="math inline">\(i\)</span> with respect to innovation <span class="math inline">\(j\)</span> as the change in the time <span class="math inline">\(t\)</span> projection of the <span class="math inline">\(i^{t h}\)</span> variable <span class="math inline">\(Y_{i t+h}\)</span> due to the <span class="math inline">\(j^{t h}\)</span> innovation <span class="math inline">\(e_{j t}\)</span></p>
+<p><span class="math display">\[
+\operatorname{IRF}_{i j}(h)=\frac{\partial}{\partial e_{j t}} \mathscr{P}_{t}\left[Y_{i t+h}\right] .
+\]</span></p>
+<p>There are <span class="math inline">\(m^{2}\)</span> such responses for each horizon <span class="math inline">\(h\)</span>. We can write them as an <span class="math inline">\(m \times m\)</span> matrix</p>
+<p><span class="math display">\[
+\operatorname{IRF}(h)=\frac{\partial}{\partial e_{t}^{\prime}} \mathscr{P}_{t}\left[Y_{t+h}\right] .
+\]</span></p>
+<p>Recall the multivariate Wold representation</p>
+<p><span class="math display">\[
+Y_{t}=\mu+\sum_{\ell=0}^{\infty} \Theta_{\ell} e_{t-\ell} .
+\]</span></p>
+<p>We can calculate that the projection onto the history at time <span class="math inline">\(t\)</span> is</p>
+<p><span class="math display">\[
+\mathscr{P}_{t}\left[Y_{t+h}\right]=\mu+\sum_{\ell=h}^{\infty} \Theta_{\ell} e_{t+h-\ell}=\mu+\sum_{\ell=0}^{\infty} \Theta_{h+\ell} e_{t-\ell} .
+\]</span></p>
+<p>We deduce that the impulse response matrix is <span class="math inline">\(\operatorname{IRF}(h)=\Theta_{h}\)</span>, the <span class="math inline">\(h^{t h}\)</span> moving average coefficient matrix. The invididual impulse response is <span class="math inline">\(\operatorname{IRF}_{i j}(h)=\Theta_{h, i j}\)</span>, the <span class="math inline">\(i j^{t h}\)</span> element of <span class="math inline">\(\Theta_{h}\)</span>.</p>
+<p>Here we have defined the impulse response in terms of the linear projection operator. An alternative is to define the impulse response in terms of the conditional expectation operator. The two coincide when the innovations <span class="math inline">\(e_{t}\)</span> are a martingale difference sequence (and thus when the true process is linear) but otherwise will not coincide.</p>
+<p>Typically we view impulse responses as a function of the horizon <span class="math inline">\(h\)</span> and plot them as a function of <span class="math inline">\(h\)</span> for each pair <span class="math inline">\((i, j)\)</span>. The impulse response function <span class="math inline">\(\operatorname{IRF}_{i j}(h)\)</span> is interpreted as how the <span class="math inline">\(i^{t h}\)</span> variable responds over time to the <span class="math inline">\(j^{t h}\)</span> innovation.</p>
+<p>In a linear vector autoregression the impulse response function is symmetric in negative and positive innovations. That is, the impact on <span class="math inline">\(Y_{i t+h}\)</span> of a positive innovation <span class="math inline">\(e_{j t}=1\)</span> is <span class="math inline">\(\operatorname{IRF}_{i j}(h)\)</span> and the impact of a negative innovation <span class="math inline">\(e_{j t}=-1\)</span> is <span class="math inline">\(-\operatorname{IRF}_{i j}(h)\)</span>. Furthermore, the magnitude of the impact is linear in the magnitude of the innovation. Thus the impact of the innovation <span class="math inline">\(e_{j t}=2\)</span> is <span class="math inline">\(2 \times \operatorname{IRF}_{i j}(h)\)</span> and the impact of the innovation <span class="math inline">\(e_{j t}=-2\)</span> is <span class="math inline">\(-2 \times \operatorname{IRF}_{i j}(h)\)</span>. This means that the shape of the impulse response function is unaffected by the magnitude of the innovation. (These are consequences of the linearity of the vector autoregressive model, not necessarily features of the true world.)</p>
+<p>The impulse response functions can be scaled as desired. One standard choice is to scale so that the innovations correspond to one unit of the impulse variable. Thus if the impulse variable is measured in dollars the impulse response can be scaled to correspond to a change in <span class="math inline">\(\$ 1\)</span> or some multiple such as a million dollars. If the impulse variable is measured in percentage points (e.g.&nbsp;an interest rate) then the impulse response can be scaled to correspond to a change of one percentage point (e.g.&nbsp;from 3% to <span class="math inline">\(4 %\)</span> ) or to correspond to a change of one basis point (e.g.&nbsp;from 3.05% to 3.06%). Another standard choice is to scale the impulse responses to correspond to a “one standard deviation” innovation. This occurs when the innovations have been scaled to have unit variances. In this latter case impulse response functions can be interpreted as responses due to a “typical” sized (one standard deviation) innovation.</p>
+<p>Closely related to the IRF is the cumulative impulse response function (CIRF) defined as</p>
+<p><span class="math display">\[
+\operatorname{CIRF}(h)=\sum_{\ell=1}^{h} \frac{\partial}{\partial e_{t}^{\prime}} \mathscr{P}_{t}\left[Y_{t+\ell}\right]=\sum_{\ell=1}^{h} \Theta_{\ell} .
+\]</span></p>
+<p>The cumulative impulse response is the accumulated (summed) responses on <span class="math inline">\(Y_{t}\)</span> from time <span class="math inline">\(t\)</span> to <span class="math inline">\(t+h\)</span>. The limit of the cumulative impulse response as <span class="math inline">\(h \rightarrow \infty\)</span> is the long-run impulse response matrix</p>
+<p><span class="math display">\[
+\boldsymbol{C}=\lim _{h \rightarrow \infty} \operatorname{CIRF}(h)=\sum_{\ell=1}^{\infty} \Theta_{\ell}=\Theta(1)=\boldsymbol{A}(1)^{-1} .
+\]</span></p>
+<p>This is the full (summed) effect of the innovation over all time.</p>
+<p>It is useful to observe that when a VAR is estimated on differenced observations <span class="math inline">\(\Delta Y_{t}\)</span> then cumulative impulse response is</p>
+<p><span class="math display">\[
+\operatorname{CIRF}(h)=\frac{\partial}{\partial e_{t}^{\prime}} \mathscr{P}_{t}\left[\sum_{\ell=1}^{h} \Delta Y_{t+\ell}\right]=\frac{\partial}{\partial e_{t}^{\prime}} \mathscr{P}_{t}\left[Y_{t+h}\right]
+\]</span></p>
+<p>which is the impulse response for the variable <span class="math inline">\(Y_{t}\)</span> in levels. More generally, when a VAR is estimated with some variables in levels and some in differences then the cumulative impulse response for the second group will coincide with the impulse responses for the same variables measured in levels. It is typical to report cumulative impulse response functions for variables which enter a VAR in differences. In fact, in this context many authors will label the cumulative impulse response as “the impulse response”.</p>
+</section>
+<section id="var1-model" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="var1-model"><span class="header-section-number">15.6</span> VAR(1) Model</h2>
+<p>The first-order vector autoregressive process, denoted VAR(1), is</p>
+<p><span class="math display">\[
+Y_{t}=a_{0}+A_{1} Y_{t-1}+e_{t}
+\]</span></p>
+<p>where <span class="math inline">\(e_{t}\)</span> is a strictly stationary and ergodic white noise process.</p>
+<p>We are interested in conditions under which <span class="math inline">\(Y_{t}\)</span> is a stationary process. Let <span class="math inline">\(\lambda_{i}(\boldsymbol{A})\)</span> denote the <span class="math inline">\(i^{\text {th }}\)</span> eigenvalue of <span class="math inline">\(\boldsymbol{A}\)</span>.</p>
+<p>Theorem 15.6 If <span class="math inline">\(e_{t}\)</span> is strictly stationary, ergodic, <span class="math inline">\(\mathbb{E}\left\|e_{t}\right\|&lt;\infty\)</span>, and <span class="math inline">\(\left|\lambda_{i}\left(A_{1}\right)\right|&lt;1\)</span> for <span class="math inline">\(i=1, \ldots, m\)</span>, then the <span class="math inline">\(\operatorname{VAR}(1)\)</span> process <span class="math inline">\(Y_{t}\)</span> is strictly stationary and ergodic.</p>
+<p>The proof is given in Section 15.31.</p>
+</section>
+<section id="operatornamevarmathrmp-model" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="operatornamevarmathrmp-model"><span class="header-section-number">15.7</span> <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> Model</h2>
+<p>The <span class="math inline">\(\mathbf{p}^{\text {th }}\)</span>-order vector autoregressive process, denoted VAR(p), is</p>
+<p><span class="math display">\[
+Y_{t}=a_{0}+\boldsymbol{A}_{1} Y_{t-1}+\cdots+\boldsymbol{A}_{p} Y_{t-p}+e_{t}
+\]</span></p>
+<p>where <span class="math inline">\(e_{t}\)</span> is a strictly stationary and ergodic white noise process.</p>
+<p>We can write the model using the lag operator notation as</p>
+<p><span class="math display">\[
+\boldsymbol{A} \text { (L) } Y_{t}=a_{0}+e_{t}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+\boldsymbol{A}(z)=\boldsymbol{I}_{m}-\boldsymbol{A}_{1} z-\cdots-\boldsymbol{A}_{p} z^{p} .
+\]</span></p>
+<p>The condition for stationarity of the system can be expressed as a restriction on the roots of the determinantal equation of the autoregressive polynomial. Recall, a <span class="math inline">\(\operatorname{root} r\)</span> of <span class="math inline">\(\operatorname{det}(\boldsymbol{A}(z))\)</span> is a solution to <span class="math inline">\(\operatorname{det}(\boldsymbol{A}(r))=0\)</span>.</p>
+<p>Theorem <span class="math inline">\(15.7\)</span> If all roots <span class="math inline">\(r\)</span> of <span class="math inline">\(\operatorname{det}(\boldsymbol{A}(z))\)</span> satisfy <span class="math inline">\(|r|&gt;1\)</span> then the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> process <span class="math inline">\(Y_{t}\)</span> is strictly stationary and ergodic.</p>
+<p>The proof is structurally identical to that of Theorem <span class="math inline">\(14.23\)</span> so is omitted.</p>
+</section>
+<section id="regression-notation" class="level2" data-number="15.8">
+<h2 data-number="15.8" class="anchored" data-anchor-id="regression-notation"><span class="header-section-number">15.8</span> Regression Notation</h2>
+<p>Define the <span class="math inline">\((m p+1) \times 1\)</span> vector</p>
+<p><span class="math display">\[
+X_{t}=\left(\begin{array}{c}
+1 \\
+Y_{t-1} \\
+Y_{t-2} \\
+\vdots \\
+Y_{t-p}
+\end{array}\right)
+\]</span></p>
+<p>and the <span class="math inline">\(m \times(m p+1)\)</span> matrix <span class="math inline">\(\boldsymbol{A}^{\prime}=\left(\begin{array}{lllll}a_{0} &amp; \boldsymbol{A}_{1} &amp; \boldsymbol{A}_{2} &amp; \cdots &amp; \boldsymbol{A}_{p}\end{array}\right)\)</span>. Then the VAR system of equations can be written as</p>
+<p><span class="math display">\[
+Y_{t}=\boldsymbol{A}^{\prime} X_{t}+e_{t} .
+\]</span></p>
+<p>This is a multivariate regression model. The error has covariance matrix</p>
+<p><span class="math display">\[
+\Sigma=\mathbb{E}\left[e_{t} e_{t}^{\prime}\right] .
+\]</span></p>
+<p>We can also write the coefficient matrix as <span class="math inline">\(\boldsymbol{A}=\left(\begin{array}{llll}a_{1} &amp; a_{2} &amp; \cdots &amp; a_{m}\end{array}\right)\)</span> where <span class="math inline">\(a_{j}\)</span> is the vector of coefficients for the <span class="math inline">\(j^{t h}\)</span> equation. Thus <span class="math inline">\(Y_{j t}=a_{j}^{\prime} X_{t}+e_{j t}\)</span>.</p>
+<p>In general, if <span class="math inline">\(Y_{t}\)</span> is strictly stationary we can define the coefficient matrix <span class="math inline">\(\boldsymbol{A}\)</span> by linear projection.</p>
+<p><span class="math display">\[
+\boldsymbol{A}=\left(\mathbb{E}\left[X_{t} X_{t}^{\prime}\right]\right)^{-1} \mathbb{E}\left[X_{t} Y_{t}^{\prime}\right] .
+\]</span></p>
+<p>This holds whether or not <span class="math inline">\(Y_{t}\)</span> is actually a <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> process. By the properties of projection errors</p>
+<p><span class="math display">\[
+\mathbb{E}\left[X_{t} e_{t}^{\prime}\right]=0 .
+\]</span></p>
+<p>The projection coefficient matrix <span class="math inline">\(\boldsymbol{A}\)</span> is identified if <span class="math inline">\(\mathbb{E}\left[X_{t} X_{t}^{\prime}\right]\)</span> is invertible.</p>
+<p>Theorem <span class="math inline">\(15.8\)</span> If <span class="math inline">\(Y_{t}\)</span> is strictly stationary and <span class="math inline">\(0&lt;\Sigma&lt;\infty\)</span> for <span class="math inline">\(\Sigma\)</span> defined in (15.6), then <span class="math inline">\(\boldsymbol{Q}=\mathbb{E}\left[X_{t} X_{t}^{\prime}\right]&gt;0\)</span> and the coefficient vector (14.46) is identified.</p>
+<p>The proof is given in Section 15.31.</p>
+</section>
+<section id="estimation" class="level2" data-number="15.9">
+<h2 data-number="15.9" class="anchored" data-anchor-id="estimation"><span class="header-section-number">15.9</span> Estimation</h2>
+<p>From Chapter 11 the systems estimator of a multivariate regression is least squares. The estimator can be written as</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{A}}=\left(\sum_{t=1}^{n} X_{t} X_{t}^{\prime}\right)^{-1}\left(\sum_{t=1}^{n} X_{t} Y_{t}^{\prime}\right) .
+\]</span></p>
+<p>Alternatively, the coefficient estimator for the <span class="math inline">\(j^{t h}\)</span> equation is</p>
+<p><span class="math display">\[
+\widehat{a}_{j}=\left(\sum_{t=1}^{n} X_{t} X_{t}^{\prime}\right)^{-1}\left(\sum_{t=1}^{n} X_{t} Y_{j t}\right) .
+\]</span></p>
+<p>The least squares residual vector is <span class="math inline">\(\widehat{e}_{t}=Y_{t}-\widehat{A}^{\prime} X_{t}\)</span>. The estimator of the covariance matrix is</p>
+<p><span class="math display">\[
+\widehat{\Sigma}=\frac{1}{n} \sum_{t=1}^{n} \widehat{e}_{t} \widehat{e}_{t}^{\prime} .
+\]</span></p>
+<p>(This may be adjusted for degrees-of-freedom if desired, but there is no established finite-sample justification for a specific adjustment.)</p>
+<p>If <span class="math inline">\(Y_{t}\)</span> is strictly stationary and ergodic with finite variances then we can apply the Ergodic Theorem (Theorem 14.9) to deduce that</p>
+<p><span class="math display">\[
+\frac{1}{n} \sum_{t=1}^{n} X_{t} Y_{t}^{\prime} \underset{p}{\longrightarrow} \mathbb{E}\left[X_{t} Y_{t}^{\prime}\right]
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\sum_{t=1}^{n} X_{t} X_{t}^{\prime} \underset{p}{\longrightarrow} \mathbb{E}\left[X_{t} X_{t}^{\prime}\right] .
+\]</span></p>
+<p>Since the latter is positive definite by Theorem <span class="math inline">\(15.8\)</span> we conclude that <span class="math inline">\(\widehat{\boldsymbol{A}}\)</span> is consistent for <span class="math inline">\(\boldsymbol{A}\)</span>. Standard manipulations show that <span class="math inline">\(\widehat{\Sigma}\)</span> is consistent as well.</p>
+<p>Theorem 15.9 If <span class="math inline">\(Y_{t}\)</span> is strictly stationary, ergodic, and <span class="math inline">\(0&lt;\Sigma&lt;\infty\)</span> then <span class="math inline">\(\widehat{A} \underset{p}{\rightarrow} A\)</span> and <span class="math inline">\(\widehat{\Sigma} \underset{p}{\longrightarrow} \Sigma\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p>VAR models can be estimated in Stata using the var command.</p>
+</section>
+<section id="asymptotic-distribution" class="level2" data-number="15.10">
+<h2 data-number="15.10" class="anchored" data-anchor-id="asymptotic-distribution"><span class="header-section-number">15.10</span> Asymptotic Distribution</h2>
+<p>Set</p>
+<p><span class="math display">\[
+a=\operatorname{vec}(\boldsymbol{A})=\left(\begin{array}{c}
+a_{1} \\
+\vdots \\
+a_{m}
+\end{array}\right), \quad \widehat{a}=\operatorname{vec}(\widehat{\boldsymbol{A}})=\left(\begin{array}{c}
+\widehat{a}_{1} \\
+\vdots \\
+\widehat{a}_{m}
+\end{array}\right) .
+\]</span></p>
+<p>By the same analysis as in Theorem <span class="math inline">\(14.30\)</span> combined with Theorem <span class="math inline">\(11.1\)</span> we obtain the following.</p>
+<p>Theorem 15.10 Suppose that <span class="math inline">\(Y_{t}\)</span> follows the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> model, all roots <span class="math inline">\(r\)</span> of <span class="math inline">\(\operatorname{det}(\boldsymbol{A}(z))\)</span> satisfy <span class="math inline">\(|r|&gt;1\)</span>, <span class="math inline">\(\mathbb{E}\left[e_{t} \mid \mathscr{F}_{t-1}\right]=0, \mathbb{E}\left\|e_{t}\right\|^{4}&lt;\infty\)</span>, and <span class="math inline">\(\Sigma&gt;0\)</span>, then as <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(\sqrt{n}(\widehat{a}-a) \underset{d}{\longrightarrow} \mathrm{N}(0, V)\)</span> where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V} &amp;=\overline{\boldsymbol{Q}}^{-1} \Omega \overline{\boldsymbol{Q}}^{-1} \\
+\overline{\boldsymbol{Q}} &amp;=\boldsymbol{I}_{m} \otimes \boldsymbol{Q} \\
+\boldsymbol{Q} &amp;=\mathbb{E}\left[X_{t} X_{t}^{\prime}\right] \\
+\Omega &amp;=\mathbb{E}\left[e_{t} e_{t}^{\prime} \otimes X_{t} X_{t}^{\prime}\right] .
+\end{aligned}
+\]</span></p>
+<p>Notice that the theorem uses the strong assumption that the innovation is a martingale difference sequence <span class="math inline">\(\mathbb{E}\left[e_{t} \mid \mathscr{F}_{t-1}\right]=0\)</span>. This means that the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> model is the correct conditional expectation for each variable. In words, these are the correct lags and there is no omitted nonlinearity.</p>
+<p>If we further strengthen the MDS assumption to conditional homoskedasticity</p>
+<p><span class="math display">\[
+\mathbb{E}\left[e_{t} e_{t}^{\prime} \mid \mathscr{F}_{t-1}\right]=\Sigma
+\]</span></p>
+<p>then the asymptotic variance simplifies as</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\Omega=\Sigma \otimes \boldsymbol{Q} \\
+&amp;\boldsymbol{V}=\Sigma \otimes \boldsymbol{Q}^{-1} .
+\end{aligned}
+\]</span></p>
+<p>In contrast, if the VAR(p) is an approximation then the MDS assumption is not appropriate. In this case the asymptotic distribution can be derived under mixing conditions.</p>
+<p>Theorem 15.11 Assume that <span class="math inline">\(Y_{t}\)</span> is strictly stationary, ergodic, and for some <span class="math inline">\(r&gt;\)</span> <span class="math inline">\(4, \mathbb{E}\left\|Y_{t}\right\|^{r}&lt;\infty\)</span> and the mixing coefficients satisfy <span class="math inline">\(\sum_{\ell=1}^{\infty} \alpha(\ell)^{1-4 / r}&lt;\infty\)</span>. Let <span class="math inline">\(a\)</span> be the projection coefficient vector and <span class="math inline">\(e_{t}\)</span> the projection error. Then as <span class="math inline">\(n \rightarrow \infty\)</span>, <span class="math inline">\(\sqrt{n}(\widehat{a}-a) \underset{d}{\longrightarrow} \mathrm{N}(0, V)\)</span> where</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{V}=\left(\boldsymbol{I}_{m} \otimes \boldsymbol{Q}^{-1}\right) \Omega\left(\boldsymbol{I}_{m} \otimes \boldsymbol{Q}^{-1}\right) \\
+&amp;\boldsymbol{Q}=\mathbb{E}\left[X_{t} X_{t}^{\prime}\right] \\
+&amp;\Omega=\sum_{\ell=-\infty}^{\infty} \mathbb{E}\left[e_{t-\ell} e_{t}^{\prime} \otimes X_{t-\ell} X_{t}^{\prime}\right] .
+\end{aligned}
+\]</span></p>
+<p>This theorem does not require that the true process is a VAR. Instead, the coefficients are defined as those which produce the best (mean square) approximation, and the only requirements on the true process are general dependence conditions. The theorem shows that the coefficient estimators are asymptotically normal with a covariance matrix which takes a “long-run” sandwich form.</p>
+</section>
+<section id="covariance-matrix-estimation" class="level2" data-number="15.11">
+<h2 data-number="15.11" class="anchored" data-anchor-id="covariance-matrix-estimation"><span class="header-section-number">15.11</span> Covariance Matrix Estimation</h2>
+<p>The classic homoskedastic estimator of the covariance matrix for <span class="math inline">\(\widehat{a}\)</span> equals</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{a}}^{0}=\widehat{\Sigma} \otimes\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} .
+\]</span></p>
+<p>Estimators adjusted for degree-of-freedom can also be used though there is no established finite-sample justification. This variance estimator is appropriate under the assumption that the conditional expectation is correctly specified as a <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> and the innovations are conditionally homoskedastic.</p>
+<p>The heteroskedasticity-robust estimator equals</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}_{\widehat{a}}=\left(\boldsymbol{I}_{n} \otimes\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right)\left(\sum_{t=1}^{n}\left(\widehat{e}_{t} \widehat{e}_{t}^{\prime} \otimes X_{t} X_{t}^{\prime}\right)\right)\left(\boldsymbol{I}_{n} \otimes\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) .
+\]</span></p>
+<p>This variance estimator is appropriate under the assumption that the conditional expectation is correctly specified as a <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> but does not require that the innovations are conditionally homoskedastic. The Newey-West estimator equals</p>
+<p><span class="math display">\[
+\begin{aligned}
+\widehat{\boldsymbol{V}}_{\widehat{a}} &amp;=\left(\boldsymbol{I}_{n} \otimes\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) \widehat{\Omega}_{M}\left(\boldsymbol{I}_{n} \otimes\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1}\right) \\
+\widehat{\Omega}_{M} &amp;=\sum_{\ell=-M}^{M} w_{\ell} \sum_{1 \leq t-\ell \leq n}\left(\widehat{e}_{t-\ell} \otimes X_{t-\ell}\right)\left(\widehat{e}_{t} \otimes X_{t}^{\prime}\right) \\
+w_{\ell} &amp;=1-\frac{|\ell|}{M+1} .
+\end{aligned}
+\]</span></p>
+<p>The number <span class="math inline">\(M\)</span> is called the lag truncation number. An unweighted version sets <span class="math inline">\(w_{\ell}=1\)</span>. The Newey-West estimator does not require that the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> is correctly specified.</p>
+<p>Traditional textbooks have only used the homoskedastic variance estimation formula (15.9) and consequently existing software follows the same convention. For example, the var command in Stata displays only homoskedastic standard errors. Some researchers use the heteroskedasticity-robust estimator (15.10). The Newey-West estimator (15.11) is not commonly used for VAR models.</p>
+<p>Asymptotic approximations tend to be much less accurate under time series dependence than for independent observations. Therefore bootstrap methods are popular. In Section <span class="math inline">\(14.46\)</span> we described several bootstrap methods for time series observations. While Section <span class="math inline">\(14.46\)</span> focused on univariate time series, the extension to multivariate observations is straightforward.</p>
+</section>
+<section id="selection-of-lag-length-in-an-var" class="level2" data-number="15.12">
+<h2 data-number="15.12" class="anchored" data-anchor-id="selection-of-lag-length-in-an-var"><span class="header-section-number">15.12</span> Selection of Lag Length in an VAR</h2>
+<p>For a data-dependent rule to pick the lag length <span class="math inline">\(p\)</span> it is recommended to minimize an information criterion. The formula for the AIC is</p>
+<p><span class="math display">\[
+\begin{aligned}
+\operatorname{AIC}(p) &amp;=n \log \operatorname{det} \widehat{\Sigma}(p)+2 K(p) \\
+\widehat{\Sigma}(p) &amp;=\frac{1}{n} \sum_{t=1}^{n} \widehat{e}_{t}(p) \widehat{e}_{t}(p)^{\prime} \\
+K(p) &amp;=m(p m+1)
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(K(p)\)</span> is the number of parameters and <span class="math inline">\(\widehat{e}_{t}(p)\)</span> is the OLS residual vector from the model with <span class="math inline">\(p\)</span> lags. The log determinant is the criterion from the multivariate normal likelihood.</p>
+<p>In Stata the AIC for a set of estimated VAR models can be compared using the varsoc command. It should be noted, however, that the Stata routine actually displays <span class="math inline">\(\operatorname{AIC}(p) / n=\log \operatorname{det} \widehat{\Sigma}(p)+2 K(p) / n\)</span>. This does not affect the ranking of the models but makes the differences between models appear misleadingly small.</p>
+</section>
+<section id="illustration" class="level2" data-number="15.13">
+<h2 data-number="15.13" class="anchored" data-anchor-id="illustration"><span class="header-section-number">15.13</span> Illustration</h2>
+<p>We estimate a three-variable system which is a simplified version of a model often used to study the impact of monetary policy. The three variables are quarterly from FRED-QD: real GDP growth rate <span class="math inline">\(\left(100 \Delta \log \left(G D P_{t}\right)\right)\)</span>, GDP inflation rate <span class="math inline">\(\left(100 \Delta \log \left(P_{t}\right)\right)\)</span>, and the Federal funds interest rate. VARs from lags 1 through 8 were estimated by least squares. The model with the smallest AIC is the VAR(6). The coefficient estimates and (homoskedastic) standard errors for the VAR(6) are reported in Table 15.1.</p>
+<p>Examining the coefficients in the table we can see that GDP displays a moderate degree of serial correlation and shows a large response to the federal funds rate, especially at lags 2 and 3. Inflation also displays serial correlation, shows minimal response to GDP, and also has meaningful response to the federal funds rate. The federal funds rate has the strongest serial correlation. Overall, it is difficult to read too much meaning into the coefficient estimates due to the complexity of the interactions. Because of this difficulty it is typical to focus on other representations of the coefficient estimates such as impulse responses which we discuss in the upcoming sections.</p>
+</section>
+<section id="predictive-regressions" class="level2" data-number="15.14">
+<h2 data-number="15.14" class="anchored" data-anchor-id="predictive-regressions"><span class="header-section-number">15.14</span> Predictive Regressions</h2>
+<p>In some contexts (including prediction) it is useful to consider models where the dependent variable is dated multiple periods ahead of the right-hand-side variables. These equations can be single equation or multivariate; we can consider both as special cases of a VAR (as a single equation model can be written as one equation taken from a VAR system). An <span class="math inline">\(h\)</span>-step predictive VAR(p) takes the form</p>
+<p><span class="math display">\[
+Y_{t+h}=b_{0}+\boldsymbol{B}_{1} Y_{t}+\cdots+\boldsymbol{B}_{p} Y_{t-p+1}+u_{t} .
+\]</span></p>
+<p>The integer <span class="math inline">\(h \geq 1\)</span> is the horizon. A one-step predictive VAR equals a standard VAR. The coefficients should be viewed as the best linear predictors of <span class="math inline">\(Y_{t+h}\)</span> given <span class="math inline">\(\left(Y_{t}, \ldots, Y_{t-p+1}\right)\)</span>.</p>
+<p>There is an interesting relationship between a VAR model and the corresponding <span class="math inline">\(h\)</span>-step predictive VAR model.</p>
+<p>Theorem 15.12 If <span class="math inline">\(Y_{t}\)</span> is a <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> process then its <span class="math inline">\(h\)</span>-step predictive regression is a predictive <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> with <span class="math inline">\(u_{t}\)</span> a MA(h-1) process and <span class="math inline">\(\boldsymbol{B}_{1}=\Theta_{h}=\operatorname{IRF}(h)\)</span>.</p>
+<p>The proof of Theorem <span class="math inline">\(15.12\)</span> is presented in Section 15.31.</p>
+<p>There are several implications of this theorem. First, if <span class="math inline">\(Y_{t}\)</span> is a <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> process then the correct number of lags for an <span class="math inline">\(h\)</span>-step predictive regression is also <span class="math inline">\(p\)</span> lags. Second, the error in a predictive regression is a MA process and is thus serially correlated. The linear dependence, however, is capped by the horizon. Third, the leading coefficient matrix corresponds to the <span class="math inline">\(h^{\text {th }}\)</span> moving average coefficient matrix which also equals the <span class="math inline">\(h^{\text {th }}\)</span> impulse response matrix.</p>
+<p>The predictive regression (15.12) can be estimated by least squares. We can write the estimates as</p>
+<p><span class="math display">\[
+Y_{t+h}=\widehat{b}_{0}+\widehat{\boldsymbol{B}}_{1} Y_{t}+\cdots+\widehat{\boldsymbol{B}}_{p} Y_{t-p+1}+\widehat{u}_{t} .
+\]</span></p>
+<p>For a distribution theory we need to apply Theorem <span class="math inline">\(15.11\)</span> since the innovations <span class="math inline">\(u_{t}\)</span> are a moving average and thus violate the MDS assumption. It follows as well that the covariance matrix for the estimators should be estimated by the Newey-West (15.11) estimator. There is a difference, however. Since <span class="math inline">\(u_{t}\)</span> is known to be a MA(h-1) a reasonable choice is to set <span class="math inline">\(M=h-1\)</span> and use the simple weights <span class="math inline">\(w_{\ell}=1\)</span>. Indeed, this was the original suggestion by L. Hansen and Hodrick (1980).</p>
+<p>For a distributional theory we can apply Theorem 15.11. Let <span class="math inline">\(b\)</span> be the vector of coefficients in (15.12) and <span class="math inline">\(\widehat{b}\)</span> the corresponding least squares estimator. Let <span class="math inline">\(X_{t}\)</span> be the vector of regressors in (15.12). Table 15.1: Vector Autoregression</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(G D P_{t-1}\)</span></th>
+<th><span class="math inline">\(0.25\)</span></th>
+<th><span class="math inline">\(0.01\)</span></th>
+<th><span class="math inline">\(0.08\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(G D P_{t-2}\)</span></td>
+<td><span class="math inline">\(0.23\)</span></td>
+<td><span class="math inline">\(-0.02\)</span></td>
+<td><span class="math inline">\(0.04\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(G D P_{t-3}\)</span></td>
+<td><span class="math inline">\(0.00\)</span></td>
+<td><span class="math inline">\(0.03\)</span></td>
+<td><span class="math inline">\(0.01\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(G D P_{t-4}\)</span></td>
+<td><span class="math inline">\(0.14\)</span></td>
+<td><span class="math inline">\(0.04\)</span></td>
+<td><span class="math inline">\(-0.02\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(G D P_{t-5}\)</span></td>
+<td><span class="math inline">\(-0.02\)</span></td>
+<td><span class="math inline">\(-0.03\)</span></td>
+<td><span class="math inline">\(0.04\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(G D P_{t-6}\)</span></td>
+<td><span class="math inline">\(0.05\)</span></td>
+<td><span class="math inline">\(-0.00\)</span></td>
+<td><span class="math inline">\(-0.01\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.06)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+<td><span class="math inline">\((0.02)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(I N F_{t-1}\)</span></td>
+<td><span class="math inline">\(0.11\)</span></td>
+<td><span class="math inline">\(0.57\)</span></td>
+<td><span class="math inline">\(0.01\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.20)\)</span></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.05)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(I N F_{t-2}\)</span></td>
+<td><span class="math inline">\(-0.17\)</span></td>
+<td><span class="math inline">\(0.10\)</span></td>
+<td><span class="math inline">\(0.17\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.23)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+<td><span class="math inline">\((0.06)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(I N F_{t-3}\)</span></td>
+<td><span class="math inline">\(0.01\)</span></td>
+<td><span class="math inline">\(0.09\)</span></td>
+<td><span class="math inline">\(-0.05\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.23)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+<td><span class="math inline">\((0.06)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(I N F_{t-4}\)</span></td>
+<td><span class="math inline">\(0.16\)</span></td>
+<td><span class="math inline">\(0.14\)</span></td>
+<td><span class="math inline">\(-0.05\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.23)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+<td><span class="math inline">\((0.06)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(I N F_{t-5}\)</span></td>
+<td><span class="math inline">\(0.12\)</span></td>
+<td><span class="math inline">\(-0.05\)</span></td>
+<td><span class="math inline">\(-0.05\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.24)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+<td><span class="math inline">\((0.06)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(I N F_{t-6}\)</span></td>
+<td><span class="math inline">\(-0.14\)</span></td>
+<td><span class="math inline">\(0.10\)</span></td>
+<td><span class="math inline">\(0.09\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.21)\)</span></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+<td><span class="math inline">\((0.05)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F F_{t-1}\)</span></td>
+<td><span class="math inline">\(0.13\)</span></td>
+<td><span class="math inline">\(0.28\)</span></td>
+<td><span class="math inline">\(1.14\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.26)\)</span></td>
+<td><span class="math inline">\((0.08)\)</span></td>
+<td><span class="math inline">\((0.07)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F F_{t-2}\)</span></td>
+<td><span class="math inline">\(-1.50\)</span></td>
+<td><span class="math inline">\(-0.27\)</span></td>
+<td><span class="math inline">\(-0.53\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.38)\)</span></td>
+<td><span class="math inline">\((0.12)\)</span></td>
+<td><span class="math inline">\((0.10)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F F_{t-3}\)</span></td>
+<td><span class="math inline">\(1.40\)</span></td>
+<td><span class="math inline">\(0.12\)</span></td>
+<td><span class="math inline">\(0.53\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.40)\)</span></td>
+<td><span class="math inline">\((0.13)\)</span></td>
+<td><span class="math inline">\((0.10)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(F F_{t-4}\)</span></td>
+<td><span class="math inline">\(-0.57\)</span></td>
+<td><span class="math inline">\(-0.13\)</span></td>
+<td><span class="math inline">\(-0.28\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.41)\)</span></td>
+<td><span class="math inline">\((0.13)\)</span></td>
+<td><span class="math inline">\((0.11)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\(0.01\)</span></td>
+<td><span class="math inline">\(0.25\)</span></td>
+<td><span class="math inline">\(0.28\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.40)\)</span></td>
+<td><span class="math inline">\((0.13)\)</span></td>
+<td><span class="math inline">\((0.10)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td></td>
+<td><span class="math inline">\(-0.27\)</span></td>
+<td><span class="math inline">\(-0.24\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td><span class="math inline">\((0.18)\)</span></td>
+<td><span class="math inline">\((0.14)\)</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Theorem 15.13 If <span class="math inline">\(Y_{t}\)</span> is strictly stationary, ergodic, <span class="math inline">\(\Sigma&gt;0\)</span>, and for some <span class="math inline">\(r&gt;4\)</span>, <span class="math inline">\(\mathbb{E}\left\|Y_{t}\right\|^{r}&lt;\infty\)</span> and the mixing coefficients satisfy <span class="math inline">\(\sum_{\ell=1}^{\infty} \alpha(\ell)^{1-4 / r}&lt;\infty\)</span>, then as <span class="math inline">\(n \rightarrow\)</span> <span class="math inline">\(\infty, \sqrt{n}(\widehat{b}-b) \underset{d}{\longrightarrow} \mathrm{N}(0, V)\)</span> where</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{V} &amp;=\left(\boldsymbol{I}_{m} \otimes \boldsymbol{Q}^{-1}\right) \Omega\left(\boldsymbol{I}_{m} \otimes \boldsymbol{Q}^{-1}\right) \\
+\boldsymbol{Q} &amp;=\mathbb{E}\left[X_{t} X_{t}^{\prime}\right] \\
+\Omega &amp;=\sum_{\ell=-\infty}^{\infty} \mathbb{E}\left[\left(\widehat{u}_{t-\ell} \otimes X_{t-\ell}\right)\left(\widehat{u}_{t}^{\prime} \otimes X_{t}^{\prime}\right)\right] .
+\end{aligned}
+\]</span></p>
+</section>
+<section id="impulse-response-estimation" class="level2" data-number="15.15">
+<h2 data-number="15.15" class="anchored" data-anchor-id="impulse-response-estimation"><span class="header-section-number">15.15</span> Impulse Response Estimation</h2>
+<p>Reporting of impulse response estimates is one of the most common applications of vector autoregressive modeling. There are several methods to estimate the impulse response function. In this section we review the most common estimator based on the estimated VAR parameters.</p>
+<p>Within a VAR(p) model the impulse responses are determined by the VAR coefficients. We can write this mapping as <span class="math inline">\(\Theta_{h}=g_{h}(\boldsymbol{A})\)</span>. The plug-in approach suggests the estimator <span class="math inline">\(\widehat{\Theta}_{h}=g_{h}(\widehat{\boldsymbol{A}})\)</span> given the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> coefficient estimator <span class="math inline">\(\widehat{A}\)</span>. These are the impulse responses implied by the estimated VAR coefficients. While it is possible to explicitly write the function <span class="math inline">\(g_{h}(\boldsymbol{A})\)</span>, a computationally simple approach is to use Theorem <span class="math inline">\(15.5\)</span> which shows that the impulse response matrices can be written as a simple recursion in the VAR coefficients. Thus the impulse response estimator satisfies the recursion</p>
+<p><span class="math display">\[
+\widehat{\Theta}_{h}=\sum_{\ell=1}^{\min [h, p]} \widehat{A}_{\ell} \widehat{\Theta}_{h-\ell} .
+\]</span></p>
+<p>We then set <span class="math inline">\(\widehat{\operatorname{IRF}}(h)=\widehat{\Theta}_{h}\)</span>.</p>
+<p>This is the the most commonly used method for impulse response estimation and it is the method implemented in standard packages.</p>
+<p>Since <span class="math inline">\(\widehat{A}\)</span> is random so is <span class="math inline">\(\widehat{\operatorname{IRF}}(h)\)</span> as it is a nonlinear function of <span class="math inline">\(\widehat{\boldsymbol{A}}\)</span>. Using the delta method, we deduce that the elements of <span class="math inline">\(\widehat{\operatorname{IRF}}(h)\)</span> (the impulse responses) are asymptotically normally distributed. With some messy algebra explicit expressions for the asymptotic variances can be obtained. Sample versions can be used to calculate asymptotic standard errors. These can be used to form asymptotic confidence intervals for the impulse responses.</p>
+<p>The asymptotic approximations, however, can be poor. As we discussed earlier the asymptotic approximations for the distribution of the coefficients <span class="math inline">\(\widehat{A}\)</span> can be poor due to the serial dependence in the observations. The asymptotic approximations for <span class="math inline">\(\widehat{\operatorname{IRF}}(h)\)</span> can be significantly worse because the impulse responses are highly nonlinear functions of the coefficients. For example, in the simple AR(1) model with coefficient estimate <span class="math inline">\(\widehat{\alpha}\)</span> the <span class="math inline">\(h^{\text {th }}\)</span> impulse response is <span class="math inline">\(\widehat{\alpha}^{h}\)</span> which is highly nonlinear for even moderate horizons <span class="math inline">\(h\)</span>.</p>
+<p>Consequently, asymptotic approximations are less popular than bootstrap approximations. The most popular bootstrap approximation uses the recursive bootstrap (see Section 14.46) using the fitted VAR model and calculates confidence intervals for the impulse responses with the percentile method. An unfortunate feature of this choice is that the percentile bootstrap confidence interval is biased since the nonlinear impulse response estimates are biased and the percentile bootstrap accentuates bias. Some advantages of the estimation method as described is that it produces impulse response estimates which are directly related to the estimated <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> model and are internally consistent with one another. The method is also numerically stable. It is efficient when the true process is a true <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> with conditionally homoskedastic MDS innovations. When the true process is not a VAR(p) it can be thought of as a nonparametric estimator of the impulse response if <span class="math inline">\(p\)</span> is large (or selected appropriately in a data-dependent fashion, such as by the AIC).</p>
+<p>A disadvantage of this estimator is that it is a highly nonlinear function of the VAR coefficient estimators. Therefore the distribution of the impulse response estimator is unlikely to be well approximated by the normal distribution. When the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> is not the true process then it is possible that the nonlinear transformation accentuates the misspecification bias.</p>
+<p>Impulse response functions can be calculated and displayed in Stata using the irf command. The command irf create is used to calculate impulse response functions and confidence intervals. The default confidence intervals are asymptotic (delta method). Bootstrap (recursive method) standard errors can be substituted using the bs option. The command irf graph irf produces graphs of the impulse response function along with <span class="math inline">\(95 %\)</span> asymptotic confidence intervals. The command irf graph cirf produces the cumulative impulse response function. It may be useful to know that the impulse response estimates are unscaled so represent the response due to a one-unit change in the impulse variable. A limitation of the Stata irf command is that there are limited options for standard error and confidence interval construction. The asymptotic standard errors are calculated using the homoskedastic formula not the correct heteroskedastic formula. The bootstrap confidence intervals are calculated using the normal approximation bootstrap confidence interval, the least reliable bootstrap confidence interval method. Better options such as the bias-corrected percentile confidence interval are not provided as options.</p>
+</section>
+<section id="local-projection-estimator" class="level2" data-number="15.16">
+<h2 data-number="15.16" class="anchored" data-anchor-id="local-projection-estimator"><span class="header-section-number">15.16</span> Local Projection Estimator</h2>
+<p>Jordà (2005) observed that the impulse response can be estimated by a least squares predictive regression. The key is Theorem <span class="math inline">\(15.12\)</span> which established that <span class="math inline">\(\Theta_{h}=\boldsymbol{B}_{1}\)</span>, the leading coefficient matrix in the <span class="math inline">\(h\)</span>-step predictive regression.</p>
+<p>The method is as follows. For each horizon <span class="math inline">\(h\)</span> estimate a predictive regression (15.12) to obtain the leading coefficient matrix estimator <span class="math inline">\(\widehat{\boldsymbol{B}}_{1}\)</span>. The estimator is <span class="math inline">\(\widehat{\operatorname{IRF}}(h)=\widehat{\boldsymbol{B}}_{1}\)</span> and is known as the local projection estimator.</p>
+<p>Theorem <span class="math inline">\(15.13\)</span> shows that the local projection impulse response estimator is asymptotically normal. Newey-West methods must be used for calculation of asymptotic standard errors since the regression errors are serially correlated.</p>
+<p>Jordà (2005) speculates that the local projection estimator will be less sensitive to misspecification since it is a straightforward linear estimator. This is intuitive but unclear. Theorem <span class="math inline">\(15.12\)</span> relies on the assumption that <span class="math inline">\(Y_{t}\)</span> is a <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> process, and fails otherwise. Thus if the true process is not a VAR(p) then the coefficient matrix <span class="math inline">\(\boldsymbol{B}_{1}\)</span> in (15.12) does not correspond to the desired impulse response matrix <span class="math inline">\(\Theta_{h}\)</span> and hence will be misspecified. The accuracy (in the sense of low bias) of both the conventional and the local projection estimator relies on <span class="math inline">\(p\)</span> being sufficiently large that the <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> model is a good approximation to the true infinite-order regression (15.4). Without a formal theory it is difficult to know which estimator is more robust than the other.</p>
+<p>One implementation challenge is the choice of <span class="math inline">\(p\)</span>. While the method allows for <span class="math inline">\(p\)</span> to vary across horizon <span class="math inline">\(h\)</span> there is no well-established method for selection of the VAR order for predictive regressions. (Standard selection criteria such as AIC are inappropriate under serially correlated errors just as conventional standard errors are inappropriate.) Therefore the seemingly natural choice is to use the same <span class="math inline">\(p\)</span> for all horizons and base this choice on the one-step VAR model where AIC can be used for model selection.</p>
+<p>An advantage of the local projection method is that it is a linear estimator of the impulse response and thus likely to have a better-behaved sampling distribution.</p>
+<p>A disadvantage is that the method relies on a regression (15.12) that has serially correlated errors. The latter are highly correlated at long horizons and this renders the estimator imprecise. Local projection estimators tend to be less smooth and more erratic than those produced by the conventional estimator reflecting a possible lack of precision.</p>
+</section>
+<section id="regression-on-residuals" class="level2" data-number="15.17">
+<h2 data-number="15.17" class="anchored" data-anchor-id="regression-on-residuals"><span class="header-section-number">15.17</span> Regression on Residuals</h2>
+<p>If the innovations <span class="math inline">\(e_{t}\)</span> were observed it would be natural to directly estimate the coefficients of the multivariate Wold decomposition. We would pick a maximum horizon <span class="math inline">\(h\)</span> and then estimate the equation</p>
+<p><span class="math display">\[
+Y_{t}=\mu+\Theta_{1} e_{t-1}+\Theta_{2} e_{t-2}+\cdots+\Theta_{h} e_{t-h}+u_{t}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+u_{t}=e_{t}+\sum_{\ell=h+1}^{\infty} \Theta_{\ell} e_{t-\ell} .
+\]</span></p>
+<p>The variables <span class="math inline">\(\left(e_{t-1}, \ldots, e_{t-h}\right)\)</span> are uncorrelated with <span class="math inline">\(u_{t}\)</span> so the least squares estimator of the coefficients is consistent and asymptotically normal. Since <span class="math inline">\(u_{t}\)</span> is serially correlated the Newey-West method should be used to calculate standard errors.</p>
+<p>In practice the innovations <span class="math inline">\(e_{t}\)</span> are not observed. If they are replaced by the residuals <span class="math inline">\(\widehat{e}_{t}\)</span> from an estimated <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> then we can estimate the coefficients by least squares applied to the equation</p>
+<p><span class="math display">\[
+Y_{t}=\mu+\Theta_{1} \widehat{e}_{t-1}+\Theta_{2} \widehat{e}_{t-2}+\cdots+\Theta_{h} \widehat{e}_{t-h}+\widehat{u}_{t} .
+\]</span></p>
+<p>This idea originated with Durbin (1960).</p>
+<p>This is a two-step estimator with generated regressors. (See Section 12.26.) The impulse response estimators are consistent and asymptotically normal but with a non-standard covariance matrix due to the two-step estimation. Conventional, robust, and Newey-West standard errors do not account for this without modification.</p>
+<p>Chang and Sakata (2007) proposed a simplified version of the Durbin regression. Notice that for any horizon <span class="math inline">\(h\)</span> we can rewrite the Wold decomposition as</p>
+<p><span class="math display">\[
+Y_{t+h}=\mu+\Theta_{h} e_{t}+v_{t+h}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+v_{t}=\sum_{\ell=0}^{h-1} \Theta_{\ell} e_{t-\ell}+\sum_{\ell=h+1}^{\infty} \Theta_{\ell} e_{t-\ell} .
+\]</span></p>
+<p>The regressor <span class="math inline">\(e_{t}\)</span> is uncorrelated with <span class="math inline">\(v_{t+h}\)</span>. Thus <span class="math inline">\(\Theta_{h}\)</span> can be estimated by a regression of <span class="math inline">\(Y_{t+h}\)</span> on <span class="math inline">\(e_{t}\)</span>. In practice we can replace <span class="math inline">\(e_{t}\)</span> by the least squares residual <span class="math inline">\(\widehat{e}_{t}\)</span> from an estimated VAR(p) to estimate the regression</p>
+<p><span class="math display">\[
+Y_{t+h}=\mu+\Theta_{h} \widehat{e}_{t}+\widehat{v}_{t+h} .
+\]</span></p>
+<p>Similar to the Durbin regression the Chang-Sakata estimator is a two-step estimator with a generated regressor. However, as it takes the form studied in Section <span class="math inline">\(12.27\)</span> it can be shown that the Chang-Sakata two-step estimator has the same asymptotic distribution as the idealized one-step estimator as if <span class="math inline">\(e_{t}\)</span> were observed. Thus the standard errors do not need to be adjusted for generated regressors which is an advantage. The errors are serially correlated so Newey-West standard errors should be used. The variance of the error <span class="math inline">\(v_{t+h}\)</span> is larger than the variance of the error <span class="math inline">\(u_{t}\)</span> in the Durbin regression so the Chang-Sakata estimator may be less precise than the Durbin estimator.</p>
+<p>Chang and Sakata (2007) also point out the following implication of the FWL theorem. The least squares slope estimator in (15.14) is algebraically identical <span class="math inline">\({ }^{1}\)</span> to the slope estimator <span class="math inline">\(\widehat{\boldsymbol{B}}_{1}\)</span> in a predictive regression with <span class="math inline">\(p-1\)</span> lags. Thus the Chang-Sakata estimator is similar to a local projection estimator.</p>
+</section>
+<section id="orthogonalized-shocks" class="level2" data-number="15.18">
+<h2 data-number="15.18" class="anchored" data-anchor-id="orthogonalized-shocks"><span class="header-section-number">15.18</span> Orthogonalized Shocks</h2>
+<p>We can use the impulse response function to examine how the innnovations impact the time-paths of the variables. A difficulty in interpretation, however, is that the elements of the innovation vector <span class="math inline">\(e_{t}\)</span> are contemporeneously correlated. Thus <span class="math inline">\(e_{j t}\)</span> and <span class="math inline">\(e_{i t}\)</span> are (in general) not independent, so consequently it does not make sense to treat <span class="math inline">\(e_{j t}\)</span> and <span class="math inline">\(e_{i t}\)</span> as fundamental “shocks”. Another way of describing the problem is that it does not make sense, for example, to describe the impact of <span class="math inline">\(e_{j t}\)</span> while “holding” <span class="math inline">\(e_{i t}\)</span> constant.</p>
+<p>The natural solution is to orthogonalize the innovations so that they are uncorrelated and then view the orthogonalized errors as the fundamental “shocks”. Recall that <span class="math inline">\(e_{t}\)</span> is mean zero with covariance matrix <span class="math inline">\(\Sigma\)</span>. We can factor <span class="math inline">\(\Sigma\)</span> into the product of an <span class="math inline">\(m \times m\)</span> matrix <span class="math inline">\(\boldsymbol{B}\)</span> with its transpose <span class="math inline">\(\Sigma=\boldsymbol{B} \boldsymbol{B}^{\prime}\)</span>. The matrix <span class="math inline">\(\boldsymbol{B}\)</span> is called a “square root” of <span class="math inline">\(\Sigma\)</span>. (See Section A.13.) Define <span class="math inline">\(\varepsilon_{t}=\boldsymbol{B}^{-1} e_{t}\)</span>. The random vector <span class="math inline">\(\varepsilon_{t}\)</span> has mean zero and covariance matrix <span class="math inline">\(\boldsymbol{B}^{-1} \Sigma \boldsymbol{B}^{-1 \prime}=\boldsymbol{B}^{-1} \boldsymbol{B} \boldsymbol{B}^{\prime} \boldsymbol{B}^{-1 \prime}=\boldsymbol{I}_{m}\)</span>. The elements <span class="math inline">\(\varepsilon_{t}=\left(\varepsilon_{1 t}, \ldots, \varepsilon_{m t}\right)\)</span> are mutually uncorrelated. We can write the innovations as a function of the orthogonalized errors as</p>
+<p><span class="math display">\[
+e_{t}=\boldsymbol{B} \varepsilon_{t} .
+\]</span></p>
+<p>To distinguish <span class="math inline">\(\varepsilon_{t}\)</span> from <span class="math inline">\(e_{t}\)</span> we will typically call <span class="math inline">\(\varepsilon_{t}\)</span> the “orthogonalized shocks” or more simply as the “shocks” and continue to call <span class="math inline">\(e_{t}\)</span> the “innovations”.</p>
+<p>When <span class="math inline">\(m&gt;1\)</span> there is not a unique square root matrix <span class="math inline">\(\boldsymbol{B}\)</span> so there is not a unique orthogonalization. The most common choice (and was originally advocated by Sims (1980)) is the Cholesky decomposition (see Section A.16). This sets <span class="math inline">\(\boldsymbol{B}\)</span> to be lower triangular, meaning that it takes the form</p>
+<p><span class="math display">\[
+\boldsymbol{B}=\left[\begin{array}{ccc}
+b_{11} &amp; 0 &amp; 0 \\
+b_{21} &amp; b_{22} &amp; 0 \\
+b_{31} &amp; b_{32} &amp; b_{33}
+\end{array}\right]
+\]</span></p>
+<p>with non-negative diagonal elements. We can write the Cholesky decomposition of a matrix <span class="math inline">\(\boldsymbol{A}\)</span> as <span class="math inline">\(\boldsymbol{C}=\)</span> <span class="math inline">\(\operatorname{chol}(\boldsymbol{A})\)</span> which means that <span class="math inline">\(\boldsymbol{A}=\boldsymbol{C} \boldsymbol{C}^{\prime}\)</span> with <span class="math inline">\(\boldsymbol{C}\)</span> lower triangular. We thus set</p>
+<p><span class="math display">\[
+\boldsymbol{B}=\operatorname{chol}(\Sigma)
+\]</span></p>
+<p>Equivalently, the innovations are related to the orthogonalized shocks by the equations</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;e_{1 t}=b_{11} \varepsilon_{1 t} \\
+&amp;e_{2 t}=b_{21} \varepsilon_{1 t}+b_{22} \varepsilon_{2 t} \\
+&amp;e_{3 t}=b_{31} \varepsilon_{1 t}+b_{31} \varepsilon_{2 t}+b_{33} \varepsilon_{3 t} .
+\end{aligned}
+\]</span></p>
+<p>This structure is recursive. The innovation <span class="math inline">\(e_{1 t}\)</span> is a function only of the single shock <span class="math inline">\(\varepsilon_{1 t}\)</span>. The innovation <span class="math inline">\(e_{2 t}\)</span> is a function of the shocks <span class="math inline">\(\varepsilon_{1 t}\)</span> and <span class="math inline">\(\varepsilon_{2 t}\)</span>, and the innovation <span class="math inline">\(e_{3 t}\)</span> is a function of all three shocks. Another way of looking at the structure is that the first shock <span class="math inline">\(\varepsilon_{1 t}\)</span> affects all three innovationa, the second shock <span class="math inline">\(\varepsilon_{2 t}\)</span> affects <span class="math inline">\(e_{2 t}\)</span> and <span class="math inline">\(e_{3 t}\)</span>, and the third shock <span class="math inline">\(\varepsilon_{3 t}\)</span> only affects <span class="math inline">\(e_{3 t}\)</span>.</p>
+<p><span class="math inline">\({ }^{1}\)</span> Technically, if the sample lengths are adjusted. A recursive structure is an exclusion restriction. The recursive structure excludes <span class="math inline">\(\varepsilon_{2 t}\)</span> and <span class="math inline">\(\varepsilon_{3 t}\)</span> contemporeneously affecting <span class="math inline">\(e_{1 t}\)</span>, and excludes <span class="math inline">\(\varepsilon_{3 t}\)</span> contemporeneously affecting <span class="math inline">\(e_{2 t}\)</span>.</p>
+<p>When using the Cholesky decomposition the recursive structure is determined by the ordering of the variables in the system. The order matters and is the key identifying assumption. We will return to this issue later.</p>
+<p>Finally, we mention that the system (15.15) is equivalent to the system</p>
+<p><span class="math display">\[
+A e_{t}=\varepsilon_{t}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{A}=\boldsymbol{B}^{-1}\)</span> is lower triangular when <span class="math inline">\(\boldsymbol{B}\)</span> is lower triangular. The representation (15.15) is more convenient, however, for most of our purposes.</p>
+</section>
+<section id="orthogonalized-impulse-response-function" class="level2" data-number="15.19">
+<h2 data-number="15.19" class="anchored" data-anchor-id="orthogonalized-impulse-response-function"><span class="header-section-number">15.19</span> Orthogonalized Impulse Response Function</h2>
+<p>We have defined the impulse response function as the change in the time <span class="math inline">\(t\)</span> projection of the variables <span class="math inline">\(Y_{t+h}\)</span> due to the innovation <span class="math inline">\(e_{t}\)</span>. As we discussed in the previous section, since the innovations are contemporeneously correlated it makes better sense to focus on changes due to the orthogonalized shocks <span class="math inline">\(\varepsilon_{t}\)</span>. Consequently we define the orthgonalized impulse response function (OIRF) as</p>
+<p><span class="math display">\[
+\operatorname{OIRF}(h)=\frac{\partial}{\partial \varepsilon_{t}^{\prime}} \mathscr{P}_{t}\left[Y_{t+h}\right] .
+\]</span></p>
+<p>We can write the multivariate Wold representation as</p>
+<p><span class="math display">\[
+Y_{t}=\mu+\sum_{\ell=0}^{\infty} \Theta_{\ell} e_{t-\ell}=\mu+\sum_{\ell=0}^{\infty} \Theta_{\ell} \boldsymbol{B} \varepsilon_{t-\ell}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{B}\)</span> is from (15.16). We deduce that</p>
+<p><span class="math display">\[
+\operatorname{OIRF}(h)=\Theta_{h} \boldsymbol{B}=\operatorname{IRF}(h) \boldsymbol{B} .
+\]</span></p>
+<p>This is the non-orthogonalized impulse response matrix multiplied by the matrix square root <span class="math inline">\(\boldsymbol{B}\)</span>.</p>
+<p>Write the rows of the matrix <span class="math inline">\(\Theta_{h}\)</span> as</p>
+<p><span class="math display">\[
+\Theta_{h}=\left[\begin{array}{c}
+\theta_{1 h}^{\prime} \\
+\theta_{m h}^{\prime}
+\end{array}\right]
+\]</span></p>
+<p>and the columns of the matrix <span class="math inline">\(\boldsymbol{B}\)</span> as <span class="math inline">\(\boldsymbol{B}=\left[b_{1}, \ldots, b_{m}\right]\)</span>. We can see that</p>
+<p><span class="math display">\[
+\operatorname{OIRF}_{i j}(h)=\left[\Theta_{h} \boldsymbol{B}\right]_{i j}=\theta_{i h}^{\prime} b_{j} .
+\]</span></p>
+<p>There are <span class="math inline">\(m^{2}\)</span> such responses for each horizon <span class="math inline">\(h\)</span>.</p>
+<p>The cumulative orthogonalized impulse response function (COIRF) is</p>
+<p><span class="math display">\[
+\operatorname{COIRF}(h)=\sum_{\ell=1}^{h} \operatorname{OIRF}(\ell)=\sum_{\ell=1}^{h} \Theta_{\ell} \boldsymbol{B}
+\]</span></p>
+</section>
+<section id="orthogonalized-impulse-response-estimation" class="level2" data-number="15.20">
+<h2 data-number="15.20" class="anchored" data-anchor-id="orthogonalized-impulse-response-estimation"><span class="header-section-number">15.20</span> Orthogonalized Impulse Response Estimation</h2>
+<p>We have discussed estimation of the moving average matrices <span class="math inline">\(\Theta_{\ell}\)</span>. We need an estimator of <span class="math inline">\(\boldsymbol{B}\)</span>.</p>
+<p>We first estimate the VAR(p) model by least squares. This gives us the coefficient matrices <span class="math inline">\(\widehat{A}\)</span> and the error covariance matrix <span class="math inline">\(\widehat{\Sigma}\)</span>. From the latter we apply the Cholesky decomposition <span class="math inline">\(\widehat{\boldsymbol{B}}=\operatorname{chol}(\widehat{\Sigma})\)</span> so that <span class="math inline">\(\widehat{\Sigma}=\widehat{\boldsymbol{B}} \widehat{\boldsymbol{B}}^{\prime}\)</span>. (See Section A.16 for the algorithm.) The orthogonalized impulse response estimators are</p>
+<p><span class="math display">\[
+\widehat{\operatorname{OIRF}}(h)=\widehat{\Theta}_{h} \widehat{\boldsymbol{B}}=\widehat{\theta}_{i h}^{\prime} \widehat{b}_{j} .
+\]</span></p>
+<p>The estimator <span class="math inline">\(\widehat{\mathrm{OIRF}}(h)\)</span> is a nonlinear function of <span class="math inline">\(\widehat{\boldsymbol{A}}\)</span> and <span class="math inline">\(\widehat{\Sigma}\)</span>. It is asymptotically normally distributed by the delta method. This allows for explicit calculation of asymptotic standard errors. These can be used to form asymptotic confidence intervals for the impulse responses.</p>
+<p>As discussed earlier, the asymptotic approximations can be quite poor. Consequently bootstrap approximations are more widely used than asymptotic methods.</p>
+<p>Orthogonalized impulse response functions can be displayed in Stata using the irf command. The command irf graph oirf produces graphs of the orthogonalized impulse response function along with <span class="math inline">\(95 %\)</span> asymptotic confidence intervals. The command irf graph coirf produces the cumulative orthogonalized impulse response function. It may also be useful to know that the OIRF are scaled for a one-standard deviation shock so the impulse response represents the response due to a one-standarddeviation change in the impulse variable. As discussed earlier, the Stata irf command has limited options for standard error and confidence interval construction. The asymptotic standard errors are calculated using the homoskedastic formula not the correct heteroskedastic formula. The bootstrap confidence intervals are calculated using the normal approximation bootstrap confidence interval.</p>
+</section>
+<section id="illustration-1" class="level2" data-number="15.21">
+<h2 data-number="15.21" class="anchored" data-anchor-id="illustration-1"><span class="header-section-number">15.21</span> Illustration</h2>
+<p>To illustrate we use the three-variable system from Section 15.13. We use the ordering (1) real GDP growth rate, (2) inflation rate, (3) Federal funds interest rate. We discuss the choice later when we discuss identification. We use the estimated VAR(6) and calculate the orthogonalized impulse response functions using the standard VAR estimator.</p>
+<p>In Figure <span class="math inline">\(15.1\)</span> we display the estimated orthogonalized impulse response of the GDP growth rate in response to a one standard deviation increase in the federal funds rate. Panel (a) shows the impulse response function and panel (b) the cumulative impulse response function. As we discussed earlier the interpretation of the impulse response and the cumulative impulse response depends on whether the variable enters the VAR in differences or in levels. In this case, GDP growth is the first difference of the natural logarithm. Thus panel (a) (the impulse response function) shows the effect of interest rates on the growth rate of GDP. Panel (b) (the cumulative impulse response) shows the effect on the log-level of GDP. The IRF shows that the GDP growth rate is negatively affected in the second quarter after an interest rate increase (a drop of about <span class="math inline">\(0.2 %\)</span>, non-annualized), and the negative effects continue for several quarters following. The CIRF shows the effect on the level of GDP measured as percentage changes. It shows that an interest rate increase causes GDP to fall for about 8 quarters, reducing GDP by about <span class="math inline">\(0.6 %\)</span>.</p>
+</section>
+<section id="forecast-error-decomposition" class="level2" data-number="15.22">
+<h2 data-number="15.22" class="anchored" data-anchor-id="forecast-error-decomposition"><span class="header-section-number">15.22</span> Forecast Error Decomposition</h2>
+<p>An alternative tool to investigate an estimated VAR is the forecast error decomposition which decomposes multi-step forecast error variances by the component shocks. The forecast error decomposition indicates which shocks contribute towards the fluctuations of each variable in the system.</p>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-19.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Impulse Response Function</li>
+</ol>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-19(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Cumulative IRF</li>
+</ol>
+<p>Figure 15.1: Response of GDP Growth to Orthogonalized Fed Funds Shock</p>
+<p>It is defined as follows. Take the moving average representation of the <span class="math inline">\(i^{\text {th }}\)</span> variable <span class="math inline">\(Y_{i, t+h}\)</span> written as a function of the orthogonalized shocks</p>
+<p><span class="math display">\[
+Y_{i, t+h}=\mu_{i}+\sum_{\ell=0}^{\infty} \theta_{i}(\ell)^{\prime} \boldsymbol{B} \varepsilon_{t+h-\ell} .
+\]</span></p>
+<p>The best linear forecast of <span class="math inline">\(Y_{t+h}\)</span> at time <span class="math inline">\(t\)</span> is</p>
+<p><span class="math display">\[
+Y_{i, t+h \mid t}=\mu_{i}+\sum_{\ell=h}^{\infty} \theta_{i}(\ell)^{\prime} \boldsymbol{B} \varepsilon_{t+h-\ell} .
+\]</span></p>
+<p>The <span class="math inline">\(h\)</span>-step forecast error is the difference</p>
+<p><span class="math display">\[
+Y_{i, t+h}-Y_{i, t+h \mid t}=\sum_{\ell=0}^{h-1} \theta_{i}(\ell)^{\prime} \boldsymbol{B} \varepsilon_{t+h-\ell} .
+\]</span></p>
+<p>The variance of this forecast error is</p>
+<p><span class="math display">\[
+\operatorname{var}\left[Y_{i, t+h}-Y_{i, t+h \mid t}\right]=\sum_{\ell=0}^{h-1} \operatorname{var}\left[\theta_{i}(\ell)^{\prime} \boldsymbol{B} \varepsilon_{t+h-\ell}\right]=\sum_{\ell=0}^{h-1} \theta_{i}(\ell)^{\prime} \boldsymbol{B} \boldsymbol{B}^{\prime} \theta_{i}(\ell) .
+\]</span></p>
+<p>To isolate the contribution of the <span class="math inline">\(j^{t h}\)</span> shock, notice that</p>
+<p><span class="math display">\[
+e_{t}=\boldsymbol{B} \varepsilon_{t}=b_{1} \varepsilon_{1 t}+\cdots+b_{m} \varepsilon_{m t} .
+\]</span></p>
+<p>Thus the contribution of the <span class="math inline">\(j^{t h}\)</span> shock is <span class="math inline">\(b_{j} \varepsilon_{j t}\)</span>. Now imagine replacing <span class="math inline">\(\boldsymbol{B} \varepsilon_{t}\)</span> in the variance calculation by the <span class="math inline">\(j^{t h}\)</span> contribution <span class="math inline">\(b_{j} \varepsilon_{j t}\)</span>. This is</p>
+<p><span class="math display">\[
+\operatorname{var}\left[Y_{i t+h}-Y_{i, t+h \mid t}\right]=\sum_{\ell=0}^{h-1} \operatorname{var}\left[\theta_{i}(\ell)^{\prime} b_{j} \varepsilon_{j t+h-\ell}\right]=\sum_{\ell=0}^{h-1}\left(\theta_{i}(\ell)^{\prime} b_{j}\right)^{2} .
+\]</span></p>
+<p>Examining (15.18) and using <span class="math inline">\(\boldsymbol{B}=\left[b_{1}, \ldots, b_{m}\right]\)</span> we can write (15.18) as</p>
+<p><span class="math display">\[
+\operatorname{var}\left[Y_{i, t+h}-Y_{i, t+h \mid t}\right]=\sum_{j=1}^{m} \sum_{\ell=0}^{h-1}\left(\theta_{i}(\ell)^{\prime} b_{j}\right)^{2} .
+\]</span></p>
+<p>The forecast error decomposition is defined as the ratio of the <span class="math inline">\(j^{t h}\)</span> contribution to the total which is the ratio of (15.19) to (15.20):</p>
+<p><span class="math display">\[
+\mathrm{FE}_{i j}(h)=\frac{\sum_{\ell=0}^{h-1}\left(\theta_{i}(\ell)^{\prime} b_{j}\right)^{2}}{\sum_{j=1}^{m} \sum_{\ell=0}^{h-1}\left(\theta_{i}(\ell)^{\prime} b_{j}\right)^{2}} .
+\]</span></p>
+<p>The <span class="math inline">\(\mathrm{FE}_{i j}(h)\)</span> lies in <span class="math inline">\([0,1]\)</span> and varies across <span class="math inline">\(h\)</span>. Small values indicate that <span class="math inline">\(\varepsilon_{j t}\)</span> contributes only a small amount to the variance of <span class="math inline">\(Y_{i t}\)</span>. Large values indicate that <span class="math inline">\(\varepsilon_{j t}\)</span> contributes a major amount of the variance of <span class="math inline">\(\varepsilon_{i t}\)</span>. version.</p>
+<p>A forecast error decomposition requires orthogonalized innovations. There is no non-orthogonalized</p>
+<p>The forecast error decomposition can be calculated and displayed in Stata using the irf command. The command irf graph fevd produces graphs of the forecast error decomposition along with <span class="math inline">\(95 %\)</span> asymptotic confidence intervals.</p>
+</section>
+<section id="identification-of-recursive-vars" class="level2" data-number="15.23">
+<h2 data-number="15.23" class="anchored" data-anchor-id="identification-of-recursive-vars"><span class="header-section-number">15.23</span> Identification of Recursive VARs</h2>
+<p>As we have discussed, a common method to orthogonalize the VAR errors is the lower triangular Cholesky decomposition which implies a recursive structure. The ordering of the variables is critical this recursive structure. Unless the errors are uncorrelated different orderings will lead to different impulse response functions and forecast error decompositions. The ordering must be selected by the user; there is no data-dependent choice.</p>
+<p>In order for impulse responses and forecast error decompositions to be interpreted causally the orthogonalization must be identified by the user based on a structural economic argument. The choice is similar to the exclusion restrictions necessary for specification of an instrumental variables regression. By ordering the variables recursively we are effectively imposing exclusion restrictions. Recall that in our empirical example we used the ordering: (1) real GDP growth rate, (2) inflation rate, (3) Federal funds interest rate. This means that in the equation for GDP we excluded the contemporeneous inflation rate and interest rate, and in the equation for inflation we excluded the contemporenous interest rate. These are exclusion restrictions. Are they justified?</p>
+<p>One approach is to order first the variables which are believed to be contemporaneously affected by the fewest number of shocks. One way of thinking about it is that they are the variables which are “most sticky” within a period. The variables listed last are those which are believed to be contemporanously affected by the greatest number of shocks. These are the ones which are able to respond within a single period to the shocks or are most flexible. In our example we listed output first, prices second and interest rates last. This is consistent with the view that output is effectively pre-determined (within a period) and does not (within a period) respond to price and interest rate movements. Prices are allowed to respond within a period in response to output changes but not in response to interest rate changes. The latter could be justified if interest rate changes affect investment decisions but the latter take at least one period to implement. By listing the federal funds rate last the model allows monetary policy to respond within a period to contemporeneous information about output and prices.</p>
+<p>In general, this line of reasoning suggests that production measures should be listed first, goods prices second, and financial prices last. This reasoning is more credible when the time periods are short, and less credible for longer time periods. Further justifications for possible recursive orderings can include: (1) information delays; (2) implementation delays; (3) institutions; (4) market structure; (5) homogeneity; (6) imposing estimates from other sources. In most cases such arguments can be made but will be viewed as debatable and restrictive. In any situation it is best to be explicit about your choice and reasoning.</p>
+<p>Returning to the empirical illustration it is fairly conventional to order the fed funds rate last. This allows the fed funds rate to respond to contemporeneous information about output and price growth and identifies the fed funds policy shock by the assumption that it does not have a contemporenous impact on the other variables. It is not clear, however, how to order the other two variables. For simplicity consider a traditional aggregate supply/aggregate demand model of the determination of output and the price level. If the aggregate supply curve is perfectly inelastic in the short run (one quarter) then output is effectively fixed (sticky) so changes in aggregate demand affect prices but not output. Changes in aggregate supply affect both output and prices. Thus we would want to order GDP first and inflation second. This choice would identify the GDP error as the aggregate supply shock. This is the ordering used in our example.</p>
+<p>In contrast, suppose that the aggregate supply curve is perfectly elastic in the short run. Then prices are fixed and output is flexible. Changes in aggregate supply affect both price and output but changes in aggregate demand only affect output. In this case we would want to order inflation first and GDP second. This choice identifies the inflation error as the aggregate supply shock, the opposite case from the previous assumption!</p>
+<p>If the choice between perfectly elastic and perfectly inelastic aggregate supply is not credible then the supply and demand shocks cannot be separately identified based on ordering alone. In this case the full set of impulse responses and error decompositions are not identified. However, a subset may be identified. In general, if the shocks can be ordered in groups then we can identify any shock for which a group has a single variable. In our example, consider the ordering (1) GDP and inflation; (2) federal funds rate. This means that the model assumes that GDP and inflation do not contemporeneously respond to interest rate movements but no other restrictions are imposed. In this case the fed funds policy shock is identified. This means that impulse responses of all three variables with respect to the policy shock are identified and similarly the forecast error composition of the effect of the fed funds shock on each variable is identified. These can be estimated by a VAR using the ordering (GDP, inflation, federal funds rate) as done in our example or using the ordering (inflation, GDP, federal funds rate). Both choices will lead to the same estimated impulse responses as described. The remaining impulse responses (responses to GDP and inflation shocks), however, will differ across these two orderings.</p>
+</section>
+<section id="oil-price-shocks" class="level2" data-number="15.24">
+<h2 data-number="15.24" class="anchored" data-anchor-id="oil-price-shocks"><span class="header-section-number">15.24</span> Oil Price Shocks</h2>
+<p>To further illustrate the identification of impulse response functions by recursive structural assumptions we repeat here some of the analysis from Kilian (2009). His paper concerns the identification of the factors affecting crude oil prices, in particular separating supply and demand shocks. The goal is to determine how oil prices respond to economic shocks and how the responses differ by the type of shock.</p>
+<p>To answer this question Kilian uses a three-variable VAR with monthly measures of global oil production, global economic activity, and the global price of crude oil for <span class="math inline">\(1973 \mathrm{~m} 2-2007 \mathrm{~m} 12\)</span>. He uses global variables since the price of crude oil is globally determined. One innovation in the paper is that Kilian develops a new index of global economic activity based on ocean freight rates. His motivation is that shipping rates are directly related to the global demand for industrial commodities. This data set is posted on the textbook webpage as Kilian2009.</p>
+<p>Kilian argues that these three variables are determined by three economic shocks: oil supply, aggregate demand, and oil demand. He suggests that oil supply shocks should be thought of as disruptions in production, processing, or shipping. Aggregate demand is global economic activity. Kilian also argues that oil demand shocks are primarily due to the precautionary demand for oil driven by uncertainty about future oil supply shortfalls.</p>
+<p>To identify the shocks Kilian makes the following exclusion restrictions. First, he assumes that the short-run (one month) supply of crude oil is inelastic with respect to price. Equivalently, oil production takes at least one month to respond to price changes. This restriction is believed to be plausible because of technological factors in crude oil production. It is costly to open new oil fields; and it is nearly impossible to cap an oil well once tapped. Second, Kilian assumes that in the short-run (one month) global real economic activity does not respond to changes in oil prices (due to shocks specific to the oil market), while economic activity is allowed to respond to oil production shocks. This assumption is viewed by Kilian as plausible due to the sluggishness in the response of economic activity to price changes. Crude oil prices, however, are allowed to respond simultaneously to all three shocks.</p>
+<p>Kilian’s identification strategy is similar to that described in the previous section for the simple aggregate demand/aggregate supply model. The separation of supply and demand shocks is achieved by exclusion restrictions which imply short-run inelasticities. The plausibility of these assumptions rests in part on the monthly frequency of the data. While it is plausible that oil production and economic activity may not respond within one month to price shocks, it is much less plausible that there is no response for a full quarter. Kilian’s least convincing identifying assumption (in my opinion) is the assumption that economic activity does not respond simultaneously to oil price changes. While much economic activity is pre-planned and hence sluggish to respond, some economic activity (recreational driving, for example) may immediately respond to price changes.</p>
+<p>Kilian estimates the three-variable VAR using 24 lags and calculates the orthogonalized impulse response functions using the ordering implied by these assumptions. He does not discuss the choice of 24 lags but presumably this is intended to allow for flexible dynamic responses. If the AIC is used for model selection, three lags would be selected. For the analysis reported here I used 4 lags. The results are qualitatively similar to those obtained using 24 lags. For ease of interpretation oil supply is entered negatively (multiplied by -1) so that all three shocks are scaled to increase oil prices. Two impulse response functions for the price of crude oil are displayed in Figure <span class="math inline">\(15.2\)</span> for 1-24 months. Panel (a) displays the response of crude oil prices due to an oil supply shock; panel (b) displays the response due to an aggregate demand shock. Notice that both figures have been displayed using the same y-axis scalings so that the figures are comparable.</p>
+<p>What is noticeable about the figures is how differently crude oil prices respond to the two shocks. Panel (a) shows that oil prices are only minimally affected by oil production shocks. There is an estimated small short term increase in oil prices, but it is not statistically significant and it reverses within one year. In contrast, panel (b) shows that oil prices are significantly affected by aggregate demand shocks and the effect cumulatively increases over two years. Presumaby, this is because economic activity relies on crude oil and output growth is positively serially correlated.</p>
+<p>The Kilian (2009) paper is an excellent example of how recursive orderings can be used to identify an orthogonalized VAR through a careful discussion of the causal system and the use of monthly observations.</p>
+</section>
+<section id="structural-vars" class="level2" data-number="15.25">
+<h2 data-number="15.25" class="anchored" data-anchor-id="structural-vars"><span class="header-section-number">15.25</span> Structural VARs</h2>
+<p>Recursive models do not allow for simultaneity between the elements of <span class="math inline">\(e_{t}\)</span> and thus the variables <span class="math inline">\(Y_{t}\)</span> cannot be contemporeneously endogenous. This is highly restrictive and may not credibly describe many economic systems. There is a general preference in the economics community for structural vector autoregressive models (SVARs) which use alternative identification restrictions which do not rely</p>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-23.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Supply Shock</li>
+</ol>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-23(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Aggregate Demand Schock</li>
+</ol>
+<p>Figure 15.2: Response of Oil Prices to Orthogonalized Shocks</p>
+<p>exclusively on recursiveness. Two popular categories of structural VAR models are those based on shortrun (contemporeneous) restrictions and those based on long-run (cumulative) restrictions. In this section we review SVARs based on short-run restrictions.</p>
+<p>When we introduced methods to orthogonalize the VAR errors we pointed out that we can represent the relationship between the errors and shocks using either the equation <span class="math inline">\(e_{t}=\boldsymbol{B} \varepsilon_{t}\)</span> (15.15) or the equation <span class="math inline">\(\boldsymbol{A} e_{t}=\varepsilon_{t}\)</span> (15.17). Equation (15.15) writes the errors as a function of the shocks. Equation (15.17) writes the errors as a simultaneous system. A broader class of models can be captured by the equation system</p>
+<p><span class="math display">\[
+\boldsymbol{A} e_{t}=\boldsymbol{B} \varepsilon_{t}
+\]</span></p>
+<p>where (in the <span class="math inline">\(3 \times 3\)</span> case)</p>
+<p><span class="math display">\[
+\boldsymbol{A}=\left[\begin{array}{ccc}
+1 &amp; a_{12} &amp; a_{13} \\
+a_{21} &amp; 1 &amp; a_{23} \\
+a_{31} &amp; a_{32} &amp; 1
+\end{array}\right], \quad \boldsymbol{B}=\left[\begin{array}{lll}
+b_{11} &amp; b_{12} &amp; b_{13} \\
+b_{21} &amp; b_{22} &amp; b_{23} \\
+b_{31} &amp; b_{32} &amp; b_{33}
+\end{array}\right] .
+\]</span></p>
+<p>(Note: This matrix <span class="math inline">\(\boldsymbol{A}\)</span> has nothing to do with the regression coefficient matrix <span class="math inline">\(\boldsymbol{A}\)</span>. I apologize for the double use of <span class="math inline">\(\boldsymbol{A}\)</span>, but I use the notation (15.21) to be consistent with the notation elsewhere in the literature.)</p>
+<p>Written out,</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;e_{1 t}=-a_{12} e_{2 t}-a_{13} e_{3 t}+b_{11} \varepsilon_{1 t}+b_{12} \varepsilon_{2 t}+b_{13} \varepsilon_{3 t} \\
+&amp;e_{2 t}=-a_{21} e_{1 t}-a_{23} e_{3 t}+b_{21} \varepsilon_{1 t}+b_{22} \varepsilon_{2 t}+b_{23} \varepsilon_{3 t} \\
+&amp;e_{3 t}=-a_{31} e_{1 t}-a_{32} e_{2 t}+b_{31} \varepsilon_{1 t}+b_{32} \varepsilon_{2 t}+b_{33} \varepsilon_{3 t} .
+\end{aligned}
+\]</span></p>
+<p>The diagonal elements of the matrix <span class="math inline">\(\boldsymbol{A}\)</span> are set to 1 as normalizations. This normalization allows the shocks <span class="math inline">\(\varepsilon_{i t}\)</span> to have unit variance which is convenient for impulse response calculations.</p>
+<p>The system as written is under-identified. In this three-equation example, the matrix <span class="math inline">\(\Sigma\)</span> provides only six moments, but the above system has 15 free parameters! To achieve identification we need nine restrictions. In most applications, it is common to start with the restriction that for each common non-diagonal element of <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{B}\)</span> at most one can be non-zero. That is, for any pair <span class="math inline">\(i \neq j\)</span>, either <span class="math inline">\(b_{j i}=0\)</span> or <span class="math inline">\(a_{j i}=0\)</span>.</p>
+<p>We will illustrate by using a simplified version of the model employed by Blanchard and Perotti (2002) who were interested in decomposing the effects of government spending and taxes on GDP. They proposed a three-variable system consisting of real government spending (net of transfers), real tax revenues (including transfer payments as negative taxes), and real GDP. All variables are measured in logs. They start with the restrictions <span class="math inline">\(a_{21}=a_{12}=b_{31}=b_{32}=b_{13}=b_{23}=0\)</span>, or</p>
+<p><span class="math display">\[
+\boldsymbol{A}=\left[\begin{array}{ccc}
+1 &amp; 0 &amp; a_{13} \\
+0 &amp; 1 &amp; a_{23} \\
+a_{31} &amp; a_{32} &amp; 1
+\end{array}\right], \quad \boldsymbol{B}=\left[\begin{array}{ccc}
+b_{11} &amp; b_{12} &amp; 0 \\
+b_{21} &amp; b_{22} &amp; 0 \\
+0 &amp; 0 &amp; b_{33}
+\end{array}\right] .
+\]</span></p>
+<p>This is done so that that the relationship between the shocks <span class="math inline">\(\varepsilon_{1 t}\)</span> and <span class="math inline">\(\varepsilon_{2 t}\)</span> is treated as reduced-form but the coefficients in the <span class="math inline">\(\boldsymbol{A}\)</span> matrix can be interpreted as contemporeneous elasticities between the variables. For example, <span class="math inline">\(a_{23}\)</span> is the within-quarter elasticity of tax revenue with respect to GDP, <span class="math inline">\(a_{31}\)</span> is the within-quarter elasticity of GDP with respect to government spending, etc.</p>
+<p>We just described six restrictions while nine are required for identification. Blanchard and Perotti (2002) made a strong case for two additional restrictions. First, the within-quarter elasticity of government spending with respect to GDP is zero, <span class="math inline">\(a_{13}=0\)</span>. This is because government fiscal policy does not (and cannot) respond to news about GDP within the same quarter. Since the authors defined government spending as net of transfer payments there is no “automatic stabilizer” component of spending. Second, the within-quarter elasticity of tax revenue with respect to GDP can be estimated from existing microeconometric studies. The authors survey the available literature and set <span class="math inline">\(a_{23}=-2.08\)</span>. To fully identify the model we need one final restriction. The authors argue that there is no clear case for any specific restriction, and so impose a recursive <span class="math inline">\(\boldsymbol{B}\)</span> matrix (setting <span class="math inline">\(b_{12}=0\)</span> ) and experiment with the alternative <span class="math inline">\(b_{21}=0\)</span>, finding that the two specifications are near-equivalent since the two shocks are nearly uncorrelated. In summary the estimated model takes the form</p>
+<p><span class="math display">\[
+\boldsymbol{A}=\left[\begin{array}{ccc}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; -2.08 \\
+a_{31} &amp; a_{32} &amp; 1
+\end{array}\right], \quad \boldsymbol{B}=\left[\begin{array}{ccc}
+b_{11} &amp; 0 &amp; 0 \\
+b_{21} &amp; b_{22} &amp; 0 \\
+0 &amp; 0 &amp; b_{33}
+\end{array}\right] .
+\]</span></p>
+<p>Blanchard and Perotti (2002) make use of both matrices <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{B}\)</span>. Other authors use either the simpler structure <span class="math inline">\(\boldsymbol{A} e_{t}=\varepsilon_{t}\)</span> or <span class="math inline">\(\boldsymbol{e}_{t}=\boldsymbol{B} \varepsilon_{t}\)</span>. In general, either of the two simpler structures are simpler to compute and interpret.</p>
+<p>Taking the variance of the variables on each side of (15.21) we find</p>
+<p><span class="math display">\[
+\boldsymbol{A} \Sigma \boldsymbol{A}^{\prime}=\boldsymbol{B} B^{\prime} \text {. }
+\]</span></p>
+<p>This is a system of quadratic equations in the free parameters. If the model is just identified it can be solved numerically to find the coefficients of <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{B}\)</span> given <span class="math inline">\(\Sigma\)</span>. Similarly, given the least squares error covariance matrix <span class="math inline">\(\widehat{\Sigma}\)</span> we can numerically solve for the coefficients of <span class="math inline">\(\widehat{\boldsymbol{A}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{B}}\)</span>.</p>
+<p>While most applications use just-identified models, if the model is over-identified (if there are fewer free parameters than estimated components of <span class="math inline">\(\Sigma\)</span> ) then the coefficients of <span class="math inline">\(\widehat{\boldsymbol{A}}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{B}}\)</span> can be found using minimum distance. The implementation in Stata uses MLE (which simultaneously estimates the VAR coefficients). The latter is appropriate when the model is correctly specified (including normality) but otherwise an unclear choice.</p>
+<p>Given the parameter estimates the structural impulse response function is</p>
+<p><span class="math display">\[
+\widehat{\operatorname{SIRF}}(h)=\widehat{\Theta}(h) \widehat{\boldsymbol{A}}^{-1} \widehat{\boldsymbol{B}} .
+\]</span></p>
+<p>The structural forecast error decompositions are calculated as before with <span class="math inline">\(b_{j}\)</span> replaced by the <span class="math inline">\(j^{t h}\)</span> column of <span class="math inline">\(\widehat{\boldsymbol{A}}^{-1} \widehat{\boldsymbol{B}}\)</span></p>
+<p>The structural impulse responses are nonlinear functions of the VAR coefficient and covariance matrix estimators so by the delta method are asymptotically normal. Thus asymptotic standard errors can be calculated (using numerical derivatives if convenient). As for orthogonalized impulse responses the asymptotic normal approximation is unlikely to be a good approximation so bootstrap methods are an attractive alternative.</p>
+<p>Structural VARs should be interpreted similarly to instrumental variable estimators. Their interpretation relies on valid exclusion restrictions which can only be justified by external information.</p>
+<p>We replicate a simplified version of Blanchard-Perotti (2002). We use <span class="math inline">\({ }^{2}\)</span> quarterly variables from FREDQD for 1959-2017: real GDP (gdpc1), real tax revenue (fgrecptx), and real government spending (gcec1), all in natural logarithms. Using the AIC for lag length selection we estimate VARs from one to eight lags and select a VAR(5). The model also includes a linear and quadratic function of time <span class="math inline">\({ }^{3}\)</span>. In Figure <span class="math inline">\(15.3\)</span> we display the estimated structural impulse responses of GDP with respect to government spending (panel (a)) and tax shocks (panel (b)). The estimated impulse responses are similar to those reported by Blanchard-Perotti.</p>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-25.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Spending</li>
+</ol>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-25(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Taxes</li>
+</ol>
+<p>Figure 15.3: Response of GDP to Government Spending and Tax Shocks</p>
+<p>In panel (a) we see that the effect of a <span class="math inline">\(1 %\)</span> government spending shock on GDP is positive, small (around <span class="math inline">\(0.2 %\)</span> ), but persistent, remaining stable at <span class="math inline">\(0.2 %\)</span> for four years. In panel (b) we see that the effect of a <span class="math inline">\(1 %\)</span> tax revenue shock is quite different. The effect on GDP is negative and persistent, and more substantial than the effect of a spending shock, reaching about <span class="math inline">\(-0.5 %\)</span> at six quarters. Together, the impulse response estimates show that changes in government spending and tax revenue have meaningful economic impacts. Increased spending has a positive effect on GDP while increased taxes has a negative effect.</p>
+<p><span class="math inline">\({ }^{2}\)</span> These are similar to, but not the same as, the variables used by Blanchard and Perotti.</p>
+<p><span class="math inline">\({ }^{3}\)</span> The authors detrend their data using a quadratic function of time. By the FWL Theorem this is equivalent to including a quadratic in time in the regression. The Blanchard-Perotti (2002) paper is an excellent example of how credible exclusion restrictions can be used to identify a non-recursive structural system to help answer an important economic question. The within-quarter exogeneity of government spending is compelling and the use of external information to fix the elasticity of tax revenue with respect to GDP is clever.</p>
+<p>Structural vector autoregressions can be estimated in Stata using the svar command. Short-run restrictions of the form (15.21) can be imposed using the aeq and beq options. Structural impulse responses can be displayed using irf graph sirf and structural forecast error decompositions using irf graph sfevd. Unfortunately, Stata does not provide a convenient way to display cumulative structural impulse response functions. The same limitations for standard error and confidence interval construction in Stata hold for structural impulse responses as for non-structural impulse responses.</p>
+</section>
+<section id="identification-of-structural-vars" class="level2" data-number="15.26">
+<h2 data-number="15.26" class="anchored" data-anchor-id="identification-of-structural-vars"><span class="header-section-number">15.26</span> Identification of Structural VARs</h2>
+<p>The coefficient matrices <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{B}\)</span> in (15.21) are identified if they can be uniquely solved from (15.23). This is a set of <span class="math inline">\(m(m+1) / 2\)</span> unique equations so the total number of free coefficients in <span class="math inline">\(\boldsymbol{A}\)</span> and <span class="math inline">\(\boldsymbol{B}\)</span> cannot be larger than <span class="math inline">\(m(m+1) / 2\)</span>, e.g., 6 when <span class="math inline">\(m=3\)</span>. This is the order condition for identification. It is necessary, but not sufficient. It is easy to write down restrictions which satisfy the order condition but do not produce an identified system.</p>
+<p>It is difficult to see if the system is identified simply by looking at the restrictions (except in the recursive case, which is relatively straightforward to identify). An intuitive way of verifying identification is to use our knowledge of instrumental variables. We can identify the equations sequentially, one at a time, or in blocks, using the metaphor of instrumental variables.</p>
+<p>The general technique is as follows. Start by writing out the system imposing all restrictions and absorbing the diagonal elements of <span class="math inline">\(\boldsymbol{B}\)</span> into the shocks (so that they are still uncorrelated but have nonunit variances). For the Blanchard-Perotti (2002) example, this is</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;e_{1 t}=\varepsilon_{1 t} \\
+&amp;e_{2 t}=2.08 e_{3 t}+b_{21} \varepsilon_{1 t}+\varepsilon_{2 t} \\
+&amp;e_{3 t}=-a_{31} e_{1 t}-a_{32} e_{2 t}+\varepsilon_{3 t} .
+\end{aligned}
+\]</span></p>
+<p>Take the equations one at a time and ask if they can be estimated by instrumental variables using the excluded variables as instruments. Once an equation has been verified as identified then its shock is identified and can be used as an instrument since it is uncorrelated with the shocks in the other equations.</p>
+<p>In this example take the equations as ordered. The first equation is identified as there are no coefficients to estimate. Thus <span class="math inline">\(\varepsilon_{1 t}\)</span> is identified. For the second equation there is one free parameter which can be estimated by least squares of <span class="math inline">\(e_{2 t}-2.08 e_{3 t}\)</span> on <span class="math inline">\(\varepsilon_{1 t}\)</span>, which is valid because <span class="math inline">\(\varepsilon_{1 t}\)</span> and <span class="math inline">\(\varepsilon_{2 t}\)</span> are uncorrelated. This identifies the second equation and the shock <span class="math inline">\(\varepsilon_{2 t}\)</span>. The third equation has two free parameters and two endogenous regressors so we need two instruments. We can use the shocks <span class="math inline">\(\varepsilon_{1 t}\)</span> and <span class="math inline">\(\varepsilon_{2 t}\)</span> as they are uncorrelated with <span class="math inline">\(\varepsilon_{3 t}\)</span> and are correlated with the variables <span class="math inline">\(e_{1 t}\)</span> and <span class="math inline">\(e_{2 t}\)</span>. Thus this equation is identified. We deduce that the system is identified.</p>
+<p>Consider another example based on Keating (1992). He estimated a four-variable system with prices, the fed funds rate, M2, and GDP. His model for the errors takes the form <span class="math inline">\(\boldsymbol{A} \boldsymbol{e}_{t}=\varepsilon_{t}\)</span>. Written out explicitly:</p>
+<p><span class="math display">\[
+\begin{aligned}
+e_{P} &amp;=\varepsilon_{A S} \\
+e_{F F} &amp;=a_{23} e_{M}+\varepsilon_{M S} \\
+e_{M} &amp;=a_{31}\left(e_{P}+e_{G D P}\right)+a_{32} e_{F F}+\varepsilon_{M D} \\
+e_{G D P} &amp;=a_{41} e_{P}+a_{42} e_{F F}+a_{43} e_{M}+\varepsilon_{I S}
+\end{aligned}
+\]</span></p>
+<p>where the four shocks are “aggregate supply”, “money supply”, “money demand”, and “I-S”. This structure can be based on the following assumptions: An elastic short-run aggregate supply curve (prices do not respond within a quarter); a simple monetary supply policy (the fed funds rate only responds within quarter to the money supply); money demand only responds to nominal output (log price plus log real output) and fed funds rate within a quarter; and unrestricted I-S curve.</p>
+<p>To analyze conditions for identification we start by checking the order condition. There are 10 coefficients in the system (including the four variances), which equals <span class="math inline">\(m(m+1) / 2\)</span> because <span class="math inline">\(m=4\)</span>. Thus the order condition is exactly satisfied.</p>
+<p>We check the equations for identification. We start with the first equation. It has no coefficients so is identified and thus so is <span class="math inline">\(\varepsilon_{A S}\)</span>. The second equation has one coefficient. We can use <span class="math inline">\(\varepsilon_{A S}\)</span> as an instrument because it is uncorrelated with <span class="math inline">\(\varepsilon_{M S}\)</span>. The relevance condition will hold if <span class="math inline">\(\varepsilon_{A S}\)</span> is correlated with <span class="math inline">\(e_{M}\)</span>. From the third equation we see that this will hold if <span class="math inline">\(a_{31} \neq 0\)</span>. Given this assumption <span class="math inline">\(a_{23}\)</span> and <span class="math inline">\(\varepsilon_{M S}\)</span> are identified. The third equation has two coefficients so we can use <span class="math inline">\(\left(\varepsilon_{A S}, \varepsilon_{M S}\right)\)</span> as instruments because they are uncorrelated with <span class="math inline">\(\varepsilon_{M D} \cdot \varepsilon_{M S}\)</span> is correlated with <span class="math inline">\(e_{F F}\)</span> and <span class="math inline">\(\varepsilon_{A S}\)</span> is correlated with <span class="math inline">\(e_{P}\)</span>. Thus the relevance condition is satisfied. The final equation has three coefficients so we use <span class="math inline">\(\left(\varepsilon_{A S}, \varepsilon_{M S}, \varepsilon_{M D}\right)\)</span> as instruments. They are uncorrelated with <span class="math inline">\(\varepsilon_{I S}\)</span> and correlated with the variables <span class="math inline">\(\left(e_{P}, e_{F F}, e_{M}\right)\)</span> so this equation is identified.</p>
+<p>We find that the system is identified if <span class="math inline">\(a_{31} \neq 0\)</span>. This requires that money demand responds to nominal GDP which is a prediction from standard monetary economics. This condition seems reasonable. Regardless, the point of this exercise is to determine specific conditions for identification and articulate them in your analysis.</p>
+</section>
+<section id="long-run-restrictions" class="level2" data-number="15.27">
+<h2 data-number="15.27" class="anchored" data-anchor-id="long-run-restrictions"><span class="header-section-number">15.27</span> Long-Run Restrictions</h2>
+<p>To review, the algebraic identification problem for impulse response estimation is that we require a square root matrix <span class="math inline">\(\boldsymbol{B}=\Sigma^{1 / 2}\)</span> yet the latter is not unique and the results are sensitive to the choice. The non-uniqueness arises because <span class="math inline">\(\boldsymbol{B}\)</span> has <span class="math inline">\(m^{2}\)</span> elements while <span class="math inline">\(\Sigma\)</span> has <span class="math inline">\(m(m+1) / 2\)</span> free elements. The recursive solution is to set <span class="math inline">\(\boldsymbol{B}\)</span> to equal the Cholesky decomposition of <span class="math inline">\(\Sigma\)</span>, or equivalently to specify <span class="math inline">\(\boldsymbol{B}\)</span> as lower triangular. Structural VARs based on short-run (contemporeneous) restrictions generalize this idea by allowing general restrictions on <span class="math inline">\(\boldsymbol{B}\)</span> based on economic assumptions about contemporeneous causal relations and prior knowledge about <span class="math inline">\(\boldsymbol{B}\)</span>. Identification requires <span class="math inline">\(m(m-1) / 2\)</span> restrictions. Even more generally, a structural VAR can be constructed by imposing <span class="math inline">\(m(m-1) / 2\)</span> restrictions due to any known structure or features of the impulse response functions.</p>
+<p>One important class of such structural VARs are those based on long-run restrictions. Some economic hypotheses imply restrictions on long-run impulse responses. These can provide a compelling case for identification.</p>
+<p>An influential example of a structural VAR based on a long-run restriction is Blanchard and Quah (1989). They were interested in decomposing the effects of demand and supply shocks on output. Their hypothesis is that demand shocks are long-run neutral, meaning that the long-run impact of a demand shock on output is zero. This implies that the long-run impulse response of output with respect to demand is zero. This can be used as an identifying restriction.</p>
+<p>The long-run structural impulse response is the cumulative sum of all impulse responses</p>
+<p><span class="math display">\[
+\boldsymbol{C}=\sum_{\ell=1}^{\infty} \Theta_{\ell} \boldsymbol{B}=\Theta(1) \boldsymbol{B}=\boldsymbol{A}(1)^{-1} \boldsymbol{B} .
+\]</span></p>
+<p>A long-run restriction is a restriction placed on the matrix <span class="math inline">\(\boldsymbol{C}\)</span>. Since the sum <span class="math inline">\(\boldsymbol{A}\)</span> (1) is identified this provides identifying information on the matrix <span class="math inline">\(\boldsymbol{B}\)</span>. Blanchard and Quah (1989) suggest a bivariate VAR for the first-differenced logarithm of real GDP and the unemployment rate. Blanchard-Quah assume that the structural shocks are aggregate supply and aggregate demand. They adopt the hypothesis that aggregate demand has no long-run impact on GDP. This means that the long-run impulse response matrix satisfies</p>
+<p><span class="math display">\[
+\boldsymbol{C}=\left[\begin{array}{cc}
+c_{11} &amp; 0 \\
+c_{21} &amp; c_{22}
+\end{array}\right] .
+\]</span></p>
+<p>Another way of thinking about this is that Blanchard-Quah label “aggregate supply” as the long-run component of GDP and label “aggregate demand” as the transitory component of GDP.</p>
+<p>The relations <span class="math inline">\(\boldsymbol{C}=\boldsymbol{A}(1)^{-1} \boldsymbol{B}\)</span> and <span class="math inline">\(\boldsymbol{B} \boldsymbol{B}^{\prime}=\Sigma\)</span> imply</p>
+<p><span class="math display">\[
+\boldsymbol{C} \boldsymbol{C}^{\prime}=\boldsymbol{A}(1)^{-1} \boldsymbol{B} \boldsymbol{B}^{\prime} \boldsymbol{A}(1)^{-1 \prime}=\boldsymbol{A}(1)^{-1} \Sigma \boldsymbol{A}(1)^{-1 \prime} .
+\]</span></p>
+<p>This is a set of <span class="math inline">\(m^{2}\)</span> equations but because the matrices are positive semi-definite there are <span class="math inline">\(m(m+1) / 2\)</span> independent equations. If the matrix <span class="math inline">\(\boldsymbol{C}\)</span> has <span class="math inline">\(m(m+1) / 2\)</span> free coefficients then the system is identified. This requires <span class="math inline">\(m(m-1) / 2\)</span> restrictions. In the Blanchard-Quah example, <span class="math inline">\(m=2\)</span> so one restriction is sufficient for identification.</p>
+<p>In many applications, including Blanchard-Quah, the matrix <span class="math inline">\(C\)</span> is lower triangular which permits the following elegant solution. Examining (15.25) we see that <span class="math inline">\(\boldsymbol{C}\)</span> is a matrix square root of <span class="math inline">\(\boldsymbol{A}(1)^{-1} \Sigma \boldsymbol{A}(1)^{-1}\)</span>, and because <span class="math inline">\(\boldsymbol{C}\)</span> is lower triangular it is the Cholesky decomposition. We deduce <span class="math inline">\(\boldsymbol{C}=\operatorname{chol}\left(\boldsymbol{A}(1)^{-1} \Sigma \boldsymbol{A}(1)^{-1}\right)\)</span>.</p>
+<p>The plug-in estimator for <span class="math inline">\(\boldsymbol{C}\)</span> is <span class="math inline">\(\widehat{\boldsymbol{C}}=\operatorname{chol}\left(\widehat{\boldsymbol{A}}(1)^{-1} \widehat{\Sigma} \widehat{\boldsymbol{A}}(1)^{-1}\right)\)</span> where <span class="math inline">\(\widehat{\boldsymbol{A}}(1)=\boldsymbol{I}_{m}-\widehat{\boldsymbol{A}}_{1}-\cdots-\widehat{\boldsymbol{A}}_{p}\)</span>. By construction the solution <span class="math inline">\(\widehat{C}\)</span> will be lower triangular and satisfy the desired restriction.</p>
+<p>More generally if the restrictions on <span class="math inline">\(\boldsymbol{C}\)</span> do not take a lower triangular form then the estimator can be found by numerically solving the system of quadratic equations</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{C}} \widehat{\boldsymbol{C}}^{\prime}=\widehat{\boldsymbol{A}}(1)^{-1} \widehat{\Sigma} \widehat{\boldsymbol{A}}(1)^{-1 \prime} .
+\]</span></p>
+<p>In either case the estimator is <span class="math inline">\(\widehat{\boldsymbol{B}}=\widehat{\boldsymbol{A}}(1) \widehat{\boldsymbol{C}}\)</span> and the estimator of the structural impulse response is</p>
+<p><span class="math display">\[
+\widehat{\operatorname{SIRF}}(h)=\widehat{\Theta}_{h} \widehat{\boldsymbol{B}}=\widehat{\Theta}_{h} \widehat{\boldsymbol{A}}(1) \widehat{\boldsymbol{C}} .
+\]</span></p>
+<p>Notice that by construction the long-run impulse response is</p>
+<p><span class="math display">\[
+\sum_{\ell=1}^{\infty} \widehat{\operatorname{SIRF}}(h)=\sum_{\ell=1}^{\infty} \widehat{\Theta}_{h} \widehat{\boldsymbol{A}}(1) \widehat{\boldsymbol{C}}=\widehat{\boldsymbol{A}}(1)^{-1} \widehat{\boldsymbol{A}}(1) \widehat{\boldsymbol{C}}=\widehat{\boldsymbol{C}}
+\]</span></p>
+<p>so indeed <span class="math inline">\(\widehat{\boldsymbol{C}}\)</span> is the estimated long-run impulse response and satisfies the desired restriction.</p>
+<p>Long-run structural vector autoregressions can be estimated in Stata using the svar command using the lreq option. Structural impulse responses can be displayed using irf graph sirf and structural forecast error decompositions using irf graph sfevd. This Stata option does not produce asymptotic standard errors when imposing long-run restrictions so for confidence intervals bootstrapping is recommended. The same limitations for such intervals constructed in Stata hold for structural impulse response functions as the other cases discussed.</p>
+<p>Unfortunately, a limitation of the Stata svar command is that it does not display cumulative structural impulse response functions. In order to display these one needs to cumulate the impulse response estimates. This can be done but then standard errors and confidence intervals are not available. This means that for serious applied work programming needs to be done outside of Stata.</p>
+</section>
+<section id="blanchard-and-quah-1989-illustration" class="level2" data-number="15.28">
+<h2 data-number="15.28" class="anchored" data-anchor-id="blanchard-and-quah-1989-illustration"><span class="header-section-number">15.28</span> Blanchard and Quah (1989) Illustration</h2>
+<p>As we described in the previous section, Blanchard and Quah (1989) estimated a bivariate VAR in GDP growth and the unemployment rate assuming that the the structural shocks are aggregate supply and aggregate demand imposing that that the long-run response of GDP with respect to aggregate demand is zero. Their original application used U.S. data for 1950-1987. We revisit using FRED-QD (1959-2017). While Blanchard and Quah used a VAR(8) model the AIC selects a VAR(3). We use a VAR(4). To ease the interpretation of the impulse responses the unemployment rate is entered negatively (multiplied by -1) so that both series are pro-cyclical and positive shocks increase output. Blanchard and Quah used a careful detrending method; instead we including a linear time trend in the estimated VAR.</p>
+<p>The fitted reduced form model coefficients satisfy</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{A}}(1)=\boldsymbol{I}_{m}-\sum_{j=1}^{4} \widehat{\boldsymbol{A}}_{j}=\left(\begin{array}{cc}
+0.42 &amp; 0.05 \\
+-0.15 &amp; 0.04
+\end{array}\right)
+\]</span></p>
+<p>and the residual covariance matrix is</p>
+<p><span class="math display">\[
+\widehat{\Sigma}=\left(\begin{array}{ll}
+0.531 &amp; 0.095 \\
+0.095 &amp; 0.053
+\end{array}\right) .
+\]</span></p>
+<p>We calculate</p>
+<p><span class="math display">\[
+\begin{gathered}
+\widehat{\boldsymbol{C}}=\operatorname{chol}\left(\widehat{\boldsymbol{A}}(1)^{-1} \widehat{\Sigma} \widehat{\boldsymbol{A}}(1)^{-1 \prime}\right)=\left(\begin{array}{cc}
+1.00 &amp; 0 \\
+4.75 &amp; 5.42
+\end{array}\right) \\
+\widehat{\boldsymbol{B}}=\widehat{\boldsymbol{A}}(1) \widehat{\boldsymbol{C}}=\left(\begin{array}{cc}
+0.67 &amp; 0.28 \\
+0.05 &amp; 0.23
+\end{array}\right)
+\end{gathered}
+\]</span></p>
+<p>Examining <span class="math inline">\(\widehat{\boldsymbol{B}}\)</span>, the unemployment rate is contemporeneously mostly affected by the aggregate demand shock, while GDP growth is affected by both shocks.</p>
+<p>Using this square root of <span class="math inline">\(\widehat{\Sigma}\)</span> we construct the structural impulse response functions as a function of the two shocks (aggregate supply and aggregate demand). In Figure <span class="math inline">\(15.4\)</span> we display the estimated structural impulse responses of the (negative) unemployment rate. Panel (a) displays the impulse response of the unemployment rate with respect to the aggregate supply shock. whiled panel (b) displays the impulse response of the unemployment rate with respect to the aggregate demand shock. Displayed are 95% normal approximation bootstrap intervals, calculated from 10,000 bootstrap replications. The estimated impulse responses have similar hump shapes with a peak around four quarters, and are similar to those found by Blanchard and Quah (1989).</p>
+<p>Let’s examine and contrast panels (a) and (b) of Figure 15.4. The response to a supply shock (panel (a)) takes several quarters to take effect, peaks around 5 quarters, and then decays. The response to a demand shock (panel (b)) is more immediate, peaks around 4 quarters, and then decays. Both are near zero by 6 years. The confidence intervals for the supply shock impulse responses are wider than those for the demand shocks indicating that the estimates of the impulse responses due to supply shocks are not precisely estimated.</p>
+<p>Figure <span class="math inline">\(15.5\)</span> displays the estimated structural forecast error decompositions. Since there are only two errors we only display the percentage squared error due to the supply shock. In panel (a) we display the forecast error decomposition for GDP and in panel (b) the forecast error decomposition for the unemployment rate. We can see that about <span class="math inline">\(80 %\)</span> of the fluctuations in GDP are attributed to the supply shock. For the unemployment rate the short-term fluctuations are mostly attributed to the demand shock but the long-run impact is about <span class="math inline">\(40 %\)</span> due to the supply shock. The confidence intervals are very wide, however, indicating that these estimates are not precise.</p>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-30.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Supply Shock</li>
+</ol>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-30(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Demand Shock</li>
+</ol>
+<p>Figure 15.4: Response of Unemployment Rate</p>
+<p>It is fascinating that the structural impulse response estimates shown here are nearly identical to those found by Blanchard and Quah (1989) despite the fact that we have used a considerably different sample period.</p>
+</section>
+<section id="external-instruments" class="level2" data-number="15.29">
+<h2 data-number="15.29" class="anchored" data-anchor-id="external-instruments"><span class="header-section-number">15.29</span> External Instruments</h2>
+<p>Structural VARs can also be identified and estimated using external instrumental variables. This method is also called Proxy SVARs. Consider the three-variable system for the innovations</p>
+<p><span class="math display">\[
+\begin{array}{rrr}
+e_{1 t}+a_{12} e_{2 t}+a_{13} e_{3 t} &amp; =\varepsilon_{1 t} \\
+a_{21} e_{1 t}+e_{2 t} &amp; = &amp; \varepsilon_{2 t}+b_{23} \varepsilon_{3 t}=u_{2 t} \\
+a_{31} e_{1 t}+\quad e_{3 t} &amp; = &amp; b_{32} \varepsilon_{2 t}+\varepsilon_{3 t}=u_{3 t} .
+\end{array}
+\]</span></p>
+<p>In this system we have used the normalization <span class="math inline">\(b_{11}=b_{22}=b_{33}=1\)</span> rather than normalizing the variances of the shocks.</p>
+<p>Suppose we have an external instrumental variable <span class="math inline">\(Z_{t}\)</span> which satisfies the properties</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\mathbb{E}\left[Z_{t} \varepsilon_{1 t}\right] \neq 0 \\
+&amp;\mathbb{E}\left[Z_{t} \varepsilon_{2 t}\right]=0 \\
+&amp;\mathbb{E}\left[Z_{t} \varepsilon_{3 t}\right]=0 .
+\end{aligned}
+\]</span></p>
+<p>Equation (15.29) is the relevance condition - that the instrument and the shock <span class="math inline">\(\varepsilon_{1 t}\)</span> are correlated. Equations (15.30)-(15.31) are the exogeneity condition - that the instrument is uncorrelated with the shocks <span class="math inline">\(\varepsilon_{2 t}\)</span> and <span class="math inline">\(\varepsilon_{3 t}\)</span>. Identification rests on the validity of these assumptions.</p>
+<p>Suppose <span class="math inline">\(e_{1 t}, e_{2 t}\)</span> and <span class="math inline">\(e_{3 t}\)</span> were observed. Then the coefficient <span class="math inline">\(a_{21}\)</span> in (15.27) can be estimated by instrumental variables regression of <span class="math inline">\(e_{2 t}\)</span> on <span class="math inline">\(e_{1 t}\)</span> using the instrumental variable <span class="math inline">\(Z_{t}\)</span>. This is valid because <span class="math inline">\(Z_{t}\)</span></p>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-31.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>GDP</li>
+</ol>
+<p><img src="images//2022_10_23_7c0e31a459390f548ae3g-31(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Unemployment Rate</li>
+</ol>
+<p>Figure 15.5: Forecast Error Decomposition, Percent due to Supply Shock</p>
+<p>is uncorrelated with <span class="math inline">\(u_{2 t}=\varepsilon_{2 t}+b_{23} \varepsilon_{3 t}\)</span> under the assumptions (15.30)-(15.31) yet is correlated with <span class="math inline">\(e_{1 t}\)</span> under (15.29). Given this estimator we obtain a residual <span class="math inline">\(\widehat{u}_{2 t}\)</span>. Similarly we can estimate <span class="math inline">\(a_{31}\)</span> in (15.27) by instrumental variables regression of <span class="math inline">\(e_{3 t}\)</span> on <span class="math inline">\(e_{1 t}\)</span> using the instrumental variable <span class="math inline">\(Z_{t}\)</span>, obtaining a residual <span class="math inline">\(\widehat{u}_{3 t}\)</span>. We can then estimate <span class="math inline">\(a_{12}\)</span> and <span class="math inline">\(a_{13}\)</span> in in (15.26) by instrumental variables regression of <span class="math inline">\(e_{1 t}\)</span> on <span class="math inline">\(\left(e_{2 t}, e_{3 t}\right)\)</span> using the instrumental variables <span class="math inline">\(\left(\widehat{u}_{2 t}, \widehat{u}_{3 t}\right)\)</span>. The latter are valid instruments because <span class="math inline">\(\mathbb{E}\left[u_{2 t} \varepsilon_{1 t}\right]=0\)</span> and <span class="math inline">\(\mathbb{E}\left[u_{3 t} \varepsilon_{1 t}\right]=0\)</span> as the structural errors are uncorrelated, and because <span class="math inline">\(\left(u_{2 t}, u_{3 t}\right)\)</span> is correlated with <span class="math inline">\(\left(e_{2 t}, e_{3 t}\right)\)</span> by construction. This regression also produces a residual <span class="math inline">\(\widehat{\varepsilon}_{1 t}\)</span> which is an appropriate estimator for the shock <span class="math inline">\(\varepsilon_{1 t}\)</span>.</p>
+<p>This estimation method is not special for a three-variable system; it can be applied for any <span class="math inline">\(m\)</span>. The identified coefficients are those in the first equation (15.26), the structural shock <span class="math inline">\(\varepsilon_{1 t}\)</span>, and the impacts <span class="math inline">\(\left(a_{21}\right.\)</span> and <span class="math inline">\(\alpha_{31}\)</span> ) of this shock on the other variables. The other shocks <span class="math inline">\(\varepsilon_{2 t}\)</span> and <span class="math inline">\(\varepsilon_{3 t}\)</span> are not separately identified, and their correlation structure <span class="math inline">\(\left(b_{23}\right.\)</span> and <span class="math inline">\(\left.b_{32}\right)\)</span> is not identified. An exception arises when <span class="math inline">\(m=2\)</span>, in which case all coefficients and shocks are identified.</p>
+<p>While <span class="math inline">\(e_{1 t}, e_{2 t}\)</span> and <span class="math inline">\(e_{3 t}\)</span> are not observed we can replace their values by the residuals <span class="math inline">\(\widehat{e}_{1 t}, \widehat{e}_{2 t}\)</span> and <span class="math inline">\(\widehat{e}_{3 t}\)</span> from the estimated <span class="math inline">\(\operatorname{VAR}(\mathrm{p})\)</span> model. All of the coefficient estimates are then two-step estimators with generated regressors. This affects the asymptotic distribution so conventional asymptotic standard errors should not be used. Bootstrap confidence intervals are appropriate.</p>
+<p>The structure (15.26)-(15.28) is convenient as four coefficients can be identified. Other structures can also be used. Consider the structure</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;e_{1 t}=\varepsilon_{1 t}+b_{12} \varepsilon_{2 t}+b_{23} \varepsilon_{3 t} \\
+&amp;e_{2 t}=b_{21} \varepsilon_{1 t}+\varepsilon_{2 t}+b_{23} \varepsilon_{3 t} \\
+&amp;e_{3 t}=b_{31} \varepsilon_{1 t}+b_{32} \varepsilon_{2 t}+\varepsilon_{3 t}
+\end{aligned}
+\]</span></p>
+<p>If the same procedure is applied we can identify the coefficients <span class="math inline">\(b_{21}\)</span> and <span class="math inline">\(b_{31}\)</span> and the shock <span class="math inline">\(\varepsilon_{1 t}\)</span> but no other coefficients or shocks. In this structure the coefficients <span class="math inline">\(b_{12}\)</span> and <span class="math inline">\(b_{23}\)</span> cannot be separately identified because the shocks <span class="math inline">\(\varepsilon_{2 t}\)</span> and <span class="math inline">\(\varepsilon_{3 t}\)</span> are not separately identified. For more details see Stock and Watson (2012) and Mertens and Ravn (2013).</p>
+</section>
+<section id="dynamic-factor-models" class="level2" data-number="15.30">
+<h2 data-number="15.30" class="anchored" data-anchor-id="dynamic-factor-models"><span class="header-section-number">15.30</span> Dynamic Factor Models</h2>
+<p>Dynamic factor models are increasingly popular in applied time series, in particular for forecasting. For a recent detailed review of the methods see Stock and Watson (2016) and the references therein. For some of the foundational theory see Bai (2003) and Bai and <span class="math inline">\(\mathrm{Ng}(2002,2006)\)</span>.</p>
+<p>In Sections 11.13-11.16 we introduced the standard multi-factor model (11.23):</p>
+<p><span class="math display">\[
+X_{t}=\Lambda F_{t}+u_{t}
+\]</span></p>
+<p>where <span class="math inline">\(X_{t}\)</span> and <span class="math inline">\(u_{t}\)</span> are <span class="math inline">\(k \times 1, \Lambda\)</span> is <span class="math inline">\(k \times r\)</span> with <span class="math inline">\(r&lt;k\)</span>, and <span class="math inline">\(F_{t}\)</span> is <span class="math inline">\(r \times 1\)</span>. The elements of <span class="math inline">\(F_{t}\)</span> are called the common factors as they affect all elements of <span class="math inline">\(X_{t}\)</span>. The columns of <span class="math inline">\(\Lambda\)</span> are called the factor loadings. The variables <span class="math inline">\(u_{t}\)</span> are called the idiosyncratic errors. It is often assumed that the elements of <span class="math inline">\(X_{t}\)</span> have been transformed to be mean zero and have common variances.</p>
+<p>In the time-series case it is natural to augment the model to allow for dynamic relationships. In particular we would like to allow <span class="math inline">\(F_{t}\)</span> and <span class="math inline">\(u_{t}\)</span> to be serially correlated. It is convenient to consider vector autoregressive models which can be written using lag operator notation as</p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\boldsymbol{A}(\mathrm{L}) F_{t}=v_{t} \\
+&amp;\boldsymbol{B}(\mathrm{L}) u_{t}=e_{t}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\boldsymbol{A}\)</span> (L) and <span class="math inline">\(\boldsymbol{B}\)</span> (L) are lag polynomials with <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> lags, respectively. Equations (15.32)-(15.33)(15.34) together make the standard dynamic factor model. To simplify the model and aid identification, further restrictions are often imposed, in particular that the lag polynomial <span class="math inline">\(\boldsymbol{B}(\mathrm{L})\)</span> is diagonal.</p>
+<p>Furthermore we may wish to generalize (15.32) to allow <span class="math inline">\(F_{t}\)</span> to impact <span class="math inline">\(X_{t}\)</span> via a distributed lag relationship. This generalization can be written as</p>
+<p><span class="math display">\[
+X_{t}=\Lambda(\mathrm{L}) F_{t}+u_{t}
+\]</span></p>
+<p>where <span class="math inline">\(\Lambda(\mathrm{L})\)</span> is an <span class="math inline">\(\ell^{t h}\)</span> order distributed lag of dimension <span class="math inline">\(k \times r\)</span>. Equation (15.35), however, is not fundamentally different from (15.32). That is, if we define the stacked factor vector <span class="math inline">\(\bar{F}_{t}=\left(F_{t}^{\prime}, F_{t-1}^{\prime}, \ldots, F_{t-\ell}^{\prime}\right)^{\prime}\)</span> then (15.35) can be written in the form (15.32) with <span class="math inline">\(\bar{F}_{t}\)</span> replacing <span class="math inline">\(F_{t}\)</span> and the matrix <span class="math inline">\(\Lambda\)</span> replaced by <span class="math inline">\(\left(\Lambda_{1}, \Lambda_{2}, \ldots, \Lambda_{\ell}\right)\)</span>. Hence we will focus on the standard model (15.32)-(15.33)-(15.34).</p>
+<p>Define the inverse lag operators <span class="math inline">\(\boldsymbol{D}(\mathrm{L})=\boldsymbol{A}(\mathrm{L})^{-1}\)</span> and <span class="math inline">\(\boldsymbol{C}(\mathrm{L})=\boldsymbol{B}(\mathrm{L})^{-1}\)</span>. Then by applying <span class="math inline">\(\boldsymbol{C}(\mathrm{L})\)</span> to (15.32) and <span class="math inline">\(\boldsymbol{D}(\mathrm{L})\)</span> to (15.33) we obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{C}(\mathrm{L}) X_{t} &amp;=\boldsymbol{C} \text { (L) } \Lambda F_{t}+\boldsymbol{C} \text { (L) } u_{t} \\
+&amp;=\boldsymbol{C} \text { (L) } \Lambda \boldsymbol{D}(\mathrm{L}) v_{t}+e_{t} \\
+&amp;=\Lambda(\mathrm{L}) v_{t}+e_{t}
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(\Lambda(\mathrm{L})=\boldsymbol{C}\)</span> (L) <span class="math inline">\(\Lambda \boldsymbol{D}(\mathrm{L})\)</span>. For simplicity treat this lag polynomial as if it has <span class="math inline">\(\ell\)</span> lags. Using the same stacking trick from the previous paragraph and defining <span class="math inline">\(V_{t}=\left(v_{t}^{\prime}, v_{t-1}^{\prime}, \ldots, v_{t-\ell}^{\prime}\right)^{\prime}\)</span> we find that this model can be written as</p>
+<p><span class="math display">\[
+\boldsymbol{C} \text { (L) } X_{t}=\boldsymbol{H} V_{t}+e_{t}
+\]</span></p>
+<p>for some <span class="math inline">\(k \times r \ell\)</span> matrix <span class="math inline">\(\boldsymbol{H}\)</span>. This is known as the static form of the dynamic factor model. It shows that <span class="math inline">\(X_{t}\)</span> can be written as a function of its own lags plus a linear function of the serially uncorrelated factors <span class="math inline">\(V_{t}\)</span> and a serially uncorrelated error <span class="math inline">\(e_{t}\)</span>. The static form (15.36) is convenient as factor regression can be used for estimation. The model is identical to factor regression with additional regressors as described in Section 11.15. (The additional regressors are the lagged values of <span class="math inline">\(X_{t}\)</span>.) In that section it is described how to estimate the coefficients and factors by iterating between multivariate least squares and factor regression.</p>
+<p>To estimate the explicit dynamic model (15.32)-(15.33)-(15.34) state-space methods are convenient. For details and references see Stock and Watson (2016).</p>
+<p>The dynamic factor model (15.32)-(15.33)-(15.34) can be estimated in Stata using df actor.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="15.31">
+<h2 data-number="15.31" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">15.31</span> Technical Proofs*</h2>
+<p>Proof of Theorem 15.6 Without loss of generality assume <span class="math inline">\(a_{0}=0\)</span>.</p>
+<p>By the Jordan matrix decomposition (see Section A.13), <span class="math inline">\(\boldsymbol{A}=\boldsymbol{P} \boldsymbol{J} \boldsymbol{P}^{-1}\)</span> where <span class="math inline">\(\boldsymbol{J}=\operatorname{diag}\left\{\boldsymbol{J}_{1}, \ldots, \boldsymbol{J}_{r}\right\}\)</span> is in Jordan normal form. The dimension of each Jordan block <span class="math inline">\(\boldsymbol{J}_{i}\)</span> is determined by the multiplicity of the eigenvalues <span class="math inline">\(\lambda_{i}\)</span> of <span class="math inline">\(\boldsymbol{A}\)</span>. For unique eigenvalues <span class="math inline">\(\lambda_{i}, \boldsymbol{J}_{i}=\lambda_{i}\)</span>. For eigenvalues <span class="math inline">\(\lambda_{i}\)</span> with double multiplicity the Jordan blocks take the form</p>
+<p><span class="math display">\[
+\boldsymbol{J}_{i}=\left[\begin{array}{cc}
+\lambda_{i} &amp; 1 \\
+0 &amp; \lambda_{i}
+\end{array}\right] .
+\]</span></p>
+<p>For eigenvalues with multiplicity <span class="math inline">\(s&gt;2\)</span> the Jordan blocks are <span class="math inline">\(s \times s\)</span> upper diagonal with the eigenvalue on the diagonal and 1 immediately above the diagonal (see A.7).</p>
+<p>Define <span class="math inline">\(X_{t}=\boldsymbol{P}^{-1} Y_{t}\)</span> and <span class="math inline">\(u_{t}=\boldsymbol{P}^{-1} e_{t}\)</span>, which satisfy <span class="math inline">\(X_{t}=\boldsymbol{J} X_{t-1}+u_{t}\)</span>. Partition <span class="math inline">\(X_{t}\)</span> and <span class="math inline">\(u_{t}\)</span> conformably with <span class="math inline">\(\boldsymbol{J}\)</span>. The <span class="math inline">\(i^{\text {th }}\)</span> set satisfy <span class="math inline">\(X_{i t}=\boldsymbol{J}_{i} X_{i, t-1}+u_{i t}\)</span>. We now show that <span class="math inline">\(X_{i t}\)</span> is strictly stationary and ergodic, from which we deduce that <span class="math inline">\(Y_{t}=\boldsymbol{P} X_{t}\)</span> is strictly stationary and ergodic.</p>
+<p>For single dimension blocks <span class="math inline">\(\boldsymbol{J}_{i}=\lambda_{i}\)</span>, so <span class="math inline">\(X_{i t}=\lambda_{i} X_{i, t-1}+u_{i t}\)</span> which is an AR(1) model with coefficient <span class="math inline">\(\lambda_{i}\)</span> and innovation <span class="math inline">\(u_{i t}\)</span>. The assumptions imply <span class="math inline">\(\left|\lambda_{i}\right|&lt;1\)</span> and <span class="math inline">\(\mathbb{E}\left|u_{i t}\right|&lt;\infty\)</span> so the conditions of Theorem <span class="math inline">\(14.21\)</span> are satisfied, implying that <span class="math inline">\(X_{i t}\)</span> is strictly stationary and ergodic.</p>
+<p>For blocks with dimension two, by back-substitution we find <span class="math inline">\(X_{i t}=\sum_{\ell=0}^{\infty} J_{i}^{\ell} u_{i, t-\ell}\)</span>. By direct calculation we find that</p>
+<p><span class="math display">\[
+\boldsymbol{J}_{i}^{\ell}=\left[\begin{array}{cc}
+\lambda_{i}^{\ell} &amp; \ell \lambda_{i}^{\ell-1} \\
+0 &amp; \lambda_{i}^{\ell}
+\end{array}\right] .
+\]</span></p>
+<p>Partitioning <span class="math inline">\(X_{i t}=\left(X_{1 i t}, X_{2 i t}\right)\)</span> and <span class="math inline">\(u_{i t}=\left(u_{1 i t}, u_{2 i t}\right)\)</span> this means that</p>
+<p><span class="math display">\[
+\begin{aligned}
+X_{1 i t} &amp;=\sum_{\ell=0}^{\infty} \lambda_{i}^{\ell} u_{1 i, t-\ell}+\sum_{\ell=0}^{\infty} \ell \lambda_{i}^{\ell} u_{2 i, t-\ell} \\
+X_{2 i t} &amp;=\sum_{\ell=0}^{\infty} \lambda_{i}^{\ell} u_{2 i, t-\ell}
+\end{aligned}
+\]</span></p>
+<p>The series <span class="math inline">\(\sum_{\ell=0}^{\infty} \lambda_{i}^{\ell}\)</span> and <span class="math inline">\(\sum_{\ell=0}^{\infty} \ell \lambda_{i}^{\ell}\)</span> are convergent by the ratio test (Theorem A.3 of Probability and Statistics for Economists) because <span class="math inline">\(\left|\lambda_{i}\right|&lt;1\)</span>. Thus the above sums satisfy the conditions of Theorem <span class="math inline">\(14.6\)</span> so are strictly stationary and ergodic as required.</p>
+<p>Blocks with multiplicity <span class="math inline">\(s&gt;2\)</span> are handled by similar but more tedious calculations.</p>
+<p>Proof of Theorem <span class="math inline">\(15.8\)</span> The assumption that <span class="math inline">\(\Sigma&gt;0\)</span> means that if we regress <span class="math inline">\(Y_{1 t}\)</span> on <span class="math inline">\(Y_{2 t}, \ldots, Y_{p t}\)</span> and <span class="math inline">\(Y_{t-1}, \ldots, Y_{t-p}\)</span> that the error will have positive variance. If <span class="math inline">\(\boldsymbol{Q}\)</span> is singular then there is some <span class="math inline">\(\gamma\)</span> such that <span class="math inline">\(\gamma^{\prime} \boldsymbol{Q} \gamma=0\)</span>. As in the proof of Theorem <span class="math inline">\(14.28\)</span> this means that the regression of <span class="math inline">\(Y_{1 t}\)</span> on <span class="math inline">\(Y_{2 t}, \ldots, Y_{p t}, Y_{t-1}, \ldots, Y_{t-p+1}\)</span> has a zero variance. This is a contradiction. We conclude that <span class="math inline">\(\boldsymbol{Q}\)</span> is not singular.</p>
+<p>Proof of Theorem 15.12 The first part of the theorem is established by back-substitution. Since <span class="math inline">\(Y_{t}\)</span> is a VAR(p) process,</p>
+<p><span class="math display">\[
+Y_{t+h}=a_{0}+\boldsymbol{A}_{1} Y_{t+h-1}+\boldsymbol{A}_{2} Y_{t+h-2}+\cdots+\boldsymbol{A}_{p} Y_{t+h-p}+e_{t} .
+\]</span></p>
+<p>We then substitute out the first lag. We find</p>
+<p><span class="math display">\[
+\begin{aligned}
+Y_{t+h} &amp;=a_{0}+\boldsymbol{A}_{1}\left(a_{0}+\boldsymbol{A}_{1} Y_{t+h-2}+\boldsymbol{A}_{2} Y_{t+h-3}+\cdots+\boldsymbol{A}_{p} Y_{t+h-p-1}+e_{t-1}\right)+\boldsymbol{A}_{2} Y_{t+h-2}+\cdots+\boldsymbol{A}_{p} Y_{t+h-p}+e_{t} \\
+&amp;=a_{0}+\boldsymbol{A}_{1} a_{0}+\left(\boldsymbol{A}_{1} \boldsymbol{A}_{1}+\boldsymbol{A}_{2}\right) Y_{t+h-2}+\left(\boldsymbol{A}_{1} \boldsymbol{A}_{2}+\boldsymbol{A}_{3}\right) Y_{t+h-3}+\cdots+\boldsymbol{A}_{p} \boldsymbol{A}_{p} Y_{t+h-p-1}+\boldsymbol{A}_{1} e_{t-1}+e_{t} .
+\end{aligned}
+\]</span></p>
+<p>We continue making substitutions. With each substitution the error increases its MA order. After <span class="math inline">\(h-1\)</span> substitutions the equation takes the form (15.12) with <span class="math inline">\(u_{t}\)</span> an MA(h-1) process.</p>
+<p>To recognize that <span class="math inline">\(\boldsymbol{B}_{1}=\Theta_{h}\)</span>, notice that the deduction that <span class="math inline">\(u_{t}\)</span> is an MA(h-1) process means that we can equivalently write <span class="math inline">\((15.12)\)</span> as</p>
+<p><span class="math display">\[
+Y_{t+h}=b_{0}+\sum_{j=1}^{\infty} \boldsymbol{B}_{j} Y_{t+1-j}+u_{t}
+\]</span></p>
+<p>with <span class="math inline">\(\boldsymbol{B}_{j}=0\)</span> for <span class="math inline">\(j&gt;p\)</span>. That is, the equation (15.12) includes all relevant lags. By the projection properties of regression coefficients this means that the coefficient <span class="math inline">\(\boldsymbol{B}_{1}\)</span> is invariant to replacing the regressor <span class="math inline">\(Y_{t}\)</span> by the innovation from its regression on the other lags. This is the VAR(p) model itself which has innovation <span class="math inline">\(e_{t}\)</span>. We have deduced that the coefficient <span class="math inline">\(\boldsymbol{B}_{1}\)</span> is equivalent to that in the regression</p>
+<p><span class="math display">\[
+Y_{t+h}=b_{0}+\boldsymbol{B}_{1} e_{t}+\sum_{j=2}^{\infty} \boldsymbol{B}_{j} Y_{t+1-j}+u_{t} .
+\]</span></p>
+<p>Notice that <span class="math inline">\(e_{t}\)</span> is uncorrelated with the other regressors. Thus <span class="math inline">\(\boldsymbol{B}_{1}=\frac{\partial}{\partial e_{t}^{t}} \mathscr{P}_{t}\left[Y_{t+h}\right]=\Theta_{h}\)</span> as claimed. This completes the proof.</p>
+</section>
+<section id="exercises" class="level2" data-number="15.32">
+<h2 data-number="15.32" class="anchored" data-anchor-id="exercises"><span class="header-section-number">15.32</span> Exercises</h2>
+<p>Exercise 15.1 Take the VAR(1) model <span class="math inline">\(Y_{t}=\boldsymbol{A} Y_{t-1}+e_{t}\)</span>. Assume <span class="math inline">\(e_{t}\)</span> is i.i.d. For each specified matrix <span class="math inline">\(\boldsymbol{A}\)</span> below, check if <span class="math inline">\(Y_{t}\)</span> is strictly stationary. Use mathematical software to compute eigenvalues if needed.\ (a) <span class="math inline">\(\boldsymbol{A}=\left[\begin{array}{ll}0.7 &amp; 0.2 \\ 0.2 &amp; 0.7\end{array}\right]\)</span>\ (b) <span class="math inline">\(\boldsymbol{A}=\left[\begin{array}{ll}0.8 &amp; 0.4 \\ 0.4 &amp; 0.8\end{array}\right]\)</span>\ (c) <span class="math inline">\(\boldsymbol{A}=\left[\begin{array}{cc}0.8 &amp; 0.4 \\ -0.4 &amp; 0.8\end{array}\right]\)</span></p>
+<p>Exercise 15.2 Take theVAR(2) model <span class="math inline">\(Y_{t}=\boldsymbol{A}_{1} Y_{t-1}+\boldsymbol{A}_{2} Y_{t-2}+e_{t}\)</span> with <span class="math inline">\(\boldsymbol{A}_{1}=\left[\begin{array}{cc}0.3 &amp; 0.2 \\ 0.2 &amp; 0.3\end{array}\right]\)</span> and <span class="math inline">\(\boldsymbol{A}_{2}=\left[\begin{array}{cc}0.4 &amp; -0.1 \\ -0.1 &amp; 0.4\end{array}\right]\)</span>. Assume <span class="math inline">\(e_{t}\)</span> is i.i.d. Is <span class="math inline">\(Y_{t}\)</span> strictly stationary? Use mathematical software if needed.</p>
+<p>Exercise 15.3 Suppose <span class="math inline">\(Y_{t}=\boldsymbol{A} Y_{t-1}+u_{t}\)</span> and <span class="math inline">\(u_{t}=\boldsymbol{B} u_{t-1}+e_{t}\)</span>. Show that <span class="math inline">\(Y_{t}\)</span> is a VAR(2) and derive the coefficient matrices and equation error.</p>
+<p>Exercise 15.4 Suppose <span class="math inline">\(Y_{i t}, i=1, \ldots, m\)</span>, are independent AR(p) processes. Derive the form of their joint VAR representation.</p>
+<p>Exercise 15.5 In the VAR(1) model <span class="math inline">\(Y_{t}=\boldsymbol{A}_{1} Y_{t-1}+e_{t}\)</span> find an explicit expression for the <span class="math inline">\(h\)</span>-step moving average matrix <span class="math inline">\(\Theta_{h}\)</span> from (15.3). Exercise 15.6 In the VAR(2) model <span class="math inline">\(Y_{t}=\boldsymbol{A}_{1} Y_{t-1}+\boldsymbol{A}_{2} Y_{t-2}+e_{t}\)</span> find explicit expressions for the moving average matrix <span class="math inline">\(\Theta_{h}\)</span> from (15.3) for <span class="math inline">\(h=1, \ldots 4\)</span>.</p>
+<p>Exercise 15.7 Derive a VAR(1) representation of a VAR(p) process analogously to equation (14.33) for autoregressions. Use this to derive an explicit formula for the <span class="math inline">\(h\)</span>-step impulse response IRF(h) analogously to (14.42).</p>
+<p>Exercise 15.8 Let <span class="math inline">\(Y_{t}=\left(Y_{1 t}, Y_{2 t}\right)^{\prime}\)</span> be <span class="math inline">\(2 \times 1\)</span> and consider a VAR(2) model. Suppose <span class="math inline">\(Y_{2 t}\)</span> does not Grangercause <span class="math inline">\(Y_{1 t}\)</span>. What are the implications for the VAR coefficient matrices <span class="math inline">\(\boldsymbol{A}_{1}\)</span> and <span class="math inline">\(\boldsymbol{A}_{2}\)</span> ?</p>
+<p>Exercise 15.9 Continuting the previous exercise, suppose that both <span class="math inline">\(Y_{2 t}\)</span> does not Granger-cause <span class="math inline">\(Y_{1 t}\)</span>, and <span class="math inline">\(Y_{1 t}\)</span> does not Granger-cause <span class="math inline">\(Y_{2 t}\)</span>. What are the implications for the VAR coefficient matrices <span class="math inline">\(\boldsymbol{A}_{1}\)</span> and <span class="math inline">\(\boldsymbol{A}_{2}\)</span> ?</p>
+<p>Exercise 15.10 Suppose that you have 20 years of monthly observations on <span class="math inline">\(m=8\)</span> variables. Your advisor recommends <span class="math inline">\(p=12\)</span> lags to account for annual patterns. How many coefficients per equation will you be estimating? How many observations do you have? In this context does it make sense to you to estimate a VAR(12) with all eight variables?</p>
+<p>Exercise 15.11 Let <span class="math inline">\(\widehat{e}_{t}\)</span> be the least squares residuals from an estimated VAR, <span class="math inline">\(\widehat{\Sigma}\)</span> be the residual covariance matrix, and <span class="math inline">\(\widehat{\boldsymbol{B}}=\operatorname{chol}(\widehat{\Sigma})\)</span>. Show that <span class="math inline">\(\widehat{\boldsymbol{B}}\)</span> can be calculated by recursive least squares using the residuals.</p>
+<p>Exercise 15.12 Cholesky factorization</p>
+<ol type="a">
+<li><p>Derive the Cholesky decomposition of the covariance matrix <span class="math inline">\(\left[\begin{array}{cc}\sigma_{1}^{2} &amp; \rho \sigma_{1} \sigma_{2} \\ \rho \sigma_{1} \sigma_{2} &amp; \sigma_{1}^{2}\end{array}\right]\)</span>.</p></li>
+<li><p>Write the answer for the correlation matrix (the special case <span class="math inline">\(\sigma_{1}^{2}=1\)</span> and <span class="math inline">\(\sigma_{2}^{2}=1\)</span> ).</p></li>
+<li><p>Find an upper triangular decomposition for the correlation matrix. That is, an upper-triangular matrix <span class="math inline">\(R\)</span> which satisfies <span class="math inline">\(R R^{\prime}=\left[\begin{array}{ll}1 &amp; \rho \\ \rho &amp; 1\end{array}\right]\)</span>.</p></li>
+<li><p>Suppose <span class="math inline">\(\Theta_{h}=\left[\begin{array}{ll}1 &amp; 0 \\ 1 &amp; 1\end{array}\right], \sigma_{1}^{2}=1\)</span>, and <span class="math inline">\(\sigma_{2}^{2}=1\)</span>, and <span class="math inline">\(\rho=0.8\)</span>. Find the orthogonalized impulse response OIRF(h) using the Cholesky decomposition.</p></li>
+<li><p>Suppose that the ordering of the variables is reversed. This is equivalent to using the upper triangular decomposition from part (c). Calculate the orthogonalized impulse response OIRF(h).</p></li>
+<li><p>Compare the two orthogonalized impulse responses.</p></li>
+</ol>
+<p>Exercise 15.13 You read an empirical paper which estimates a VAR in a listed set of variables and displays estimated orthogonalized impulse response functions. No comment is made in the paper about the ordering or the identification of the system, and you have no reason to believe that the order used is “standard” in the literature. How should you interpret the estimated impulse response functions?</p>
+<p>Exercise 15.14 Take the quarterly series gdpcl (real GDP), gdpctpi (GDP price deflator), and fedfunds (Fed funds interest rate) from FRED-QD. Transform the first two into growth rates as in Section 15.13. Estimate the same three-variable VAR(6) using the same ordering. The identification strategy discussed in Section <span class="math inline">\(15.23\)</span> specifies the supply shock as the orthogonalized shock to the GDP equation. Calculate the impulse response function of GDP, the price level, and the Fed funds rate with respect to this supply shock. For the first two this will require calculating the cumulative impulse response function. (Explain why.) Comment on the estimated functions. Exercise 15.15 Take the Kilian2009 dataset which has the variables oil (oil production), output (global economic activity), and price (price of crude oil). Estimate an orthogonalized VAR(4) using the same ordering as in Kilian (2009) as described in Section 15.24. (As described in that section, multiply “oil” by <span class="math inline">\(-1\)</span> so that all shocks increase prices.) Estimate the impulse response of output with respect to the three shocks. Comment on the estimated functions.</p>
+<p>Exercise 15.16 Take the monthly series permit (building permits), houst (housing starts), and realln (real estate loans) from FRED-MD. The listed ordering is motivated by transaction timing. A developer is required to obtain a building permit before they start building a house (the latter is known as a “housing start”). A real estate loan is obtained when the house is purchased.</p>
+<ol type="a">
+<li><p>Transform realln into growth rates (first difference of logs).</p></li>
+<li><p>Select an appropriate lag order for the three-variable system by comparing the AIC of VARs of order 1 through 8.</p></li>
+<li><p>Estimate the VAR model and plot the impulse response functions of housing starts with respect to the three shocks.</p></li>
+<li><p>Interpret your findings.</p></li>
+</ol>
+<p>Exercise 15.17 Take the quarterly series gpdicl (Real Gross Private Domestic Investment), gdpctpi (GDP price deflator), gdpcl (real GDP), and fedfunds (Fed funds interest rate) from FRED-QD. Transform the first three into logs, e.g.&nbsp;<span class="math inline">\(g d p=100 \log (g d p c 1)\)</span>. Consider a structural VAR based on short-run restrictions. Use a structure of the form <span class="math inline">\(\boldsymbol{A} \boldsymbol{e}_{t}=\varepsilon_{t}\)</span>. Impose the restrictions that the first three variables do not react to the fed funds rate, that investment does not respond to prices, and that prices do not respond to investment. Finally, impose that investment is short-run unit elastic with respect to GDP (in the equation for investment, the <span class="math inline">\(\boldsymbol{A}\)</span> coefficient on GDP is <span class="math inline">\(-1\)</span> ).</p>
+<ol type="a">
+<li><p>Write down the matrix <span class="math inline">\(\boldsymbol{A}\)</span> similar to (15.22), imposing the identifying constraints as defined above.</p></li>
+<li><p>Is the model identified? Is there a condition for identification? Explain.</p></li>
+<li><p>In this model are output and price simultaneous, or recursive as in the example described in Section <span class="math inline">\(15.23\)</span> ?</p></li>
+<li><p>Estimate the structural VAR using 6 lags or a different number of your choosing (justify your choice) and include an exogenous time trend. Report your estimates of the <span class="math inline">\(\boldsymbol{A}\)</span> matrix. Can you interpret the coefficients?</p></li>
+<li><p>Estimate and report the following three impulse response functions:</p></li>
+</ol>
+<ol type="1">
+<li><p>The effect of the fed funds rate on GDP.</p></li>
+<li><p>The effect of the GDP shock on GDP.</p></li>
+<li><p>The effect of the GDP shock on prices.</p></li>
+</ol>
+<p>Exercise 15.18 Take the Kilian2009 dataset which has the variables oil (oil production), output (global economic activity), and price (price of crude oil). Consider a structural VAR based on short-run restrictions. Use a structure of the form <span class="math inline">\(A e_{t}=\varepsilon_{t}\)</span>. Impose the restrictions that oil production does not respond to output or oil prices, and that output does not respond to oil production. The last restriction can be motivated by the observation that supply disruptions take more than a month to reach the retail market so the effect on economic activity is similarly delayed by one month. (a) Write down the matrix <span class="math inline">\(\boldsymbol{A}\)</span> similar to (15.22) imposing the identifying constraints as defined above.</p>
+<ol start="2" type="a">
+<li><p>Is the model identified? Is there a condition for identification? Explain.</p></li>
+<li><p>Estimate the structural VAR using 4 lags or a different number of your choosing (justify your choice). (As described in that section, multiply “oil” by <span class="math inline">\(-1\)</span> so that all shocks increase prices.) Report your estimates of the <span class="math inline">\(\boldsymbol{A}\)</span> matrix. Can you interpret the coefficients?</p></li>
+<li><p>Estimate the impulse response of oil price with respect to the three shocks. Comment on the estimated functions.</p></li>
+</ol>
+<p>Exercise 15.19 Take the quarterly series gdpc1 (real GDP), m1realx (real M1 money stock), and cpiaucsl (CPI) from FRED-QD. Create nominal M1 (multiply m1realx times cpiaucsl), and transform real GDP and nominal M1 to growth rates. The hypothesis of monetary neutrality is that the nominal money supply has no effect on real outcomes such as GDP. Strict monetary neutrality states that there is no short or long-term effect. Long-run neutrality states that there is no long-term effect.</p>
+<ol type="a">
+<li><p>To test strict neutrality use a Granger-causality test. Regress GDP growth on four lags of GDP growth and four lags of money growth. Test the hypothesis that the four money lags jointly have zero coeffficients. Use robust standard errors. Interpret the results.</p></li>
+<li><p>To test long-run neutrality test if the sum of the four coefficients on money growth equals zero. Interpret the results.</p></li>
+<li><p>Estimate a structural VAR in real GDP growth and nominal money growth imposing the long-run neutrality of money. Explain your method.</p></li>
+<li><p>Report estimates of the impulse responses of the levels of GDP and nominal money to the two shocks. Interpret the results.</p></li>
+</ol>
+<p>Exercise 15.20 Shapiro and Watson (1988) estimated a structural VAR imposing long-run constraints. Replicate a simplified version of their model. Take the quarterly series hoanbs (hours worked, nonfarm business sector), gdpcl (real GDP), and gdpctpi (GDP deflator) from FRED-QD. Transform the first two to growth rates and for the third (GDP deflator) take the second difference of the logarithm (differenced inflation). Shapiro and Watson estimated a structural model imposing the constraints that labor supply hours are long-run unaffected by output and inflation and GDP is long-run unaffected by demand shocks. This implies a recursive ordering in the variables for a long-run restriction.</p>
+<ol type="a">
+<li><p>Write down the matrix <span class="math inline">\(\boldsymbol{C}\)</span> as in (15.24) imposing the identifying constraints as defined above.</p></li>
+<li><p>Is the model identified?</p></li>
+<li><p>Use the AIC to select the number of lags for a VAR.</p></li>
+<li><p>Estimate the structural VAR. Report the estimated <span class="math inline">\(\boldsymbol{C}\)</span> matrix. Can you interpret the coefficients?</p></li>
+<li><p>Estimate the structural impulse responses of the level of GDP with respect to the three shocks. Interpret the results.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt14-time-series.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./chpt17-panel-data.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

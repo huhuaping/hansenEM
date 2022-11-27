@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.253">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Hansen中高级计量体系 - 21&nbsp; M-Estimators</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./part06-nonlinear.html" rel="next">
+<link href="./chpt21-rdd.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Hansen中高级计量体系</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/huhuaping/hansenEM/" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">前言</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./participate.html" class="sidebar-item-text sidebar-link">如何参与？</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt01-intro-chn.html" class="sidebar-item-text sidebar-link">介绍</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part01-reg.html" class="sidebar-item-text sidebar-link">回归</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Conditional Expectation and Projection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt02-ce-chn.html" class="sidebar-item-text sidebar-link">条件预期和预测</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The Algebra of Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt03-algebra-chn.html" class="sidebar-item-text sidebar-link">最小二乘代数</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt04-lsr.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Least Squares Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt05-normal-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Normal Regression</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part02-LSM.html" class="sidebar-item-text sidebar-link">大样本方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt06-review.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">A Review of Large Sample Asymptotics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt07-asymptotic-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Asymptotic Theory for Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt08-restricted-est.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Restricted Estimation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt09-hypothesit-test.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Hypothesis Testing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt10-resample-method.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Resampling Methods</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part03-MEQ.html" class="sidebar-item-text sidebar-link">多方程模型</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt11-multi-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Multivariate Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt12-iv.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Instrumental Variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt13-gmm.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Generalized Method of Moments</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part04-pannel.html" class="sidebar-item-text sidebar-link">面板数据</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt14-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt15-multiple-time-series.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Multivariate Time Series</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt17-panel-data.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Panel Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt18-did.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Difference in Differences</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part05-nonpar.html" class="sidebar-item-text sidebar-link">非参方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt19-nonparameter.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Nonparametric Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt20-series-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Series Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt21-rdd.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt22-m-est.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./part06-nonlinear.html" class="sidebar-item-text sidebar-link">非线性方法</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt23-nonliear-ls.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Nonlinear Least Squares</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt24-quantile-reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Quantile Regression</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt26-multiple-choice.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Multiple Choice</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt27-censor-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Censoring and Selection</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt28-model-selection.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Model Selection, Stein Shrinkage, and Model Averaging</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chpt29-ML.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Machine Learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link">Summary</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">References</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./a1-notation.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">附录a1</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">21.1</span>  Introduction</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="toc-section-number">21.2</span>  Examples</a></li>
+  <li><a href="#identification-and-estimation" id="toc-identification-and-estimation" class="nav-link" data-scroll-target="#identification-and-estimation"><span class="toc-section-number">21.3</span>  Identification and Estimation</a></li>
+  <li><a href="#consistency" id="toc-consistency" class="nav-link" data-scroll-target="#consistency"><span class="toc-section-number">21.4</span>  Consistency</a></li>
+  <li><a href="#uniform-law-of-large-numbers" id="toc-uniform-law-of-large-numbers" class="nav-link" data-scroll-target="#uniform-law-of-large-numbers"><span class="toc-section-number">21.5</span>  Uniform Law of Large Numbers</a></li>
+  <li><a href="#asymptotic-distribution" id="toc-asymptotic-distribution" class="nav-link" data-scroll-target="#asymptotic-distribution"><span class="toc-section-number">21.6</span>  Asymptotic Distribution</a></li>
+  <li><a href="#asymptotic-distribution-under-broader-conditions" id="toc-asymptotic-distribution-under-broader-conditions" class="nav-link" data-scroll-target="#asymptotic-distribution-under-broader-conditions"><span class="toc-section-number">21.7</span>  Asymptotic Distribution Under Broader Conditions*</a></li>
+  <li><a href="#covariance-matrix-estimation" id="toc-covariance-matrix-estimation" class="nav-link" data-scroll-target="#covariance-matrix-estimation"><span class="toc-section-number">21.8</span>  Covariance Matrix Estimation</a></li>
+  <li><a href="#technical-proofs" id="toc-technical-proofs" class="nav-link" data-scroll-target="#technical-proofs"><span class="toc-section-number">21.9</span>  Technical Proofs*</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="toc-section-number">21.10</span>  Exercises</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/huhuaping/hansenEM/edit/master/chpt22-m-est.qmd" class="toc-action">Edit this page</a></p></div></div></nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">M-Estimators</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">21.1</span> Introduction</h2>
+<p>So far in this textbook we have primarily focused on estimators which have explicit algebraic expressions. However, many econometric estimators need to be calculated by numerical methods. These estimators are collectively described as nonlinear. Many fall in a broad class known as m-estimators. In this part of the textbook we describe a number of m-estimators in wide use in econometrics. They have a common structure which allows for a unified treatment of estimation and inference.</p>
+<p>An m-estimator is defined as a minimizer of a sample average</p>
+<p><span class="math display">\[
+\begin{gathered}
+\widehat{\theta}=\underset{\theta \in \Theta}{\operatorname{argmin}} S_{n}(\theta) \\
+S_{n}(\theta)=\frac{1}{n} \sum_{i=1}^{n} \rho\left(Y_{i}, X_{i}, \theta\right)
+\end{gathered}
+\]</span></p>
+<p>where <span class="math inline">\(\rho(Y, X, \theta)\)</span> is some function of <span class="math inline">\((Y, X)\)</span> and a parameter <span class="math inline">\(\theta \in \Theta\)</span>. The function <span class="math inline">\(S_{n}(\theta)\)</span> is called the criterion function or objective function. For notational simplicity set <span class="math inline">\(\rho_{i}(\theta)=\rho\left(Y_{i}, X_{i}, \theta\right)\)</span>.</p>
+<p>This includes maximum likelihood when <span class="math inline">\(\rho_{i}(\theta)\)</span> is the negative log-density function. “m-estimators” are a broader class; the prefix “m” stands for “maximum likelihood-type”.</p>
+<p>The issues we focus on in this chaper are: (1) identification; (2) estimation; (3) consistency; (4) asymptotic distribution; and (5) covariance matrix estimation.</p>
+</section>
+<section id="examples" class="level2" data-number="21.2">
+<h2 data-number="21.2" class="anchored" data-anchor-id="examples"><span class="header-section-number">21.2</span> Examples</h2>
+<p>There are many m-estimators in common econometric usage. Some examples include the following.</p>
+<ol type="1">
+<li><p>Ordinary Least Squares: <span class="math inline">\(\rho_{i}(\theta)=\left(Y_{i}-X_{i}^{\prime} \theta\right)^{2}\)</span>.</p></li>
+<li><p>Nonlinear Least Squares: <span class="math inline">\(\rho_{i}(\theta)=\left(Y_{i}-m\left(X_{i}, \theta\right)\right)^{2}\)</span> (Chapter 23).</p></li>
+<li><p>Least Absolute Deviations: <span class="math inline">\(\rho_{i}(\theta)=\left|Y_{i}-X_{i}^{\prime} \theta\right|\)</span> (Chapter 24).</p></li>
+<li><p>Quantile Regression: <span class="math inline">\(\rho_{i}(\theta)=\left(Y_{i}-X_{i}^{\prime} \theta\right)\left(\tau-\mathbb{1}\left\{\left(Y_{i}-X_{i}^{\prime} \theta\right)&lt;0\right\}\right)\)</span> (Chapter 24).</p></li>
+<li><p>Maximum Likelihood: <span class="math inline">\(\rho_{i}(\theta)=-\log f\left(Y_{i} \mid X_{i}, \theta\right)\)</span>. The final category - Maximum Likelihood Estimation - includes many estimators as special cases. This includes many standard estimators of limited-dependent-variable models (Chapters 25-27). To illustrate, the probit model for a binary dependent variable is</p></li>
+</ol>
+<p><span class="math display">\[
+\mathbb{P}[Y=1 \mid X]=\Phi\left(X^{\prime} \theta\right)
+\]</span></p>
+<p>where <span class="math inline">\(\Phi(u)\)</span> is the normal cumulative distribution function. We will study probit estimation in detail in Chapter 25. The negative log-density function is</p>
+<p><span class="math display">\[
+\rho_{i}(\theta)=-Y_{i} \log \left(\Phi\left(X_{i}^{\prime} \theta\right)\right)-\left(1-Y_{i}\right) \log \left(1-\Phi\left(X_{i}^{\prime} \theta\right)\right) .
+\]</span></p>
+<p>Not all nonlinear estimators are m-estimators. Examples include method of moments, GMM, and minimum distance.</p>
+</section>
+<section id="identification-and-estimation" class="level2" data-number="21.3">
+<h2 data-number="21.3" class="anchored" data-anchor-id="identification-and-estimation"><span class="header-section-number">21.3</span> Identification and Estimation</h2>
+<p>A parameter vector <span class="math inline">\(\theta\)</span> is identified if it is uniquely determined by the probability distribution of the observations. This is a property of the probability distribution, not of the estimator.</p>
+<p>However, when discussing a specific estimator it is common to describe identification in terms of the criterion function. Assume <span class="math inline">\(\mathbb{E}|\rho(Y, X, \theta)|&lt;\infty\)</span>. Define</p>
+<p><span class="math display">\[
+S(\theta)=\mathbb{E}\left[S_{n}(\theta)\right]=\mathbb{E}[\rho(Y, X, \theta)]
+\]</span></p>
+<p>and its population minimizer</p>
+<p><span class="math display">\[
+\theta_{0}=\underset{\theta \in \Theta}{\operatorname{argmin}} S(\theta) .
+\]</span></p>
+<p>We say that <span class="math inline">\(\theta\)</span> is identified (or point identified) by <span class="math inline">\(S(\theta)\)</span> if the minimizer <span class="math inline">\(\theta_{0}\)</span> is unique.</p>
+<p>In nonlinear models it is difficult to provide general conditions under which a parameter is identified. Identification needs to be examined on a model-by-model basis.</p>
+<p>An m-estimator <span class="math inline">\(\widehat{\theta}\)</span> by definition minimizes <span class="math inline">\(S_{n}(\theta)\)</span>. When there is no explicit algebraic expression for the solution the minimization is done numerically. Such numerical methods are reviewed in Chapter 12 of Probability and Statistics for Economists.</p>
+<p>We illustrate using the probit model of the previous section. We use the CPS dataset for <span class="math inline">\(Y\)</span> equal to an indicator that the individual is married <span class="math inline">\({ }^{1}\)</span>, and set the regressors equal to years of education, age, and age squared. We obtain the following estimates</p>
+<p><img src="images//2022_10_23_2c4fe6dc0800a1c87de2g-02.jpg" class="img-fluid"></p>
+<p>Standard error calculation will be discussed in Section 22.8. In this application we see that the probability of marriage is increasing in years of education and is an increasing yet concave function of age.</p>
+</section>
+<section id="consistency" class="level2" data-number="21.4">
+<h2 data-number="21.4" class="anchored" data-anchor-id="consistency"><span class="header-section-number">21.4</span> Consistency</h2>
+<p>It seems reasonable to expect that if a parameter is identified then we should be able to estimate the parameter consistently. For linear estimators we demonstrated consistency by applying the WLLN to the</p>
+<p><span class="math inline">\({ }^{1}\)</span> We define married <span class="math inline">\(=1\)</span> if marital equals 1,2 , or 3. explicit algebraic expressions for the estimators. This is not possible for nonlinear estimators because they do not have explicit algebraic expressions.</p>
+<p>Instead, what is available to us is that an m-estimator minimizes the criterion function <span class="math inline">\(S_{n}(\theta)\)</span> which is itself a sample average. For any given <span class="math inline">\(\theta\)</span> the WLLN shows that <span class="math inline">\(S_{n}(\theta) \underset{p}{\longrightarrow} S(\theta)\)</span>. It is intuitive that the minimizer of <span class="math inline">\(S_{n}(\theta)\)</span> (the m-estimator <span class="math inline">\(\widehat{\theta}\)</span> ) will converge in probability to the minimizer of <span class="math inline">\(S(\theta)\)</span> (the parameter <span class="math inline">\(\theta_{0}\)</span> ). However, the WLLN by itself is not sufficient to make this extension.</p>
+<p><img src="images//2022_10_23_2c4fe6dc0800a1c87de2g-03.jpg" class="img-fluid"></p>
+<ol type="a">
+<li>Non-Uniform Convergence</li>
+</ol>
+<p><img src="images//2022_10_23_2c4fe6dc0800a1c87de2g-03(1).jpg" class="img-fluid"></p>
+<ol start="2" type="a">
+<li>Uniform Convergence</li>
+</ol>
+<p>Figure 22.1: Non-Uniform vs.&nbsp;Uniform Convergence</p>
+<p>To see the problem examine Figure 22.1(a). This displays a sequence of functions <span class="math inline">\(S_{n}(\theta)\)</span> (the dashed lines) for three values of <span class="math inline">\(n\)</span>. What is illustrated is that for each <span class="math inline">\(\theta\)</span> the function <span class="math inline">\(S_{n}(\theta)\)</span> converges towards the limit function <span class="math inline">\(S(\theta)\)</span>. However for each <span class="math inline">\(n\)</span> the function <span class="math inline">\(S_{n}(\theta)\)</span> has a severe dip in the right-hand region. The result is that the sample minimizer <span class="math inline">\(\widehat{\theta}_{n}\)</span> converges to the right-limit of the parameter space. In contrast, the minimizer <span class="math inline">\(\theta_{0}\)</span> of the limit criterion <span class="math inline">\(S(\theta)\)</span> is in the interior of the parameter space. What we observe is that <span class="math inline">\(S_{n}(\theta)\)</span> converges to <span class="math inline">\(S(\theta)\)</span> for each <span class="math inline">\(\theta\)</span> but the minimizer <span class="math inline">\(\widehat{\theta}_{n}\)</span> does not converge to <span class="math inline">\(\theta_{0}\)</span>.</p>
+<p>A sufficient condition to exclude this pathological behavior is uniform convergence- uniformity over the parameter space <span class="math inline">\(\Theta\)</span>. As we show in Theorem 22.1, uniform convergence in probability of <span class="math inline">\(S_{n}(\theta)\)</span> to <span class="math inline">\(S(\theta)\)</span> is sufficient to establish that the m-estimator <span class="math inline">\(\widehat{\theta}\)</span> is consistent for <span class="math inline">\(\theta_{0}\)</span>.</p>
+<p>Definition 22.1 <span class="math inline">\(S_{n}(\theta)\)</span> converges in probability to <span class="math inline">\(S(\theta)\)</span> uniformly over <span class="math inline">\(\theta \in \Theta\)</span> if</p>
+<p><span class="math display">\[
+\sup _{\theta \in \Theta}\left|S_{n}(\theta)-S(\theta)\right| \underset{p}{\longrightarrow} 0
+\]</span></p>
+<p>as <span class="math inline">\(n \rightarrow \infty\)</span></p>
+<p>Uniform convergence excludes erratic wiggles in <span class="math inline">\(S_{n}(\theta)\)</span> uniformly across <span class="math inline">\(\theta\)</span> and <span class="math inline">\(n\)</span> (e.g., what occurs in Figure 22.1(a)). The idea is illustrated in Figure 22.1(b). The heavy solid line is the function <span class="math inline">\(S(\theta)\)</span>. The dashed lines are <span class="math inline">\(S(\theta)+\varepsilon\)</span> and <span class="math inline">\(S(\theta)-\varepsilon\)</span>. The thin solid line is the sample criterion <span class="math inline">\(S_{n}(\theta)\)</span>. The figure illustrates a situation where the sample criterion satisifes <span class="math inline">\(\sup _{\theta \in \Theta}\left|S_{n}(\theta)-S(\theta)\right|&lt;\varepsilon\)</span>. The sample criterion as displayed weaves up and down but stays within <span class="math inline">\(\varepsilon\)</span> of <span class="math inline">\(S(\theta)\)</span>. Uniform convergence holds if the event shown in Figure 22.1(b) holds with high probability for <span class="math inline">\(n\)</span> sufficiently large, for any arbitrarily small <span class="math inline">\(\varepsilon\)</span>.</p>
+<p>Theorem <span class="math inline">\(22.1 \hat{\theta} \underset{p}{\longrightarrow} \theta_{0}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> if</p>
+<ol type="1">
+<li><p><span class="math inline">\(S_{n}(\theta)\)</span> converges in probability to <span class="math inline">\(S(\theta)\)</span> uniformly over <span class="math inline">\(\theta \in \Theta\)</span>.</p></li>
+<li><p><span class="math inline">\(\theta_{0}\)</span> uniquely minimizes <span class="math inline">\(S(\theta)\)</span> in the sense that for all <span class="math inline">\(\epsilon&gt;0\)</span>,</p></li>
+</ol>
+<p><span class="math display">\[
+\inf _{\theta:\left\|\theta-\theta_{0}\right\| \geq \epsilon} S(\theta)&gt;S\left(\theta_{0}\right) .
+\]</span></p>
+<p>Theorem <span class="math inline">\(22.1\)</span> shows that an m-estimator is consistent for its population parameter. There are only two conditions. First, the criterion function converges uniformly in probability to its expected value, and second, the minimizer <span class="math inline">\(\theta_{0}\)</span> is unique. The assumption excludes the possibility that <span class="math inline">\(\lim _{j} S\left(\theta_{j}\right)=S\left(\theta_{0}\right.\)</span> ) for some sequence <span class="math inline">\(\theta_{j} \in \Theta\)</span> not converging to <span class="math inline">\(\theta_{0}\)</span>.</p>
+<p>The proof of Theorem <span class="math inline">\(22.1\)</span> is provided in Section 22.9.</p>
+</section>
+<section id="uniform-law-of-large-numbers" class="level2" data-number="21.5">
+<h2 data-number="21.5" class="anchored" data-anchor-id="uniform-law-of-large-numbers"><span class="header-section-number">21.5</span> Uniform Law of Large Numbers</h2>
+<p>The uniform convergence of Definition <span class="math inline">\(22.1\)</span> is a high-level assumption. In this section we provide lower level sufficient conditions.</p>
+<p>Theorem 22.2 Uniform Law of Large Numbers (ULLN) Assume</p>
+<ol type="1">
+<li><p><span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are i.i.d.</p></li>
+<li><p><span class="math inline">\(\rho(Y, X, \theta)\)</span> is continuous in <span class="math inline">\(\theta \in \Theta\)</span> with probability one.</p></li>
+<li><p><span class="math inline">\(|\rho(Y, X, \theta)| \leq G(Y, X)\)</span> where <span class="math inline">\(\mathbb{E}[G(Y, X)]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\Theta\)</span> is compact.</p></li>
+</ol>
+<p>Then <span class="math inline">\(\sup _{\theta \in \Theta}\left|S_{n}(\theta)-S(\theta)\right| \underset{p}{\longrightarrow} 0\)</span></p>
+<p>Theorem <span class="math inline">\(22.2\)</span> is established in Theorem <span class="math inline">\(18.2\)</span> of Probability and Statistics for Economists.</p>
+<p>Assumption 2 holds if <span class="math inline">\(\rho(y, x, \theta)\)</span> is continuous in <span class="math inline">\(\theta\)</span>, or if the discontinuities occur at points of zero probability. This allows for most relevant applications in econometrics. Theorem <span class="math inline">\(18.2\)</span> of Probability and Statistics for Economists also provides conditions based on finite bracketing or covering numbers which allow for more generality. Assumption 3 is a slight strengthening of the finite-expectation condition <span class="math inline">\(\mathbb{E}[\rho(Y, X, \theta)]&lt;\infty\)</span>. The function <span class="math inline">\(G(Y, X)\)</span> is called an envelope. The ULLN extends to time series and clustered samples. See B. E. Hansen and S. Lee (2019) for clustered samples.</p>
+<p>Combining Theorems <span class="math inline">\(22.1\)</span> and <span class="math inline">\(22.2\)</span> we obtain a set of conditions for consistent estimation.</p>
+<p>Theorem <span class="math inline">\(22.3 \hat{\theta} \underset{p}{\longrightarrow} \theta_{0}\)</span> as <span class="math inline">\(n \rightarrow \infty\)</span> if</p>
+<ol type="1">
+<li><p><span class="math inline">\(\left(Y_{i}, X_{i}\right)\)</span> are i.i.d.</p></li>
+<li><p><span class="math inline">\(\rho(Y, X, \theta)\)</span> is continuous in <span class="math inline">\(\theta \in \Theta\)</span> with probability one.</p></li>
+<li><p><span class="math inline">\(|\rho(Y, X, \theta)| \leq G(Y, X)\)</span> where <span class="math inline">\(\mathbb{E}[G(Y, X)]&lt;\infty\)</span>.</p></li>
+<li><p><span class="math inline">\(\Theta\)</span> is compact.</p></li>
+<li><p><span class="math inline">\(\theta_{0}\)</span> uniquely minimizes <span class="math inline">\(S(\theta)\)</span>.</p></li>
+</ol>
+</section>
+<section id="asymptotic-distribution" class="level2" data-number="21.6">
+<h2 data-number="21.6" class="anchored" data-anchor-id="asymptotic-distribution"><span class="header-section-number">21.6</span> Asymptotic Distribution</h2>
+<p>We now establish an asymptotic distribution theory. We start by an informal demonstration, present a general result under high-level conditions, and then discuss the assumptions and conditions. Define</p>
+<p><span class="math display">\[
+\begin{aligned}
+\psi(Y, X, \theta) &amp;=\frac{\partial}{\partial \theta} \rho(Y, X, \theta) \\
+\bar{\psi}_{n}(\theta) &amp;=\frac{\partial}{\partial \theta} S_{n}(\theta) \\
+\psi(\theta) &amp;=\frac{\partial}{\partial \theta} S(\theta) .
+\end{aligned}
+\]</span></p>
+<p>Also define <span class="math inline">\(\psi_{i}(\theta)=\psi\left(Y_{i}, X_{i}, \theta\right)\)</span> and <span class="math inline">\(\psi_{i}=\psi_{i}\left(\theta_{0}\right)\)</span>.</p>
+<p>Since the m-estimator <span class="math inline">\(\widehat{\theta}\)</span> minimizes <span class="math inline">\(S_{n}(\theta)\)</span> it satisfies <span class="math inline">\({ }^{2}\)</span> the first-order condition <span class="math inline">\(0=\bar{\psi}_{n}(\widehat{\theta})\)</span>. Expand the right-hand side as a first order Taylor expansion about <span class="math inline">\(\theta_{0}\)</span>. This is valid when <span class="math inline">\(\widehat{\theta}\)</span> is in a neighborhood of <span class="math inline">\(\theta_{0}\)</span>, which holds for <span class="math inline">\(n\)</span> sufficiently large by Theorem 22.1. This yields</p>
+<p><span class="math display">\[
+0=\bar{\psi}_{n}(\widehat{\theta}) \simeq \bar{\psi}_{n}\left(\theta_{0}\right)+\frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} S_{n}\left(\theta_{0}\right)\left(\widehat{\theta}-\theta_{0}\right) .
+\]</span></p>
+<p>Rewriting, we obtain</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}-\theta_{0}\right) \simeq-\left(\frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} S_{n}\left(\theta_{0}\right)\right)^{-1}\left(\sqrt{n} \bar{\psi}_{n}\left(\theta_{0}\right)\right) .
+\]</span></p>
+<p>Consider the two components. First, by the WLLN</p>
+<p><span class="math display">\[
+\frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} S_{n}\left(\theta_{0}\right)=\frac{1}{n} \sum_{i=1}^{n} \frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} \rho\left(Y_{i}, X_{i}, \theta_{0}\right) \underset{p}{\longrightarrow} \mathbb{E}\left[\frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} \rho_{i}\left(Y, X, \theta_{0}\right)\right] \stackrel{\text { def }}{=} \boldsymbol{Q}
+\]</span></p>
+<p><span class="math inline">\({ }^{2}\)</span> If <span class="math inline">\(\widehat{\theta}\)</span> is an interior solution. Since <span class="math inline">\(\widehat{\theta}\)</span> is consistent this occurs with probability approaching one if <span class="math inline">\(\theta_{0}\)</span> is in the interior of the parameter space <span class="math inline">\(\Theta\)</span>. Second,</p>
+<p><span class="math display">\[
+\sqrt{n} \bar{\psi}_{n}\left(\theta_{0}\right)=\frac{1}{\sqrt{n}} \sum_{i=1}^{n} \psi_{i} .
+\]</span></p>
+<p>Since <span class="math inline">\(\theta_{0}\)</span> minimizes <span class="math inline">\(S(\theta)=\mathbb{E}\left[\rho_{i}(\theta)\right]\)</span> it satisfies the first-order condition</p>
+<p><span class="math display">\[
+0=\psi\left(\theta_{0}\right)=\mathbb{E}\left[\psi\left(Y, X, \theta_{0}\right)\right] .
+\]</span></p>
+<p>Thus the summands in (22.2) are mean zero. Applying a CLT this sum converges in distribution to <span class="math inline">\(\mathrm{N}(0, \Omega)\)</span> where <span class="math inline">\(\Omega=\mathbb{E}\left[\psi_{i} \psi_{i}^{\prime}\right]\)</span>. We deduce that</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}-\theta_{0}\right) \underset{d}{\longrightarrow} \boldsymbol{Q}^{-1} \mathrm{~N}(0, \Omega)=\mathrm{N}\left(0, \boldsymbol{Q}^{-1} \Omega \boldsymbol{Q}^{-1}\right) .
+\]</span></p>
+<p>The technical hurdle to make this derivation rigorous is justifying the Taylor expansion (22.1). This can be done through smoothness of the second derivative of <span class="math inline">\(\rho_{i}\left(\theta_{0}\right)\)</span>. An alternative (more advanced) argument based on empirical process theory uses weaker assumptions. Set</p>
+<p><span class="math display">\[
+\begin{aligned}
+\boldsymbol{Q}(\theta) &amp;=\frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} S(\theta) \\
+\boldsymbol{Q} &amp;=\boldsymbol{Q}\left(\theta_{0}\right)
+\end{aligned}
+\]</span></p>
+<p>Let <span class="math inline">\(\mathscr{N}\)</span> be some neighborhood of <span class="math inline">\(\theta_{0}\)</span>.</p>
+<p>Theorem 22.4 Assume the conditions of Theorem <span class="math inline">\(22.1\)</span> hold, plus</p>
+<ol type="1">
+<li><p><span class="math inline">\(\mathbb{E}\left\|\psi\left(Y, X, \theta_{0}\right)\right\|^{2}&lt;\infty\)</span></p></li>
+<li><p><span class="math inline">\(Q&gt;0\)</span>.</p></li>
+<li><p><span class="math inline">\(\boldsymbol{Q}(\theta)\)</span> is continuous in <span class="math inline">\(\theta \in \mathscr{N}\)</span>.</p></li>
+<li><p>For all <span class="math inline">\(\theta_{1}, \theta_{2} \in \mathcal{N},\left\|\psi\left(Y, X, \theta_{1}\right)-\psi\left(Y, X, \theta_{2}\right)\right\| \leq B(Y, X)\left\|\theta_{1}-\theta_{2}\right\|\)</span> where <span class="math inline">\(\mathbb{E}\left[B(Y, X)^{2}\right]&lt;\infty\)</span></p></li>
+<li><p><span class="math inline">\(\theta_{0}\)</span> is in the interior of <span class="math inline">\(\Theta\)</span>.</p></li>
+</ol>
+<p>Then as <span class="math inline">\(n \rightarrow \infty, \sqrt{n}\left(\widehat{\theta}-\theta_{0}\right) \underset{d}{\longrightarrow} \mathrm{N}(0, \boldsymbol{V})\)</span> where <span class="math inline">\(\boldsymbol{V}=\boldsymbol{Q}^{-1} \Omega \boldsymbol{Q}^{-1}\)</span>.</p>
+<p>The proof of Theorem <span class="math inline">\(22.4\)</span> is presented in Section <span class="math inline">\(22.9\)</span>.</p>
+<p>In some cases the asymptotic covariance matrix simplifies. The leading case is correctly specified maximum likelihood estimation, where <span class="math inline">\(\boldsymbol{Q}=\Omega\)</span> so <span class="math inline">\(\boldsymbol{V}=\boldsymbol{Q}^{-1}=\Omega^{-1}\)</span>.</p>
+<p>Assumption 1 states that the scores <span class="math inline">\(\psi\left(Y, X, \theta_{0}\right)\)</span> have a finite second moment. This is necessary in order to apply the CLT. Assumption 2 is a full-rank condition and is related to identification. A sufficient condition for Assumption 3 is that the scores <span class="math inline">\(\psi(Y, X, \theta)\)</span> are continuously differentiable but this is not necessary. Assumption 3 is broader, allowing for discontinuous <span class="math inline">\(\psi(Y, X, \theta)\)</span>, so long as its expectation is continuous and differentiable. Assumption 4 states that <span class="math inline">\(\psi(Y, X, \theta)\)</span> is Lipschitz-continuous for <span class="math inline">\(\theta\)</span> near <span class="math inline">\(\theta_{0}\)</span>. Assumption 5 is required in order to justify the application of the mean-value expansion.</p>
+</section>
+<section id="asymptotic-distribution-under-broader-conditions" class="level2" data-number="21.7">
+<h2 data-number="21.7" class="anchored" data-anchor-id="asymptotic-distribution-under-broader-conditions"><span class="header-section-number">21.7</span> Asymptotic Distribution Under Broader Conditions*</h2>
+<p>Assumption 4 in Theorem <span class="math inline">\(22.4\)</span> requires that <span class="math inline">\(\psi(Y, X, \theta)\)</span> is Lipschitz-continuous. While this holds in most applications, it is violated in some important applications including quantile regression. In such cases we can appeal to alternative regularity conditions. These are more flexible, but less intuitive.</p>
+<p>The following result is a simple generalization of Lipschitz-continuity.</p>
+<p>Theorem 22.5 The results of Theorem <span class="math inline">\(22.4\)</span> hold if Assumption 4 is replaced with the following condition: For all <span class="math inline">\(\delta&gt;0\)</span> and all <span class="math inline">\(\theta_{1} \in \mathcal{N}\)</span>,</p>
+<p><span class="math display">\[
+\left(\mathbb{E}\left[\sup _{\left\|\theta-\theta_{1}\right\|&lt;\delta}\left\|\psi(Y, X, \theta)-\psi\left(Y, X, \theta_{1}\right)\right\|^{2}\right]\right)^{1 / 2} \leq C \delta^{\psi}
+\]</span></p>
+<p>for some <span class="math inline">\(C&lt;\infty\)</span> and <span class="math inline">\(0&lt;\psi&lt;\infty\)</span>.</p>
+<p>See Theorem <span class="math inline">\(18.5\)</span> of Probability and Statistics for Economists or Theorem 5 of Andrews (1994).</p>
+<p>The bound (22.4) holds for many examples with discontinuous <span class="math inline">\(\psi(Y, X, \theta)\)</span> when the discontinuities occur with zero probability.</p>
+<p>We next present a set of flexible results.</p>
+<p>Theorem 22.6 The results of Theorem <span class="math inline">\(22.4\)</span> hold if Assumption 4 is replaced with the following. First, for <span class="math inline">\(\theta \in \mathcal{N},\|\psi(Y, X, \theta)\| \leq G(Y, X)\)</span> with <span class="math inline">\(\mathbb{E}\left[G(Y, X)^{2}\right]&lt;\)</span> <span class="math inline">\(\infty\)</span>. Second, one of the following holds.</p>
+<ol type="1">
+<li><p><span class="math inline">\(\psi(y, x, \theta)\)</span> is Lipschitz-continuous.</p></li>
+<li><p><span class="math inline">\(\psi(y, x, \theta)=h\left(\theta^{\prime} \psi(x)\right)\)</span> where <span class="math inline">\(h(u)\)</span> has finite total variation.</p></li>
+<li><p><span class="math inline">\(\psi(y, x, \theta)\)</span> is a combination of functions of the form in parts 1 and 2 obtained by addition, multiplication, minimum, maximum, and composition.</p></li>
+<li><p><span class="math inline">\(\psi(y, x, \theta)\)</span> is a Vapnik-Červonenkis (VC) class.</p></li>
+</ol>
+<p>See Theorem 18.6 of Probability and Statistics for Economists or Theorems 2 and 3 of Andrews (1994).</p>
+<p>The function <span class="math inline">\(h\)</span> in part 2 allows for discontinuous functions, including the indicator and sign functions. Part 3 shows that combinations of smooth (Lipschitz) functions and discontinuous functions satisfying the condition of part 2 are allowed. This covers many relevant applications, including quantile regression. Part 4 states a general condition, that <span class="math inline">\(\psi(y, x, \theta)\)</span> is a VC class. As we will not be using this property in this textbook we will not discuss this further, but refer the interested reader to any textbook on empirical processes.</p>
+<p>Theorems <span class="math inline">\(22.5\)</span> and <span class="math inline">\(22.6\)</span> provide alternative conditions on <span class="math inline">\(\psi(y, x, \theta)\)</span> (other than Lipschitz-continuity) which can be used to establish asymptotic normality of an m-estimator.</p>
+</section>
+<section id="covariance-matrix-estimation" class="level2" data-number="21.8">
+<h2 data-number="21.8" class="anchored" data-anchor-id="covariance-matrix-estimation"><span class="header-section-number">21.8</span> Covariance Matrix Estimation</h2>
+<p>The standard estimator for <span class="math inline">\(\boldsymbol{V}\)</span> takes the sandwich form. We estimate <span class="math inline">\(\Omega\)</span> by</p>
+<p><span class="math display">\[
+\widehat{\Omega}=\frac{1}{n} \sum_{i=1}^{n} \widehat{\psi}_{i} \widehat{\psi}_{i}^{\prime}
+\]</span></p>
+<p>where <span class="math inline">\(\widehat{\psi}_{i}=\frac{\partial}{\partial \theta} \rho_{i}(\widehat{\theta})\)</span>. When <span class="math inline">\(\rho_{i}(\theta)\)</span> is twice differentiable an estimator of <span class="math inline">\(\boldsymbol{Q}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{Q}}=\frac{1}{n} \sum_{i=1}^{n} \frac{\partial^{2}}{\partial \theta \partial \theta^{\prime}} \rho_{i}(\widehat{\theta}) .
+\]</span></p>
+<p>When <span class="math inline">\(\rho_{i}(\theta)\)</span> is not second differentiable then estimators of <span class="math inline">\(\boldsymbol{Q}\)</span> are constructed on a case-by-case basis.</p>
+<p>Given <span class="math inline">\(\widehat{\Omega}\)</span> and <span class="math inline">\(\widehat{\boldsymbol{Q}}\)</span> an estimator for <span class="math inline">\(\boldsymbol{V}\)</span> is</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol{V}}=\widehat{\boldsymbol{Q}}^{-1} \widehat{\Omega} \widehat{\boldsymbol{Q}}^{-1} .
+\]</span></p>
+<p>It is possible to adjust <span class="math inline">\(\widehat{\boldsymbol{V}}\)</span> by multiplying by a degree-of-freedom scaling such as <span class="math inline">\(n /(n-k)\)</span> where <span class="math inline">\(k=\)</span> <span class="math inline">\(\operatorname{dim}(\theta)\)</span>. There is no formal guidance.</p>
+<p>For maximum likelihood estimators the standard covariance matrix estimator is <span class="math inline">\(\widehat{\boldsymbol{V}}=\widehat{\boldsymbol{Q}}^{-1}\)</span>. This choice is not robust to misspecification. Therefore it is recommended to use the robust version (22.5), for example by using the “, <span class="math inline">\(r\)</span>” option in Stata. This is unfortunately not uniformly done in practice.</p>
+<p>For clustered and time-series observations the estimator <span class="math inline">\(\widehat{\boldsymbol{Q}}\)</span> is unaltered but the estimator <span class="math inline">\(\widehat{\Omega}\)</span> changes. For clustered samples it is</p>
+<p><span class="math display">\[
+\widehat{\Omega}=\frac{1}{n} \sum_{g=1}^{G}\left(\sum_{\ell=1}^{n_{g}} \widehat{\psi}_{\ell g}\right)\left(\sum_{\ell=1}^{n_{g}} \widehat{\psi} \widehat{\psi}_{\ell g}\right)^{\prime} .
+\]</span></p>
+<p>For time-series data the estimator <span class="math inline">\(\widehat{\Omega}\)</span> is unaltered if the scores <span class="math inline">\(\psi_{i}\)</span> are serially uncorrelated (which occurs when a model is dynamically correctly specified). Otherwise a Newey-West covariance matrix estimator can be used and equals</p>
+<p><span class="math display">\[
+\widehat{\Omega}=\sum_{\ell=-M}^{M}\left(1-\frac{|\ell|}{M+1}\right) \frac{1}{n} \sum_{1 \leq t-\ell \leq n} \widehat{\psi}_{t-\ell} \widehat{\psi}_{t}^{\prime} .
+\]</span></p>
+<p>Standard errors for the parameter estimates are formed by taking the square roots of the diagonal elements of <span class="math inline">\(n^{-1} \widehat{\boldsymbol{V}}\)</span>.</p>
+</section>
+<section id="technical-proofs" class="level2" data-number="21.9">
+<h2 data-number="21.9" class="anchored" data-anchor-id="technical-proofs"><span class="header-section-number">21.9</span> Technical Proofs*</h2>
+<p>Proof of Theorem 22.1 The proof proceeds in two steps. First, we show that <span class="math inline">\(S(\widehat{\theta}) \underset{p}{\longrightarrow} S(\theta)\)</span>. Second we show that this implies <span class="math inline">\(\widehat{\theta} \underset{p}{\longrightarrow} \theta\)</span>.</p>
+<p>Since <span class="math inline">\(\theta_{0}\)</span> minimizes <span class="math inline">\(S(\theta), S\left(\theta_{0}\right) \leq S(\widehat{\theta})\)</span>. Hence</p>
+<p><span class="math display">\[
+\begin{aligned}
+0 &amp; \leq S(\widehat{\theta})-S\left(\theta_{0}\right) \\
+&amp;=S(\widehat{\theta})-S_{n}(\widehat{\theta})+S_{n}\left(\theta_{0}\right)-S\left(\theta_{0}\right)+S_{n}(\widehat{\theta})-S_{n}\left(\theta_{0}\right) \\
+&amp; \leq 2 \sup _{\theta \in \Theta}\left\|S_{n}(\theta)-S(\theta)\right\| \underset{p}{\longrightarrow} .
+\end{aligned}
+\]</span></p>
+<p>The second inequality uses the fact that <span class="math inline">\(\hat{\theta}\)</span> minimizes <span class="math inline">\(S_{n}(\theta)\)</span> so <span class="math inline">\(S_{n}(\widehat{\theta}) \leq S_{n}\left(\theta_{0}\right)\)</span> and replaces the other two pairwise comparisons by the supremum. The final convergence is the assumed uniform convergence in probability.</p>
+<p><img src="images//2022_10_23_2c4fe6dc0800a1c87de2g-09.jpg" class="img-fluid"></p>
+<p>Figure 22.2: Consistency of M-Estimator</p>
+<p>The preceeding argument is illustrated in Figure 22.2. The figure displays the expected criterion <span class="math inline">\(S(\theta)\)</span> with the solid line, and the sample criterion <span class="math inline">\(S_{n}(\theta)\)</span> is displayed with the dashed line. The distances between the two functions at the true value <span class="math inline">\(\theta_{0}\)</span> and the estimator <span class="math inline">\(\hat{\theta}\)</span> are marked by the two dash-dotted lines. The sum of these two lengths is greater than the vertical distance between <span class="math inline">\(S(\widehat{\theta})\)</span> and <span class="math inline">\(S\left(\theta_{0}\right)\)</span> because the latter distance equals the sum of the two dash-dotted lines plus the vertical height of the thick section of the dashed line (between <span class="math inline">\(S_{n}\left(\theta_{0}\right)\)</span> and <span class="math inline">\(S_{n}(\widehat{\theta})\)</span> ) which is positive because <span class="math inline">\(S_{n}(\widehat{\theta}) \leq S_{n}\left(\theta_{0}\right)\)</span>. The lengths of the dotted lines converge to zero under the assumption of uniform convergence. Hence <span class="math inline">\(S(\widehat{\theta})\)</span> converges to <span class="math inline">\(S\left(\theta_{0}\right)\)</span>. This completes the first step.</p>
+<p>In the second step of the proof we show <span class="math inline">\(\widehat{\theta} \underset{p}{\rightarrow} \theta\)</span>. Fix <span class="math inline">\(\epsilon&gt;0\)</span>. The unique minimum assumption implies there is a <span class="math inline">\(\delta&gt;0\)</span> such that <span class="math inline">\(\left\|\theta_{0}-\theta\right\|&gt;\epsilon\)</span> implies <span class="math inline">\(S(\theta)-S\left(\theta_{0}\right) \geq \delta\)</span>. This means that <span class="math inline">\(\left\|\theta_{0}-\widehat{\theta}\right\|&gt;\epsilon\)</span> implies <span class="math inline">\(S(\widehat{\theta})-S\left(\theta_{0}\right) \geq \delta\)</span>. Hence</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\left\|\theta_{0}-\widehat{\theta}\right\|&gt;\epsilon\right] \leq \mathbb{P}\left[S(\widehat{\theta})-S\left(\theta_{0}\right) \geq \delta\right] .
+\]</span></p>
+<p>The right-hand-side converges to zero because <span class="math inline">\(S(\widehat{\theta}) \underset{p}{\rightarrow} S(\theta)\)</span>. Thus the left-hand-side converges to zero as well. Since <span class="math inline">\(\epsilon\)</span> is arbitrary this implies that <span class="math inline">\(\hat{\theta} \underset{p}{\rightarrow} \theta\)</span> as stated.</p>
+<p>To illustrate, again examine Figure 22.2. We see <span class="math inline">\(S(\widehat{\theta})\)</span> marked on the graph of <span class="math inline">\(S(\theta)\)</span>. Since <span class="math inline">\(S(\widehat{\theta})\)</span> converges to <span class="math inline">\(S\left(\theta_{0}\right)\)</span> this means that <span class="math inline">\(S(\hat{\theta})\)</span> slides down the graph of <span class="math inline">\(S(\theta)\)</span> towards the minimum. The only way for <span class="math inline">\(\widehat{\theta}\)</span> to not converge to <span class="math inline">\(\theta_{0}\)</span> would be if the function <span class="math inline">\(S(\theta)\)</span> were flat at the minimum. This is excluded by the assumption of a unique minimum. Proof of Theorem 22.4 Expanding the population first-order condition <span class="math inline">\(0=\psi\left(\theta_{0}\right)\)</span> around <span class="math inline">\(\theta=\widehat{\theta}\)</span> using the mean value theorem we find</p>
+<p><span class="math display">\[
+0=\psi(\widehat{\theta})+\boldsymbol{Q}\left(\theta_{n}^{*}\right)\left(\theta_{0}-\widehat{\theta}\right)
+\]</span></p>
+<p>where <span class="math inline">\(\theta_{n}^{*}\)</span> is intermediate <span class="math inline">\({ }^{3}\)</span> between <span class="math inline">\(\theta_{0}\)</span> and <span class="math inline">\(\widehat{\theta}\)</span>. Solving, we find</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}-\theta_{0}\right)=\boldsymbol{Q}\left(\theta_{n}^{*}\right)^{-1} \sqrt{n} \psi(\widehat{\theta}) .
+\]</span></p>
+<p>The assumption that <span class="math inline">\(\psi(\theta)\)</span> is continuously differentiable means that <span class="math inline">\(\boldsymbol{Q}(\theta)\)</span> is continuous in <span class="math inline">\(\mathscr{N}\)</span>. Since <span class="math inline">\(\theta_{n}^{*}\)</span> is intermediate between <span class="math inline">\(\theta_{0}\)</span> and <span class="math inline">\(\widehat{\theta}\)</span> and the latter converges in probability to <span class="math inline">\(\theta_{0}\)</span>, it follows that <span class="math inline">\(\theta_{n}^{*}\)</span> converges in probability to <span class="math inline">\(\theta_{0}\)</span> as well. Thus by the continuous mapping theorem <span class="math inline">\(\boldsymbol{Q}\left(\theta_{n}^{*}\right) \underset{p}{\longrightarrow} \boldsymbol{Q}\left(\theta_{0}\right)=\boldsymbol{Q}\)</span>.</p>
+<p>We next examine the asymptotic distribution of <span class="math inline">\(\sqrt{n} \psi(\widehat{\theta})\)</span>. Define</p>
+<p><span class="math display">\[
+v_{n}(\theta)=\sqrt{n}\left(\bar{\psi}_{n}(\theta)-\psi(\theta)\right) .
+\]</span></p>
+<p>An implication of the sample first-order condition <span class="math inline">\(\psi_{n}(\widehat{\theta})=0\)</span> is</p>
+<p><span class="math display">\[
+\sqrt{n} \psi(\widehat{\theta})=\sqrt{n}\left(\psi(\widehat{\theta})-\psi_{n}(\widehat{\theta})\right)=-v_{n}(\widehat{\theta})=-v_{n}\left(\theta_{0}\right)+r_{n}
+\]</span></p>
+<p>where <span class="math inline">\(r_{n}=v_{n}\left(\theta_{0}\right)-v_{n}(\widehat{\theta})\)</span></p>
+<p>Since <span class="math inline">\(\psi_{i}\)</span> is mean zero (see (22.3)) and has a finite covariance matrix <span class="math inline">\(\Omega\)</span> by assumption it satisfies the multivariate central limit theorem. Thus</p>
+<p><span class="math display">\[
+\sqrt{n} \psi_{n}(\theta)=\frac{1}{\sqrt{n}} \sum_{i=1}^{n} \psi_{i} \underset{d}{\longrightarrow} \mathrm{N}(0, \Omega) .
+\]</span></p>
+<p>The final step is to show that <span class="math inline">\(r_{n}=o_{p}\)</span> (1). Pick any <span class="math inline">\(\eta&gt;0\)</span> and <span class="math inline">\(\epsilon&gt;0\)</span>. As shown by Theorem <span class="math inline">\(18.5\)</span> of Probability and Statistics for Economists, Assumption 4 implies that <span class="math inline">\(v_{n}(\theta)\)</span> is asymptotically equicontinuous, which means that (see Definition <span class="math inline">\(18.7\)</span> in Probability and Statistics for Economists) given <span class="math inline">\(\epsilon\)</span> and <span class="math inline">\(\eta\)</span> there is a <span class="math inline">\(\delta&gt;0\)</span> such that</p>
+<p>Theorem <span class="math inline">\(22.1\)</span> implies that <span class="math inline">\(\widehat{\theta} \underset{p}{\rightarrow} \theta_{0}\)</span> or</p>
+<p><span class="math display">\[
+\limsup _{n \rightarrow \infty} \mathbb{P}\left[\sup _{\left\|\theta-\theta_{0}\right\| \leq \delta}\left\|v_{n}\left(\theta_{0}\right)-v_{n}(\theta)\right\|&gt;\eta\right] \leq \epsilon .
+\]</span></p>
+<p><span class="math display">\[
+\limsup _{n \rightarrow \infty} \mathbb{P}\left[\left\|\widehat{\theta}-\theta_{0}\right\|&gt;\delta\right] \leq \epsilon .
+\]</span></p>
+<p>We calculate that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\limsup _{n \rightarrow \infty} \mathbb{P}\left[r_{n}&gt;\eta\right] &amp; \leq \limsup _{n \rightarrow \infty} \mathbb{P}\left[\left\|v_{n}\left(\theta_{0}\right)-v_{n}(\widehat{\theta})\right\|&gt;\eta,\left\|\widehat{\theta}-\theta_{0}\right\| \leq \delta\right]+\limsup _{n \rightarrow \infty} \mathbb{P}\left[\left\|\widehat{\theta}-\theta_{0}\right\|&gt;\delta\right] \\
+&amp; \leq \limsup _{n \rightarrow \infty} \mathbb{P}\left[\sup _{\left\|\theta-\theta_{0}\right\| \leq \delta}\left\|v_{n}\left(\theta_{0}\right)-v_{n}(\theta)\right\|&gt;\eta\right]+\epsilon \leq 2 \epsilon .
+\end{aligned}
+\]</span></p>
+<p>The second inequality is (22.7) and the final inequality is (22.6). Since <span class="math inline">\(\eta\)</span> and <span class="math inline">\(\epsilon\)</span> are arbitrary we deduce that <span class="math inline">\(r_{n}=o_{p}(1)\)</span>. We conclude that</p>
+<p><span class="math display">\[
+\sqrt{n} \psi(\widehat{\theta})=-v_{n}\left(\theta_{0}\right)+r_{n} \underset{d}{\longrightarrow} \mathrm{N}(0, \Omega) .
+\]</span></p>
+<p>Together, we have shown that</p>
+<p><span class="math display">\[
+\sqrt{n}\left(\widehat{\theta}-\theta_{0}\right)=\boldsymbol{Q}\left(\theta_{n}^{*}\right)^{-1} \sqrt{n} \psi(\widehat{\theta}) \underset{d}{\longrightarrow} \boldsymbol{Q}^{-1} \mathrm{~N}(0, \Omega) \sim \mathrm{N}\left(0, \boldsymbol{Q}^{-1} \Omega \boldsymbol{Q}^{-1}\right)
+\]</span></p>
+<p>as claimed.</p>
+<p><span class="math inline">\({ }^{3}\)</span> Technically, since <span class="math inline">\(\psi(\widehat{\theta})\)</span> is a vector, the expansion is done separately for each element of the vector so the intermediate value varies by the rows of <span class="math inline">\(\boldsymbol{Q}\left(\theta_{n}^{*}\right)\)</span>. This doesn’t affect the conclusion.</p>
+</section>
+<section id="exercises" class="level2" data-number="21.10">
+<h2 data-number="21.10" class="anchored" data-anchor-id="exercises"><span class="header-section-number">21.10</span> Exercises</h2>
+<p>Exercise 22.1 Take the model <span class="math inline">\(Y=X^{\prime} \theta+e\)</span> where <span class="math inline">\(e\)</span> is independent of <span class="math inline">\(X\)</span> and has known density function <span class="math inline">\(f(e)\)</span> which is continuously differentiable.</p>
+<ol type="a">
+<li><p>Show that the conditional density of <span class="math inline">\(Y\)</span> given <span class="math inline">\(X=x\)</span> is <span class="math inline">\(f\left(y-x^{\prime} \theta\right)\)</span>.</p></li>
+<li><p>Find the functions <span class="math inline">\(\rho(Y, X, \theta)\)</span> and <span class="math inline">\(\psi(Y, X, \theta)\)</span>.</p></li>
+<li><p>Calculate the asymptotic covariance matrix.</p></li>
+</ol>
+<p>Exercise 22.2 Take the model <span class="math inline">\(Y=X^{\prime} \theta+e\)</span>. Consider the m-estimator of <span class="math inline">\(\theta\)</span> with <span class="math inline">\(\rho(Y, X, \theta)=g\left(Y-X^{\prime} \theta\right)\)</span> where <span class="math inline">\(g(u)\)</span> is a known function.</p>
+<ol type="a">
+<li><p>Find the functions <span class="math inline">\(\rho(Y, X, \theta)\)</span> and <span class="math inline">\(\psi(Y, X, \theta)\)</span>.</p></li>
+<li><p>Calculate the asymptotic covariance matrix.</p></li>
+</ol>
+<p>Exercise 22.3 For the estimator described in Exercise <span class="math inline">\(22.2\)</span> set <span class="math inline">\(g(u)=\frac{1}{4} u^{4}\)</span>.</p>
+<ol type="a">
+<li><p>Sketch <span class="math inline">\(g(u)\)</span>. Is <span class="math inline">\(g(u)\)</span> continuous? Differentiable? Second differentiable?</p></li>
+<li><p>Find the functions <span class="math inline">\(\rho(Y, X, \theta)\)</span> and <span class="math inline">\(\psi(Y, X, \theta)\)</span>.</p></li>
+<li><p>Calculate the asymptotic covariance matrix.</p></li>
+</ol>
+<p>Exercise 22.4 For the estimator described in Exercise <span class="math inline">\(22.2\)</span> set <span class="math inline">\(g(u)=1-\cos (u)\)</span>.</p>
+<ol type="a">
+<li><p>Sketch <span class="math inline">\(g(u)\)</span>. Is <span class="math inline">\(g(u)\)</span> continuous? Differentiable? Second differentiable?</p></li>
+<li><p>Find the functions <span class="math inline">\(\rho(Y, X, \theta)\)</span> and <span class="math inline">\(\psi(Y, X, \theta)\)</span>.</p></li>
+<li><p>Calculate the asymptotic covariance matrix.</p></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./chpt21-rdd.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Regression Discontinuity</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./part06-nonlinear.html" class="pagination-link">
+        <span class="nav-page-text">非线性方法</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
